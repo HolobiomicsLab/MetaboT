@@ -6,7 +6,7 @@ The files at the root of this repository are corresponding to the prototype.
 
 **The corresponding notebook** is at [https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/core/LLM_chain_agent.ipynb](https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/core/LLM_chain_agent.ipynb)
 
-**We use the dev branch for contributing** [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev)
+**We use the ```dev``` branch for contributing** [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev)
 
 []
 []
