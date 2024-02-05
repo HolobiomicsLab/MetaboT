@@ -1,4 +1,16 @@
-# SPARQL-AI-agent
+# IMPORTANT:
+
+**The latest refactored code** is in [https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/](https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/).
+
+**The corresponding notebook** is at [https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/core/LLM_chain_agent.ipynb](https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/core/LLM_chain_agent.ipynb).
+
+[]
+[]
+[]
+
+## BELOW IS THE PROTOTYPE (FUNCTIONAL BUT OUTDATED)
+
+## SPARQL-AI-agent
 
 This notebook extracts class properties from a SPARQL endpoint:
 
@@ -24,9 +36,9 @@ This python file contains classes to build two types of tools. One to generate a
 
 ```tools.py```
 
-# KGAI Tool
+## KGAI Tool
 
-## Running KGAI
+### Running KGAI
 ```
 from enpkg_agent import run_agent
 from enpkg_tools import make_tools
@@ -42,7 +54,7 @@ run_agent(question, tools)
 ```
 
 
-## Dependencies
+### Dependencies
 conda env export --no-builds | grep -v "^prefix: " > environment.yml
 conda env create -f environment.yml
 
@@ -53,14 +65,14 @@ conda env create -f environment.yml
 - tiktoken
 - chromadb
 
-## Local Files
+### Local Files
 Three local file needed to run the Agent on ENPKG are stored in the `\local files` directory.
 
 - ENPKG_units.json (stores information about units for numerical literals in ENPKG)
 - npc_classes.json (stores URIs of all NPC Classes in ENPKG)
 - merged.ttl (schema ttl file for ENPKG constructed with `Constructing Schema.ipynb`)
 
-## Notebooks
+### Notebooks
 **`Constructing Schema.ipynb`**
 Notebook with steps to extract all distinct predicates from a KG using a random subsampling technique for large KGs. Also contains steps to construct KG schema as a .ttl file.
 
@@ -73,7 +85,7 @@ Notebook that runs KGAI for ENPKG on test questions.
 **`Wikidata Prototype.ipynb`**
 Prototype to be able to answer natural questions using Wikidata as a SPARQL endpoint. Preliminary.
 
-## Scripts
+### Scripts
 **`enpkg_agent.py`** 
 Script with wrapper function to run the agent.
 
@@ -86,7 +98,7 @@ Contains the main ENPKG agent prompt templates and prompt template for all sub t
 **`tools.py`**
 Contains classes for different types of tools used as the basis for multiple ENPKG-specific tools.
 
-## merged.ttl
+### merged.ttl
 
 The document you've provided is written in the RDF (Resource Description Framework) syntax, specifically using the Turtle serialization format. RDF is a standard model for data interchange on the web and Turtle is one of the human-readable formats to express RDF data. Here's an explanation of its components:
 
