@@ -1,5 +1,7 @@
 # IMPORTANT:
 
+The files in the root are corresponding to the prototype.
+
 **The latest refactored code** is in [https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/](https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/).
 
 **The corresponding notebook** is at [https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/core/LLM_chain_agent.ipynb](https://github.com/holobiomics-lab/kgbot/blob/main/drafts/app/core/LLM_chain_agent.ipynb).
@@ -8,7 +10,7 @@
 []
 []
 
-## BELOW IS THE PROTOTYPE (FUNCTIONAL BUT OUTDATED)
+## BELOW IS THE PROTOTYPE README (FUNCTIONAL BUT OUTDATED)
 
 ## SPARQL-AI-agent
 
