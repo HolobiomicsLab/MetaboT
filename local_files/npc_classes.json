@@ -1,0 +1,4031 @@
+{
+  "head" : {
+    "vars" : [
+      "class"
+    ]
+  },
+  "results" : {
+    "bindings" : [
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Daphnane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Eremophilane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_unknown"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Other_Octadecanoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Unsaturated_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hydroxy_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pterocarpan"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isoflavones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Norsesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cholestane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyathane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tetraketide_meroterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Naphthoquinones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Trachylobane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bufadienolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ergostane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Apocarotenoids_b_"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Other_Eicosanoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Abietane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_coumarins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Colensane_and_Clerodane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Chalcones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Branched_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_N_acyl_ethanolamines_endocannabinoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Wax_monoesters"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Estrane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Erythromycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Guaiane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phytofurans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tripeptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oxo_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cadinane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Capsaicins_and_Capsaicinoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_acyl_glycosides_of_mono__and_disaccharides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Quinolizidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_N_acyl_amines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Humulane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Open_chain_polyketides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Triacylglycerols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monoacylglycerols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Camphane_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oleanane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ingenane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tetracyclic_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Podocarpane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acetogenins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Epoxy_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_phenolic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sorbicilinoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isoprostanes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Prostaglandins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Benzoquinones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ascarosides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_alcohols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oxygenated_hydrocarbons"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavonols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sphingoid_bases"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Limonoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Apocarotenoidse_"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Daucane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tigliane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polyprenylated_cyclic_polyketides_Hop_meroterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hydrocarbons"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dicarboxylic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bisabolane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hydroperoxy_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Naphthalenes_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Germacrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cinnamic_acids_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phytane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isocoumarins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Catechols_with_side_chains"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Leukotrienes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phytoprostanes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dammarane_and_Protostane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Anthraquinones_and_anthrones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Diacylglycerols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavanones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Eudesmane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Iridoids_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Kaurane_and_Phyllocladane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phthalide_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dipeptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Shikimic_acids_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hepoxilins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hydroxy_hydroperoxyeicosatrienoic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pinane_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polysaccharides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Quinazoline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Prenyl_quinone_meroterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Amino_cyclitols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Resolvin_Ds"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Labdane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lanostane,_Tirucallane_and_Euphane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bafilomycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Megastigmanes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_cyclic_polyketides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aromatic_polyketides_with_side_chains"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Purine_nucleostides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hydroxy_hydroperoxyeicosapentaenoic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_12_oxophytodienoic_acid_metabolites"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phloroglucinol_terpene_hybrids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Unknown"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Primary_amides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polyamines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Nitro_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclic_peptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ceramides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Jasmonic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Irregular_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Farnesane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lupane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ursane_and_Taraxastane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Neutral_glycosphingolipids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Stigmastane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cycloartane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavonolignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavan_3_ols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oligomeric_stibenes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Abeoabietane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pregnane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Vitamin_D3_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carboline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycosylmonoacylglycerols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monocyclic_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oxidized_glycerophospholipids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Norlabdane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Taxane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Resolvin_Es"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycosyldiacylglycerols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyridine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_p_Terphenyls"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Arylnaphthalene_and_aryltetralin_lignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Santalane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isoflavanones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cytochalasan_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Drimane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Neolignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Azaphilones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Chromones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Menthane_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aporphine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carbazole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carane_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Piperidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Furanoid_lignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Furocoumarins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cinnamic_acid_amides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Indole_Diterpenoid_alkaloids_Penitrems"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Agarofuran_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dolastane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Minor_lignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dibenzocyclooctadienes_lignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Grayanotoxane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fungal_DPEs"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Furans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Merosesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Protoilludane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Prenylated,geranylated_phloroglucinols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenylethylamines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Paraconic_acids_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Decalins_with_side_chains"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isoquinoline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Protoberberine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Anthranillic_acid_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Quinoline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hydroxy_hydroperoxyeicosatetraenoic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Thromboxanes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aphidicolane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ecdysteroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Purine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dibenzylbutane_lignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_3_Spirotetramic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Kavalactones_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyanogenic_glycosides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Linear_peptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aminoglycosides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenylalanine_derived_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Depsipeptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Africanane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pseudoguaiane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lactones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Gibberellins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Miscellaneous_apocarotenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carbocyclic_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_aldehydes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrrolidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Erythroxylane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pimarane_and_Isopimarane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cassane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Quassinoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cholane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Plant_xanthones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_acid_estolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Macrolide_lactones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_pteridine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Other_Docosanoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Corynanthe_type"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cytosporins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyranocoumarins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclophytane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lipopeptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphocholines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_acyl_carnitines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_ethers"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_b_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cembrane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Serratane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Taraxerane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Linear_diarylheptanoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Proanthocyanins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dihydroflavonols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Multiflorane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Friedelane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Neoflavonoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Malabaricane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Thiodiketopiperazine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_b_b"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fusidane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Straight_chain_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monomeric_stilbenes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Methyl_xanthones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Anthracyclines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Rotenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aurones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Depsidones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Furofuranoid_lignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Angucyclines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenethylisoquinoline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Briarane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Mycosporine_and_Mycosporine_like_amino_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bisnaphthalenes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Abeotaxane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_2_arylbenzofurans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lipoxins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Depsides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aminoacids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavonostilbenes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aromadendrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Secoiridoid_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Benzophenones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Picrotoxane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aminosugars"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Flavandiols_Leucoanthocyanidins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aflatoxins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Disaccharides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Purine_nucleosides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Arteminisin"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Rhamnolipids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Abeolupane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Norkaurane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oxasqualenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cycloapotirucallane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_2_pyrone_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Benzodiazepine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrimidine_nucleostides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphates"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Vitamin_D2_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hopane_and_Moretane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Miscellaneous_polyketides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oligomeric_phloroglucinols_phlorotannins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Coumestan"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acyl_phloroglucinols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dimeric_phloroglucinols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Furostane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclamides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Spirostane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Epoxyeicosatrienoic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Icetexane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Methoxy_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Prezizaane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_acyl_CoAs"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_indole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Eunicellane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Gallotannins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Terpenoid_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Indolizidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tetrahydroisoquinoline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_amide_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_3_Decalinoyltetramic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Amarylidaceae_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Trichothecane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrrolizidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Halimane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hasubanan_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Stemona_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenazine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Longipinane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acyclic_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Imidazole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Apocarotenoids_Y_"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Secokaurane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenanthrenes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Norpimarane_and_Norisopimarane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Verticillane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Secolabdane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cleistanthane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Zearalenones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Triketide_meroterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Androstane_steroids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monacolins_and_Monacolin_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Secoeudesmane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cardenolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Clavulones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cucurbitane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Steroidal_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cycloeudesmane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bourbonane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ascomycins_and_Rapamycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Avermectins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bauerane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Macrotetrolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bryostatins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Presilphiperfolane_and_Probotryane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Botryane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Elemane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cycloabietane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Spongiane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Jatrophane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pentalenane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Nonadrides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lactarane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polyene_macrolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Apotirucallane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Miscellaneous_meroterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Coumaronochromones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Coumarinolignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Scalarane_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cephalotaxus_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenylethanoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Stictane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Caryophyllane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Patchoulane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bergamotane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Halogenated_hydrocarbons"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pulvinones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Nagilactone_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Strychnos_type"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aspidosperma_type"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Yohimbine_like_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hapalindole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrroloindole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ansa_macrolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Usnic_acid_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Meromonoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Anthocyanidins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Gammacerane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polyether_ionophores"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dibenzylbutyrolactone_lignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sophorolipids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acridone_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Noreremophilane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_oxindole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Mycolic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cannabinoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_3_acyl_tetramic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Antimycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polypodane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Stilbenolignans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tetracyclines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphoinositols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cephalosporins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Biaryl_type_diarylheptanoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pachysanane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Iboga_type"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Iphionane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Depsides_and_depsidones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Naphthalenones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aplysiatoxins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrazine_and_Piperazine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Azo_and_Azoxy_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Merohemiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ansa_peptide_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Villanovane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oligomycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Onocerane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Quadrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Spirovetivane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Indole_diketopiperazine_alkaloids_L_Trp,_L_Trp"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_Y_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphoethanolamines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pacifigorgiane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Beyerane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fusicoccane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Mulinane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Asbestinane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Verrucosane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dolabellane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Clovane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pachydictyane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fukinane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Thapsane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Thujopsane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Nardosinane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pinguisane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Wax_diesters"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Thia_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cinnamoyl_phenols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pseudopterane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrimidine_nucleosides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lathyrane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_e_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Myrsinane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_b_k"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Spirotetronate_macrolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fernane_and_Arborinane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Atisane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Shionane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Chamigrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acyclic_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Apocarotenoids_C30,_Y_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Xenicane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Other_polyketide_meroterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Benastatins_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hirsutane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Serrulatane_and_Biflorane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tylosins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Saponaceolide_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tropolones_and_derivatives_Shikimate"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tricyclic_guanidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bicyclogermacrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenalens"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_m_Terphenyls"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Diarylether_type_diarylheptanoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cubebane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Illudalane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Heterocyclic_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrroloquinoline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Linear_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclitols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrrole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Anabaenopeptins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ivaxillarane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glucosinolates"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Other_indole_diketopiperazine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Secoabietane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polyprenol_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Neuroprostanes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_aromatic_polyketides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Open_chained_neoflavonoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Premyrsinane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_b_e"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Linear_polyenes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phenoxazine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphoserines"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Caryolane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lactam_bearing_macrolide_lactones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Spirodioxynaphthalenes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Terpenoid_tetrahydroisoquinoline_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Amino_fatty_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Xeniaphyllane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sphaerane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Capnellane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ladder_polyethers"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclofarnesane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oplopane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Penicillins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oxazole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Illudane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Indole_diketopiperazine_alkaloids_L_Trp,_L_Pro"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Perforane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acidic_glycosphingolipids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Polyesters"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tremulane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tropane_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Levuglandins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tropolones_and_derivatives_PKS"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Jatropholane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_4_pyrone_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monocarbocyclic_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cheilanthane_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ergot_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Spriromeroterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Silphinane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Coloratane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aspidosperma_Iboga_hybrid_type_Vinca_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Meroterpenoids_with_bridged_ring"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ishwarane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Gymnomitrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Copaane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Rhizoxins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glutinane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Furanoabietane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sphenolobane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phoslactomycins_or_Phosphazomycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Noreudesmane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Purine_nucleotides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ophiobolane_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aeruginosins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Breviane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pradimicins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_RiPPs"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Parguerane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Marasmane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Secogermacrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Guanacastane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carabrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Adianane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclopiazonic_acid_tpye_tetramate_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Melithiazole_and_Myxothiazole_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Elfamycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Kempane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fungal_cyclic_polyketides_Miscellaneous"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Asteriscane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sativane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Segetane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Himachalane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphoglycerols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pentacyclic_guanidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclonerane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Baccharane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Filicane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isoindole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Phosphosphingolipids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isocomane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Morphinan_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Indole_diketopiperazine_alkaloids_L_Trp,_L_Ala"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monoalkylresorcinols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acetate_derived_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bactoprenols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monosaccharides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Allohimachalane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Laurane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acorane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Alliacane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Neohopane_triterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bicyclic_guanidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclopiane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isodaucane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cedrane_and_Isocedrane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isariotin_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ericamycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isolactarane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cuparane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Chiloscyphane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Valerenane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Macrolide_lactams"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Valparane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Thiazole_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Thujane_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Maresins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acutumine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_acyl_homoserine_lactones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Luminacins_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sterpurane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Humbertiane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Strobilurins_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Actinomycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_CDP_Glycerols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Paraliane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carbapenems"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Griseofulvins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fenchane_monoterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Acyclic_guanidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Microcolins_and_mirabimids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Devadarane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Streptothricins_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Tetrodotoxins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Duclauxin_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Saxitoxins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Aristolane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Protopine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Resin_glycosides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_diketopiperazine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Totarane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrimidine_nucleotides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Betalain_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Betaestacin_type_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Macrocyclic_tetramic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Linear_tetronates"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Silphiperfolane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Trinervitane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Microginins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pepluane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monocyclic_b_lactams"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Prodigiosins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Brasilane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Amphilectane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Bagremycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sacculatane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Obtusane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Prenylbisabolane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dialkylresorcinols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Paulomycins_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Rotundane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Spiroaxane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_g_e"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cericerane_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Ahp_containing_cyclodepsipeptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Casbane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_3_oligoenoyltetramic_acids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Rhamnofolane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Campherenane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Pyrrocidine_tetramate_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Longifolane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isoaurones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Viscidane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Homofarnesane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphoinositolglycans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Asperane_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dolichols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_RiPPs_Thiopeptides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Miscellaneous_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_p_p"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Herbertane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Mangicol_type_sesterterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Platensimycin_and_Platencins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fasamycins_and_derivatives"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lobane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Sphaeroane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Isofurans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Meroterpenoids_with_5__or_6_membered_ring"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Norcembrane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Eremane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cryptophycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Long_Chain_Bicyclic_Phosphotriester"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Dactylomelane_diterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Simple_tetramate_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_b_Q"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_b_p"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_b_g"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Selaginellins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyclolaurane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Mitomycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cyano_esters"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Lippifoliane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Peptaibols"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Decalins_with_2_pyrones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oxa_Bridged_Macrolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Fatty_nitriles"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oppositane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphoinositol_phosphates"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Zizaane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C45,_Y_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Hamigerane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Boromycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_p_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Salinosporamides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Neurofurans"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_k_k"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Gorgonane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Glycerophosphoglycerophosphates"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Cephamycins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Oblogolides"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Epothilones"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Microcystins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Copacamphane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_RiPPs_Amatoxins_and_Phallotoxins"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Enediynes"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C50,_Y_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Valerane_sesquiterpenoids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Apocarotenoids_I2_"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_ApocarotenoidsIu_"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Apocarotenoids_I¨_"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_I2_I2"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_I2_Iº"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_Ï€_Ï€"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_I³_I¨"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_Ï€_I§"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Monocyclic_guanidine_alkaloids"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_Q_Y"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Clavams"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_I¨_I¨"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C50,_I¨_I¨"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_I2_I§"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_I2_Iu"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C40,_I2_I¨"
+        }
+      },
+      {
+        "class" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/npc_Carotenoids_C50,_Iu_Iu"
+        }
+      }
+    ]
+  }
+}

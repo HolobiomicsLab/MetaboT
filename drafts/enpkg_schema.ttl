@@ -1,0 +1,255 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>   .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#>         .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#>             .
+@prefix owl:     <http://www.w3.org/2002/07/owl#>                .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#>          .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/>                    .
+@prefix wd:      <http://www.wikidata.org/entity/>               .
+@prefix vann:    <http://purl.org/vocab/vann/>                   .
+@prefix dcterms: <http://purl.org/dc/terms/>                     .
+@prefix sdo: 	 <http://schema.org/>                            .
+@prefix orcid:	 <http://orcid.org/>                             .
+@prefix void:	 <http://rdfs.org/ns/void#>                      .
+@prefix enpkg:   <https://enpkg.commons-lab.org/kg/>             .
+@prefix enpkgmodule:    <https://enpkg.commons-lab.org/module/>	 .
+
+# -------------------------------------------------- #
+# Semantic Versioning 2.0.0
+# https://semver.org
+# https://dgarijo.github.io/Widoco/doc/bestPractices/index-en.html
+# -------------------------------------------------- #
+
+<> a owl:Ontology ; 
+	owl:versionIRI enpkg:ontology_version\/0.1.0 ; 
+	owl:versionInfo "0.1.0" ;
+	dcterms:description "The RDF vocabulary describing concepts defined in the ENPKG dataset" ;
+	dcterms:title "The ENPKG RDF vocabulary" ;
+	dcterms:license <https://creativecommons.org/licenses/by-nc-sa/4.0/> ;
+	dcterms:creator orcid:0000-0002-3648-7362 ;
+	dcterms:contributor 
+		orcid:0000-0003-3389-2191 ,
+		orcid:0000-0001-9292-9463 ,
+		orcid:0000-0002-9619-1707 ;
+#	dcterms:created xsd:dateTime 
+	vann:preferredNamespacePrefix "enpkg"                                    ;
+	vann:preferredNamespaceUri    "https://enpkg.commons-lab.org/kg/"        ;
+	foaf:logo <https://avatars.githubusercontent.com/u/115986716?s=200&v=4a> .
+
+enpkg:LabObject a rdfs:Class ;
+	rdfs:label "A LabObject"   ;
+	rdfs:comment "An object that correspond to a physical laboratory object" .
+enpkg:LabExtract a rdfs:Class ;
+	rdfs:subClassOf enpkg:LabObject           ;
+	rdfs:label "A LabExtract"   ;
+	rdfs:comment "A natural extract obtained from the processing of a RawMaterial" .
+enpkg:RawMaterial a rdfs:Class ;
+	rdfs:subClassOf enpkg:LabObject           ;
+	rdfs:label "A RawMaterial"   ;
+	rdfs:comment "A raw laboratory biological material, i.e. before extraction" .
+enpkg:LabBlank a rdfs:Class ;
+	rdfs:subClassOf enpkg:LabObject           ;
+	rdfs:label "A LabBlank"   ;
+	rdfs:comment "A blank sample" .
+enpkg:LabQc a rdfs:Class ;
+	rdfs:subClassOf enpkg:LabObject           ;
+	rdfs:label "A LabQc"   ;
+	rdfs:comment "A quality control (QC) sample" .
+
+enpkg:BioAssayResults a rdfs:Class ;
+	rdfs:label "A bioassay result"   ;
+	rdfs:comment "An object to store bioactivity results" .
+
+enpkg:MS2Spectrum a rdfs:Class ;
+	rdfs:label "MS2 spectrum"   ;
+	rdfs:comment "A fragmentation mass spectrometry (or MS2) spectrum" .
+enpkg:LCMSFeature a rdfs:Class ;
+	rdfs:subClassOf enpkg:MS2Spectrum           ;
+	rdfs:label "LCMS individual MS2 spectrum"   ;
+	rdfs:comment "An LCMS feature from a processed LCMS analysis" .
+	
+enpkg:LCMSFeatureList a rdfs:Class ;
+	rdfs:label "Feature list"   ;
+	rdfs:comment "A list of LCMS features obtained from the processing of a given LCMS analysis" .
+
+enpkg:LCMSAnalysis a rdfs:Class ;
+	rdfs:label "LCMS analysis"   ;
+	rdfs:comment "An LCMS analysis in a given ionization mode (pos or neg)" .
+enpkg:LCMSAnalysisPos a rdfs:Class ;
+	rdfs:subClassOf enpkg:LCMSAnalysis           ;
+	rdfs:label "Pos LCMS analysis"   ;
+	rdfs:comment "An LCMS analysis in positive ionization mode (pos or neg)" .
+enpkg:LCMSAnalysisNeg a rdfs:Class ;
+	rdfs:subClassOf enpkg:LCMSAnalysis           ;
+	rdfs:label "Neg LCMS analysis"   ;
+	rdfs:comment "An LCMS analysis in negative ionization mode (pos or neg)" .
+
+enpkg:Annotation a rdfs:Class ;
+	rdfs:label "Spectrum annotation" ;
+	rdfs:comment "A spectral annotation" .
+enpkg:SiriusStructureAnnotation a rdfs:Class ;
+	rdfs:subClassOf enpkg:Annotation             ;
+	rdfs:label "SIRIUS structural annotation"   ;
+	rdfs:comment "A spectrum structural annotation by SIRIUS" .
+enpkg:SiriusCanopusAnnotation a rdfs:Class ;
+	rdfs:subClassOf enpkg:Annotation             ;
+	rdfs:label "CANOPUS chemical class annotation"   ;
+	rdfs:comment "A spectrum chemical class annotation by SIRIUS-CANOPUS" .
+enpkg:IsdbAnnotation a rdfs:Class ;
+	rdfs:subClassOf enpkg:Annotation           ;
+	rdfs:label "ISDB structural annotation"   ;
+	rdfs:comment "A spectrum structural annotation by comparison with an in-silico spectral DB, coupled to chemical and taxonomical reweighting" .
+enpkg:GNPSAnnotation a rdfs:Class ;
+	rdfs:subClassOf enpkg:Annotation             ;
+	rdfs:label "GNPS structural annotation"   ;
+	rdfs:comment "A spectrum structural annotation by GNPS" .
+
+enpkg:InChIkey2D a rdfs:Class ;
+	rdfs:label "2D InChIKey" ;
+	rdfs:comment "The first 14 characters of an InChIKey, often returned by MS-based annotation tools" .
+
+enpkg:SpectralPair a rdfs:Class ;
+	rdfs:label "pair of MS2Spectra"   ;
+	rdfs:comment "A pair of 2 MS2Spectra" .
+enpkg:LFpair a rdfs:Class ;
+	rdfs:subClassOf enpkg:SpectralPair        ;
+	rdfs:label "pair of LCMSFeature"   ;
+	rdfs:comment "A pair of 2 LCMSFeature" .
+
+enpkg:ChemicalEntity a rdfs:Class ;
+	rdfs:label "chemical entity" ;
+	rdfs:label "A chemical entity (chemical structure or class)"  .
+enpkg:InChIkey a rdfs:Class ;
+	rdfs:subClassOf enpkg:ChemicalEntity       ;
+	rdfs:label "InChIKey" ;
+	rdfs:comment "A chemical structure represented by its InChIKey" .
+
+enpkg:ChemicalTaxonomy a rdfs:Class ;
+	rdfs:label "chemical taxonomy" ;
+	rdfs:label "A chemical taxonmy (chemical class)"  .
+enpkg:NPCPathway a rdfs:Class ;
+	rdfs:subClassOf enpkg:ChemicalTaxonomy       ;
+	rdfs:label "NPCPathway" ;
+	rdfs:comment "A NPClassifier (NPC) chemical pathway" .
+enpkg:NPCSuperclass a rdfs:Class ;
+	rdfs:subClassOf enpkg:ChemicalTaxonomy       ;
+	rdfs:label "NPCSuperclass" ;
+	rdfs:comment "A NPClassifier (NPC) chemical superclass" .
+enpkg:NPCClass a rdfs:Class ;
+	rdfs:subClassOf enpkg:ChemicalTaxonomy       ;
+	rdfs:label "NPCClass" ;
+	rdfs:comment "A NPClassifier (NPC) chemical class" .
+
+enpkg:XRef a rdfs:Class ;
+	rdfs:label "Any cross-reference"   ;
+	rdfs:comment "Any cross-reference" .
+enpkg:WDTaxon a rdfs:Class ;
+	rdfs:subClassOf enpkg:XRef                            ;
+	rdfs:label "Cross-reference to a taxon in Wikidata"   ;
+	rdfs:comment "Cross-reference to a taxon in Wikidata" .
+enpkg:WDChemical a rdfs:Class ;
+	rdfs:subClassOf enpkg:XRef                                      ;
+	rdfs:label "Cross-reference to a chemical entity in Wikidata"   ;
+	rdfs:comment "Cross-reference to a chemical entity in Wikidata" .	
+
+enpkg:has_member a rdf:Property ;
+	rdfs:label "member of a specral pair"     ;
+	rdfs:comment "LCMSFeature" ;
+	rdfs:domain enpkg:SpectralPair   ;
+	rdfs:range  enpkg:LCMSFeature    ;
+	rdfs:range  enpkg:GNPSConsensusSpectrum    .
+enpkg:has_member_1 a rdf:Property ;
+	rdfs:subPropertyOf enpkg:has_member          ;
+	rdfs:label "member 1 of a spectral pair"     ;
+	rdfs:comment "The first member of a spectral pair" .
+enpkg:has_member_2 a rdf:Property ;
+	rdfs:subPropertyOf enpkg:has_member          ;
+	rdfs:label "member 2 of a spectral pair"     ;
+	rdfs:comment "The second member of a spectral pair" .
+
+enpkg:spec2vec a rdfs:Class ;
+	rdfs:label "A spec2vec-related object"   ;
+	rdfs:comment "A spec2vec-related object" .
+enpkg:Spec2VecDoc a rdfs:Class ;
+	rdfs:subClassOf enpkg:spec2vec           ;
+	rdfs:label "A Spec2VecDoc"   ;
+	rdfs:comment "An ensemble of Spec2VecPeak and Spec2VecLoss objects that characterizes an MS2Spectrum" .
+enpkg:Spec2VecPeak a rdfs:Class ;
+	rdfs:subClassOf enpkg:spec2vec           ;
+	rdfs:label "A Spec2VecPeak"   ;
+	rdfs:comment "A Spec2VecPeak that partly characterizes an MS2 spectrum" .
+enpkg:Spec2VecLoss a rdfs:Class ;
+	rdfs:subClassOf enpkg:spec2vec           ;
+	rdfs:label "A Spec2VecLoss"   ;
+	rdfs:comment "A Spec2VecLoss that partly characterizes an MS2Spectrum" .
+
+enpkgmodule:SwissTPHBioAssay a rdfs:Class ;
+	rdfs:subClassOf enpkg:BioAssayResults       ;
+	rdfs:label "SwissTPHBioAssay" ;
+	rdfs:comment "A bioasay result from Swiss Tropical and Public Health Institute (sTPH)" .
+enpkgmodule:Ldono10ugml a rdfs:Class ;
+	rdfs:subClassOf enpkgmodule:SwissTPHBioAssay       ;
+	rdfs:label "Ldono10ugml" ;
+	rdfs:comment "A screening result at 10ug/mL from a phenotypic assay against L.donovani" .
+enpkgmodule:Ldono2ugml a rdfs:Class ;
+	rdfs:subClassOf enpkgmodule:SwissTPHBioAssay       ;
+	rdfs:label "Ldono2ugml" ;
+	rdfs:comment "A screening result at 2ug/mL from a phenotypic assay against L.donovani" .
+enpkgmodule:Tbrucei10ugml a rdfs:Class ;
+	rdfs:subClassOf enpkgmodule:SwissTPHBioAssay       ;
+	rdfs:label "Tbrucei10ugml" ;
+	rdfs:comment "A screening result at 10ug/mL from a phenotypic assay against T.brucei rhodesiense" .
+enpkgmodule:Tbrucei2ugml a rdfs:Class ;
+	rdfs:subClassOf enpkgmodule:SwissTPHBioAssay       ;
+	rdfs:label "Tbrucei2ugml" ;
+	rdfs:comment "A screening result at 2ug/mL from a phenotypic assay against T.brucei rhodesiense" .
+enpkgmodule:Tcruzi10ugml a rdfs:Class ;
+	rdfs:subClassOf enpkgmodule:SwissTPHBioAssay       ;
+	rdfs:label "Tcruzi10ugml" ;
+	rdfs:comment "A screening result at 10ug/mL from a phenotypic assay against T.cruzi" .
+enpkgmodule:L610ugml a rdfs:Class ;
+	rdfs:subClassOf enpkgmodule:SwissTPHBioAssay       ;
+	rdfs:label "L610ugml" ;
+	rdfs:comment "A screening result at 10ug/mL from a phenotypic assay against L6 cells" .
+
+enpkgmodule:ChEMBLTarget a rdfs:Class ;
+	rdfs:subClassOf enpkg:XRef     ;
+	rdfs:label "A ChEMBL target"   ;
+	rdfs:comment "A ChEMBL target" .
+enpkgmodule:ChEMBLChemical a rdfs:Class ;
+	rdfs:subClassOf enpkg:XRef     ;
+	rdfs:label "A ChEMBL chemical"   ;
+	rdfs:comment "A ChEMBL chemical" .
+enpkgmodule:ChEMBLDocument a rdfs:Class ;
+	rdfs:subClassOf enpkg:XRef     ;
+	rdfs:label "A ChEMBL document"   ;
+	rdfs:comment "A ChEMBL document" .
+enpkgmodule:ChEMBLAssay a rdfs:Class ;
+	rdfs:subClassOf enpkg:XRef     ;
+	rdfs:label "A ChEMBL assay"   ;
+	rdfs:comment "A ChEMBL assay" .
+enpkgmodule:ChEMBLAssayResults a rdfs:Class ;
+	rdfs:subClassOf enpkg:XRef     ;
+	rdfs:label "A ChEMBL assay result"   ;
+	rdfs:comment "A ChEMBL assay result" .
+
+# enpkg:has_spectrum_annotation  a rdf:Property ;
+# 	rdfs:label "has spectrum annotation" ;
+# 	rdfs:domain enpkg:MS2Spectrum        .
+# enpkg:has_canopus_annotation a rdf:Property	;
+# 	rdfs:subPropertyOf enpkg:has_spectrum_annotation ;
+# 	rdfs:range enpkg:Annotation                      .
+# enpkg:has_isdb_annotation a rdf:Property ;
+# 	rdfs:subPropertyOf enpkg:has_spectrum_annotation ;
+# 	rdfs:label "has ISDB annotation"                 ;
+# 	rdfs:comment "bla"                               ;
+# 	rdfs:range  enpkg:IsdbAnnotation                 .
+# enpkg:has_consensus_spectrum a rdf:Property ;
+# 	rdfs:subPropertyOf enpkg:has_spectrum_annotation ;
+# 	rdfs:label "has consensus spectrum"              ;
+# 	rdfs:comment "bla"                               ;
+# 	rdfs:range  enpkg:GNPSConsensusSpectrum          .
+# enpkg:has_sirius_annotation a rdf:Property ;
+# 	rdfs:subPropertyOf enpkg:has_spectrum_annotation ;
+# 	rdfs:label "has SIRIUS annotation"               ;
+# 	rdfs:comment "bla bla about SIRIUS"              ;
+# 	rdfs:range  enpkg:SiriusStructureAnnotation      .

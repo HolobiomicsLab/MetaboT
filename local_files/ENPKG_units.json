@@ -1,0 +1,9 @@
+{
+    "retention time": "minutes",
+    "activity value": null, 
+    "feature area": "absolute count or intensity", 
+    "relative feature area": "normalized area in percentage", 
+    "parent mass": "ppm (parts-per-million) for m/z",
+    "mass difference": "delta m/z", 
+    "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
+}

@@ -1,0 +1,238 @@
+{'wdSubclass': 'Q5014087', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': 'CSF/serum albumin ratio', 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q29643832', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': 'abnormality of the cerebrospinal fluid', 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q104045804', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': 'cerebrospinal fluid culture', 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q3109350', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': 'CSF glucose', 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q3408236', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': 'CSF total protein', 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q14471999', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': "Pandy's test", 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q5014091', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': 'CSF albumin', 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q5014086', 'wdParentClass': 'Q27868211', 'wdSubclassLabel': 'CSF/serum glucose ratio', 'wdParentClassLabel': 'medical tests on cerebrospinal fluid'}
+{'wdSubclass': 'Q105252429', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'protein chemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q115135905', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'food biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q69953721', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'carbohydrate biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q114049618', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'photobiochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q979585', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'Pathological Chemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q12384484', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'cell biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q112956198', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'Crop and pasture biochemistry and physiology', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q12149006', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'metabolomics', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q6005502', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'Immunocytochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q71102948', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'pathobiochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q21714785', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'post-mortem chemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q98247633', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'bioanalytical chemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q117793945', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'food biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q13040410', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'Ions in the body', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'q883112', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'q883112', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q113853579', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'xenobiochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q11909413', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'Q11909413', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q115160648', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'molecular biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q2880775', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'enzymology', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q117485357', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'marine biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q16335159', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'fluxomics', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q4218483', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'quantum biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q97182622', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'plant biochemistry', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q1418791', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'drug discovery', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q741206', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'glycomics', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q20456623', 'wdParentClass': 'Q7094', 'wdSubclassLabel': 'Q20456623', 'wdParentClassLabel': 'biochemistry'}
+{'wdSubclass': 'Q27868211', 'wdParentClass': 'Q849994', 'wdSubclassLabel': 'medical tests on cerebrospinal fluid', 'wdParentClassLabel': 'clinical chemistry'}
+{'wdSubclass': 'Q113134526', 'wdParentClass': 'Q849994', 'wdSubclassLabel': 'proteins and peptides in medical biochemistry', 'wdParentClassLabel': 'clinical chemistry'}
+{'wdSubclass': 'Q71102948', 'wdParentClass': 'Q849994', 'wdSubclassLabel': 'pathobiochemistry', 'wdParentClassLabel': 'clinical chemistry'}
+{'wdSubclass': 'Q113134501', 'wdParentClass': 'Q849994', 'wdSubclassLabel': 'amino acids and metabolites in medical biochemistry', 'wdParentClassLabel': 'clinical chemistry'}
+{'wdSubclass': 'Q1359801', 'wdParentClass': 'Q849994', 'wdSubclassLabel': 'liver function tests', 'wdParentClassLabel': 'clinical chemistry'}
+{'wdSubclass': 'Q864640', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'bioorganic chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q110259383', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'organic green chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q493630', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'petrochemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q731154', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'chemical biology', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q5508274', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'fullerene chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q60876408', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'Meyer-Hartmann reaction', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q243455', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'medicinal chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q640068', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'phytochemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q60875687', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'Nagata Reaction', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q864661', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'biophysical chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q750446', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'polymer chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q55739706', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'organonitrogen chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q652513', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'physical organic chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q1090893', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'organofluorine chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q7094', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'biochemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q60876181', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'Rothemund reaction', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q15840367', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'pharmaceutical chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q115252785', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'Q115252785', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q4531151', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'Q4531151', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q849994', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'clinical chemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q786278', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'neurochemistry', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q60876258', 'wdParentClass': 'Q11351', 'wdSubclassLabel': 'Bart reaction', 'wdParentClassLabel': 'organic chemistry'}
+{'wdSubclass': 'Q73212187', 'wdParentClass': 'Q2198549', 'wdSubclassLabel': 'drug evaluation', 'wdParentClassLabel': 'drug development'}
+{'wdSubclass': 'Q2991682', 'wdParentClass': 'Q2198549', 'wdSubclassLabel': 'drug design', 'wdParentClassLabel': 'drug development'}
+{'wdSubclass': 'Q1418791', 'wdParentClass': 'Q2198549', 'wdSubclassLabel': 'drug discovery', 'wdParentClassLabel': 'drug development'}
+{'wdSubclass': 'Q3378585', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'military pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q2198549', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'drug development', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q3378584', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'humanitarian pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q1782340', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'Spagyric', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q391148', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'history of pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q107395629', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'industrial pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q155491', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'clinical pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q1000889', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'emergency and disaster pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q16992268', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'Hydrophilization', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q3417008', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'Nuclear pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q2447485', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'Q2447485', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q388618', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'hospital pharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q1474765', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'galenic formulation', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q112252029', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'biopharmacy', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q7180824', 'wdParentClass': 'Q614304', 'wdSubclassLabel': 'pharmacy practice', 'wdParentClassLabel': 'pharmacy'}
+{'wdSubclass': 'Q113141546', 'wdParentClass': 'Q113135490', 'wdSubclassLabel': 'structure and dynamics of materials', 'wdParentClassLabel': 'macromolecular and materials chemistry'}
+{'wdSubclass': 'Q113135537', 'wdParentClass': 'Q113135490', 'wdSubclassLabel': 'physical chemistry of materials', 'wdParentClassLabel': 'macromolecular and materials chemistry'}
+{'wdSubclass': 'Q110245453', 'wdParentClass': 'Q113135490', 'wdSubclassLabel': 'theory and design of materials', 'wdParentClassLabel': 'macromolecular and materials chemistry'}
+{'wdSubclass': 'Q756449', 'wdParentClass': 'Q113135490', 'wdSubclassLabel': 'supramolecular chemistry', 'wdParentClassLabel': 'macromolecular and materials chemistry'}
+{'wdSubclass': 'Q110245428', 'wdParentClass': 'Q113135490', 'wdSubclassLabel': 'macromolecular materials research', 'wdParentClassLabel': 'macromolecular and materials chemistry'}
+{'wdSubclass': 'Q1443081', 'wdParentClass': 'Q113135490', 'wdSubclassLabel': 'nanochemistry', 'wdParentClassLabel': 'macromolecular and materials chemistry'}
+{'wdSubclass': 'Q899656', 'wdParentClass': 'Q67577480', 'wdSubclassLabel': 'protein structure prediction', 'wdParentClassLabel': 'structure prediction'}
+{'wdSubclass': 'Q901663', 'wdParentClass': 'Q67577480', 'wdSubclassLabel': 'molecular dynamics simulation', 'wdParentClassLabel': 'structure prediction'}
+{'wdSubclass': 'Q113444274', 'wdParentClass': 'Q67577480', 'wdSubclassLabel': 'secondary structure prediction', 'wdParentClassLabel': 'structure prediction'}
+{'wdSubclass': 'Q7068225', 'wdParentClass': 'Q67577480', 'wdSubclassLabel': 'Nucleic acid structure prediction', 'wdParentClassLabel': 'structure prediction'}
+{'wdSubclass': 'Q13195799', 'wdParentClass': 'Q11165', 'wdSubclassLabel': 'physical inorganic chemistry', 'wdParentClassLabel': 'inorganic chemistry'}
+{'wdSubclass': 'Q803925', 'wdParentClass': 'Q11165', 'wdSubclassLabel': 'bioinorganic chemistry', 'wdParentClassLabel': 'inorganic chemistry'}
+{'wdSubclass': 'Q5063652', 'wdParentClass': 'Q11165', 'wdSubclassLabel': 'ceramic chemistry', 'wdParentClassLabel': 'inorganic chemistry'}
+{'wdSubclass': 'Q3674740', 'wdParentClass': 'Q11165', 'wdSubclassLabel': 'coordination chemistry', 'wdParentClassLabel': 'inorganic chemistry'}
+{'wdSubclass': 'Q237200', 'wdParentClass': 'Q11165', 'wdSubclassLabel': 'organometallic chemistry', 'wdParentClassLabel': 'inorganic chemistry'}
+{'wdSubclass': 'Q67577480', 'wdParentClass': 'Q910164', 'wdSubclassLabel': 'structure prediction', 'wdParentClassLabel': 'cheminformatics'}
+{'wdSubclass': 'Q29156727', 'wdParentClass': 'Q910164', 'wdSubclassLabel': 'cheminformatics software', 'wdParentClassLabel': 'cheminformatics'}
+{'wdSubclass': 'Q4112105', 'wdParentClass': 'Q910164', 'wdSubclassLabel': 'virtual screening', 'wdParentClassLabel': 'cheminformatics'}
+{'wdSubclass': 'Q114737329', 'wdParentClass': 'Q910164', 'wdSubclassLabel': 'Quantitative Structure–Property Relationship', 'wdParentClassLabel': 'cheminformatics'}
+{'wdSubclass': 'Q369472', 'wdParentClass': 'Q910164', 'wdSubclassLabel': 'computational chemistry', 'wdParentClassLabel': 'cheminformatics'}
+{'wdSubclass': 'Q766383', 'wdParentClass': 'Q910164', 'wdSubclassLabel': 'quantitative structure-activity relationship', 'wdParentClassLabel': 'cheminformatics'}
+{'wdSubclass': 'Q1674549', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'isotope geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q113547642', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'analytical geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q18352840', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'aqueous geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q25530597', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'hydrogeochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q113726448', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'environmental geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q12058749', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'thermobarometry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q911801', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'cosmochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q912065', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'hydrochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q864379', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'biogeochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q114023779', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'radiogeochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q113077482', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'inorganic geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q2729912', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'chemostratigraphy', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q3760196', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'petroleum geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q2274700', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'Organic geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q114047879', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'soil geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q4530266', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'ecological geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q743257', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'soil chemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q113095682', 'wdParentClass': 'Q161764', 'wdSubclassLabel': 'exploration geochemistry', 'wdParentClassLabel': 'geochemistry'}
+{'wdSubclass': 'Q2556886', 'wdParentClass': 'Q321150', 'wdSubclassLabel': 'mathematical chemistry', 'wdParentClassLabel': 'theoretical chemistry'}
+{'wdSubclass': 'Q5265605', 'wdParentClass': 'Q3489716', 'wdSubclassLabel': 'detection of fire accelerants', 'wdParentClassLabel': 'forensic chemistry'}
+{'wdSubclass': 'Q587862', 'wdParentClass': 'Q3489716', 'wdSubclassLabel': 'forensic toxicology', 'wdParentClassLabel': 'forensic chemistry'}
+{'wdSubclass': 'Q115582861', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'cardiotoxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q3536003', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'radiotoxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q6005582', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'immunotoxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113548804', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'industrial toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q105409336', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'Evolutionary toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q2518429', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'nanotoxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q108366378', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'chemical and environmental toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884085', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'genetic toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q21693208', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'occupational toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q6947231', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'mycotoxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884060', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'developmental toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884064', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'clinical toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884167', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'general toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884197', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'experimental toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884141', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'military toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884235', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'analytical toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884056', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'veterinary toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q587862', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'forensic toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q112417293', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'neurotoxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q1009245', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'genotoxicity', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884229', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'cytotoxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884058', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'water toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884218', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'nutritive toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q113884260', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'molecular toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q3995923', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'environmental toxicology', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q841450', 'wdParentClass': 'Q7218', 'wdSubclassLabel': 'toxicogenomics', 'wdParentClassLabel': 'toxicology'}
+{'wdSubclass': 'Q105089897', 'wdParentClass': 'Q634314', 'wdSubclassLabel': 'adsorption calorimetry', 'wdParentClassLabel': 'calorimetry'}
+{'wdSubclass': 'Q904893', 'wdParentClass': 'Q634314', 'wdSubclassLabel': 'differential scanning calorimetry', 'wdParentClassLabel': 'calorimetry'}
+{'wdSubclass': 'Q1661446', 'wdParentClass': 'Q634314', 'wdSubclassLabel': 'Indirect calorimetry', 'wdParentClassLabel': 'calorimetry'}
+{'wdSubclass': 'Q110245477', 'wdParentClass': 'Q110245486', 'wdSubclassLabel': 'statistical mechanics in chemistry', 'wdParentClassLabel': 'theoretical and computational chemistry'}
+{'wdSubclass': 'Q369472', 'wdParentClass': 'Q110245486', 'wdSubclassLabel': 'computational chemistry', 'wdParentClassLabel': 'theoretical and computational chemistry'}
+{'wdSubclass': 'Q188403', 'wdParentClass': 'Q110245486', 'wdSubclassLabel': 'quantum chemistry', 'wdParentClassLabel': 'theoretical and computational chemistry'}
+{'wdSubclass': 'Q911772', 'wdParentClass': 'Q11491273', 'wdSubclassLabel': 'chemical technology', 'wdParentClassLabel': 'applied chemistry'}
+{'wdSubclass': 'Q903767', 'wdParentClass': 'Q11491273', 'wdSubclassLabel': 'chemurgy', 'wdParentClassLabel': 'applied chemistry'}
+{'wdSubclass': 'Q4661718', 'wdParentClass': 'Q4456813', 'wdSubclassLabel': 'activation', 'wdParentClassLabel': 'technical chemistry'}
+{'wdSubclass': 'Q910067', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'chemometrics', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q1925986', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'zythology', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q4456813', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'technical chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q899212', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'combinatorial chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q909501', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'crystal chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q909495', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'interface and colloid science', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q910164', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'cheminformatics', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q5125767', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'clandestine chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q9164697', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'balneochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q910172', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'food chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q2466273', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'immunochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q700919', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'chemical ecology', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q161764', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'geochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q2963660', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'wet chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q5384482', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'equilibrium chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q321150', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'theoretical chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q3489716', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'forensic chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q756449', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'supramolecular chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q614304', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'pharmacy', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q287919', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'atmospheric chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q2963661', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'synthetic chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q7076133', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'ocean chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q725361', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'green chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q900614', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Carbochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q848763', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'amateur chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q1069192', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'chemical reaction network theory', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q2072035', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'persistence', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q528130', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'chemical oceanography', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q901098', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'mechanochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q634314', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'calorimetry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q2511885', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Chloro chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q905377', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'microwave chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q7244973', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'laser chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q321355', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'environmental chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q6745636', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'industrial chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q1443081', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'nanochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q58900610', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'histocytochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q11944355', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Biomimetic chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q1069216', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'microscale chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q14906784', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'organohalfnium chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q11165', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'inorganic chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q55611105', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'ethnochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q12030270', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'cosmetic chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q113135490', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'macromolecular and materials chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q14906778', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Organo-osmium chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q12168144', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'semiconductors chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q11351', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'organic chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q65245625', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Systems chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q112342208', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'experimental chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q119808974', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'fire science', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q119534140', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'acetylene reduction', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q23023867', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'clay chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q115864634', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'aquaphotomics', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q27964550', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'acid–base chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q11491273', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'applied chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q112341069', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'colloid chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q115625228', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'interfacial thermodynamics', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q119809477', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'water science', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'q11372', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'q11372', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'q2346', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'q2346', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q20098721', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'tribochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q9189409', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'medicinal and biomolecular chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q14906788', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Organo-molybdenum chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q13033340', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Chemistry in Belarus', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q50490180', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'protein science', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q12373158', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'oil shale chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q20097254', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'peat chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q112805970', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Molecular Chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q111189176', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Robotic Chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q18418694', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Crystallography', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q110245486', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'theoretical and computational chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q13963438', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Organo-tantalum chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q11680018', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'astrochemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q14906777', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Organo-indium chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q11944354', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'material chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q115156390', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'molecular chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q14906790', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Organo-thallium chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q4497764', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'chemmotology', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q4497746', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'silicate chemistry', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q910020', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Locant', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q7218', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'toxicology', 'wdParentClassLabel': 'chemistry'}
+{'wdSubclass': 'Q110402777', 'wdParentClass': 'Q2329', 'wdSubclassLabel': 'Māori chemistry', 'wdParentClassLabel': 'chemistry'}

@@ -1,0 +1,341 @@
+{
+  "head" : {
+    "vars" : [
+      "o"
+    ]
+  },
+  "results" : {
+    "bindings" : [
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2002/07/owl#TransitiveProperty"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2002/07/owl#SymmetricProperty"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2000/01/rdf-schema#Class"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2000/01/rdf-schema#Datatype"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2000/01/rdf-schema#ContainerMembershipProperty"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabQc"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabObject"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://rdfs.org/ns/void#Dataset"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSAnalysisNeg"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSAnalysis"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSAnalysisPos"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/InChIkey2D"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/NPCClass"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/ChemicalTaxonomy"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/NPCPathway"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/NPCSuperclass"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/InChIkey"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/ChemicalEntity"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/RawMaterial"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabExtract"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/WDTaxon"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/XRef"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LFpair"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/SpectralPair"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSFeature"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/MS2Spectrum"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/WDChemical"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/L610ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/BioAssayResults"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/SwissTPHBioAssay"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Ldono10ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Ldono2ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Tbrucei10ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Tbrucei2ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Tcruzi10ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSFeatureList"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/SiriusCanopusAnnotation"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/Annotation"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/IsdbAnnotation"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/SiriusStructureAnnotation"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/Spec2VecDoc"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/spec2vec"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/Spec2VecLoss"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/Spec2VecPeak"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLTarget"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabBlank"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLChemical"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLAssayResults"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLAssay"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLDocument"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://xmlns.com/foaf/0.1/Person"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2002/07/owl#Ontology"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://purl.org/dc/dcmitype/Dataset"
+        }
+      }
+    ]
+  }
+}

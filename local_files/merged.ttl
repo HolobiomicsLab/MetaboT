@@ -1,0 +1,426 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix enpkg: <https://enpkg.commons-lab.org/kg/> .
+@prefix enpkg_module: <https://enpkg.commons-lab.org/module/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ns1: <http://proton.semanticweb.org/protonsys#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+owl:Ontology dcterms:contributor "" ;
+    dcterms:creator "" ;
+    dcterms:description xsd:string ;
+    dcterms:license "" ;
+    dcterms:title xsd:string ;
+    vann:preferredNamespacePrefix xsd:string ;
+    vann:preferredNamespaceUri xsd:string ;
+    owl:versionIRI "" ;
+    owl:versionInfo xsd:string ;
+    foaf:logo "" .
+
+enpkg:CSpair enpkg:has_cosine xsd:float ;
+    enpkg:has_mass_difference xsd:float ;
+    enpkg:has_member enpkg:GNPSConsensusSpectrum,
+        enpkg:MS2Spectrum .
+
+enpkg:LFpair enpkg:has_cosine xsd:float ;
+    enpkg:has_mass_difference xsd:float ;
+    enpkg:has_member enpkg:LCMSFeature,
+        enpkg:MS2Spectrum ;
+    enpkg:has_member_1 enpkg:LCMSFeature,
+        enpkg:MS2Spectrum ;
+    enpkg:has_member_2 enpkg:LCMSFeature,
+        enpkg:MS2Spectrum .
+
+enpkg:LabBlank rdfs:label xsd:string ;
+    enpkg:has_LCMS enpkg:LCMSAnalysis,
+        enpkg:LCMSAnalysisNeg,
+        enpkg:LCMSAnalysisPos .
+
+enpkg:LabQc rdfs:label xsd:string ;
+    enpkg:has_LCMS enpkg:LCMSAnalysis,
+        enpkg:LCMSAnalysisNeg,
+        enpkg:LCMSAnalysisPos .
+
+enpkg:RawMaterial enpkg:has_lab_process enpkg:LabExtract,
+        enpkg:LabObject ;
+    enpkg:has_unresolved_taxon "" ;
+    enpkg:has_wd_id enpkg:WDTaxon,
+        enpkg:XRef ;
+    enpkg:submitted_taxon xsd:string ;
+    enpkg_module:has_broad_organe "" ;
+    enpkg_module:has_organe "" ;
+    enpkg_module:has_subsystem "" ;
+    enpkg_module:has_tissue "" .
+
+enpkg:SpectralPair enpkg:has_cosine xsd:float ;
+    enpkg:has_mass_difference xsd:float ;
+    enpkg:has_member enpkg:GNPSConsensusSpectrum,
+        enpkg:LCMSFeature,
+        enpkg:MS2Spectrum ;
+    enpkg:has_member_1 enpkg:LCMSFeature,
+        enpkg:MS2Spectrum ;
+    enpkg:has_member_2 enpkg:LCMSFeature,
+        enpkg:MS2Spectrum .
+
+enpkg:InChIkey enpkg:has_npc_class enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_npc_pathway enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_npc_superclass enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_smiles xsd:string ;
+    enpkg:has_wd_id enpkg:WDChemical,
+        enpkg:XRef ;
+    enpkg_module:has_chembl_id enpkg:XRef,
+        enpkg_module:ChEMBLChemical .
+
+rdfs:Datatype rdfs:subClassOf rdfs:Class,
+        rdfs:Datatype,
+        "" .
+
+enpkg:BioAssayResults rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget .
+
+enpkg:GNPSAnnotation enpkg:gnps_dashboard_view xsd:string ;
+    enpkg:has_InChIkey2D enpkg:InChIkey2D,
+        "" ;
+    enpkg:has_usi xsd:string .
+
+enpkg:IsdbAnnotation rdfs:label xsd:string ;
+    enpkg:has_InChIkey2D enpkg:InChIkey2D ;
+    enpkg:has_adduct xsd:string ;
+    enpkg:has_consistency_score xsd:float ;
+    enpkg:has_final_score xsd:float ;
+    enpkg:has_spectral_score xsd:float ;
+    enpkg:has_taxo_score xsd:float .
+
+enpkg:LabExtract rdfs:label xsd:string ;
+    enpkg:has_LCMS enpkg:LCMSAnalysis,
+        enpkg:LCMSAnalysisNeg,
+        enpkg:LCMSAnalysisPos ;
+    enpkg_module:has_bioassay_results enpkg:BioAssayResults,
+        enpkg_module:L610ugml,
+        enpkg_module:Ldono10ugml,
+        enpkg_module:Ldono2ugml,
+        enpkg_module:SwissTPHBioAssay,
+        enpkg_module:Tbrucei10ugml,
+        enpkg_module:Tbrucei2ugml,
+        enpkg_module:Tcruzi10ugml .
+
+enpkg:LabObject rdfs:label xsd:string ;
+    enpkg:has_LCMS enpkg:LCMSAnalysis,
+        enpkg:LCMSAnalysisNeg,
+        enpkg:LCMSAnalysisPos ;
+    enpkg:has_lab_process enpkg:LabExtract,
+        enpkg:LabObject ;
+    enpkg:has_unresolved_taxon "" ;
+    enpkg:has_wd_id enpkg:WDTaxon,
+        enpkg:XRef ;
+    enpkg:submitted_taxon xsd:string ;
+    enpkg_module:has_bioassay_results enpkg:BioAssayResults,
+        enpkg_module:L610ugml,
+        enpkg_module:Ldono10ugml,
+        enpkg_module:Ldono2ugml,
+        enpkg_module:SwissTPHBioAssay,
+        enpkg_module:Tbrucei10ugml,
+        enpkg_module:Tbrucei2ugml,
+        enpkg_module:Tcruzi10ugml ;
+    enpkg_module:has_broad_organe "" ;
+    enpkg_module:has_organe "" ;
+    enpkg_module:has_subsystem "" ;
+    enpkg_module:has_tissue "" .
+
+enpkg:SiriusCanopusAnnotation rdfs:label xsd:string ;
+    enpkg:has_canopus_npc_class enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCSuperclass,
+        "" ;
+    enpkg:has_canopus_npc_class_prob xsd:float ;
+    enpkg:has_canopus_npc_pathway enpkg:ChemicalEntity,
+        enpkg:NPCPathway,
+        "" ;
+    enpkg:has_canopus_npc_pathway_prob xsd:float ;
+    enpkg:has_canopus_npc_superclass enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCSuperclass,
+        "" ;
+    enpkg:has_canopus_npc_superclass_prob xsd:float .
+
+enpkg:SiriusStructureAnnotation rdfs:label xsd:string ;
+    enpkg:has_InChIkey2D enpkg:InChIkey2D ;
+    enpkg:has_cosmic_score xsd:float ;
+    enpkg:has_ionization xsd:string ;
+    enpkg:has_sirius_adduct xsd:string ;
+    enpkg:has_sirius_score xsd:float ;
+    enpkg:has_zodiac_score xsd:float .
+
+enpkg_module:ChEMBLAssayResults rdfs:label xsd:string ;
+    enpkg_module:activity_relation xsd:double,
+        xsd:string ;
+    enpkg_module:activity_type xsd:string ;
+    enpkg_module:activity_unit xsd:double,
+        xsd:string ;
+    enpkg_module:activity_value xsd:float ;
+    enpkg_module:assay_id enpkg:XRef,
+        enpkg_module:ChEMBLAssay ;
+    enpkg_module:stated_in_document enpkg:XRef,
+        enpkg_module:ChEMBLDocument ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget ;
+    enpkg_module:target_name xsd:string .
+
+enpkg_module:ChEMBLChemical enpkg_module:has_chembl_activity enpkg:XRef,
+        enpkg_module:ChEMBLAssayResults .
+
+enpkg_module:ChEMBLDocument enpkg_module:journal_name xsd:string .
+
+enpkg_module:L610ugml rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float .
+
+enpkg_module:Ldono10ugml rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget .
+
+enpkg_module:Ldono2ugml rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget .
+
+enpkg_module:SwissTPHBioAssay rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget .
+
+enpkg_module:Tbrucei10ugml rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget .
+
+enpkg_module:Tbrucei2ugml rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget .
+
+enpkg_module:Tcruzi10ugml rdfs:label xsd:string ;
+    enpkg_module:inhibition_percentage xsd:float ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget .
+
+enpkg:LCMSFeatureList rdfs:comment xsd:string ;
+    enpkg:has_ionization xsd:string ;
+    enpkg:has_lcms_feature enpkg:LCMSFeature,
+        enpkg:MS2Spectrum .
+
+enpkg:GNPSConsensusSpectrum enpkg:gnps_component_link xsd:string ;
+    enpkg:gnps_dashboard_view xsd:string ;
+    enpkg:gnps_spectrum_link xsd:string ;
+    enpkg:has_gnps_annotation enpkg:Annotation,
+        enpkg:GNPSAnnotation ;
+    enpkg:has_metamn_ci "" ;
+    enpkg:has_usi xsd:string .
+
+enpkg:InChIkey2D enpkg:has_npc_class enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_npc_pathway enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_npc_superclass enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_smiles xsd:string ;
+    enpkg:is_InChIkey2D_of enpkg:ChemicalEntity,
+        enpkg:InChIkey .
+
+enpkg:LCMSAnalysis foaf:depiction "" ;
+    enpkg:has_gnpslcms_link "" ;
+    enpkg:has_lcms_feature_list enpkg:LCMSFeatureList ;
+    enpkg:has_massive_doi "" ;
+    enpkg:has_massive_license "" .
+
+enpkg:LCMSAnalysisNeg foaf:depiction "" ;
+    enpkg:has_gnpslcms_link "" ;
+    enpkg:has_lcms_feature_list enpkg:LCMSFeatureList ;
+    enpkg:has_massive_doi "" ;
+    enpkg:has_massive_license "" .
+
+enpkg:LCMSAnalysisPos foaf:depiction "" ;
+    enpkg:has_gnpslcms_link "" ;
+    enpkg:has_lcms_feature_list enpkg:LCMSFeatureList ;
+    enpkg:has_massive_doi "" ;
+    enpkg:has_massive_license "" .
+
+rdfs:Class rdfs:label xsd:string ;
+    rdfs:comment xsd:string ;
+    rdfs:subClassOf rdf:Property,
+        rdfs:Class,
+        rdfs:Datatype,
+        "" .
+
+owl:SymmetricProperty ns1:transitiveOver owl:SymmetricProperty,
+        owl:TransitiveProperty ;
+    rdfs:subPropertyOf rdf:Property,
+        owl:SymmetricProperty,
+        owl:TransitiveProperty ;
+    owl:inverseOf rdf:Property,
+        owl:SymmetricProperty,
+        owl:TransitiveProperty .
+
+enpkg:LCMSFeature rdfs:label xsd:string ;
+    foaf:depiction "" ;
+    enpkg:gnps_dashboard_view "" ;
+    enpkg:has_canopus_annotation enpkg:Annotation,
+        enpkg:SiriusCanopusAnnotation ;
+    enpkg:has_consensus_spectrum enpkg:GNPSConsensusSpectrum,
+        enpkg:MS2Spectrum ;
+    enpkg:has_fbmn_ci "" ;
+    enpkg:has_feature_area xsd:float ;
+    enpkg:has_ionization xsd:string ;
+    enpkg:has_isdb_annotation enpkg:Annotation,
+        enpkg:IsdbAnnotation ;
+    enpkg:has_parent_mass xsd:float ;
+    enpkg:has_relative_feature_area xsd:float ;
+    enpkg:has_retention_time xsd:float ;
+    enpkg:has_row_id xsd:decimal ;
+    enpkg:has_sirius_annotation enpkg:Annotation,
+        enpkg:SiriusStructureAnnotation ;
+    enpkg:has_usi xsd:string .
+
+owl:TransitiveProperty ns1:transitiveOver rdf:Property,
+        owl:SymmetricProperty,
+        owl:TransitiveProperty ;
+    rdfs:domain "" ;
+    rdfs:range "" ;
+    rdfs:subPropertyOf rdf:Property,
+        owl:TransitiveProperty ;
+    owl:inverseOf owl:SymmetricProperty,
+        owl:TransitiveProperty .
+
+enpkg:Annotation rdfs:label xsd:string ;
+    enpkg:gnps_dashboard_view xsd:string ;
+    enpkg:has_InChIkey2D enpkg:InChIkey2D,
+        "" ;
+    enpkg:has_adduct xsd:string ;
+    enpkg:has_canopus_npc_class enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCSuperclass,
+        "" ;
+    enpkg:has_canopus_npc_class_prob xsd:float ;
+    enpkg:has_canopus_npc_pathway enpkg:ChemicalEntity,
+        enpkg:NPCPathway,
+        "" ;
+    enpkg:has_canopus_npc_pathway_prob xsd:float ;
+    enpkg:has_canopus_npc_superclass enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCSuperclass,
+        "" ;
+    enpkg:has_canopus_npc_superclass_prob xsd:float ;
+    enpkg:has_consistency_score xsd:float ;
+    enpkg:has_cosmic_score xsd:float ;
+    enpkg:has_final_score xsd:float ;
+    enpkg:has_ionization xsd:string ;
+    enpkg:has_sirius_adduct xsd:string ;
+    enpkg:has_sirius_score xsd:float ;
+    enpkg:has_spectral_score xsd:float ;
+    enpkg:has_taxo_score xsd:float ;
+    enpkg:has_usi xsd:string ;
+    enpkg:has_zodiac_score xsd:float .
+
+rdf:Property rdfs:label xsd:string ;
+    ns1:transitiveOver rdf:Property,
+        owl:TransitiveProperty ;
+    rdfs:comment xsd:string ;
+    rdfs:domain rdfs:Class,
+        "" ;
+    rdfs:range rdfs:Class,
+        "" ;
+    rdfs:subClassOf rdf:Property,
+        rdfs:Class ;
+    rdfs:subPropertyOf rdf:Property,
+        owl:SymmetricProperty,
+        owl:TransitiveProperty ;
+    owl:inverseOf rdf:Property,
+        owl:SymmetricProperty .
+
+enpkg_module:ChEMBLTarget enpkg_module:target_name xsd:string .
+
+enpkg:MS2Spectrum rdfs:label xsd:string ;
+    foaf:depiction "" ;
+    enpkg:gnps_component_link xsd:string ;
+    enpkg:gnps_dashboard_view xsd:string,
+        "" ;
+    enpkg:gnps_spectrum_link xsd:string ;
+    enpkg:has_canopus_annotation enpkg:Annotation,
+        enpkg:SiriusCanopusAnnotation ;
+    enpkg:has_consensus_spectrum enpkg:GNPSConsensusSpectrum,
+        enpkg:MS2Spectrum ;
+    enpkg:has_fbmn_ci "" ;
+    enpkg:has_feature_area xsd:float ;
+    enpkg:has_gnps_annotation enpkg:Annotation,
+        enpkg:GNPSAnnotation ;
+    enpkg:has_ionization xsd:string ;
+    enpkg:has_isdb_annotation enpkg:Annotation,
+        enpkg:IsdbAnnotation ;
+    enpkg:has_metamn_ci "" ;
+    enpkg:has_parent_mass xsd:float ;
+    enpkg:has_relative_feature_area xsd:float ;
+    enpkg:has_retention_time xsd:float ;
+    enpkg:has_row_id xsd:decimal ;
+    enpkg:has_sirius_annotation enpkg:Annotation,
+        enpkg:SiriusStructureAnnotation ;
+    enpkg:has_usi xsd:string .
+
+enpkg:ChemicalEntity enpkg:has_npc_class enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_npc_pathway enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_npc_superclass enpkg:ChemicalEntity,
+        enpkg:NPCClass,
+        enpkg:NPCPathway,
+        enpkg:NPCSuperclass ;
+    enpkg:has_smiles xsd:string ;
+    enpkg:has_wd_id enpkg:WDChemical,
+        enpkg:XRef ;
+    enpkg_module:has_chembl_id enpkg:XRef,
+        enpkg_module:ChEMBLChemical .
+
+enpkg:XRef rdfs:label xsd:string ;
+    enpkg_module:activity_relation xsd:double,
+        xsd:string ;
+    enpkg_module:activity_type xsd:string ;
+    enpkg_module:activity_unit xsd:double,
+        xsd:string ;
+    enpkg_module:activity_value xsd:float ;
+    enpkg_module:assay_id enpkg:XRef,
+        enpkg_module:ChEMBLAssay ;
+    enpkg_module:has_chembl_activity enpkg:XRef,
+        enpkg_module:ChEMBLAssayResults ;
+    enpkg_module:journal_name xsd:string ;
+    enpkg_module:stated_in_document enpkg:XRef,
+        enpkg_module:ChEMBLDocument ;
+    enpkg_module:target_id enpkg:XRef,
+        enpkg_module:ChEMBLTarget ;
+    enpkg_module:target_name xsd:string .
+
+
+
+

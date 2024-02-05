@@ -1,0 +1,559 @@
+{
+  "head" : {
+    "vars" : [
+      "o",
+      "label",
+      "comment"
+    ]
+  },
+  "results" : {
+    "bindings" : [
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2002/07/owl#TransitiveProperty"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2002/07/owl#SymmetricProperty"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2000/01/rdf-schema#Class"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2000/01/rdf-schema#Datatype"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2000/01/rdf-schema#ContainerMembershipProperty"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/MS2Spectrum"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "MS2 spectrum"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A fragmentation mass spectrometry (or MS2) spectrum"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSFeature"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "LCMS individual MS2 spectrum"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "An LCMS feature from a processed LCMS analysis"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/SiriusStructureAnnotation"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "SIRIUS structural annotation"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A spectrum structural annotation by SIRIUS"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/Annotation"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "Spectrum annotation"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A spectral annotation"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/InChIkey2D"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "2D InChIKey"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "The first 14 characters of an InChIKey, often returned by MS-based annotation tools"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/NPCClass"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "NPCClass"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A NPClassifier (NPC) chemical class"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/ChemicalEntity"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "chemical entity"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/ChemicalEntity"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "A chemical entity (chemical structure or class)"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/NPCPathway"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "NPCPathway"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A NPClassifier (NPC) chemical pathway"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/NPCSuperclass"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "NPCSuperclass"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A NPClassifier (NPC) chemical superclass"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/InChIkey"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "InChIKey"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A chemical structure represented by its InChIKey"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/WDChemical"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "Cross-reference to a chemical entity in Wikidata"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "Cross-reference to a chemical entity in Wikidata"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/XRef"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "Any cross-reference"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "Any cross-reference"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/IsdbAnnotation"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "ISDB structural annotation"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A spectrum structural annotation by comparison with an in-silico spectral DB, coupled to chemical and taxonomical reweighting"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLChemical"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLAssayResults"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLAssay"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLDocument"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/ChEMBLTarget"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/RawMaterial"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "A RawMaterial"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A raw laboratory biological material, i.e. before extraction"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabObject"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "A LabObject"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "An object that correspond to a physical laboratory object"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabExtract"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "A LabExtract"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A natural extract obtained from the processing of a RawMaterial"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/BioAssayResults"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "A bioassay result"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "An object to store bioactivity results"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/L610ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/SwissTPHBioAssay"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Ldono10ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Ldono2ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Tbrucei10ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Tbrucei2ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/module/Tcruzi10ugml"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/WDTaxon"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "Cross-reference to a taxon in Wikidata"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "Cross-reference to a taxon in Wikidata"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabQc"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "A LabQc"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A quality control (QC) sample"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSAnalysisNeg"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "Neg LCMS analysis"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "An LCMS analysis in negative ionization mode (pos or neg)"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSAnalysis"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "LCMS analysis"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "An LCMS analysis in a given ionization mode (pos or neg)"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSAnalysisPos"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "Pos LCMS analysis"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "An LCMS analysis in positive ionization mode (pos or neg)"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LabBlank"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "A LabBlank"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A blank sample"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "http://www.w3.org/2002/07/owl#Ontology"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/SiriusCanopusAnnotation"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "CANOPUS chemical class annotation"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A spectrum chemical class annotation by SIRIUS-CANOPUS"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LCMSFeatureList"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "Feature list"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A list of LCMS features obtained from the processing of a given LCMS analysis"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/SpectralPair"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "pair of MS2Spectra"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A pair of 2 MS2Spectra"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/LFpair"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "pair of LCMSFeature"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A pair of 2 LCMSFeature"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/CSpair"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "pair of GNPSConsensusSpectra"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A pair of 2 GNPSConsensusSpectra"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/GNPSConsensusSpectrum"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "GNPS consensus MS2 spectrum"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "An MS2 spectrum corresponding to the GNPS consensus spectrum of 1 or more LCMSFeature"
+        }
+      },
+      {
+        "o" : {
+          "type" : "uri",
+          "value" : "https://enpkg.commons-lab.org/kg/GNPSAnnotation"
+        },
+        "label" : {
+          "type" : "literal",
+          "value" : "GNPS structural annotation"
+        },
+        "comment" : {
+          "type" : "literal",
+          "value" : "A spectrum structural annotation by GNPS"
+        }
+      }
+    ]
+  }
+}
