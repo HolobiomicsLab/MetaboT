@@ -1,7 +1,7 @@
 import requests
 
 
-def smiles_to_inchikey(smiles):
+def smiles_to_inchikey(smiles : str):
     """
     Convert a SMILES string to InChIKey notation using the GNPS API.
 

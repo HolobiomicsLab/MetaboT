@@ -34,7 +34,7 @@ class TaxonResolver:
             print(f"An error occurred: {e}")
             return None
 
-    def query_wikidata(self, taxon_name):
+    def query_wikidata(self, taxon_name : str):
         query = self.build_query(taxon_name)
         results = self.execute_query(query)
         if results:

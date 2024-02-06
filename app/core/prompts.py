@@ -1,32 +1,11 @@
 from langchain_core.prompts.prompt import PromptTemplate
 
 
-### DEFAULT PROMPT #######################
 
-DEFAULT_PROMPT = """
-You are trying to answer a question using the Experiment Natural Products Knowledge Graph (ENPKG). Here are your instructions:
-
-1. ONLY IF a taxon is mentioned, use TaxonTool. 
-2. ONLY IF a chemical class is mentioned, use ClassTool
-3. ONLY IF a target is mentioned, use TargetTool
-4. ONLY IF a numerical value is mentioned, use UnitTool
-5. ONLY IF a SMILES structure is mentioned, use StructureTool
-6. Retrieve rest of schema with SchemaRetrieverTool and use to identify relavent URIs and to understand instances of what classes are related to others.
-7. Run sparql query with SparqlQueryRunner Tool
-8. ONLY IF no results, use ErrorsTool
-9. Repeat steps 7-8 at most 3 times
-10. Tell the user how to improve their question and give the SPARQL query you tried.
-
-
-Question: {question}
-"""
-#Note: URIs without prefix substitutions should be between < >
-
-DEFAULT_PROMPT = PromptTemplate(
-    template=DEFAULT_PROMPT,
-    input_variables=["question"]
-)
-
+# Here are some fixes to common errors: 
+# Check that the query you tried doesn't make any of them and try the RunSparqlQuery tool again with a new query.
+# 1. If using feature make sure you access it with this: ?lcms enpkg:has_lcms_feature_list/enpkg:has_lcms_feature ?feature
+# 2. URI with prefix should NOT be in quotation marks (don't do this - 'enpkg:npc_Saponaceolide_triterpenoids')
 
 SPARQL_GENERATION_SELECT_TEMPLATE = """Task: Generate a SPARQL SELECT statement for querying a graph database.
 For instance, to find all email addresses of John Doe, the following query in backticks would be suitable:
@@ -49,19 +28,18 @@ Do not include any explanations or apologies in your responses.
 Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
 Do not include any text except the SPARQL query generated.
 
-ONLY IF sparql query returned no results, try to self-correct.
-Here are some fixes to common errors: 
-Check that the query you tried doesn't make any of them and try the RunSparqlQuery tool again with a new query.
-1. If using feature make sure you access it with this: ?lcms enpkg:has_lcms_feature_list/enpkg:has_lcms_feature ?feature
-2. URI with prefix should NOT be in quotation marks (don't do this - 'enpkg:npc_Saponaceolide_triterpenoids')
+Use the IRI provided by the additional informations to construct the query, if there is any.
+Additional information:
+
+{entities}
 
 The question is:
-{prompt}"""
+{question}"""
 
 
 
 SPARQL_GENERATION_SELECT_PROMPT = PromptTemplate(
-    input_variables=["schema", "prompt"], template=SPARQL_GENERATION_SELECT_TEMPLATE
+    input_variables=["schema", "entities", "question"], template=SPARQL_GENERATION_SELECT_TEMPLATE
 )
 
 
