@@ -1,12 +1,12 @@
-# IMPORTANT:
+# KGbot dev
 
-**The corresponding notebook** is at [https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb](https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb)
+## General information
 
-**We use the ```dev``` branch for contributing** [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev)
+**The main notebook** is at [https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb](https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb)
 
-[]
-[]
-[]
+We use the ```dev``` branch for contributing [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev)
+
+The prototype is in the ```prototype``` branch (frozen) [https://github.com/holobiomics-lab/kgbot/tree/prototype](https://github.com/holobiomics-lab/kgbot/tree/prototype)
 
 
 ## Environment setup
