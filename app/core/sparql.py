@@ -21,7 +21,9 @@ from prompts import (
 from langchain.chains.llm import LLMChain
 
 
-class GraphSparqlQAChain(Chain):
+class GraphSparqlQAChain(Chain): 
+    #TODO: Add documentation
+    #TODO: make the agent return the sparql query used to retrieve the answer
     """Question-answering against an RDF or OWL graph by generating SPARQL statements.
 
     *Security note*: Make sure that the database connection uses credentials
