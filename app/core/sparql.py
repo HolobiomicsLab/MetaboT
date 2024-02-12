@@ -41,7 +41,8 @@ class GraphSparqlQAChain(Chain):
     sparql_generation_update_chain: LLMChain
     sparql_intent_chain: LLMChain
     qa_chain: LLMChain
-    input_key: str = "query"  #: :meta private:
+    input_key: str = "question"  #: :meta private:
+    entities_key: str = "entities"  #: :meta private:
     output_key: str = "result"  #: :meta private:
 
     @property
@@ -90,6 +91,9 @@ class GraphSparqlQAChain(Chain):
         _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
         callbacks = _run_manager.get_child()
         prompt = inputs[self.input_key]
+        entities = inputs[self.entities_key]
+        print("prompt",prompt)
+        print("entities",entities)
 
         _intent = self.sparql_intent_chain.invoke({"prompt": prompt}, callbacks=callbacks)
         intent = _intent["text"]
@@ -112,7 +116,7 @@ class GraphSparqlQAChain(Chain):
 
         
         generated_sparql = sparql_generation_chain.run(
-            {"prompt": prompt, "schema": self.graph.get_schema}, callbacks=callbacks
+            {"question": prompt, "entities": entities,"schema": self.graph.get_schema}, callbacks=callbacks
         )
 
 

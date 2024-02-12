@@ -2,7 +2,7 @@ import requests
 import xml.etree.ElementTree as ET
 from urllib.parse import quote
 
-def target_name_to_target_id(target_name):
+def target_name_to_target_id(target_name : str):
     """
     Convert a target_name string to ChEMBLTarget notation using the CHEMBL API.
 

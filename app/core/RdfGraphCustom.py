@@ -49,15 +49,45 @@ PREFIX_STATEMENT = "\n".join(
     f"PREFIX {short}: <{uri}>" for short, uri in NAMESPACES.items()
 )
 
-## broad range query for all classes
 # cls_query_rdf="""
-#     SELECT DISTINCT ?cls ?com\n
-#     WHERE { \n
-#         ?instance a ?cls . \n
-#         OPTIONAL { ?cls rdfs:comment ?com } \n
-#     }"""
+# SELECT DISTINCT ?cls ?com (SAMPLE(?instance) AS ?example)
+# WHERE {
+#     ?cls a rdfs:Class . 
+#     OPTIONAL { ?cls rdfs:comment ?com }
+#     OPTIONAL { ?instance a ?cls }
+# }
+# GROUP BY ?cls ?com
 
-## more restrictive query for classes, but faster. (48 instead of 55 on enpkg graph)
+# """
+
+# cls_query_rdf="""
+
+# SELECT DISTINCT ?class ?property ?sampleValue
+# WHERE {
+#     ?class a rdfs:Class .
+# }
+
+# # Use the result of the class query in a UNION with the property query
+# UNION
+
+# # Query for properties of instances of each class
+# {
+#     SELECT DISTINCT ?class ?property (SAMPLE(?value) AS ?sampleValue)
+#     WHERE {
+#         ?class a rdfs:Class .
+#         {
+#             SELECT DISTINCT ?instance ?property ?value
+#             WHERE {
+#                 ?instance a ?class .
+#                 ?instance ?property ?value .
+#             }
+#             LIMIT 100
+#         }
+#     }
+#     GROUP BY ?class ?property
+# }
+# """
+
 cls_query_rdf = """
 SELECT DISTINCT ?cls ?com
 WHERE {
@@ -65,25 +95,6 @@ WHERE {
     OPTIONAL { ?cls rdfs:comment ?com }
 }
 """
-## TODO: TRY TO ADD THE rdf:type ?relType IN THE QUERY TO GET THE TYPE OF THE RELATIONSHIP (OBJECTPROPERTY OR DATATYPEPROPERTY)
-# PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-# PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-# PREFIX owl: <http://www.w3.org/2002/07/owl#>
-
-# #SELECT DISTINCT ?class ?rel ?relType
-
-# OR 
-
-# CONSTRUCT {
-#   ?class ?property ?propertyType .
-# }
-
-# #WHERE {
-# #    ?class a rdfs:Class .
-# ##    ?rel a rdf:Property .
-# ##    ?class ?rel ?value .
-# ##    ?rel rdf:type ?relType .
-# #  }
 
 cls_query_rdfs = (
     """SELECT DISTINCT ?cls ?com\n"""
@@ -120,6 +131,8 @@ WHERE {
     OPTIONAL { ?rel rdfs:comment ?com }
 }
 """
+
+
 
 rel_query_rdfs = (
     """SELECT DISTINCT ?rel ?com\n"""
@@ -382,6 +395,7 @@ class RdfGraph:
             + ")"
         )
 
+
     def load_schema(self) -> None:
         """
         Load the graph schema information.
@@ -393,15 +407,13 @@ class RdfGraph:
             subclasses: List[rdflib.query.ResultRow],
         ) -> str:
             return (
-                f"In the following, each IRI is followed by the local name and "
-                f"optionally its description in parentheses. \n"
+                f"In the following, each IRI is followed by the local name and optionally its description. \n"
                 f"The RDF graph supports the following node types:\n"
                 f'{", ".join([self._res_to_str(r, "cls") for r in classes])}\n'
                 f"The RDF graph supports the following relationships:\n"
                 f'{", ".join([self._res_to_str(r, "rel") for r in relationships])}\n'
                 f"In the following tuples, each IRI is followed by the superclass"
                 f'{", ".join("(<" + r["subclass"] + ">, <" + r["superclass"] + ">)" for r in subclasses)}\n'
-
             )
 
         def _format_schema():
