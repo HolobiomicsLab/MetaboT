@@ -58,6 +58,7 @@ class GraphSparqlQAChain(Chain):
     def from_llm(
         cls,
         llm: BaseLanguageModel,
+        llm_sparql: BaseLanguageModel,  # Add an argument for the SPARQL-specific LLM to use GPT4 not the turbo one. 
         *,
         qa_prompt: BasePromptTemplate = SPARQL_QA_PROMPT,
         sparql_select_prompt: BasePromptTemplate = SPARQL_GENERATION_SELECT_PROMPT,
@@ -65,11 +66,12 @@ class GraphSparqlQAChain(Chain):
         sparql_intent_prompt: BasePromptTemplate = SPARQL_INTENT_PROMPT,
         **kwargs: Any,
     ) -> GraphSparqlQAChain:
-        """Initialize from LLM."""
+        """Initialize from LLM, with a separate LLM for SPARQL-related tasks."""
         qa_chain = LLMChain(llm=llm, prompt=qa_prompt)
-        sparql_generation_select_chain = LLMChain(llm=llm, prompt=sparql_select_prompt)
-        sparql_generation_update_chain = LLMChain(llm=llm, prompt=sparql_update_prompt)
-        sparql_intent_chain = LLMChain(llm=llm, prompt=sparql_intent_prompt)
+        # Use the SPARQL-specific LLM for SPARQL query generation and intent determination
+        sparql_generation_select_chain = LLMChain(llm=llm_sparql, prompt=sparql_select_prompt)
+        sparql_generation_update_chain = LLMChain(llm=llm_sparql, prompt=sparql_update_prompt)
+        sparql_intent_chain = LLMChain(llm=llm_sparql, prompt=sparql_intent_prompt)
 
         return cls(
             qa_chain=qa_chain,
