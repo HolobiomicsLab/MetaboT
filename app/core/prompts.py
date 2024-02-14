@@ -17,20 +17,31 @@ WHERE {{
     ?person foaf:mbox ?email .
 }}
 
-Instructions:
-Use only the node types and properties provided in the schema.
-Do not use any node types and properties that are not explicitly provided.
-Include all necessary prefixes.
+
+Please generate a SPARQL query based on the following requirements. The output must strictly adhere to these guidelines:
+
+Output Format: Your response should consist solely of the SPARQL query. Ensure the query is fully executable without any modifications or removals necessary. Do not include any markdown syntax (e.g., triple backticks), preamble words (like "sparql"), or any other text outside the SPARQL query itself.
+
+Content Clarity: The query should be clearly structured and formatted for readability. Use appropriate SPARQL conventions, prefixes, and syntax.
+
+Precision: The query must include all necessary prefixes and conditions as specified. It should be ready to run in a SPARQL endpoint without requiring any additional editing or formatting.
+
+Exclusivity: Do not encapsulate the query in any form of quotes (single, double, or block quotes). The response must contain the SPARQL query and nothing else. Any non-query text will be considered an error and will need correction.
+
+Contextualization : Use only the node types and properties provided in the schema. Do not use any node types and properties that are not explicitly provided. Include all necessary prefixes.
+
+Entities : Use the URI provided by the additional information to construct the query, if there is any. When available, use the URI rather Literal value of the entity.
+
+Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
+
+Casting: Given the schemas, when filtering values for properties, directly use the literal values without unnecessary casting to xsd:string, since they are already expected to be strings according to the RDF schema provided.
+
+Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards. It should be capable of being executed in a compatible SPARQL endpoint without errors."
+
 Schema:
 {schema}
-Note: Be as concise as possible.
-Do not include any explanations or apologies in your responses.
-Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
-Do not include any text except the SPARQL query generated.
 
-Use the IRI provided by the additional informations to construct the query, if there is any.
 Additional information:
-
 {entities}
 
 The question is:

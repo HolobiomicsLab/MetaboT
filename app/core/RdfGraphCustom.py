@@ -414,7 +414,6 @@ class RdfGraph:
                 f'{", ".join([self._res_to_str(r, "rel") for r in relationships])}\n'
                 f"In the following tuples, each IRI is followed by the superclass"
                 f'{", ".join("(<" + r["subclass"] + ">, <" + r["superclass"] + ">)" for r in subclasses)}\n'
-
             )
 
         def _format_schema():

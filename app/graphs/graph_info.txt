@@ -37,7 +37,7 @@ NAMESPACES = {
 
 In the following, each IRI is followed by the local name and optionally its description in parentheses. 
 The RDF graph supports the following node types:
-<http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> (Property, None), 
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> (Property, None),
 <http://www.w3.org/2002/07/owl#TransitiveProperty> (TransitiveProperty, None), 
 <http://www.w3.org/2002/07/owl#SymmetricProperty> (SymmetricProperty, None),
  <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> (List, None),
@@ -226,3 +226,257 @@ The RDF graph supports the following relationships:
  <http://purl.org/vocab/vann/preferredNamespacePrefix> (preferredNamespacePrefix, None),
  <http://purl.org/vocab/vann/preferredNamespaceUri> (preferredNamespaceUri, None),
  <http://xmlns.com/foaf/0.1/logo> (logo, None), <https://enpkg.commons-lab.org/kg/has_member> (has_member, LCMSFeature), <http://purl.org/dc/terms/accrualPeriodicity> (accrualPeriodicity, None), <http://purl.org/pav/hasCurrentVersion> (hasCurrentVersion, None), <http://purl.org/dc/terms/isVersionOf> (isVersionOf, None), <http://purl.org/pav/version> (version, None), <http://purl.org/dc/terms/issued> (issued, None), <http://purl.org/dc/terms/hasPart> (hasPart, None)
+
+
+
+
+
+
+################# schema from RdfGraphCustom_V2 #################
+
+
+
+The RDF graph supports the following relationships:
+@prefix ns1: <https://enpkg.commons-lab.org/kg/> .
+@prefix ns2: <https://enpkg.commons-lab.org/module/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ns1:Annotation ns1:has_InChIkey2D ns1:InChIkey2D ;
+    ns1:has_ionization xsd:string ;
+    ns1:has_sirius_score xsd:float ;
+    ns1:has_spectral_score xsd:float ;
+    ns1:has_taxo_score xsd:float ;
+    ns1:has_zodiac_score xsd:float .
+
+ns1:BioAssayResults ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns1:IsdbAnnotation ns1:has_InChIkey2D ns1:InChIkey2D ;
+    ns1:has_spectral_score xsd:float ;
+    ns1:has_taxo_score xsd:float .
+
+ns1:LCMSFeatureList ns1:has_ionization xsd:string .
+
+ns1:LFpair ns1:has_member ns1:LCMSFeature,
+        ns1:MS2Spectrum ;
+    ns1:has_mn_params <Untyped> .
+
+ns1:LabBlank ns1:has_LCMS ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg .
+
+ns1:LabQc ns1:has_LCMS ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg .
+
+ns1:RawMaterial ns1:has_LCMS xsd:string,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_lab_process ns1:LabExtract,
+        ns1:LabObject ;
+    ns1:has_unresolved_taxon <Untyped> ;
+    ns1:has_wd_id ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:submitted_taxon xsd:string ;
+    ns2:has_organe <Untyped> ;
+    ns2:has_subsystem <Untyped> ;
+    ns2:has_tissue <Untyped> .
+
+ns1:SiriusStructureAnnotation ns1:has_InChIkey2D ns1:InChIkey2D ;
+    ns1:has_ionization xsd:string ;
+    ns1:has_sirius_score xsd:float ;
+    ns1:has_zodiac_score xsd:float .
+
+ns1:Spec2VecDoc ns1:has_spec2vec_loss ns1:Spec2VecLoss,
+        ns1:spec2vec ;
+    ns1:has_spec2vec_peak ns1:Spec2VecPeak,
+        ns1:spec2vec .
+
+ns1:SpectralPair ns1:has_member ns1:LCMSFeature,
+        ns1:MS2Spectrum ;
+    ns1:has_mn_params <Untyped> .
+
+ns2:ChEMBLAssayResults ns2:activity_relation xsd:string ;
+    ns2:activity_type xsd:string ;
+    ns2:activity_unit xsd:string ;
+    ns2:activity_value xsd:float ;
+    ns2:assay_id ns1:XRef,
+        ns2:ChEMBLAssay ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget ;
+    ns2:target_name xsd:string .
+
+ns2:ChEMBLDocument ns2:journal_name xsd:string .
+
+ns2:L610ugml ns2:inhibition_percentage xsd:float .
+
+ns2:Ldono10ugml ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Ldono2ugml ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:SwissTPHBioAssay ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Tbrucei10ugml ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Tbrucei2ugml ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Tcruzi10ugml ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns1:ChemicalEntity ns1:has_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_smiles xsd:string ;
+    ns1:has_wd_id ns1:WDChemical,
+        ns1:XRef .
+
+ns1:InChIkey ns1:has_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_smiles xsd:string ;
+    ns1:has_wd_id ns1:WDChemical,
+        ns1:XRef .
+
+ns1:LCMSAnalysisPos ns1:has_gnpslcms_link <Untyped> ;
+    ns1:has_massive_license <Untyped> .
+
+ns1:LCMSFeature ns1:has_ionization xsd:string ;
+    ns1:has_parent_mass xsd:float ;
+    ns1:has_raw_spectrum xsd:string ;
+    ns1:has_retention_time xsd:float ;
+    ns1:has_row_id xsd:decimal ;
+    ns1:has_usi xsd:string .
+
+ns1:LabExtract ns1:has_LCMS ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg,
+        ns1:LCMSAnalysisPos .
+
+ns1:LabObject ns1:has_LCMS xsd:string,
+        ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg,
+        ns1:LCMSAnalysisPos,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_lab_process ns1:LabExtract,
+        ns1:LabObject ;
+    ns1:has_unresolved_taxon <Untyped> ;
+    ns1:has_wd_id ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:submitted_taxon xsd:string ;
+    ns2:has_organe <Untyped> ;
+    ns2:has_subsystem <Untyped> ;
+    ns2:has_tissue <Untyped> .
+
+ns1:MS2Spectrum ns1:has_ionization xsd:string ;
+    ns1:has_parent_mass xsd:float ;
+    ns1:has_raw_spectrum xsd:string ;
+    ns1:has_retention_time xsd:float ;
+    ns1:has_row_id xsd:decimal ;
+    ns1:has_usi xsd:string .
+
+ns1:Spec2VecLoss ns1:has_value xsd:float .
+
+ns1:Spec2VecPeak ns1:has_value xsd:float .
+
+ns1:InChIkey2D ns1:has_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_smiles xsd:string ;
+    ns1:is_InChIkey2D_of ns1:ChemicalEntity,
+        ns1:InChIkey .
+
+ns1:LCMSAnalysis ns1:has_gnpslcms_link <Untyped> ;
+    ns1:has_massive_license <Untyped> .
+
+ns1:LCMSAnalysisNeg ns1:has_gnpslcms_link <Untyped> ;
+    ns1:has_massive_license <Untyped> .
+
+ns1:spec2vec ns1:has_spec2vec_loss ns1:Spec2VecLoss,
+        ns1:spec2vec ;
+    ns1:has_spec2vec_peak ns1:Spec2VecPeak,
+        ns1:spec2vec ;
+    ns1:has_value xsd:float .
+
+ns2:ChEMBLTarget ns2:target_name xsd:string .
+
+ 
+In the following, each IRI is followed by the local name and optionally its description and optionally an example. 
+The RDF graph supports the following node types:
+<rdf:XMLLiteral> (XMLLiteral, None, None),
+ <xsd:nonNegativeInteger> (nonNegativeInteger, None, None),
+ <xsd:string> (string, None, None),
+ <ns1:RawMaterial> (RawMaterial, A raw laboratory biological material, i.e. before extraction, ns1:walth_ind_roots),
+ <ns1:LFpair> (LFpair, A pair of 2 LCMSFeature, ns1:lcms_feature_pair_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:9_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:2695),
+ <ns1:WDChemical> (WDChemical, Cross-reference to a chemical entity in Wikidata, http://www.wikidata.org/entity/Q94518604),
+ <ns1:WDTaxon> (WDTaxon, Cross-reference to a taxon in Wikidata, http://www.wikidata.org/entity/Q4117827),
+ <ns1:InChIkey2D> (InChIkey2D, The first 14 characters of an InChIKey, often returned by MS-based annotation tools, ns1:ZZTHQFWSMZGQQK),
+ <ns1:InChIkey> (InChIkey, A chemical structure represented by its InChIKey, ns1:ZZZQPOQWMWIOMQ-UHFFFAOYSA-N),
+ <ns1:LabExtract> (LabExtract, A natural extract obtained from the processing of a RawMaterial, ns1:SC_AP_Wi_DCM),
+ <ns1:LCMSAnalysisPos> (LCMSAnalysisPos, An LCMS analysis in positive ionization mode (pos),
+ ns1:140424_PMA_SC_AP_Wi_DCM_ddMS2_pos.mzML),
+ <ns1:LCMSFeatureList> (LCMSFeatureList, A list of LCMS features obtained from the processing of a given LCMS analysis, ns1:SC_AP_Wi_DCM_lcms_feature_list_pos),
+ <ns1:SiriusCanopusAnnotation> (SiriusCanopusAnnotation, A spectrum chemical class annotation by SIRIUS-CANOPUS, ns1:canopus_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:995),
+ <ns1:LCMSFeature> (LCMSFeature, An LCMS feature from a processed LCMS analysis, ns1:lcms_feature_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:993),
+ <ns1:Spec2VecLoss> (Spec2VecLoss, A Spec2VecLoss that partly characterizes an MS2Spectrum, ns1:loss_184.55),
+ <ns1:NPCClass> (NPCClass, A NPClassifier (NPC) chemical class, ns1:npc_Carotenoids_C40,_I2_Iu),
+ <ns1:NPCSuperclass> (NPCSuperclass, A NPClassifier (NPC) chemical superclass, ns1:npc_Alkylresorsinols),
+ <ns1:Spec2VecPeak> (Spec2VecPeak, A Spec2VecPeak that partly characterizes an MS2 spectrum, ns1:peak_737.80),
+ <ns1:SiriusStructureAnnotation> (SiriusStructureAnnotation, A spectrum structural annotation by SIRIUS, ns1:sirius_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:997),
+ <ns1:Spec2VecDoc> (Spec2VecDoc, An ensemble of Spec2VecPeak and Spec2VecLoss objects that characterizes an MS2Spectrum, ns1:spec2vec_doc_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:997),
+ <ns1:IsdbAnnotation> (IsdbAnnotation, A spectrum structural annotation by comparison with an in-silico spectral DB, coupled to chemical and taxonomical reweighting, ns1:isdb_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:999),
+ <ns1:NPCPathway> (NPCPathway, A NPClassifier (NPC) chemical pathway, ns1:npc_Unknown),
+ <ns1:LCMSAnalysisNeg> (LCMSAnalysisNeg, An LCMS analysis in negative ionization mode (neg),
+ ns1:VGF138_H11_neg.mzXML),
+ <ns2:L610ugml> (L610ugml, A screening result at 10ug/mL from a phenotypic assay against L6 cells, ns2:VGF138_H11_L6_10ugml),
+ <ns2:Ldono10ugml> (Ldono10ugml, A screening result at 10ug/mL from a phenotypic assay against L.donovani, ns2:VGF138_H11_Ldonovani_10ugml),
+ <ns2:Ldono2ugml> (Ldono2ugml, A screening result at 2ug/mL from a phenotypic assay against L.donovani, ns2:VGF138_H06_Ldonovani_2ugml),
+ <ns2:Tbrucei10ugml> (Tbrucei10ugml, A screening result at 10ug/mL from a phenotypic assay against T.brucei rhodesiense, ns2:VGF138_H11_Tbruceirhod_10ugml),
+ <ns2:Tbrucei2ugml> (Tbrucei2ugml, A screening result at 2ug/mL from a phenotypic assay against T.brucei rhodesiense, ns2:VGF138_H11_Tbruceirhod_2ugml),
+ <ns2:Tcruzi10ugml> (Tcruzi10ugml, A screening result at 10ug/mL from a phenotypic assay against T.cruzi, ns2:VGF138_H06_Tcruzi_10ugml),
+ <ns2:ChEMBLTarget> (ChEMBLTarget, A ChEMBL target, https://www.ebi.ac.uk/chembl/target_report_card/CHEMBL368),
+ <ns1:LabBlank> (LabBlank, A blank sample, ns1:VGF138_F12),
+ <ns1:LabQc> (LabQc, A quality control (QC) sample, ns1:VGF138_H01),
+ <ns2:ChEMBLAssayResults> (ChEMBLAssayResults, A ChEMBL assay result, ns2:chembl_activity_9999),
+ <ns2:ChEMBLAssay> (ChEMBLAssay, A ChEMBL assay, https://www.ebi.ac.uk/chembl/assay_report_card/CHEMBL916939),
+ <ns2:ChEMBLChemical> (ChEMBLChemical, A ChEMBL chemical, https://www.ebi.ac.uk/chembl/compound_report_card/CHEMBL3474571),
+ <ns2:ChEMBLDocument> (ChEMBLDocument, A ChEMBL document, https://www.ebi.ac.uk/chembl/document_report_card/CHEMBL1152965),
+ <ns1:LabObject> (LabObject, An object that correspond to a physical laboratory object, ns1:SC_AP_Wi_DCM),
+ <ns1:BioAssayResults> (BioAssayResults, An object to store bioactivity results, ns2:VGF138_H11_Tbruceirhod_10ugml),
+ <ns1:MS2Spectrum> (MS2Spectrum, A fragmentation mass spectrometry (or MS2) spectrum, ns1:lcms_feature_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:998),
+ <ns1:LCMSAnalysis> (LCMSAnalysis, An LCMS analysis in a given ionization mode (pos or neg),
+ ns1:VGF138_H11_pos.mzXML),
+ <ns1:Annotation> (Annotation, A spectral annotation, ns1:isdb_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:999),
+ <ns1:GNPSAnnotation> (GNPSAnnotation, A spectrum structural annotation by GNPS, None),
+ <ns1:SpectralPair> (SpectralPair, A pair of 2 MS2Spectra, ns1:lcms_feature_pair_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:9_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:59),
+ <ns1:ChemicalEntity> (ChemicalEntity, None, ns1:ZZZQPOQWMWIOMQ-UHFFFAOYSA-N),
+ <ns1:ChemicalTaxonomy> (ChemicalTaxonomy, None, ns1:npc_Carotenoids_C50,_Iu_Iu),
+ <ns1:XRef> (XRef, Any cross-reference, ns2:chembl_activity_9998),
+ <ns1:spec2vec> (spec2vec, A spec2vec-related object, ns1:spec2vec_doc_mzspec:MSV000088521:SC_AP_Wi_DCM_features_ms2_pos.mgf:scan:997),
+ <ns2:SwissTPHBioAssay> (SwissTPHBioAssay, A bioasay result from Swiss Tropical and Public Health Institute (sTPH),
+ ns2:VGF138_H11_Tcruzi_10ugml)
+
