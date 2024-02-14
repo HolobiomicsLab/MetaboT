@@ -42,8 +42,15 @@ from sparql import GraphSparqlQAChain
 def main(args):
     # The main function for setting and running the automated testing 
 
+    # Setting date and time
     now = datetime.now()
     formatted_now = now.strftime("%m-%d-%Y %H:%M:%S")
+
+    # Verifing if the keys are properly set
+    if os.environ.get("OPENAI_API_KEY") and os.environ.get("LANGCHAIN_API_KEY"):
+        pass
+    else:
+        print("Please set the OPENAI_API_KEY and LANGCHAIN_API_KEY environment variables properly.")
 
     try:
         os.environ["LANGCHAIN_TRACING_V2"] = "true"
