@@ -259,8 +259,6 @@ def main(args):
         },
     )
 
-    print(chain_results)
-
 def run_main():
     
     # For running with a command line
