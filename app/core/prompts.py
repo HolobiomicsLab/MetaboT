@@ -17,20 +17,31 @@ WHERE {{
     ?person foaf:mbox ?email .
 }}
 
-Instructions:
-Use only the node types and properties provided in the schema.
-Do not use any node types and properties that are not explicitly provided.
-Include all necessary prefixes.
+
+Please generate a SPARQL query based on the following requirements. The output must strictly adhere to these guidelines:
+
+Output Format: Your response should consist solely of the SPARQL query. Ensure the query is fully executable without any modifications or removals necessary. Do not include any markdown syntax (e.g., triple backticks), preamble words (like "sparql"), or any other text outside the SPARQL query itself.
+
+Content Clarity: The query should be clearly structured and formatted for readability. Use appropriate SPARQL conventions, prefixes, and syntax.
+
+Precision: The query must include all necessary prefixes and conditions as specified. It should be ready to run in a SPARQL endpoint without requiring any additional editing or formatting.
+
+Exclusivity: Do not encapsulate the query in any form of quotes (single, double, or block quotes). The response must contain the SPARQL query and nothing else. Any non-query text will be considered an error and will need correction.
+
+Contextualization : Use only the node types and properties provided in the schema. Do not use any node types and properties that are not explicitly provided. Include all necessary prefixes.
+
+Entities : Use the URI provided by the additional information to construct the query, if there is any. When available, use the URI rather Literal value of the entity.
+
+Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
+
+Casting: Given the schemas, when filtering values for properties, directly use the literal values without unnecessary casting to xsd:string, since they are already expected to be strings according to the RDF schema provided.
+
+Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards. It should be capable of being executed in a compatible SPARQL endpoint without errors."
+
 Schema:
 {schema}
-Note: Be as concise as possible.
-Do not include any explanations or apologies in your responses.
-Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
-Do not include any text except the SPARQL query generated.
 
-Use the IRI provided by the additional informations to construct the query, if there is any.
 Additional information:
-
 {entities}
 
 The question is:
@@ -42,71 +53,6 @@ SPARQL_GENERATION_SELECT_PROMPT = PromptTemplate(
     input_variables=["schema", "entities", "question"], template=SPARQL_GENERATION_SELECT_TEMPLATE
 )
 
-
-SPARQL_QA_TEMPLATE = """Task: Generate a natural language response from the results of a SPARQL query.
-You are an assistant that creates well-written and human understandable answers.
-The information part contains the information provided, which you can use to construct an answer.
-The information provided is authoritative, you must never doubt it or try to use your internal knowledge to correct it.
-Make your response sound like the information is coming from an AI assistant, but don't add any information.
-If there is an error or no result, help the user by provinding the sparql query and how he can improve the question.
-
-Information:
-{context}
-
-Question: {prompt}
-Helpful Answer:"""
-SPARQL_QA_PROMPT = PromptTemplate(
-    input_variables=["context", "prompt"], template=SPARQL_QA_TEMPLATE
-)
-
-
-
-
-SPARQL_GENERATION_UPDATE_TEMPLATE = """Task: Generate a SPARQL UPDATE statement for updating a graph database.
-For instance, to add 'jane.doe@foo.bar' as a new email address for Jane Doe, the following query in backticks would be suitable:
-
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-INSERT {{
-    ?person foaf:mbox <mailto:jane.doe@foo.bar> .
-}}
-WHERE {{
-    ?person foaf:name "Jane Doe" .
-}}
-
-Instructions:
-Make the query as short as possible and avoid adding unnecessary triples.
-Use only the node types and properties provided in the schema.
-Do not use any node types and properties that are not explicitly provided.
-Include all necessary prefixes.
-Schema:
-{schema}
-Note: Be as concise as possible.
-Do not include any explanations or apologies in your responses.
-Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
-Return only the generated SPARQL query, nothing else.
-
-The information to be inserted is:
-{prompt}"""
-SPARQL_GENERATION_UPDATE_PROMPT = PromptTemplate(
-    input_variables=["schema", "prompt"], template=SPARQL_GENERATION_UPDATE_TEMPLATE
-)
-
-SPARQL_INTENT_TEMPLATE = """Task: Identify the intent of a prompt and return the appropriate SPARQL query type.
-You are an assistant that distinguishes different types of prompts and returns the corresponding SPARQL query types.
-Consider only the following query types:
-* SELECT: this query type corresponds to questions
-* UPDATE: this query type corresponds to all requests for deleting, inserting, or changing triples
-Note: Be as concise as possible.
-Do not include any explanations or apologies in your responses.
-Do not respond to any questions that ask for anything else than for you to identify a SPARQL query type.
-Do not include any unnecessary whitespaces or any text except the query type, i.e., either return 'SELECT' or 'UPDATE'.
-
-The prompt is:
-{prompt}
-Helpful Answer:"""
-SPARQL_INTENT_PROMPT = PromptTemplate(
-    input_variables=["prompt"], template=SPARQL_INTENT_TEMPLATE
-)
 
 NPC_CLASS_TEMPLATE = """
 Task: find the best URI for a given chemical name.

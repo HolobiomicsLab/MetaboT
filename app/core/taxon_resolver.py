@@ -9,9 +9,6 @@ class TaxonResolver:
         PREFIX wd: <http://www.wikidata.org/entity/>
     """
 
-    def __init__(self):
-        pass  # No need to initialize anything specific now
-
     def build_query(self, taxon_name):
         return f"""
             {self.PREFIXES}
@@ -37,11 +34,18 @@ class TaxonResolver:
     def query_wikidata(self, taxon_name : str):
         query = self.build_query(taxon_name)
         results = self.execute_query(query)
+        
         if results:
             try:
-                return "wikidata IRI is "+[result['wikidata']['value'] for result in results["results"]["bindings"]][0]
+                bindings = results["results"]["bindings"]
+                if bindings:  # Check if the list is not empty
+                    return "wikidata IRI is " + bindings[0]['wikidata']['value']
+                else:
+                    print("No results found for the given taxon name.")
+                    return None
             except KeyError:
-                print("Unexpected result format")
+                print("Unexpected result format.")
                 return None
         else:
             return None
+       
