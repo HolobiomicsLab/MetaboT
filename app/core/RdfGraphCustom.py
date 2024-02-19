@@ -2,25 +2,26 @@ from __future__ import annotations
 from typing import List, Optional, Tuple, TYPE_CHECKING
 import re
 import rdflib
-from rdflib import URIRef, Namespace, Literal
+from rdflib import URIRef, Namespace, Literal, BNode
 from rdflib.plugins.stores import sparqlstore
 from tqdm import tqdm
 import tiktoken
-
 
 class RdfGraph:
     """
     RdfGraph class handles the RDF graph database, including querying and schema generation. Graph must having defined rdfs:Class nodes.
     """
-
+    
+    # sparql query to get all classes and their comments / faster than CLS_EX_RDF
+    #TODO: handle domain and range of properties rdfs:domain and rdfs:range
     CLS_RDF = """
-    SELECT DISTINCT ?cls ?com (SAMPLE(?instance) AS ?example)
-    WHERE {
-        ?cls a rdfs:Class . 
-        OPTIONAL { ?cls rdfs:comment ?com }
-        OPTIONAL { ?instance a ?cls }
-    }
-    GROUP BY ?cls ?com
+    SELECT DISTINCT ?cls ?com ?label
+        WHERE {
+            ?cls a rdfs:Class . 
+            OPTIONAL { ?cls rdfs:comment ?com }
+            OPTIONAL { ?cls rdfs:label ?label }
+        }
+        GROUP BY ?cls ?com ?label
     """
 
     CLS_REL_RDF = """
@@ -41,7 +42,7 @@ class RdfGraph:
 
     EXCLUDED_URIS = [
         "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-        "http://www.w3.org/2000/01/rdf-schema#label",
+        # "http://www.w3.org/2000/01/rdf-schema#label",
         "http://www.w3.org/2000/01/rdf-schema#comment",
         "http://www.w3.org/2000/01/rdf-schema#Class",
         "http://xmlns.com/foaf/0.1/depiction",
@@ -51,25 +52,28 @@ class RdfGraph:
         self,
         query_endpoint: Optional[str],
         standard: Optional[str] = "rdf",
+        schema_file: Optional[str] = None,
     ) -> None:
         """
         Set up the RDFlib graph
         :param query_endpoint: SPARQL endpoint for queries, read access
         :param standard: RDF, RDFS, or OWL
+        :param schema_file: File containing the RDF graph schema, in turtle format.
         """
         self.query_endpoint = query_endpoint
         self.standard = standard
+        self.schema_file = schema_file
+        self.namespaces = None
         if self.standard not in (supported_standards := ("rdf", "rdfs", "owl")):
             raise ValueError(
                 f"Invalid standard. Supported standards are: {supported_standards}."
             )
-
-        if query_endpoint:
-            self._store = sparqlstore.SPARQLStore()
-            self._store.open(query_endpoint)
-            self.graph = rdflib.Graph(self._store, bind_namespaces="none")
-        else:
+        if not query_endpoint:
             raise ValueError("No query endpoint provided.")
+            
+        self._store = sparqlstore.SPARQLStore()
+        self._store.open(query_endpoint)
+        self.graph = rdflib.Graph(self._store, bind_namespaces="none")
 
         self.load_schema()
 
@@ -97,15 +101,6 @@ class RdfGraph:
             if not re.search(r"_([0-9a-fA-F]+)$", str(r["property"]))
             and str(r["property"]) not in self.EXCLUDED_URIS
         ]
-        
-        ## JUST IN CASE // DON't deliver the same schema than above code (less detailed)
-        # res = [(str(r["property"]), str(r["valueType"])) for r in res]
-        # # Filter out properties with alphanumeric (hexadecimal) sequences after an underscore
-        # filtered_results = []
-        # for property_uri, value_type in res:
-        #     # Regex to match properties that do NOT have a hexadecimal sequence after an underscore
-        #     if not re.search(r'_([0-9a-fA-F]+)', property_uri) and property_uri not in self.EXCLUDED_URIS:
-        #         filtered_results.append((property_uri, value_type))
 
         return filtered_results
 
@@ -123,12 +118,11 @@ class RdfGraph:
         graph = rdflib.Graph()
 
         for cl in tqdm(classes, desc="Adding classes to graph"):
-            class_ref = URIRef(cl["cls"])  # Assuming cl["cls"] is a string
+            class_ref = URIRef(cl["cls"])
             properties_and_values = self.get_prop_and_val_types(cl["cls"])
-
             for property_uri, sample_value in properties_and_values:
-                graph.add((class_ref, URIRef(property_uri), URIRef(sample_value)))
-
+                value_ref = BNode() if sample_value == "Untyped" else URIRef(sample_value)
+                graph.add((class_ref, URIRef(property_uri), value_ref))
         return graph
 
     def query(
@@ -164,14 +158,14 @@ class RdfGraph:
         raise ValueError(f"Unexpected IRI '{iri}', contains neither '#' nor '/'.")
 
     @staticmethod
-    def _format_text(text, namespaces):
+    def _replace_uri_by_prefix(text, namespaces):
         if text is None:
             return text
         for key, url in namespaces:
             text = text.replace(url, f"{key}:")
         return text
 
-    def _res_to_str(self, res, var, namespaces) -> str:
+    def _res_to_str(self, res, namespaces) -> str:
         """
         Formats a string based on a response dictionary, a specific variable, and namespaces.
 
@@ -181,15 +175,19 @@ class RdfGraph:
         :return: A formatted string using `res`, `var`, and `namespaces`, structured as `<formatted_var> (local_name, res['com'], formatted_example)`.
         """
 
-        formatted_var = self._format_text(str(res[var]), namespaces)
-        local_name = self._get_local_name(res[var])
-        formatted_example = self._format_text(str(res["example"]), namespaces)
-        return f"<{formatted_var}> ({local_name}, {res['com']}, {formatted_example})"
+        formatted_var = self._replace_uri_by_prefix(str(res['cls']), namespaces)
+        local_name = self._get_local_name(res['cls'])
+        return f"<{formatted_var}> ({local_name}, {res['label']}, {res['com']})"
     
     def remove_namespaces_in_graph(self, graph: rdflib.graph.Graph) -> rdflib.graph.Graph:
-        for prefix, namespace in graph.namespaces():
+        for prefix, _ in graph.namespaces():
             graph.namespace_manager.remove_binding(prefix)
         return graph
+    
+    def get_namespaces(self) -> List[Tuple[str, str]]:
+        if self.namespaces is None:
+            raise ValueError("No namespaces found.")
+        return self.namespaces
 
     def load_schema(self) -> None:
         """
@@ -201,30 +199,35 @@ class RdfGraph:
             graph: rdflib.graph.Graph,
         ) -> str:
             schema = graph.serialize(format="turtle")
-            namespaces = list(graph.namespaces())
-            formatted_namespaces = [(prefix, str(uri)) for prefix, uri in namespaces]
+            self.namespaces = list(graph.namespaces())
+            formatted_namespaces = [(prefix, str(uri)) for prefix, uri in self.namespaces]
             print("namespaces", formatted_namespaces)
             return (
-                f"In the following, each IRI is followed by the local name and optionally its description and optionally an example. \n"
+                f"In the following, each URI is followed by the local name and optionally its rdfs:Label, and optionally its rdfs:comment. \n"
                 + f"The RDF graph supports the following node types:\n"
-                + f'{", ".join([self._res_to_str(r, "cls", formatted_namespaces) for r in classes])}\n'
+                + f'{", ".join([self._res_to_str(r, formatted_namespaces) for r in classes])}\n'
                 + f"The namespace prefixes are: {formatted_namespaces}\n"
                 + f"The RDF graph have the following schema:\n" + f"{schema} \n"
             )
 
-        if self.standard == "rdf":
-            print("query", self.CLS_RDF)
-            clss = self.query(self.CLS_RDF)
-            graph = self.get_graph_from_classes(clss)
-            self.schema = _rdf_s_schema(clss, graph)
-            self.graph = self.remove_namespaces_in_graph(self.graph)
-            print("number of tokens", self.token_counter(self.schema))
-
-        elif self.standard == "rdfs":
-            ## TODO : implement the rdfs schema
-            pass
-        elif self.standard == "owl":
-            ## TODO : implement the owl schema
-            pass
+        if self.schema_file:
+            with open(self.schema_file, "r") as f:
+                self.schema = f.read()
+                
         else:
-            raise ValueError(f"Mode '{self.standard}' is currently not supported.")
+            if self.standard == "rdf":
+                print("query", self.CLS_RDF)
+                clss = self.query(self.CLS_RDF)
+                graph = self.get_graph_from_classes(clss)
+                self.schema = _rdf_s_schema(clss, graph)
+                self.graph = self.remove_namespaces_in_graph(self.graph)
+                print("number of tokens", self.token_counter(self.schema))
+
+            elif self.standard == "rdfs":
+                ## TODO : implement the rdfs schema
+                pass
+            elif self.standard == "owl":
+                ## TODO : implement the owl schema
+                pass
+            else:
+                raise ValueError(f"Mode '{self.standard}' is currently not supported.")

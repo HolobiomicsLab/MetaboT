@@ -67,6 +67,7 @@ class GraphSparqlQAChain(Chain):
         cleaned_query = re.sub(r"```", "", txt)
 
         return cleaned_query
+    
 
     def _call(
         self,
