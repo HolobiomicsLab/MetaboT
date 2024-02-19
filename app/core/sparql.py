@@ -82,8 +82,6 @@ class GraphSparqlQAChain(Chain):
         callbacks = _run_manager.get_child()
         prompt = inputs[self.input_key]
         entities = inputs[self.entities_key]
-        print("prompt", prompt)
-        print("entities", entities)
 
         generated_sparql = self.sparql_generation_select_chain.run(
             {"question": prompt, "entities": entities, "schema": self.graph.get_schema},
@@ -98,4 +96,6 @@ class GraphSparqlQAChain(Chain):
         )
 
         result = self.graph.query(generated_sparql)
-        return {self.output_key: result, self.sparql_key: generated_sparql}
+        
+        contextualized_result = {'query': generated_sparql, 'result': result}
+        return {self.output_key: contextualized_result}

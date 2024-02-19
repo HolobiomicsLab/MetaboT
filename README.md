@@ -11,6 +11,7 @@ The prototype is in the ```prototype``` branch (frozen) [https://github.com/holo
 
 ## Environment setup
 
+Conda is required for setting up the environment. For installation instructions, see: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
 1) Install conda
 2) To install the environment from the `environment.yml` file, use the following command:
 ```sh

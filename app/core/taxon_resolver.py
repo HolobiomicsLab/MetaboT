@@ -1,4 +1,8 @@
+import logging
 from SPARQLWrapper import SPARQLWrapper, JSON
+
+# Configure basic logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class TaxonResolver:
     ENDPOINT_URL = 'https://query.wikidata.org/sparql'
@@ -28,10 +32,10 @@ class TaxonResolver:
             results = sparql.queryAndConvert()
             return results
         except Exception as e:
-            print(f"An error occurred: {e}")
+            logging.error(f"An error occurred while querying wikidata: {e}")
             return None
 
-    def query_wikidata(self, taxon_name : str):
+    def query_wikidata(self, taxon_name : str) -> str:
         query = self.build_query(taxon_name)
         results = self.execute_query(query)
         
@@ -41,10 +45,10 @@ class TaxonResolver:
                 if bindings:  # Check if the list is not empty
                     return "wikidata IRI is " + bindings[0]['wikidata']['value']
                 else:
-                    print("No results found for the given taxon name.")
+                    logging.info("No results found for the given taxon name.")
                     return None
             except KeyError:
-                print("Unexpected result format.")
+                logging.error("Unexpected result format.")
                 return None
         else:
             return None
