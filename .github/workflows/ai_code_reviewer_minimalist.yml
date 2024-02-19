@@ -5,11 +5,9 @@ on:
     types:
       - opened
       - synchronize
-    branches: dev
-    
-permissions:
-  issues: write
-  contents: read
+
+permissions: write-all
+
 jobs:
   review:
     runs-on: ubuntu-latest
