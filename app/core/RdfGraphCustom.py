@@ -1,11 +1,17 @@
 from __future__ import annotations
-from typing import List, Optional, Tuple, TYPE_CHECKING
+from typing import List, Optional, Tuple, TYPE_CHECKING, Dict
 import re
 import rdflib
 from rdflib import URIRef, Namespace, Literal, BNode
 from rdflib.plugins.stores import sparqlstore
 from tqdm import tqdm
 import tiktoken
+import logging
+import csv
+from io import StringIO
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 class RdfGraph:
     """
@@ -96,16 +102,16 @@ class RdfGraph:
         results = self.query(query)
 
         filtered_results = [
-            (str(r["property"]), str(r["valueType"]))
+            (str(r.get("property")), str(r.get("valueType")))
             for r in results
-            if not re.search(r"_([0-9a-fA-F]+)$", str(r["property"]))
-            and str(r["property"]) not in self.EXCLUDED_URIS
+            if not re.search(r"_([0-9a-fA-F]+)$", str(r.get("property")))
+            and str(r.get("property")) not in self.EXCLUDED_URIS
         ]
 
         return filtered_results
 
     def get_graph_from_classes(
-        self, classes: List[rdflib.query.ResultRow]
+        self, classes: List[Dict]
     ) -> rdflib.graph.Graph:
         """
         Generates an RDF graph from a list of class triplets, with each class as a subject and its properties and values as predicates and objects.
@@ -116,10 +122,10 @@ class RdfGraph:
         """
 
         graph = rdflib.Graph()
-
+        
         for cl in tqdm(classes, desc="Adding classes to graph"):
-            class_ref = URIRef(cl["cls"])
-            properties_and_values = self.get_prop_and_val_types(cl["cls"])
+            class_ref = URIRef(cl.get("cls"))
+            properties_and_values = self.get_prop_and_val_types(cl.get("cls"))
             for property_uri, sample_value in properties_and_values:
                 value_ref = BNode() if sample_value == "Untyped" else URIRef(sample_value)
                 graph.add((class_ref, URIRef(property_uri), value_ref))
@@ -134,13 +140,15 @@ class RdfGraph:
         """
         from rdflib.exceptions import ParserError
         from rdflib.query import ResultRow
-
+        
         try:
-            res = self.graph.query(query_object=query)
+            res = self.graph.query(query_object=query, initNs={})
 
         except ParserError as e:
             raise ValueError("Generated SPARQL statement is invalid\n" f"{e}")
-        return [r for r in res if isinstance(r, ResultRow)]
+        
+        csv_str = res.serialize(format="csv").decode("utf-8")
+        return list(csv.DictReader(StringIO(csv_str)))
 
     @staticmethod
     def token_counter(text: str) -> int:
@@ -177,12 +185,7 @@ class RdfGraph:
 
         formatted_var = self._replace_uri_by_prefix(str(res['cls']), namespaces)
         local_name = self._get_local_name(res['cls'])
-        return f"<{formatted_var}> ({local_name}, {res['label']}, {res['com']})"
-    
-    def remove_namespaces_in_graph(self, graph: rdflib.graph.Graph) -> rdflib.graph.Graph:
-        for prefix, _ in graph.namespaces():
-            graph.namespace_manager.remove_binding(prefix)
-        return graph
+        return f"<{formatted_var}> ({local_name}, {res.get('label', '')}, {res.get('com', '')})"
     
     def get_namespaces(self) -> List[Tuple[str, str]]:
         if self.namespaces is None:
@@ -195,18 +198,18 @@ class RdfGraph:
         """
 
         def _rdf_s_schema(
-            classes: List[rdflib.query.ResultRow],
+            classes: List[Dict],
             graph: rdflib.graph.Graph,
         ) -> str:
             schema = graph.serialize(format="turtle")
             self.namespaces = list(graph.namespaces())
             formatted_namespaces = [(prefix, str(uri)) for prefix, uri in self.namespaces]
-            print("namespaces", formatted_namespaces)
+            logging.info("namespaces %s", formatted_namespaces)
             return (
-                f"In the following, each URI is followed by the local name and optionally its rdfs:Label, and optionally its rdfs:comment. \n"
+                f"The namespace prefixes are: {formatted_namespaces}\n"
+                + f"In the following, each URI is followed by the local name and optionally its rdfs:Label, and optionally its rdfs:comment. \n"
                 + f"The RDF graph supports the following node types:\n"
-                + f'{", ".join([self._res_to_str(r, formatted_namespaces) for r in classes])}\n'
-                + f"The namespace prefixes are: {formatted_namespaces}\n"
+                + f'{", ".join([self._res_to_str(row, formatted_namespaces) for row in classes])}\n'
                 + f"The RDF graph have the following schema:\n" + f"{schema} \n"
             )
 
@@ -216,12 +219,11 @@ class RdfGraph:
                 
         else:
             if self.standard == "rdf":
-                print("query", self.CLS_RDF)
+                logging.info("query %s", self.CLS_RDF)
                 clss = self.query(self.CLS_RDF)
                 graph = self.get_graph_from_classes(clss)
                 self.schema = _rdf_s_schema(clss, graph)
-                self.graph = self.remove_namespaces_in_graph(self.graph)
-                print("number of tokens", self.token_counter(self.schema))
+                logging.info("number of tokens %s", self.token_counter(self.schema))
 
             elif self.standard == "rdfs":
                 ## TODO : implement the rdfs schema
