@@ -1,5 +1,4 @@
 name: Minimalist AI Code Reviewer
-
 on:
   pull_request:
     types:
