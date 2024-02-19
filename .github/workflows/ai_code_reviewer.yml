@@ -2,8 +2,11 @@ name: AI Code Reviewer
 
 on:
   workflow_dispatch:
-  
-permissions: write-all
+  pull_request:
+    branches: dev
+permissions:
+  issues: write
+  contents: read
 jobs:
   review:
     runs-on: ubuntu-latest
