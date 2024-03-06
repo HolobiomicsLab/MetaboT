@@ -46,6 +46,7 @@ from chemical_resolver import ChemicalResolver
 from target_resolver import target_name_to_target_id
 from taxon_resolver import TaxonResolver
 from sparql import GraphSparqlQAChain
+from custom_sqlite_streamlit import SqliteSaver
 
 # langchain pydantic for base model definitions
 from langchain.pydantic_v1 import BaseModel, Field
@@ -391,8 +392,10 @@ Remember, your efficiency in routing the questions accurately and collecting res
         },
     )
 
+    memory = SqliteSaver()
+
     workflow.set_entry_point("supervisor")
-    app = workflow.compile()
+    app = workflow.compile(checkpointer=memory)
     result = process_stream(app, question)
     return result
 
