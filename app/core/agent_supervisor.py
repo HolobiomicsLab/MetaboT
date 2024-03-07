@@ -269,7 +269,7 @@ def process_stream(app, q2):
                     HumanMessage(content=q2)  # Assuming q2 is the content of the message
                 ]
             },
-            {"recursion_limit": 100},  # Additional options for the stream
+            {"configurable": {"thread_id": "2"}},  # Additional options for the stream
         ):
             # Check if "__end__" is not in the stream output
             if "__end__" not in s:
@@ -278,7 +278,7 @@ def process_stream(app, q2):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-def main(question):
+def create_run_agent(question):
     # question="How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?"
     model_id_gpt4 = "gpt-4"
     model_id = "gpt-4-0125-preview"
@@ -400,4 +400,4 @@ Remember, your efficiency in routing the questions accurately and collecting res
     return result
 
 
-print(main('Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decresing count of features as aspidosperma-type alkaloids? Group by extract.'))
+print(create_run_agent('Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decresing count of features as aspidosperma-type alkaloids? Group by extract.'))
