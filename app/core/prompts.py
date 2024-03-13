@@ -30,7 +30,7 @@ Exclusivity: Do not encapsulate the query in any form of quotes (single, double,
 
 Contextualization : Use only the node types and properties provided in the schema. Do not use any node types and properties that are not explicitly provided. Include all necessary prefixes.
 
-Entities : Use the URI provided by the additional information to construct the query, if there is any. When available, use the URI rather Literal value of the entity.
+Entities : Use the URI provided by the additional information to construct the query, if there is any. When available, use the URI rather than the Literal value of the entity.
 
 Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
 
@@ -56,8 +56,8 @@ SPARQL_GENERATION_SELECT_PROMPT = PromptTemplate(
 
 NPC_CLASS_TEMPLATE = """
 Task: find the best URI for a given chemical name.
-Instructions: choose the best URI for {chemical_name} among the results below. the best URI is the one that is the most specific to the chemical name. If none of the results are relevant, choose "none of the above".
-The URI key represent its class, among: 'NPCClass', 'NPCPathway', 'NPCSuperClass'.
+Instructions: choose the best URI for {chemical_name} among the results below. The best URI is the one that is the most specific to the chemical name. If none of the results are relevant, choose "none of the above".
+The URI key represents its class, among: 'NPCClass', 'NPCPathway', 'NPCSuperClass'.
 Return "{chemical_name} : URI, class".
 {results}
 """
