@@ -165,7 +165,7 @@ class RdfGraph:
                 return local_name
         raise ValueError(f"Unexpected IRI '{iri}', contains neither '#' nor '/'.")
 
-    @staticmethod
+
     def _replace_uri_by_prefix(text, namespaces):
         if text is None:
             return text

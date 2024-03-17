@@ -18,6 +18,7 @@ from langchain.schema import AgentAction, AgentFinish, HumanMessage
 
 # langchain output parser for OpenAI functions
 from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
+from codeinterpreterapi import CodeInterpreterSession, File
 
 # typing imports for type hinting
 from typing import (
@@ -100,6 +101,14 @@ class SparqlInput(BaseModel):
     )
 
 
+class InterpreterInput(BaseModel):
+    question: str = Field(description="the original question from the user")
+    generated_sparql_query: str = Field(description="the generated SPARQL query")
+    file_path: str = Field(
+        description="file path where result of generated SPARQL query is stored"
+    )
+
+
 # Define a list of structured tools for chemical, taxon, target, and SMILES conversion resolution.
 def tools_resolver_creator(llm):
     # Initialize chemical and taxon resolver tools with the llm model for specialized query processing.
@@ -147,6 +156,38 @@ def tool_sparql_creator(llm, graph):
     ]
     return tool_sparql
 
+#Define a tool for interpreter agent
+def interpreter_logic(question, generated_sparql_query, file_path) -> None:
+    """Interprets the results of a SPARQL query based on user's question.
+
+    Args:
+        question (str): The original question from the user.
+        generated_sparql_query (str): The generated SPARQL query.
+        file_path (str): The file path where the result of the generated SPARQL query is stored.
+
+    Returns:
+        None: Outputs the response after interpreting the SPARQL results.
+    """
+    # context manager for start/stop of the session
+    # define the user request
+    print(f"Interpreting {question}")
+    print(f"SPARQL query: {generated_sparql_query}")
+    print(f"File path: {file_path}")
+    with CodeInterpreterSession() as session:
+        user_request = f"""You are an interpreter agent. Your task is to analyze the output related to a SPARQL query, which could be in two forms:
+         If the output of the Sparql_query_runner agent is only the dictionary containing question: "{question}", generated SPARQL query: "{generated_sparql_query}" which was used to query the knowledge graph to answer to the question and path: "{file_path}" containing the SPARQL output then you should review the provided dataset from the file and SPARQL query to provide a clear, concise answer to the question. Additionally, if visualization of the results is necessary (e.g., when the SPARQL output is large or complex), you should provide an appropriate visualization, such as a bar chart, diagram, or plot, to effectively communicate the answer.
+         If the output of the Sparql_query_runner agent contains the answer to the question together with the dictionary containing the question: "{question}", generated SPARQL query: "{generated_sparql_query}" and path: "{file_path}", then you should analyze this output and provide visualization of the answer to the question. 
+         The type of visualization – bar chart, diagram, or plot – will depend on the nature of the SPARQL output and the best way to represent the answer to the question clearly.
+         Submit only the final answer to the supervisor. Indicate the format of the dataset for appropriate handling. """
+        files = [
+            File.from_path(file_path),
+        ]
+
+        # generate the response
+        response = session.generate_response(user_request, files=files)
+        # output the response (text + image)
+        response.show()
+        return response.content
 
 def create_agent(llm: ChatOpenAI, tools: list, system_prompt: str):
     """
