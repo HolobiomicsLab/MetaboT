@@ -18,6 +18,7 @@ from langchain.schema import AgentAction, AgentFinish, HumanMessage
 
 # langchain output parser for OpenAI functions
 from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
+from codeinterpreterapi import CodeInterpreterSession, File
 
 # typing imports for type hinting
 from typing import (
@@ -33,11 +34,6 @@ from typing import (
 )
 import operator
 import functools
-
-
-# Standard library imports for JSON and regular expressions
-import json
-import re
 
 # Custom imports for RDF graph manipulation and chemical, target, taxon, and SPARQL resolution
 from RdfGraphCustom import RdfGraph
@@ -72,7 +68,10 @@ def create_rdf_graph():
     endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     # Initialize the RdfGraph object with the given endpoint and the standard set to 'rdf'
     graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf")
+    with open("../graphs/graph.pkl", "wb") as output_file:
+        pickle.dump(graph, output_file)
 
+    print(graph.get_schema)
     return graph
 
 
@@ -98,6 +97,14 @@ class SparqlInput(BaseModel):
     question: str = Field(description="the original question from the user")
     entities: str = Field(
         description="strings containing for all entities, entity name and the corresponding entity identifier"
+    )
+
+
+class InterpreterInput(BaseModel):
+    question: str = Field(description="the original question from the user")
+    generated_sparql_query: str = Field(description="the generated SPARQL query")
+    file_path: str = Field(
+        description="file path where result of generated SPARQL query is stored"
     )
 
 
@@ -147,6 +154,52 @@ def tool_sparql_creator(llm, graph):
         )
     ]
     return tool_sparql
+
+
+# Define a tool for interpreter agent
+def interpreter_logic(question, generated_sparql_query, file_path) -> None:
+    """Interprets the results of a SPARQL query based on user's question.
+
+    Args:
+        question (str): The original question from the user.
+        generated_sparql_query (str): The generated SPARQL query.
+        file_path (str): The file path where the result of the generated SPARQL query is stored.
+
+    Returns:
+        None: Outputs the response after interpreting the SPARQL results.
+    """
+    # context manager for start/stop of the session
+    # define the user request
+    print(f"Interpreting {question}")
+    print(f"SPARQL query: {generated_sparql_query}")
+    print(f"File path: {file_path}")
+    with CodeInterpreterSession() as session:
+        user_request = f"""You are an interpreter agent. Your task is to analyze the output related to a SPARQL query, which could be in two forms:
+         If the output of the Sparql_query_runner agent is only the dictionary containing question: "{question}", generated SPARQL query: "{generated_sparql_query}" which was used to query the knowledge graph to answer to the question and path: "{file_path}" containing the SPARQL output then you should review the provided dataset from the file and SPARQL query to provide a clear, concise answer to the question. Additionally, if visualization of the results is necessary (e.g., when the SPARQL output is large or complex), you should provide an appropriate visualization, such as a bar chart, diagram, or plot, to effectively communicate the answer.
+         If the output of the Sparql_query_runner agent contains the answer to the question together with the dictionary containing the question: "{question}", generated SPARQL query: "{generated_sparql_query}" and path: "{file_path}", then you should analyze this output and provide visualization of the answer to the question. 
+         The type of visualization – bar chart, diagram, or plot – will depend on the nature of the SPARQL output and the best way to represent the answer to the question clearly.
+         Submit only the final answer to the supervisor. Indicate the format of the dataset for appropriate handling. """
+        files = [
+            File.from_path(file_path),
+        ]
+
+        # generate the response
+        response = session.generate_response(user_request, files=files)
+        # output the response (text + image)
+        response.show()
+        return response.content
+
+
+def tool_interpreter_creator():
+    interpreter_tool = [
+        StructuredTool.from_function(
+            name="INTERPRETER_TOOL",
+            func=interpreter_logic,
+            description="The function takes an original user question, generated sparql query, and generated sparql query result stored in file_path and returns interpreted answer content",
+            args_schema=InterpreterInput,
+        )
+    ]
+    return interpreter_tool
 
 
 def create_agent(llm: ChatOpenAI, tools: list, system_prompt: str):
@@ -260,6 +313,7 @@ def create_workflow():
     return workflow
 
 
+##CHANGE IT
 def process_stream(app, q2):
     try:
         # Iterate over the stream from app.stream()
@@ -278,8 +332,8 @@ def process_stream(app, q2):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+
 def create_run_agent(question):
-    # question="How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?"
     model_id_gpt4 = "gpt-4"
     model_id = "gpt-4-0125-preview"
     llm = create_chat_openai_instance(
@@ -292,7 +346,9 @@ def create_run_agent(question):
     tool_names = [
         tool.name for tool in tools_resolver
     ]  # List of tool names from the resolver tools.
-
+    # tool for Interpreter_agent
+    interpreter_session = CodeInterpreterSession()
+    tool_interpreter = tool_interpreter_creator()
     # Define the system message for the entity resolution agent (resolver) responsible for processing user questions.
     # This message includes instructions for the agent on how to handle different types of entities mentioned in questions.
     system_message_resolver = """You are an entity resolution agent for the Sparql_query_runner.
@@ -329,45 +385,70 @@ def create_run_agent(question):
     enpkg_agent = create_agent(llm, tools_resolver, system_message_resolver)
 
     # Create an agent for running SPARQL queries based on user requests and resolved entities provided by other agents.
-    sparql_query_agent = create_agent(
-        llm,
-        tool_sparql,
-        "You are sparql query runner, you take as input the user request and resolved entities provided by other agents, generate a SPARQL query, run it on the knowledge graph and answer the question using SPARQL_QUERY_RUNNER tool. You are required to submit only the final answer to the supervisor. If you could not get the answer, provide the SPARQL query generated.",
-    )
+    system_message_sparql = """You are SPARQL query runner, you take as input the user request and resolved entities provided by other agents, generate a SPARQL query, run it on the knowledge graph and answer to the question using SPARQL_QUERY_RUNNER tool.  
 
+    If the output of the SPARQL_QUERY_RUNNER tool consists of only generated SPARQL query and path to the file containing the SPARQL output, you will need to generate a dictionary as output from your process. This dictionary should contain exactly three key-value pairs:
+    question: The key should be a string named 'question' and the value should be the natural language question you were asked to translate into a SPARQL query.
+    generated_sparql_query: The key should be a string named 'generated_sparql_query' and the value should be the SPARQL query you generated based on the natural language question.
+    file_path: The key should be a string named 'file_path' and the value should be the absolute path to the file where the generated SPARQL query is saved. In this case provide the generated dictionary to the supervisor which would call the Interpreter agent to further interpret the results.
+
+    If the output of the SPARQL_QUERY_RUNNER tool consists of generated SPARQL query, path to the file containing the SPARQL output and the SPARQL output then you need to generate the final answer to the question based on the SPARQL output. Provide the final answer to the question together with the dictionary containing the question, generated_sparql_query and file_path. The dictionary should contain exactly three key-value pairs:
+    question: The key should be a string named 'question' and the value should be the natural language question you were asked to translate into a SPARQL query.
+    generated_sparql_query: The key should be a string named 'generated_sparql_query' and the value should be the SPARQL query you generated based on the natural language question.
+    file_path: The key should be a string named 'file_path' and the value should be the absolute path to the file where the generated SPARQL query is saved.
+     Provide the final answer to the supervisor.
+    """
+    sparql_query_agent = create_agent(llm, tool_sparql, system_message_sparql)
+
+    system_message_interpreter = """You are an interpreter agent. Your main role is to analyze outputs from the Sparql_query_runner agent using the INTERPRETER_TOOL. The outputs from the Sparql_query_runner agent can be of two types:
+
+    The output is a dictionary containing 'question', 'generated_sparql_query', and 'file_path'. This typically happens when the Sparql_query_runner agent has executed a query to fetch results for a complex question. Your task is to provide this dictionary directly to the INTERPRETER_TOOL to get a concise answer. Ensure you format the dictionary correctly and include all necessary information so the INTERPRETER_TOOL can process it efficiently.
+
+    The output directly contains the answer to the question but still comes within a dictionary that includes the 'question', 'generated_sparql_query', and 'file_path'. Even if the answer is directly provided, your role remains to pass this entire dictionary to the INTERPRETER_TOOL. The tool requires this structured input to validate and format the final answer properly.
+
+    In both scenarios, your primary function is to ensure that the INTERPRETER_TOOL receives the necessary information in a structured dictionary format. This allows the tool to analyze the SPARQL query's output thoroughly and provide a clear, concise answer to the initial question."""
+
+    interpreter_agent = create_agent(llm, tool_interpreter, system_message_interpreter)
     # Define a list of agent names that will be part of the supervisor system.
-    members = ["ENPKG_agent", "Sparql_query_runner"]
+    members = ["ENPKG_agent", "Sparql_query_runner", "Interpreter_agent"]
 
     # Define the system prompt that outlines the role and responsibilities of the supervisor agent,
     # including instructions on how to delegate tasks to specialized agents based on the user's question.
     system_prompt = """You are a supervisor. As the supervisor, your primary role is to coordinate the flow of information between agents and ensure the appropriate processing of the user question based on its content. You have access to a team of specialized agents: {members}.
 
-Here is a list of steps to help you accomplish your role:
+    Here is a list of steps to help you accomplish your role:
 
-Analyse the user question and delegate functions to the specialized agents below if needed:
-If the question mentions any of the following entities: natural product compound, chemical name, taxon name, target, SMILES structure, or numerical value delegate the question to the ENPKG_agent. ENPKG_agent would provide resolved entities needed to generate SPARQL query. For example if the question mentions either caffeine, or Desmodium heterophyllum call ENPKG_agent.
-If you have answers from the agent mentioned above, you provide those answers with the user question to the Sparql_query_runner.
+    Analyse the user question and delegate functions to the specialized agents below if needed:
+    If the question mentions any of the following entities: natural product compound, chemical name, taxon name, target, SMILES structure, or numerical value delegate the question to the ENPKG_agent. ENPKG_agent would provide resolved entities needed to generate SPARQL query. For example if the question mentions either caffeine, or Desmodium heterophyllum call ENPKG_agent.
 
-If the question does not mention chemical name, taxon name, target name, nor SMILES structure, delegate the question to the agent Sparql_query_runner. The Sparql_query_runner agent will perform further processing and answer the question.
+    If you have answers from the agent mentioned above, you provide those answers with the user question to the Sparql_query_runner.
 
-Once the Sparql_query_runner has completed its task and provided the answer, mark the process as FINISH. Do not call the Sparql_query_runner again.
+    If the question does not mention chemical name, taxon name, target name, nor SMILES structure, delegate the question to the agent Sparql_query_runner. The Sparql_query_runner agent will perform further processing and provide the path containing the SPARQL output.
 
-For example, the user provides the following question: For features from Melochia umbellata in PI mode with SIRIUS annotations, get the ones for which a feature in NI mode with the same retention time has the same SIRIUS annotation. Since the question mentions Melochia umbellata you should firstly delegate it to the ENPKG_agent which would provide wikidata IRI with TAXON_RESOLVER tool, and then, you should delegate the question together with the output generated by ENPKG_agent to the Sparql_query_runner agent.
+    If the Sparql_query_runner provides a SPARQL query and the path to the file containing the SPARQL output without directly providing the answer (implying that the answer is too long to be directly included), then delegate this information to the Interpreter_agent for further analysis and interpretation. Provide the Interpreter_agent with the question, SPARQL query, and the path to the file provided by the Sparql_query_runner. Await the Interpreter_agent's response for the final answer.
 
-Avoid calling the same agent if this agent has already been called previously and provided the answer. For example, if you have called ENPKG_agent and it provided InChIKey for chemical compound do not call this agent again.
+    Once the Interpreter_agent has completed its task mark the process as FINISH. Do not call the Interpreter_agent again.
 
-Collect the answer from Sparql_query_runner and provide the final assembled response back to the user.
-Always tell the user the SPARQL query that has been returned by the Sparql_query_runner.
+    If the Sparql_query_runner agent provides a SPARQL query, the path to the file containing the SPARQL output and final answer to the question, and there is no immediate need for further interpretation, normally mark the process as FINISH. However, if there is a need to visualize the results (regardless of the length of the SPARQL output), also call the Interpreter_agent to generate the necessary plot, chart, or graph based on the SPARQL output. The need for visualization should be assessed based on the user's request or if the nature of the data implies that visualization would enhance understanding. Once the Interpreter_agent has completed its task mark the process as FINISH. Do not call the Interpreter_agent again.
 
-If the agent does not provide the expected output mark the process as FINISH.
+    For example, the user provides the following question: For features from Melochia umbellata in PI mode with SIRIUS annotations, get the ones for which a feature in NI mode with the same retention time has the same SIRIUS annotation. Since the question mentions Melochia umbellata you should firstly delegate it to the ENPKG_agent which would provide wikidata IRI with TAXON_RESOLVER tool, then, you should delegate the question together with the output generated by ENPKG_agent to the Sparql_query_runner agent. Afterwards, if the Sparql_query_runner agent provided the answer to the question, SPARQL query and path to the file containing the SPARQL output and there is no need to visualize the output you should mark the process as FINISH. If the Sparql_query_runner agent  provided only SPARQL query and path to the file you should call Interpreter_agent which would interpret the results provided by Sparql_query_runner to generate the final response to the question.
 
-Remember, your efficiency in routing the questions accurately and collecting responses is crucial for the seamless operation of our system. If you don't know the answer to any of the steps, please say explicitly and help the user by providing a query that you think will be better interpreted.
-"""
+    Avoid calling the same agent if this agent has already been called previously and provided the answer. For example, if you have called ENPKG_agent and it provided InChIKey for chemical compound do not call this agent again.
+
+    Always tell the user the SPARQL query that has been returned by the Sparql_query_runner.
+
+    If the agent does not provide the expected output mark the process as FINISH.
+
+    Remember, your efficiency in routing the questions accurately and collecting responses is crucial for the seamless operation of our system. If you don't know the answer to any of the steps, please say explicitly and help the user by providing a query that you think will be better interpreted.
+    """
 
     # creating nodes for each agent
     enpkg_node = functools.partial(agent_node, agent=enpkg_agent, name="ENPKG_agent")
     sparql_query_node = functools.partial(
         agent_node, agent=sparql_query_agent, name="Sparql_query_runner"
+    )
+    interpreter_agent_node = functools.partial(
+        agent_node, agent=interpreter_agent, name="Interpreter_agent"
     )
     supervisor_agent = create_team_supervisor(llm_gpt4, system_prompt, members)
 
@@ -377,6 +458,8 @@ Remember, your efficiency in routing the questions accurately and collecting res
     workflow.add_node("ENPKG_agent", enpkg_node)
     workflow.add_node("Sparql_query_runner", sparql_query_node)
     workflow.add_node("supervisor", supervisor_agent)
+    workflow.add_node("Interpreter_agent", interpreter_agent_node)
+
     # connect all the edges in the graph
     for member in members:
         # We want our workers to ALWAYS "report back" to the supervisor when done
@@ -388,6 +471,7 @@ Remember, your efficiency in routing the questions accurately and collecting res
         {
             "ENPKG_agent": "ENPKG_agent",
             "Sparql_query_runner": "Sparql_query_runner",
+            "Interpreter_agent": "Interpreter_agent",
             "FINISH": END,
         },
     )
@@ -400,4 +484,6 @@ Remember, your efficiency in routing the questions accurately and collecting res
     return result
 
 
-print(create_run_agent('Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decresing count of features as aspidosperma-type alkaloids? Group by extract.'))
+print(
+    create_run_agent("How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?")
+)
