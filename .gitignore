@@ -188,5 +188,5 @@ pyrightconfig.json
 /.idea
 
 # Log and memory database
-langgraph.txt 
-langgraph_checkpoint.db
+*.log
+*.db

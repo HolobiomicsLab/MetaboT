@@ -15,7 +15,7 @@ from langgraph.checkpoint.base import BaseCheckpointSaver, Checkpoint
 
 class SqliteSaver(BaseCheckpointSaver):
     # Specify the path to the database file
-    database_path = "langgraph_checkpoint.db"  # You can change this to your preferred path
+    database_path = "langgraph_checkpoint.db"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)  # Ensure proper Pydantic initialization
@@ -70,14 +70,8 @@ class SqliteSaver(BaseCheckpointSaver):
     def put(self, config: RunnableConfig, checkpoint: Checkpoint) -> None:
         with self.cursor() as cur:
             cur.execute("INSERT OR REPLACE INTO checkpoints (thread_id, checkpoint) VALUES (?, ?)", (config["configurable"]["thread_id"], pickle.dumps(checkpoint)))
-
-
-    async def aget(self, config: RunnableConfig) -> Optional[Checkpoint]:
-        raise NotImplementedError
-
-    async def aput(self, config: RunnableConfig, checkpoint: Checkpoint) -> None:
-        raise NotImplementedError
     
+    # For debugging
     def print_database_contents(self):
         with self.cursor(transaction=False) as cur:
             cur.execute("SELECT thread_id, checkpoint FROM checkpoints")

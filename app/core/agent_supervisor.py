@@ -336,13 +336,13 @@ def create_workflow():
 
 
 ##CHANGE IT
-def process_stream(app, q2, thread_id):
+def process_stream(app, q, thread_id):
     try:
         # Iterate over the stream from app.stream()
         for s in app.stream(
             {
                 "messages": [
-                    HumanMessage(content=q2)  # Assuming q2 is the content of the message
+                    HumanMessage(content=q)  # Assuming q2 is the content of the message
                 ]
             },
             {"configurable": {"thread_id": thread_id}},  # Additional options for the stream
@@ -355,7 +355,7 @@ def process_stream(app, q2, thread_id):
         print(f"An error occurred: {e}")
 
 
-def create_run_agent(question, thread_id):
+def create_run_agent(question, thread_id=1):
     model_id_gpt4 = "gpt-4"
     model_id = "gpt-4-0125-preview"
     llm = create_chat_openai_instance(
@@ -373,7 +373,6 @@ def create_run_agent(question, thread_id):
     tool_interpreter = tool_interpreter_creator()
     tool_memory = memory_access_tool_creator()
     thread_id=thread_id
-
 
     # Define the system message for the entity resolution agent (resolver) responsible for processing user questions.
     # This message includes instructions for the agent on how to handle different types of entities mentioned in questions.
@@ -473,7 +472,7 @@ def create_run_agent(question, thread_id):
 
     # Creating the Entry Agent prompt
     # 1. Determine if the question is within the knowledge domain of our system, which includes chemistry, natural products chemistry, mass spectrometry, biology, metabolomics, knowledge graphs, and related areas.
-    entry_agent_promtp = """
+    entry_agent_prompt = """
     You are the first point of contact for user questions in a team of LLMs designed to answer technical questions involving the retrieval and interpretation of information from a Knowledge Graph Database of LC-MS Metabolomics of Natural Products. As the entry agent, you need to be very succint in your communications and answer only what you are instructed to. You should not answer questions out of your role. Your replies will be used by other LLMs as imputs, so it should strictly contain only what you are instructed to do.  
 
     Your role is to interpret the question sent by the user to you and to identify if the question is a "New Knowledge Question", a clarification you asked for a New Knowledge Question or a "Help me understand Question" and take actions based on this.
@@ -487,7 +486,7 @@ def create_run_agent(question, thread_id):
         - ONLY IF the question includes unfinished scientific taxa specification, there is need for clarification only if the question implies specificity is needed. Some examples are provided:
 		-> The question "Select all compounds from the genus Cedrus" don't need clarification since it is already specifying that wants all species in the Cedrus genus.
 		-> The question "Which species of Arabidopsis contains more compounds annotated in negative mode in the database?" don't need clarification since it wants to compare all species from the genus Arabidopsis.
-		-> The question "What compounds contain a spermidine substructure from Arabdopsis?" needs clarification since it don't implies that wants the genus and also don't specify the species. 
+		-> The question "What compounds contain a spermidine substructure from Arabidopsis?" needs clarification since it don't implies that wants the genus and also don't specify the species. 
         - For questions involving ionization mode without specification, ask whether positive or negative mode information is sought, as the database separates these details. If no ionization mode is specified, this implies that the question is asking for both positive and negative ionization mode. 
         - Remember: If the question does not mention a specific taxa and the context does not imply a need for such specificity, assume the question is asking for all taxa available in the database. There is no need for clarification in such cases.
         - Similarly, if a chemical entity isn't specified, assume the query encompasses all chemical entities within the scope of the question. 
@@ -498,7 +497,7 @@ def create_run_agent(question, thread_id):
 
     A "Help me understand Question" would be a follow up question, asking for explaining or providing more information about any previous answer. In this case, you have to:  
 
-    1. Utilize previous conversations stored in the your memory for context when replyng to it, enabling more informed explanation about previous answers. If there's no information about it in your previous interactions, you should invoke your tool {tool} to search for information on the log. The input for the tool is what you want to search in the log. Use the answer given by the tool to help you reply back to the user. If there's also no information in the log, just reply that you don't have the information the user is looking for.
+    1. Utilize previous conversations stored in the your memory for context when replying to it, enabling more informed explanation about previous answers. If there's no information about it in your previous interactions, you should invoke your tool {tool} to search for information on the log. The input for the tool is what you want to search in the log. Use the answer given by the tool to help you reply back to the user. If there's also no information in the log, just reply that you don't have the information the user is looking for.
 
     You can also identify the need for transforming a "Help me understand question" in to a "New Knowledge Question". This would be a specific case when the user wants a explanation for a previous answer, but this explanation needs new information, that has to be searched on the database. In this case, you can formulate a question to be searched in the database based on previous conversation and the new information needed. 
 
@@ -506,7 +505,7 @@ def create_run_agent(question, thread_id):
 
     """.format(tool=tool_memory.name)
 
-    entry_agent = create_agent(llm_gpt4, [tool_memory], entry_agent_promtp)
+    entry_agent = create_agent(llm_gpt4, [tool_memory], entry_agent_prompt)
 
     # creating nodes for each agent
     enpkg_node = functools.partial(agent_node, agent=enpkg_agent, name="ENPKG_agent")
@@ -558,5 +557,5 @@ def create_run_agent(question, thread_id):
 
 
 print(
-    create_run_agent("How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?")
+    create_run_agent(question="How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?", thread_id=1)
 )

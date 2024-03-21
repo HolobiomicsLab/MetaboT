@@ -1,7 +1,5 @@
 from typing import Dict, List
 from pydantic import BaseModel
-
-# Assuming the necessary imports for Langchain and other components
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.chains.base import Chain
 from langchain_community.vectorstores import Chroma
@@ -24,7 +22,7 @@ class DocumentWrapper:
 class LogMemoryAccessTool():
     def __init__(self):
         super().__init__()
-        self.log_file_path = "langgraph.txt"
+        self.log_file_path = "kgbot.log"
         self.db = None
 
 
@@ -59,10 +57,12 @@ class LogMemoryAccessTool():
             | StrOutputParser()
         )
 
-        self.qa = RetrievalQA.from_chain_type(llm=self.llm, chain_type="stuff", retriever=self.retriever)
+        #self.qa = RetrievalQA.from_chain_type(llm=self.llm, chain_type="stuff", retriever=self.retriever)
 
         response = self.rag_chain.invoke(query_input.query)
+
         #response  = self.qa({"query": query_input.query})
+
         return response
     
     def _call(self, input):
