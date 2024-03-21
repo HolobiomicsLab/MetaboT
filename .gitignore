@@ -186,3 +186,7 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 /.idea
+
+# Log and memory database
+langgraph.txt 
+langgraph_checkpoint.db
