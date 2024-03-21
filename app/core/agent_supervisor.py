@@ -42,7 +42,8 @@ from chemical_resolver import ChemicalResolver
 from target_resolver import target_name_to_target_id
 from taxon_resolver import TaxonResolver
 from sparql import GraphSparqlQAChain
-from custom_sqlite_streamlit import SqliteSaver
+from custom_sqlite_file import SqliteSaver
+from log_search import LogMemoryAccessTool
 
 # langchain pydantic for base model definitions
 from langchain.pydantic_v1 import BaseModel, Field
@@ -99,13 +100,15 @@ class SparqlInput(BaseModel):
         description="strings containing for all entities, entity name and the corresponding entity identifier"
     )
 
-
 class InterpreterInput(BaseModel):
     question: str = Field(description="the original question from the user")
     generated_sparql_query: str = Field(description="the generated SPARQL query")
     file_path: str = Field(
         description="file path where result of generated SPARQL query is stored"
     )
+
+class QueryInput(BaseModel):
+    query: str = Field(description="Query string to search in memory logs.")
 
 
 # Define a list of structured tools for chemical, taxon, target, and SMILES conversion resolution.
@@ -140,7 +143,6 @@ def tools_resolver_creator(llm):
 
     return tools_resolver
 
-
 def tool_sparql_creator(llm, graph):
     sparql_chain = GraphSparqlQAChain.from_llm(llm, graph=graph, verbose=True)
 
@@ -154,7 +156,6 @@ def tool_sparql_creator(llm, graph):
         )
     ]
     return tool_sparql
-
 
 # Define a tool for interpreter agent
 def interpreter_logic(question, generated_sparql_query, file_path) -> None:
@@ -189,7 +190,6 @@ def interpreter_logic(question, generated_sparql_query, file_path) -> None:
         response.show()
         return response.content
 
-
 def tool_interpreter_creator():
     interpreter_tool = [
         StructuredTool.from_function(
@@ -200,6 +200,28 @@ def tool_interpreter_creator():
         )
     ]
     return interpreter_tool
+
+def memory_access_tool_creator():
+    # Function adjusted to accept keyword arguments
+    def memory_tool(**kwargs) -> Dict[str, Any]:
+        # Create a QueryInput instance from kwargs
+        query_input = QueryInput(**kwargs)
+        
+        # Instantiate LogMemoryAccessTool with its default parameters
+        new_memory_tool_instance = LogMemoryAccessTool()
+
+        # Directly use the generated answer method since we're focusing on generating responses
+        return new_memory_tool_instance.generate_answer(query_input=query_input)
+
+    # Assuming StructuredTool and its usage is similar to how you'd implement it based on your framework or requirements
+    new_memory_access_tool = StructuredTool.from_function(
+        name="NEW_MEMORY_ACCESS_QUERY_RUNNER",
+        func=memory_tool,
+        description="Generates an answer based on the logs and the provided query without explicitly calling the input.",
+        args_schema=QueryInput,  # Ensure this matches your expected input schema
+    )
+    
+    return new_memory_access_tool
 
 
 def create_agent(llm: ChatOpenAI, tools: list, system_prompt: str):
@@ -314,7 +336,7 @@ def create_workflow():
 
 
 ##CHANGE IT
-def process_stream(app, q2):
+def process_stream(app, q2, thread_id):
     try:
         # Iterate over the stream from app.stream()
         for s in app.stream(
@@ -323,7 +345,7 @@ def process_stream(app, q2):
                     HumanMessage(content=q2)  # Assuming q2 is the content of the message
                 ]
             },
-            {"configurable": {"thread_id": "2"}},  # Additional options for the stream
+            {"configurable": {"thread_id": thread_id}},  # Additional options for the stream
         ):
             # Check if "__end__" is not in the stream output
             if "__end__" not in s:
@@ -333,7 +355,7 @@ def process_stream(app, q2):
         print(f"An error occurred: {e}")
 
 
-def create_run_agent(question):
+def create_run_agent(question, thread_id):
     model_id_gpt4 = "gpt-4"
     model_id = "gpt-4-0125-preview"
     llm = create_chat_openai_instance(
@@ -349,6 +371,10 @@ def create_run_agent(question):
     # tool for Interpreter_agent
     interpreter_session = CodeInterpreterSession()
     tool_interpreter = tool_interpreter_creator()
+    tool_memory = memory_access_tool_creator()
+    thread_id=thread_id
+
+
     # Define the system message for the entity resolution agent (resolver) responsible for processing user questions.
     # This message includes instructions for the agent on how to handle different types of entities mentioned in questions.
     system_message_resolver = """You are an entity resolution agent for the Sparql_query_runner.
@@ -442,8 +468,49 @@ def create_run_agent(question):
     Remember, your efficiency in routing the questions accurately and collecting responses is crucial for the seamless operation of our system. If you don't know the answer to any of the steps, please say explicitly and help the user by providing a query that you think will be better interpreted.
     """
 
+        # Create an agent for entity resolution based on the instructions provided in `system_message_resolver`.
+    enpkg_agent=create_agent(llm, tools_resolver, system_message_resolver)
+
+    # Creating the Entry Agent prompt
+    # 1. Determine if the question is within the knowledge domain of our system, which includes chemistry, natural products chemistry, mass spectrometry, biology, metabolomics, knowledge graphs, and related areas.
+    entry_agent_promtp = """
+    You are the first point of contact for user questions in a team of LLMs designed to answer technical questions involving the retrieval and interpretation of information from a Knowledge Graph Database of LC-MS Metabolomics of Natural Products. As the entry agent, you need to be very succint in your communications and answer only what you are instructed to. You should not answer questions out of your role. Your replies will be used by other LLMs as imputs, so it should strictly contain only what you are instructed to do.  
+
+    Your role is to interpret the question sent by the user to you and to identify if the question is a "New Knowledge Question", a clarification you asked for a New Knowledge Question or a "Help me understand Question" and take actions based on this.
+
+    A New Knowledge Question would be a question that requires information that you don't have available information at the moment and are not asking to explain results from previous questions. Those questions should be contained in the domains of Metabolomics, Chemistry, Mass Spectometry, Biology and Natural Products chemistry, and can include, for example, asking about compounds in a certain organism, to select and count the number of features containing a chemical entity, etc. If you identify that the question sent is a New Knowledge Question, you have to do the following:
+
+    1. Check if the question requires clarification, focusing on these considerations:
+        - ONLY IF common usual names are mentioned, there is need for clarification on the specific species or taxa, as common names could refer to multiple entities. Some examples are provided:
+		-> The question "How many compounds annotated in positive mode in the extracts of mint contain a benzene substructure?" needs clarification since mint could refer to several species of the Mentha genus.
+		-> The question "Select all compounds annotated in positive mode containing a benzene substructure" don't need specification, since it implies that it whishes to select all compounds containing the benzene substructure from all organisms.
+        - ONLY IF the question includes unfinished scientific taxa specification, there is need for clarification only if the question implies specificity is needed. Some examples are provided:
+		-> The question "Select all compounds from the genus Cedrus" don't need clarification since it is already specifying that wants all species in the Cedrus genus.
+		-> The question "Which species of Arabidopsis contains more compounds annotated in negative mode in the database?" don't need clarification since it wants to compare all species from the genus Arabidopsis.
+		-> The question "What compounds contain a spermidine substructure from Arabdopsis?" needs clarification since it don't implies that wants the genus and also don't specify the species. 
+        - For questions involving ionization mode without specification, ask whether positive or negative mode information is sought, as the database separates these details. If no ionization mode is specified, this implies that the question is asking for both positive and negative ionization mode. 
+        - Remember: If the question does not mention a specific taxa and the context does not imply a need for such specificity, assume the question is asking for all taxa available in the database. There is no need for clarification in such cases.
+        - Similarly, if a chemical entity isn't specified, assume the query encompasses all chemical entities within the scope of the question. 
+
+    2. If you detected that there's need for clarification, you have to reply what information do you want to be more precise. If there's no need for clarification, reply "Starting the processing of the question"
+    3. When the user clarified your previous doubt, you have to now reply the original question and the clarification, as your answer will be used by the next LLM.
+
+
+    A "Help me understand Question" would be a follow up question, asking for explaining or providing more information about any previous answer. In this case, you have to:  
+
+    1. Utilize previous conversations stored in the your memory for context when replyng to it, enabling more informed explanation about previous answers. If there's no information about it in your previous interactions, you should invoke your tool {tool} to search for information on the log. The input for the tool is what you want to search in the log. Use the answer given by the tool to help you reply back to the user. If there's also no information in the log, just reply that you don't have the information the user is looking for.
+
+    You can also identify the need for transforming a "Help me understand question" in to a "New Knowledge Question". This would be a specific case when the user wants a explanation for a previous answer, but this explanation needs new information, that has to be searched on the database. In this case, you can formulate a question to be searched in the database based on previous conversation and the new information needed. 
+
+    If the question is outside of your knowledge or scope, don't reply anything. Other members of your team will tackle the issue.
+
+    """.format(tool=tool_memory.name)
+
+    entry_agent = create_agent(llm_gpt4, [tool_memory], entry_agent_promtp)
+
     # creating nodes for each agent
     enpkg_node = functools.partial(agent_node, agent=enpkg_agent, name="ENPKG_agent")
+    entry_node= functools.partial(agent_node, agent=entry_agent, name="Entry_Agent")
     sparql_query_node = functools.partial(
         agent_node, agent=sparql_query_agent, name="Sparql_query_runner"
     )
@@ -455,15 +522,21 @@ def create_run_agent(question):
     # creating the workflow and adding nodes to it
     workflow = create_workflow()
 
+    workflow.add_node("Entry_Agent", entry_node)
     workflow.add_node("ENPKG_agent", enpkg_node)
     workflow.add_node("Sparql_query_runner", sparql_query_node)
     workflow.add_node("supervisor", supervisor_agent)
     workflow.add_node("Interpreter_agent", interpreter_agent_node)
 
+    #Adding entry as a node to supervisor
+    workflow.add_edge("Entry_Agent", "supervisor")
+
     # connect all the edges in the graph
     for member in members:
         # We want our workers to ALWAYS "report back" to the supervisor when done
         workflow.add_edge(member, "supervisor")
+    
+
 
     workflow.add_conditional_edges(
         "supervisor",
@@ -478,9 +551,9 @@ def create_run_agent(question):
 
     memory = SqliteSaver()
 
-    workflow.set_entry_point("supervisor")
+    workflow.set_entry_point("Entry_Agent")
     app = workflow.compile(checkpointer=memory)
-    result = process_stream(app, question)
+    result = process_stream(app, question, thread_id)
     return result
 
 
