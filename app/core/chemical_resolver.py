@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 from urllib.request import urlopen
 from urllib.parse import quote
+from urllib.error import URLError, HTTPError
 from langchain.chains.base import Chain
 from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain_community.document_loaders.csv_loader import CSVLoader
@@ -59,6 +60,7 @@ class ChemicalResolver(Chain):
 
     
     def _call(
+
         self,
         inputs: Dict[str, Any],
         run_manager: Optional[CallbackManagerForChainRun] = None,
@@ -66,6 +68,15 @@ class ChemicalResolver(Chain):
         """
         Generate SPARQL query, use it to retrieve a response from the gdb and answer
         the question.
+        
+        Args:
+          inputs (Dict[str, Any]): a dictionary that contains input data from LLM. 
+          run_manager (Optional[CallbackManagerForChainRun]): The `run_manager` parameter in the `_call`
+        method is an optional parameter of type `CallbackManagerForChainRun`. It is used to manage
+        callbacks during the execution of the method. 
+        
+        Returns:
+            Dict[str, str]: a dictionary that contains the output data from the LLM.
         """
         _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
         callbacks = _run_manager.get_child()
@@ -90,6 +101,13 @@ class ChemicalResolver(Chain):
             
     
     def csv_loader(self):
+        """
+        loads a CSV file with specified delimiter and fieldnames from a given file
+        path.
+        
+        Returns:
+            Any: a dictionary that contains the data from the CSV file.
+        """
         
         loader = CSVLoader(file_path="../data/npc_all.csv", 
                     csv_args={
@@ -100,6 +118,16 @@ class ChemicalResolver(Chain):
         return loader.load()
         
     def npc_retriever(self, data):
+        """
+        Processes input data, splits it into chunks, generates embeddings,
+        creates a FAISS database, and returns a retriever object for searching.
+        
+        Args:
+            data: a dictionary containing the data to be processed.
+        
+        Returns:
+            Any: a retriever object for searching.
+        """
         text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
         texts = text_splitter.split_documents(data)
         embeddings = OpenAIEmbeddings()
@@ -111,10 +139,27 @@ class ChemicalResolver(Chain):
 
     #Chemical name to Standard InChIKey
     def CIRconvert(self, ids):
+        """
+        Takes a chemical compound identifier, queries a specific URL to retrieve
+        its InChIKey, and returns the compound identifier along with the corresponding InChIKey.
+        
+        Args:
+            ids: a string that represents a chemical compound identifier.
+        Returns:
+            str: a string that contains the chemical compound identifier along with the corresponding InChIKey.
+        Raises:
+            HTTPError: An error occurred while querying the server.
+            URLError: An error occurred while querying the URL.
+            Exception: An unexpected error occurred.
+        """
         try:
             url = 'http://cactus.nci.nih.gov/chemical/structure/' + quote(ids) + '/stdinchikey'
             ans = urlopen(url).read().decode('utf8')
             return ": ".join([ids, ans])
-        except:
-            return 'Did not work'
+        except HTTPError as e:
+            return f'HTTPError occurred: {e.code} {e.reason}'
+        except URLError as e:
+            return f'URLError occurred: {e.reason}'
+        except Exception as e:  # Catching other exceptions as a fallback
+            return f'An unexpected error occurred: {e}'
 
