@@ -49,9 +49,17 @@ from langchain.pydantic_v1 import BaseModel, Field
 
 # langchain tools for base, structured tool definitions, and tool decorators
 from langchain.tools import BaseTool, StructuredTool, tool
-
+import os
 # Standard library import for object serialization
 import pickle
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_PROJECT"] = (
+    f"KGBot Testing - Interpreter_agent"  # Please update the name here if you want to create a new project for separating the traces.
+)
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+from langsmith import Client
+
+client = Client()
 
 
 ####################### Instantiate the graph #######################
@@ -313,7 +321,7 @@ def create_workflow():
     return workflow
 
 
-##CHANGE IT
+
 def process_stream(app, q2):
     try:
         # Iterate over the stream from app.stream()
@@ -333,7 +341,7 @@ def process_stream(app, q2):
         print(f"An error occurred: {e}")
 
 
-def create_run_agent(question):
+def create_run_agent():
     model_id_gpt4 = "gpt-4"
     model_id = "gpt-4-0125-preview"
     llm = create_chat_openai_instance(
@@ -385,7 +393,8 @@ def create_run_agent(question):
     enpkg_agent = create_agent(llm, tools_resolver, system_message_resolver)
 
     # Create an agent for running SPARQL queries based on user requests and resolved entities provided by other agents.
-    system_message_sparql = """You are SPARQL query runner, you take as input the user request and resolved entities provided by other agents, generate a SPARQL query, run it on the knowledge graph and answer to the question using SPARQL_QUERY_RUNNER tool.  
+    system_message_sparql = """You are SPARQL query runner, you take as input the user request and resolved entities provided by other agents, generate a SPARQL query, run it on the knowledge graph and answer to the question using SPARQL_QUERY_RUNNER tool. Specifically, when providing user request and resolved entities to the SPARQL_QUERY_RUNNER tool, format them as 'entity from the question has entity type entity resolution'.
+     For example, you should provide the following input: catharanthus roseus has the Wikidata IRI https://www.wikidata.org/wiki/Q161093. Ensure this format is strictly adhered to for effective querying.  
 
     If the output of the SPARQL_QUERY_RUNNER tool consists of only generated SPARQL query and path to the file containing the SPARQL output, you will need to generate a dictionary as output from your process. This dictionary should contain exactly three key-value pairs:
     question: The key should be a string named 'question' and the value should be the natural language question you were asked to translate into a SPARQL query.
@@ -476,14 +485,13 @@ def create_run_agent(question):
         },
     )
 
-    memory = SqliteSaver()
+    #memory = SqliteSaver()
 
     workflow.set_entry_point("supervisor")
-    app = workflow.compile(checkpointer=memory)
-    result = process_stream(app, question)
-    return result
+    app = workflow.compile()
+    #result = process_stream(app, question)
+    return app
 
-
-print(
-    create_run_agent("How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?")
-)
+#print(
+    #create_run_agent("How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?")
+#)
