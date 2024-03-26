@@ -42,7 +42,7 @@ class ChemicalResolver(Chain):
     def output_keys(self) -> List[str]:
         _output_keys = [self.output_key]
         return _output_keys
-    
+
     @classmethod
     def from_llm(
         cls,
@@ -58,23 +58,23 @@ class ChemicalResolver(Chain):
             qa_chain=qa_chain,
             **kwargs,
         )
-        
 
-    
     def _call(
 
         self,
         inputs: Dict[str, Any],
     ) -> Dict[str, str]:
+        # TODO [Franck]: documentation mismatch, there is no SPARQL query involved (?).
+        # Need doc about the input/output and the 2 different methods tryied to get to an answer
         """
-        Generate SPARQL query, use it to retrieve a response from the gdb and answer
-        the question.
+        Try to fetch the chemical InCHikey from National cancer institute API, if none, fallback to the NPCClass retriever, 
+        which is a specific database correspondance between chemical names and NPC class URIs from ENPKG.
         
         Args:
-          inputs (Dict[str, Any]): a dictionary that contains input data from LLM. 
+          inputs (Dict[str, Any]): a dictionary that contains the chemical name string. 
         
         Returns:
-            Dict[str, str]: a dictionary that contains the output data from the LLM.
+            Dict[str, str]: a dictionary that contains the output chemical name and corresponding URI.
         """
         prompt = inputs[self.input_key]
         
@@ -113,7 +113,8 @@ class ChemicalResolver(Chain):
     }
                     )
         return loader.load()
-        
+
+    # TODO [Franck]: Documentation needed
     def npc_retriever(self, data):
         """
         Processes input data, splits it into chunks, generates embeddings,
@@ -126,13 +127,15 @@ class ChemicalResolver(Chain):
             Any: a retriever object for searching.
         """
         text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+        # chunk_size=1000 amounts to ~6 lignes in file npc_all.csv
         texts = text_splitter.split_documents(data)
         embeddings = OpenAIEmbeddings()
         db = FAISS.from_documents(texts, embeddings)
+
         return db.as_retriever()
     
 
-    #Chemical name to Standard InChIKey
+    # Chemical name to Standard InChIKey
     def CIRconvert(self, ids):
         """
         Takes a chemical compound identifier, queries a specific URL to retrieve
@@ -148,10 +151,13 @@ class ChemicalResolver(Chain):
             Exception: An unexpected error occurred.
         """
         try:
-            url = 'http://cactus.nci.nih.gov/chemical/structure/' + quote(ids) + '/stdinchikey'
+            # TODO [Franck]: MIME type should be set to "text/plain" explicitely, see https://cactus.nci.nih.gov/chemical/structure/stdinchikey
+            url = 'http://cactus.nci.nih.gov/chemical/structure/' + \
+                quote(ids) + '/stdinchikey'
             ans = urlopen(url).read().decode('utf8')
             logger.info(f"Found InChIKey: {ans} for {ids}")
             return ": ".join([ids, ans])
+          
         except HTTPError as e:
             logger.error('HTTPError occurred: %s %s', e.code, e.reason)
         except URLError as e:

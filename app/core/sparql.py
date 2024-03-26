@@ -66,7 +66,8 @@ class GraphSparqlQAChain(Chain):
         Returns:
           GraphSparqlQAChain : A GraphSparqlQAChain object with the specified language model and prompt template.
         """
-        sparql_generation_select_chain = LLMChain(llm=llm, prompt=sparql_select_prompt)
+        sparql_generation_select_chain = LLMChain(
+            llm=llm, prompt=sparql_select_prompt)
 
         return cls(
             sparql_generation_select_chain=sparql_generation_select_chain,
@@ -130,12 +131,14 @@ class GraphSparqlQAChain(Chain):
 
         return temp_file_path
 
+
     def _call(
         self,
         inputs: Dict[str, Any],
         run_manager: Optional[CallbackManagerForChainRun] = None,
     ) -> Dict[str, str]:
         """
+
         Query the Knowledge Graph after generating SPARQL query and return the results.
 
         Args:
@@ -145,6 +148,7 @@ class GraphSparqlQAChain(Chain):
 
         Returns:
           dict: A dictionary containing the contextualized sparql result.
+
         """
         _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
         callbacks = _run_manager.get_child()
@@ -152,18 +156,25 @@ class GraphSparqlQAChain(Chain):
         entities = inputs[self.entities_key]
 
         generated_sparql = self.sparql_generation_select_chain.run(
-            {"question": prompt, "entities": entities, "schema": self.graph.get_schema},
+            {
+                "question": prompt,
+                "entities": entities,
+                "schema": self.graph.get_schema
+            },
             callbacks=callbacks,
         )
 
+        # TODO [Franck]: why do we need this? The prompt explicitely says to NOT return any markdown, still there might be some?
         generated_sparql = self.remove_markdown_quotes(generated_sparql)
 
-        _run_manager.on_text("Generated SPARQL:", end="\n", verbose=self.verbose)
+        _run_manager.on_text("Generated SPARQL:",
+                             end="\n", verbose=self.verbose)
         _run_manager.on_text(
             generated_sparql, color="green", end="\n", verbose=self.verbose
         )
 
         result = self.graph.query(generated_sparql)
+
 
         # creating csv temp file inside the _call
 
@@ -206,5 +217,6 @@ class GraphSparqlQAChain(Chain):
                 "result": result,
                 "temp_file_path": temp_file_path,  # Add the file path to the results
             }
+
 
         return {self.output_key: contextualized_result}
