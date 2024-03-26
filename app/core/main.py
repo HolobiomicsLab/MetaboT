@@ -2,7 +2,7 @@ from prompts import (
     SPARQL_GENERATION_SELECT_PROMPT,
     SPARQL_QA_PROMPT,
 )
-from RdfGraphCustom import RdfGraph
+from app.core.RdfGraphCustom import RdfGraph
 from langchain.chat_models import ChatOpenAI
 from sparql import GraphSparqlQAChain
 from chemical_resolver import ChemicalResolver

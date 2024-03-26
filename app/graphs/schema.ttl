@@ -1,0 +1,357 @@
+@prefix ns1: <https://enpkg.commons-lab.org/kg/> .
+@prefix ns2: <https://enpkg.commons-lab.org/module/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ns1:LFpair ns1:has_cosine xsd:float ;
+    ns1:has_mass_difference xsd:float ;
+    ns1:has_member ns1:LCMSFeature,
+        ns1:MS2Spectrum ;
+    ns1:has_mn_params [ ] .
+
+ns1:LabBlank rdfs:label xsd:string ;
+    ns1:has_LCMS ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg .
+
+ns1:LabQc rdfs:label xsd:string ;
+    ns1:has_LCMS ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg .
+
+ns1:RawMaterial ns1:has_LCMS xsd:string,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_lab_process ns1:LabExtract,
+        ns1:LabObject ;
+    ns1:has_lcms_feature_list xsd:string,
+        ns1:LabExtract,
+        ns1:LabObject,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_sirius_annotation xsd:string,
+        ns1:LabExtract,
+        ns1:LabObject,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_unresolved_taxon [ ] ;
+    ns1:has_wd_id ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:submitted_taxon xsd:string ;
+    ns2:has_broad_organe [ ] ;
+    ns2:has_organe [ ] ;
+    ns2:has_subsystem [ ] ;
+    ns2:has_tissue [ ] .
+
+ns1:SpectralPair ns1:has_cosine xsd:float ;
+    ns1:has_mass_difference xsd:float ;
+    ns1:has_member ns1:LCMSFeature,
+        ns1:MS2Spectrum ;
+    ns1:has_mn_params [ ] .
+
+ns1:ChemicalEntity ns1:has_npc_class ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_smiles xsd:string ;
+    ns1:has_wd_id ns1:WDChemical,
+        ns1:XRef ;
+    ns2:has_chembl_id ns1:XRef,
+        ns2:ChEMBLChemical .
+
+ns1:InChIkey ns1:has_npc_class ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_smiles xsd:string ;
+    ns1:has_wd_id ns1:WDChemical,
+        ns1:XRef ;
+    ns2:has_chembl_id ns1:XRef,
+        ns2:ChEMBLChemical .
+
+ns2:ChEMBLAssayResults rdfs:label xsd:string ;
+    ns2:activity_relation xsd:string ;
+    ns2:activity_type xsd:string ;
+    ns2:activity_unit xsd:string ;
+    ns2:activity_value xsd:float ;
+    ns2:assay_id ns1:XRef,
+        ns2:ChEMBLAssay ;
+    ns2:stated_in_document ns1:XRef,
+        ns2:ChEMBLDocument ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget ;
+    ns2:target_name xsd:string .
+
+ns2:ChEMBLDocument ns2:journal_name xsd:string .
+
+ns1:BioAssayResults rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns1:SiriusCanopusAnnotation rdfs:label xsd:string ;
+    ns1:has_canopus_npc_class ns1:ChemicalTaxonomy,
+        ns1:NPCClass ;
+    ns1:has_canopus_npc_class_prob xsd:float ;
+    ns1:has_canopus_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCPathway ;
+    ns1:has_canopus_npc_pathway_prob xsd:float ;
+    ns1:has_canopus_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCSuperclass ;
+    ns1:has_canopus_npc_superclass_prob xsd:float .
+
+ns1:SiriusStructureAnnotation rdfs:label xsd:string ;
+    ns1:has_InChIkey2D ns1:InChIkey2D ;
+    ns1:has_cosmic_score xsd:float ;
+    ns1:has_ionization xsd:string ;
+    ns1:has_sirius_adduct xsd:string ;
+    ns1:has_sirius_score xsd:float ;
+    ns1:has_zodiac_score xsd:float .
+
+ns1:Spec2VecDoc rdfs:label xsd:string ;
+    ns1:has_spec2vec_loss ns1:Spec2VecLoss,
+        ns1:spec2vec ;
+    ns1:has_spec2vec_peak ns1:Spec2VecPeak,
+        ns1:spec2vec .
+
+ns1:Spec2VecLoss rdfs:label xsd:string ;
+    ns1:has_value xsd:float .
+
+ns1:Spec2VecPeak rdfs:label xsd:string ;
+    ns1:has_value xsd:float .
+
+ns2:ChEMBLChemical ns2:has_chembl_activity ns1:XRef,
+        ns2:ChEMBLAssayResults .
+
+ns2:L610ugml rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float .
+
+ns2:Ldono10ugml rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Ldono2ugml rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:SwissTPHBioAssay rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Tbrucei10ugml rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Tbrucei2ugml rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns2:Tcruzi10ugml rdfs:label xsd:string ;
+    ns2:inhibition_percentage xsd:float ;
+    ns2:target_id ns1:XRef,
+        ns2:ChEMBLTarget .
+
+ns1:InChIkey2D ns1:has_npc_class ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCClass,
+        ns1:NPCPathway,
+        ns1:NPCSuperclass ;
+    ns1:has_smiles xsd:string ;
+    ns1:is_InChIkey2D_of ns1:ChemicalEntity,
+        ns1:InChIkey .
+
+ns1:LCMSFeature rdfs:label xsd:string ;
+    ns1:fast_search_gnpsdata_index_analog [ ] ;
+    ns1:fast_search_gnpsdata_index_no_analog [ ] ;
+    ns1:fast_search_gnpslibrary_analog [ ] ;
+    ns1:fast_search_gnpslibrary_no_analog [ ] ;
+    ns1:gnps_dashboard_view [ ] ;
+    ns1:has_canopus_annotation ns1:Annotation,
+        ns1:SiriusCanopusAnnotation ;
+    ns1:has_fbmn_ci [ ] ;
+    ns1:has_feature_area xsd:float ;
+    ns1:has_ionization xsd:string ;
+    ns1:has_isdb_annotation ns1:Annotation,
+        ns1:IsdbAnnotation ;
+    ns1:has_parent_mass xsd:float ;
+    ns1:has_raw_spectrum xsd:string ;
+    ns1:has_relative_feature_area xsd:float ;
+    ns1:has_retention_time xsd:float ;
+    ns1:has_row_id xsd:decimal ;
+    ns1:has_sirius_annotation ns1:Annotation,
+        ns1:IsdbAnnotation,
+        ns1:SiriusStructureAnnotation ;
+    ns1:has_spec2vec_doc ns1:Spec2VecDoc,
+        ns1:spec2vec ;
+    ns1:has_usi xsd:string .
+
+ns1:MS2Spectrum rdfs:label xsd:string ;
+    ns1:fast_search_gnpsdata_index_analog [ ] ;
+    ns1:fast_search_gnpsdata_index_no_analog [ ] ;
+    ns1:fast_search_gnpslibrary_analog [ ] ;
+    ns1:fast_search_gnpslibrary_no_analog [ ] ;
+    ns1:gnps_dashboard_view [ ] ;
+    ns1:has_canopus_annotation ns1:Annotation,
+        ns1:SiriusCanopusAnnotation ;
+    ns1:has_fbmn_ci [ ] ;
+    ns1:has_feature_area xsd:float ;
+    ns1:has_ionization xsd:string ;
+    ns1:has_isdb_annotation ns1:Annotation,
+        ns1:IsdbAnnotation ;
+    ns1:has_parent_mass xsd:float ;
+    ns1:has_raw_spectrum xsd:string ;
+    ns1:has_relative_feature_area xsd:float ;
+    ns1:has_retention_time xsd:float ;
+    ns1:has_row_id xsd:decimal ;
+    ns1:has_sirius_annotation ns1:Annotation,
+        ns1:IsdbAnnotation,
+        ns1:SiriusStructureAnnotation ;
+    ns1:has_spec2vec_doc ns1:Spec2VecDoc,
+        ns1:spec2vec ;
+    ns1:has_usi xsd:string .
+
+ns1:IsdbAnnotation rdfs:label xsd:string ;
+    ns1:has_InChIkey2D ns1:InChIkey2D ;
+    ns1:has_adduct xsd:string ;
+    ns1:has_consistency_score xsd:float ;
+    ns1:has_final_score xsd:float ;
+    ns1:has_spectral_score xsd:float ;
+    ns1:has_taxo_score xsd:float .
+
+ns1:LCMSAnalysisNeg ns1:has_gnpslcms_link [ ] ;
+    ns1:has_lcms_feature_list ns1:LCMSFeatureList ;
+    ns1:has_massive_doi [ ] ;
+    ns1:has_massive_license [ ] .
+
+ns1:LCMSFeatureList ns1:has_ionization xsd:string ;
+    ns1:has_lcms_feature ns1:LCMSFeature,
+        ns1:MS2Spectrum .
+
+ns1:Annotation rdfs:label xsd:string ;
+    ns1:has_InChIkey2D ns1:InChIkey2D ;
+    ns1:has_adduct xsd:string ;
+    ns1:has_canopus_npc_class ns1:ChemicalTaxonomy,
+        ns1:NPCClass ;
+    ns1:has_canopus_npc_class_prob xsd:float ;
+    ns1:has_canopus_npc_pathway ns1:ChemicalTaxonomy,
+        ns1:NPCPathway ;
+    ns1:has_canopus_npc_pathway_prob xsd:float ;
+    ns1:has_canopus_npc_superclass ns1:ChemicalTaxonomy,
+        ns1:NPCSuperclass ;
+    ns1:has_canopus_npc_superclass_prob xsd:float ;
+    ns1:has_consistency_score xsd:float ;
+    ns1:has_cosmic_score xsd:float ;
+    ns1:has_final_score xsd:float ;
+    ns1:has_ionization xsd:string ;
+    ns1:has_sirius_adduct xsd:string ;
+    ns1:has_sirius_score xsd:float ;
+    ns1:has_spectral_score xsd:float ;
+    ns1:has_taxo_score xsd:float ;
+    ns1:has_zodiac_score xsd:float .
+
+ns1:LCMSAnalysisPos ns1:has_gnpslcms_link [ ] ;
+    ns1:has_lcms_feature_list ns1:LCMSFeatureList ;
+    ns1:has_massive_doi [ ] ;
+    ns1:has_massive_license [ ] ;
+    ns1:has_sirius_annotation ns1:LCMSFeatureList .
+
+ns1:LabExtract rdfs:label xsd:string ;
+    ns1:has_LCMS ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg,
+        ns1:LCMSAnalysisPos ;
+    ns1:has_lcms_feature_list ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisPos ;
+    ns1:has_sirius_annotation ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisPos ;
+    ns2:has_bioassay_results ns1:BioAssayResults,
+        ns2:L610ugml,
+        ns2:Ldono10ugml,
+        ns2:Ldono2ugml,
+        ns2:SwissTPHBioAssay,
+        ns2:Tbrucei10ugml,
+        ns2:Tbrucei2ugml,
+        ns2:Tcruzi10ugml .
+
+ns1:LabObject rdfs:label xsd:string ;
+    ns1:has_LCMS xsd:string,
+        ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisNeg,
+        ns1:LCMSAnalysisPos,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_lab_process ns1:LabExtract,
+        ns1:LabObject ;
+    ns1:has_lcms_feature_list xsd:string,
+        ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisPos,
+        ns1:LabExtract,
+        ns1:LabObject,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_sirius_annotation xsd:string,
+        ns1:LCMSAnalysis,
+        ns1:LCMSAnalysisPos,
+        ns1:LabExtract,
+        ns1:LabObject,
+        ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:has_unresolved_taxon [ ] ;
+    ns1:has_wd_id ns1:WDTaxon,
+        ns1:XRef ;
+    ns1:submitted_taxon xsd:string ;
+    ns2:has_bioassay_results ns1:BioAssayResults,
+        ns2:L610ugml,
+        ns2:Ldono10ugml,
+        ns2:Ldono2ugml,
+        ns2:SwissTPHBioAssay,
+        ns2:Tbrucei10ugml,
+        ns2:Tbrucei2ugml,
+        ns2:Tcruzi10ugml ;
+    ns2:has_broad_organe [ ] ;
+    ns2:has_organe [ ] ;
+    ns2:has_subsystem [ ] ;
+    ns2:has_tissue [ ] .
+
+ns1:spec2vec rdfs:label xsd:string ;
+    ns1:has_spec2vec_loss ns1:Spec2VecLoss,
+        ns1:spec2vec ;
+    ns1:has_spec2vec_peak ns1:Spec2VecPeak,
+        ns1:spec2vec ;
+    ns1:has_value xsd:float .
+
+ns1:LCMSAnalysis ns1:has_gnpslcms_link [ ] ;
+    ns1:has_lcms_feature_list ns1:LCMSFeatureList ;
+    ns1:has_massive_doi [ ] ;
+    ns1:has_massive_license [ ] ;
+    ns1:has_sirius_annotation ns1:LCMSFeatureList .
+
+ns2:ChEMBLTarget ns2:target_name xsd:string .
+
+ 
+
