@@ -15,14 +15,20 @@ from prompts import (
 from langchain.chains.llm import LLMChain
 import re
 
-
 import json
 import csv
 import tempfile
+from pathlib import Path
+import logging.config
+
+parent_dir = Path(__file__).parent.parent
+config_path = parent_dir / "config" / "logging.ini"
+logging.config.fileConfig(config_path, disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
+##Question-answering against an RDF or OWL graph by generating SPARQL statements.
 class GraphSparqlQAChain(Chain):
-    """Question-answering against an RDF or OWL graph by generating SPARQL statements."""
 
     graph: RdfGraph = Field(exclude=True)
     sparql_generation_select_chain: LLMChain
@@ -49,13 +55,19 @@ class GraphSparqlQAChain(Chain):
         **kwargs: Any,
     ) -> GraphSparqlQAChain:
         """
-        Initializes a `GraphSparqlQAChain` object using a base language model (`BaseLanguageModel`) for SPARQL query generation.
+        Takes a language model and prompt template as input to create a
+        GraphSparqlQAChain object.
 
-        :param cls: Reference to the class itself, indicating the method belongs to the class.
-        :param llm: An instance of `BaseLanguageModel`, utilized for generating natural language prompts for SPARQL query generation.
-        :return: An instance of `GraphSparqlQAChain`.
+        Args:
+          cls: It is a conventional name used in class methods to refer to the class object.
+          llm (BaseLanguageModel): The large language model (LLM) used to generate SPARQL queries.
+          sparql_select_prompt (BasePromptTemplate): The prompt template used to generate SPARQL queries.
+
+        Returns:
+          GraphSparqlQAChain : A GraphSparqlQAChain object with the specified language model and prompt template.
         """
-        sparql_generation_select_chain = LLMChain(llm=llm, prompt=sparql_select_prompt)
+        sparql_generation_select_chain = LLMChain(
+            llm=llm, prompt=sparql_select_prompt)
 
         return cls(
             sparql_generation_select_chain=sparql_generation_select_chain,
@@ -63,9 +75,15 @@ class GraphSparqlQAChain(Chain):
         )
 
     @staticmethod
-    def remove_markdown_quotes(query_with_markdown):
+    def remove_markdown_quotes(query_with_markdown: str) -> str:
         """
-        The `remove_markdown_quotes` function removes markdown quotes from a given query.
+        removes markdown quotes from a given string.
+
+        Args:
+          query_with_markdown (str): input string
+
+        Returns:
+          str : cleaned input string without the markdown quotes.
         """
         txt = re.sub(r"```sparql", "", query_with_markdown)
         cleaned_query = re.sub(r"```", "", txt)
@@ -74,6 +92,16 @@ class GraphSparqlQAChain(Chain):
 
     @staticmethod
     def json_to_csv(json_data):
+        """
+        Converts JSON data into a CSV file and returns the path to the temporary
+        CSV file.
+
+        Args:
+          json_data: the JSON data to be converted into a CSV file.
+
+        Returns:
+          str or None: the path to the temporary CSV file if the JSON data is not empty and is a list, otherwise None.
+        """
         # Convert JSON data to Python list of dictionaries if it's a string
         if isinstance(json_data, str):
             data = json.loads(json_data)
@@ -98,10 +126,11 @@ class GraphSparqlQAChain(Chain):
                 temp_file_path = temp_file.name
             else:
                 # Handle the case where data is empty or not a list
-                print("JSON data is empty or not in the expected format.")
+                logger.info("JSON data is empty or not in the expected format.")
                 temp_file_path = None
 
         return temp_file_path
+
 
     def _call(
         self,
@@ -109,8 +138,17 @@ class GraphSparqlQAChain(Chain):
         run_manager: Optional[CallbackManagerForChainRun] = None,
     ) -> Dict[str, str]:
         """
-        Generate SPARQL query, use it to retrieve a response from the gdb and answer
-        the question.
+
+        Query the Knowledge Graph after generating SPARQL query and return the results.
+
+        Args:
+          inputs (Dict[str, Any]): takes inputs in the form of a dictionary with keys `self.input_key` and `self.entities_key`.
+          run_manager (Optional[CallbackManagerForChainRun]): an optional parameter of type `CallbackManagerForChainRun`. It is used to manage
+        callbacks during the execution of the method.
+
+        Returns:
+          dict: A dictionary containing the contextualized sparql result.
+
         """
         _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
         callbacks = _run_manager.get_child()
@@ -118,23 +156,31 @@ class GraphSparqlQAChain(Chain):
         entities = inputs[self.entities_key]
 
         generated_sparql = self.sparql_generation_select_chain.run(
-            {"question": prompt, "entities": entities, "schema": self.graph.get_schema},
+            {
+                "question": prompt,
+                "entities": entities,
+                "schema": self.graph.get_schema
+            },
             callbacks=callbacks,
         )
 
+        # TODO [Franck]: why do we need this? The prompt explicitely says to NOT return any markdown, still there might be some?
         generated_sparql = self.remove_markdown_quotes(generated_sparql)
 
-        _run_manager.on_text("Generated SPARQL:", end="\n", verbose=self.verbose)
+        _run_manager.on_text("Generated SPARQL:",
+                             end="\n", verbose=self.verbose)
         _run_manager.on_text(
             generated_sparql, color="green", end="\n", verbose=self.verbose
         )
 
         result = self.graph.query(generated_sparql)
 
+
         # creating csv temp file inside the _call
 
         temp_file_path = self.json_to_csv(result)
-        print("Saving results to file: ", temp_file_path)
+        
+        logger.info("Saving results to file: %s", temp_file_path)   
 
         # Convert the SPARQL query output to  a string if it's not already
 
@@ -167,8 +213,10 @@ class GraphSparqlQAChain(Chain):
         else:
             contextualized_result = {
                 "query": generated_sparql,
-                "result": result,  # Include the result as the total token count is within the LLM context window
+                # Include the result as the total token count is within the LLM context window
+                "result": result,
                 "temp_file_path": temp_file_path,  # Add the file path to the results
             }
+
 
         return {self.output_key: contextualized_result}
