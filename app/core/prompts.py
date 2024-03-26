@@ -1,8 +1,7 @@
 from langchain_core.prompts.prompt import PromptTemplate
 
 
-
-# Here are some fixes to common errors: 
+# Here are some fixes to common errors:
 # Check that the query you tried doesn't make any of them and try the RunSparqlQuery tool again with a new query.
 # 1. If using feature make sure you access it with this: ?lcms enpkg:has_lcms_feature_list/enpkg:has_lcms_feature ?feature
 # 2. URI with prefix should NOT be in quotation marks (don't do this - 'enpkg:npc_Saponaceolide_triterpenoids')
@@ -48,9 +47,9 @@ The question is:
 {question}"""
 
 
-
 SPARQL_GENERATION_SELECT_PROMPT = PromptTemplate(
-    input_variables=["schema", "entities", "question"], template=SPARQL_GENERATION_SELECT_TEMPLATE
+    input_variables=["schema", "entities", "question"],
+    template=SPARQL_GENERATION_SELECT_TEMPLATE,
 )
 
 
@@ -64,10 +63,5 @@ Return "{chemical_name} : URI, class".
 
 
 NPC_CLASS_PROMPT = PromptTemplate(
-    template=NPC_CLASS_TEMPLATE,
-    input_variables=["chemical_name", "results"]
+    template=NPC_CLASS_TEMPLATE, input_variables=["chemical_name", "results"]
 )
-
-
-
-
