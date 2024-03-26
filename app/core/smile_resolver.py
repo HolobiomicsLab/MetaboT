@@ -1,5 +1,11 @@
 import requests
+from pathlib import Path
+import logging.config
 
+parent_dir = Path(__file__).parent.parent
+config_path = parent_dir / "config" / "logging.ini"
+logging.config.fileConfig(config_path, disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 def smiles_to_inchikey(smiles: str) -> str:
     """
@@ -16,12 +22,13 @@ def smiles_to_inchikey(smiles: str) -> str:
 
     """
     url = "https://structure.gnps2.org/inchikey"
-    # # https://ccms-ucsd.github.io/GNPSDocumentation/api/#structure-conversion
     params = {"smiles": smiles}
+    logger.info("Requesting InChIKey from GNPS API with params %s", params)
     response = requests.get(url, params=params)
 
     if response.status_code == 200:
+        logger.info("InChIKey response: %s", response.text)
         return "InChIKey is " + response.text
     else:
-        # Handle errors (e.g., invalid SMILES string or server issue)
+        logger.error("error response from GNPS API: %s", response.status_code)
         response.raise_for_status()

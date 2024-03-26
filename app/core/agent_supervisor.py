@@ -53,6 +53,14 @@ from langchain.tools import BaseTool, StructuredTool, tool
 
 # Standard library import for object serialization
 import pickle
+from pathlib import Path
+import logging.config
+
+parent_dir = Path(__file__).parent.parent
+config_path = parent_dir / "config" / "logging.ini"
+logging.config.fileConfig(config_path, disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
+
 
 
 ####################### Instantiate the graph #######################
@@ -68,7 +76,7 @@ def create_rdf_graph():
     try:
         with open("../graphs/graph.pkl", "rb") as input_file:
             graph = pickle.load(input_file)
-            print(graph.get_schema)
+            logger.info(f"schema: {graph.get_schema}")
             return graph
     except FileNotFoundError:
         pass
@@ -80,8 +88,7 @@ def create_rdf_graph():
 
     with open("../graphs/graph.pkl", "wb") as output_file:
         pickle.dump(graph, output_file)
-    print(graph.get_schema)
-
+    logger.info(f"schema: {graph.get_schema}")
     return graph
 
 
@@ -209,9 +216,9 @@ def interpreter_logic(
     """
     # context manager for start/stop of the session
     # define the user request
-    print(f"Interpreting {question}")
-    print(f"SPARQL query: {generated_sparql_query}")
-    print(f"File path: {file_path}")
+    logger.info(f"Interpreting {question}")
+    logger.info(f"SPARQL query: {generated_sparql_query}")
+    logger.info(f"File path: {file_path}")
     with CodeInterpreterSession() as session:
         user_request = f"""You are an interpreter agent. Your task is to analyze the output related to a SPARQL query, which could be in two forms:
          If the output of the Sparql_query_runner agent is only the dictionary containing question: "{question}", generated SPARQL query: "{generated_sparql_query}" which was used to query the knowledge graph to answer to the question and path: "{file_path}" containing the SPARQL output then you should review the provided dataset from the file and SPARQL query to provide a clear, concise answer to the question. Additionally, if visualization of the results is necessary (e.g., when the SPARQL output is large or complex), you should provide an appropriate visualization, such as a bar chart, diagram, or plot, to effectively communicate the answer.
@@ -406,10 +413,10 @@ def process_stream(app, q, thread_id):
         ):
             # Check if "__end__" is not in the stream output
             if "__end__" not in s:
-                print(s)  # Print the stream output
-                print("----")  # Print the delimiter
+                logger.info(s)  # logger.info the stream output
+                logger.info("----")  # logger.info the delimiter
     except Exception as e:
-        print(f"An error occurred: {e}")
+        logger.error(f"An error occurred: {e}")
 
 #TODO: what is the type of return value?
 #TODO [Benjamin]: quite a long function. Can we break it down? prompts are constants, should be in configuration file
@@ -440,11 +447,11 @@ def create_run_agent(question : str, thread_id : int =1):
     You should analyze the question and provide resolved entities to the supervisor. Here is a list of steps to help you accomplish your role:
     If the question ask anything about any entities that could be natural product compound, find the relevant IRI to this chemical class using CHEMICAL_RESOLVER. Input is the chemical class name. For example, if salicin is mentioned in the question, provide its IRI using CHEMICAL_RESOLVER, input is salicin. 
 
-    If a taxon is mentionned, find what is its wikidata IRI with TAXON_RESOLVER. Input is the taxon name. For example, if the question mentions acer saccharum, you should provide it's wikidata IRI using TAXON_RESOLVER tool.")
+    If a taxon is mentioned, find what is its wikidata IRI with TAXON_RESOLVER. Input is the taxon name. For example, if the question mentions acer saccharum, you should provide it's wikidata IRI using TAXON_RESOLVER tool.
 
-    If a target is mentionned, find the ChEMBLTarget IRI of the target with TARGET_RESOLVER. Input is the target name.
+    If a target is mentioned, find the ChEMBLTarget IRI of the target with TARGET_RESOLVER. Input is the target name.
 
-    If a SMILE structure is mentionned, find what is the InChIKey notation of the molecule with SMILE_CONVERTER. Input is the SMILE structure. For example, if there is a string with similar structure to CCC12CCCN3C1C4(CC3) in the question, provide it to SMILE_CONVERTER.
+    If a SMILE structure is mentioned, find what is the InChIKey notation of the molecule with SMILE_CONVERTER. Input is the SMILE structure. For example, if there is a string with similar structure to CCC12CCCN3C1C4(CC3) in the question, provide it to SMILE_CONVERTER.
         
     Give me units relevant to numerical values in this question. Return nothing if units for value is not provided.
     Be sure to say that these are the units of the quantities found in the knowledge graph.
@@ -458,7 +465,7 @@ def create_run_agent(question : str, thread_id : int =1):
     "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
 
 
-     You are required to submit only the final answer to the supervisor.
+     You are required to submit only the final answer to the supervisor. 
         
     """.format(
         tool_names="\n".join(tool_names)
@@ -504,7 +511,7 @@ def create_run_agent(question : str, thread_id : int =1):
     Analyse the user question and delegate functions to the specialized agents below if needed:
     If the question mentions any of the following entities: natural product compound, chemical name, taxon name, target, SMILES structure, or numerical value delegate the question to the ENPKG_agent. ENPKG_agent would provide resolved entities needed to generate SPARQL query. For example if the question mentions either caffeine, or Desmodium heterophyllum call ENPKG_agent.
 
-    If you have answers from the agent mentioned above, you provide those answers with the user question to the Sparql_query_runner.
+    If you have answers from the agent mentioned above, you provide the exact answer without modification with the user question to the Sparql_query_runner.
 
     If the question does not mention chemical name, taxon name, target name, nor SMILES structure, delegate the question to the agent Sparql_query_runner. The Sparql_query_runner agent will perform further processing and provide the path containing the SPARQL output.
 
@@ -645,4 +652,4 @@ if __name__ == "__main__":
     q17 = " For all the plant extracts plot the distribution of number of features per sample retention time vs mass to charge ratio"
     q18 = "What are the most frequently observed chemical compounds in Tabernaemontana genus? Provide a bar chart."
 
-    print(create_run_agent(question=q3, thread_id=1))
+    logger.info(create_run_agent(question=q5_bis, thread_id=1))

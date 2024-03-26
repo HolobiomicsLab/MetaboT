@@ -6,14 +6,15 @@ from rdflib import URIRef, Namespace, Literal, BNode
 from rdflib.plugins.stores import sparqlstore
 from tqdm import tqdm
 import tiktoken
-import logging
+import logging.config
 import csv
 from io import StringIO
+from pathlib import Path
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
-
+parent_dir = Path(__file__).parent.parent
+config_path = parent_dir / "config" / "logging.ini"
+logging.config.fileConfig(config_path, disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 class RdfGraph:
     """
@@ -66,9 +67,9 @@ class RdfGraph:
         """
         Set up the RDFlib graph
         Args:
-            query_endpoint (Optional[str]): SPARQL endpoint for queries, read access
-            standard (Optional[str]): RDF, RDFS, or OWL
-            schema_file (Optional[str]): File containing the RDF graph schema, in turtle format
+            query_endpoint (Optional[str]): SPARQL endpoint for queries, read access.
+            standard (Optional[str]): RDF, RDFS, or OWL.
+            schema_file (Optional[str]): File containing the RDF graph schema, in turtle format.
         Raises:
             ValueError: If the standard is not one of rdf, rdfs, or owl
             ValueError: If no query endpoint is provided
@@ -77,12 +78,16 @@ class RdfGraph:
         self.standard = standard
         self.schema_file = schema_file
         self.namespaces = None
-        if self.standard not in (supported_standards := ("rdf", "rdfs", "owl")):
-            raise ValueError(
-                f"Invalid standard. Supported standards are: {supported_standards}."
-            )
-        if not query_endpoint:
-            raise ValueError("No query endpoint provided.")
+        try:
+            if self.standard not in (supported_standards := ("rdf", "rdfs", "owl")):
+                raise ValueError(
+                    f"Invalid standard. Supported standards are: {supported_standards}."
+                )
+            if not query_endpoint:
+                raise ValueError("No query endpoint provided.")
+        except ValueError as e:
+            logger.error(f"Error: {e}")
+            raise
 
         self._store = sparqlstore.SPARQLStore()
         self._store.open(query_endpoint)
@@ -124,7 +129,6 @@ class RdfGraph:
         Returns:
             rdflib.graph.Graph: An RDF graph object.
         """
-
         graph = rdflib.Graph()
 
         for cl in tqdm(classes, desc="Adding classes to graph"):
@@ -225,7 +229,7 @@ class RdfGraph:
             formatted_namespaces = [
                 (prefix, str(uri)) for prefix, uri in self.namespaces
             ]
-            logging.info("namespaces %s", formatted_namespaces)
+            logger.info("namespaces %s", formatted_namespaces)
             return (
                 f"The namespace prefixes are: {formatted_namespaces}\n"
                 + f"In the following, each URI is followed by the local name and optionally its rdfs:Label, and optionally its rdfs:comment. \n"
@@ -241,11 +245,11 @@ class RdfGraph:
 
         else:
             if self.standard == "rdf":
-                logging.info("query %s", self.CLS_RDF)
+                logger.info("query %s", self.CLS_RDF)
                 clss = self.query(self.CLS_RDF)
                 graph = self.get_graph_from_classes(clss)
                 self.schema = _rdf_s_schema(clss, graph)
-                logging.info("number of tokens %s", self.token_counter(self.schema))
+                logger.info("number of tokens %s", self.token_counter(self.schema))
 
             elif self.standard == "rdfs":
                 ## TODO : implement the rdfs schema

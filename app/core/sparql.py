@@ -18,6 +18,13 @@ import re
 import json
 import csv
 import tempfile
+from pathlib import Path
+import logging.config
+
+parent_dir = Path(__file__).parent.parent
+config_path = parent_dir / "config" / "logging.ini"
+logging.config.fileConfig(config_path, disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 
 ##Question-answering against an RDF or OWL graph by generating SPARQL statements.
@@ -118,7 +125,7 @@ class GraphSparqlQAChain(Chain):
                 temp_file_path = temp_file.name
             else:
                 # Handle the case where data is empty or not a list
-                print("JSON data is empty or not in the expected format.")
+                logger.info("JSON data is empty or not in the expected format.")
                 temp_file_path = None
 
         return temp_file_path
@@ -144,9 +151,6 @@ class GraphSparqlQAChain(Chain):
         prompt = inputs[self.input_key]
         entities = inputs[self.entities_key]
 
-        print("prompt:", prompt)
-        print("entities:", entities)
-
         generated_sparql = self.sparql_generation_select_chain.run(
             {"question": prompt, "entities": entities, "schema": self.graph.get_schema},
             callbacks=callbacks,
@@ -164,7 +168,8 @@ class GraphSparqlQAChain(Chain):
         # creating csv temp file inside the _call
 
         temp_file_path = self.json_to_csv(result)
-        print("Saving results to file: ", temp_file_path)
+        
+        logger.info("Saving results to file: %s", temp_file_path)   
 
         # Convert the SPARQL query output to  a string if it's not already
 

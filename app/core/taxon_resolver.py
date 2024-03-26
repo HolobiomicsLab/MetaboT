@@ -1,9 +1,12 @@
-import logging
+import logging.config
 from SPARQLWrapper import SPARQLWrapper, JSON
-from typing import Union
+from typing import Optional
+from pathlib import Path
 
-# Configure basic logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+parent_dir = Path(__file__).parent.parent
+config_path = parent_dir / "config" / "logging.ini"
+logging.config.fileConfig(config_path, disable_existing_loggers=False)
+logger = logging.getLogger(__name__)
 
 # The `TaxonResolver` class constructs and executes SPARQL queries to retrieve Wikidata IRIs
 # based on taxon names.
@@ -36,7 +39,7 @@ class TaxonResolver:
             }}
         """
 
-    def execute_query(self, query : str) -> Union[dict, None]:
+    def execute_query(self, query : str) -> Optional[dict]:
             """
             Sends a SPARQL query to a specified endpoint URL and returns the
             results in JSON format, handling exceptions by logging errors.
@@ -53,14 +56,20 @@ class TaxonResolver:
             sparql.setQuery(query)
             sparql.setReturnFormat(JSON)
             sparql.setTimeout(600)
+            logger.info(f"Executing query to wikidata sparql API: {query}")
             try:
                     results = sparql.queryAndConvert()
+                    # check if results are empty, result dict is empty or bindings are empty
+                    if not results or (results.get("results") and not results.get("results").get("bindings")):
+                        logger.info("Query was successful but no results were found.")
+                        return None
+                    logger.info("Query was successful.")
                     return results
             except Exception as e:
-                    logging.error(f"An error occurred while querying wikidata: {e}")
+                    logger.error(f"An error occurred while querying wikidata: {e}")
                     return None
 
-    def query_wikidata(self, taxon_name : str) -> str:
+    def query_wikidata(self, taxon_name : str) -> Optional[str]:
         """
         Takes a taxon name as input, builds a query, executes it, and returns
         the Wikidata IRI if found.
@@ -80,10 +89,10 @@ class TaxonResolver:
                 if bindings:  # Check if the list is not empty
                     return "wikidata IRI is " + bindings[0]['wikidata']['value']
                 else:
-                    logging.info("No results found for the given taxon name.")
+                    logger.info("No results found for the given taxon name.")
                     return None
             except KeyError:
-                logging.error("Unexpected result format.")
+                logger.error("Unexpected result format.")
                 return None
         else:
             return None
