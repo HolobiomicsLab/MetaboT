@@ -1,24 +1,27 @@
 from __future__ import annotations
-from typing import List, Optional, Tuple, TYPE_CHECKING, Dict
-import re
-import rdflib
-from rdflib import URIRef, Namespace, Literal, BNode
-from rdflib.plugins.stores import sparqlstore
-from tqdm import tqdm
-import tiktoken
-import logging.config
+
 import csv
+import logging.config
+import re
 from io import StringIO
 from pathlib import Path
+from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+
+import rdflib
+import tiktoken
+from rdflib import BNode, Literal, Namespace, URIRef
+from rdflib.plugins.stores import sparqlstore
+from tqdm import tqdm
 
 parent_dir = Path(__file__).parent.parent
 config_path = parent_dir / "config" / "logging.ini"
 logging.config.fileConfig(config_path, disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
 
+
 class RdfGraph:
     """
-    RdfGraph class handles the RDF graph representing the schema of the endpoint, 
+    RdfGraph class handles the RDF graph representing the schema of the endpoint,
     including querying and schema generation. The subjects are rdfs:Class nodes.
     """
 
@@ -129,7 +132,7 @@ class RdfGraph:
         Generates an RDF graph from a list of class URIs, that represents the types of triples that were found in the endpoint.
         Each triple has a class as a subject, property as predicate, and one possible value type of that property as object.
 
-        :example: 
+        :example:
             `ns1:InChIkey ns1:has_npc_pathway ns1:ChemicalTaxonomy .`
             `ns1:LCMSAnalysisPos ns1:has_massive_license <Untyped> .`
 
@@ -203,7 +206,7 @@ class RdfGraph:
 
     def _res_to_str(self, res: dict, namespaces: List[Tuple[str, str]]) -> str:
         """
-        Formats a string representing information about a class, its local name (e.g. text after last "/" in URI), 
+        Formats a string representing information about a class, its local name (e.g. text after last "/" in URI),
         its associated label and comment. The class URI is given with namespace notation.
 
         Args:
@@ -212,7 +215,7 @@ class RdfGraph:
 
         Returns:
             str: A formatted string using `res`, and `namespaces`, structured as `<formatted_var> (local_name, res['label'], res['com'])`.
-        
+
         Example:
             `ns1:LFpair (LFpair, A LF pair, A pair of 2 LCMSFeature)`
             `ns1:ChemicalTaxonomy (ChemicalTaxonomy, None, None)`
@@ -254,11 +257,9 @@ class RdfGraph:
                 f"The namespace prefixes are: {formatted_namespaces}\n"
                 + f"In the following, each URI is followed by the local name and optionally its rdfs:Label, and optionally its rdfs:comment. \n"
                 + f"The RDF graph supports the following node types:\n"
-
                 + f'{", ".join([self._res_to_str(row, formatted_namespaces) for row in classes])}\n'
                 + f"The RDF graph have the following schema:\n"
                 + f"{schema} \n"
-
             )
 
         if self.schema_file:
@@ -285,5 +286,4 @@ class RdfGraph:
                 # TODO : implement the owl schema
                 pass
             else:
-                raise ValueError(
-                    f"Mode '{self.standard}' is currently not supported.")
+                raise ValueError(f"Mode '{self.standard}' is currently not supported.")

@@ -1,66 +1,74 @@
 # langchain imports for agent and prompt handling
-from langchain.agents import AgentExecutor
-from langchain.prompts import BaseChatPromptTemplate
-from langchain.utilities import SerpAPIWrapper
-from langchain.chains.llm import LLMChain
-from langchain_openai import ChatOpenAI
-from langchain.agents import create_openai_tools_agent
-from langchain import hub
+import functools
+import logging.config
+import operator
+import os
 
-# langgraph imports for prebuilt tool invocation
-from langgraph.prebuilt import ToolInvocation
-from langgraph.graph import StateGraph, END
-
-# langchain_core imports for message handling and action schema
-from langchain_core.messages import BaseMessage, HumanMessage, FunctionMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema import AgentAction, AgentFinish, HumanMessage
-
-# langchain output parser for OpenAI functions
-from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
-from codeinterpreterapi import CodeInterpreterSession, File
+# Standard library import for object serialization
+import pickle
+from pathlib import Path
 
 # typing imports for type hinting
 from typing import (
     Annotated,
-    List,
-    Tuple,
-    Union,
     Any,
     Dict,
+    List,
+    NoReturn,
     Optional,
     Sequence,
+    Tuple,
     TypedDict,
+    Union,
 )
-import operator
-import functools
+
+from chemical_resolver import ChemicalResolver
+from codeinterpreterapi import CodeInterpreterSession, File
+from custom_sqlite_file import SqliteSaver
+from langchain import hub
+from langchain.agents import AgentExecutor, create_openai_tools_agent
+from langchain.chains.llm import LLMChain
+
+# langchain output parser for OpenAI functions
+from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
+from langchain.prompts import BaseChatPromptTemplate
+
+# langchain pydantic for base model definitions
+from langchain.pydantic_v1 import BaseModel, Field
+from langchain.schema import AgentAction, AgentFinish, HumanMessage
+
+# langchain tools for base, structured tool definitions, and tool decorators
+from langchain.tools import BaseTool, StructuredTool, tool
+from langchain.utilities import SerpAPIWrapper
+
+# langchain_core imports for message handling and action schema
+from langchain_core.messages import BaseMessage, FunctionMessage, HumanMessage
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_openai import ChatOpenAI
+from langgraph.graph import END, StateGraph
+
+# langgraph imports for prebuilt tool invocation
+from langgraph.prebuilt import ToolInvocation
+from log_search import LogMemoryAccessTool
+from prompts import (
+    ENPKG_AGENT_PROMPT,
+    ENTRY_AGENT_PROMPT,
+    INTERPRETER_AGENT_PROMPT,
+    SPARQL_AGENT_PROMPT,
+    SUPERVISOR_AGENT_PROMPT,
+)
 
 # Custom imports for RDF graph manipulation and chemical, target, taxon, and SPARQL resolution
 from RdfGraphCustom import RdfGraph
 from smile_resolver import smiles_to_inchikey
-from chemical_resolver import ChemicalResolver
+from sparql import GraphSparqlQAChain
 from target_resolver import target_name_to_target_id
 from taxon_resolver import TaxonResolver
-from sparql import GraphSparqlQAChain
-from custom_sqlite_file import SqliteSaver
-from log_search import LogMemoryAccessTool
-
-# langchain pydantic for base model definitions
-from langchain.pydantic_v1 import BaseModel, Field
-
-# langchain tools for base, structured tool definitions, and tool decorators
-from langchain.tools import BaseTool, StructuredTool, tool
-import os
-# Standard library import for object serialization
-import pickle
-from pathlib import Path
-import logging.config
 
 parent_dir = Path(__file__).parent.parent
 config_path = parent_dir / "config" / "logging.ini"
 logging.config.fileConfig(config_path, disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
-
 
 
 ####################### Instantiate the graph #######################
@@ -262,6 +270,7 @@ def memory_access_tool_creator() -> StructuredTool:
     Returns:
       StructuredTool: A structured tool for generating answers based on logs.
     """
+
     # Function adjusted to accept keyword arguments
     def memory_tool(**kwargs) -> Dict[str, Any]:
         # Create a QueryInput instance from kwargs
@@ -378,7 +387,7 @@ def create_team_supervisor(llm: ChatOpenAI, system_prompt, members) -> str:
 
 # function to define nodes
 # TODO: tell the state, agent and name types in the function signature (name ok)
-def agent_node(state, agent, name : str) -> Dict[str, Any]:
+def agent_node(state, agent, name: str) -> Dict[str, Any]:
     result = agent.invoke(state)
     return {"messages": [HumanMessage(content=result["output"], name=name)]}
 
@@ -396,9 +405,9 @@ def create_workflow():
     return workflow
 
 
-#TODO: CHANGE IT
-#TODO: docstring
-def process_stream(app, q, thread_id):
+# TODO: CHANGE IT
+# TODO: docstring
+def process_stream(app: StateGraph, q: str, thread_id: int) -> NoReturn:
     try:
         # Iterate over the stream from app.stream()
         for s in app.stream(
@@ -418,189 +427,117 @@ def process_stream(app, q, thread_id):
     except Exception as e:
         logger.error(f"An error occurred: {e}")
 
-#TODO: what is the type of return value?
-#TODO [Benjamin]: quite a long function. Can we break it down? prompts are constants, should be in configuration file
-def create_run_agent(question : str, thread_id : int =1):
-    model_id_gpt4 = "gpt-4"
-    model_id = "gpt-4-0125-preview"
-    llm = create_chat_openai_instance(
-        model_id
-    )  # Instance for GPT-4 0125-preview model.
-    llm_gpt4 = create_chat_openai_instance(model_id_gpt4)
+
+def create_agents():
+    """Creates and initializes agents for a workflow.
+
+    Initializes various agents required for managing a question-answering or information processing
+    workflow. This includes creating instances for different roles such as SPARQL query runners,
+    code interpreter, entity resolution (ENPKG) agent, entry agent, and a supervisor agent.
+    Each agent is initialized with specific models and tools necessary for its operation,
+    including language models and utility tools for database access, RDF graph manipulation, etc.
+
+    Returns:
+        A dictionary mapping each agent's role (as a string) to its corresponding initialized agent object.
+    """
+    models = {
+        "gpt4": create_chat_openai_instance("gpt-4"),
+        "gpt4_preview": create_chat_openai_instance("gpt-4-0125-preview"),
+    }
+
     graph = create_rdf_graph()
-    tools_resolver = tools_resolver_creator(llm)
-    tool_sparql = tool_sparql_creator(llm_gpt4, graph)
-    tool_names = [
-        tool.name for tool in tools_resolver
-    ]  # List of tool names from the resolver tools.
-    # tool for Interpreter_agent
-    interpreter_session = CodeInterpreterSession()
-    tool_interpreter = tool_interpreter_creator()
-    tool_memory = memory_access_tool_creator()
-    thread_id = thread_id
+    tools = {
+        "sparql": tool_sparql_creator(models["gpt4"], graph),
+        "interpreter": tool_interpreter_creator(),
+        "memory": memory_access_tool_creator(),
+    }
 
-    # Define the system message for the entity resolution agent (resolver) responsible for processing user questions.
-    # This message includes instructions for the agent on how to handle different types of entities mentioned in questions.
-    system_message_resolver = """You are an entity resolution agent for the Sparql_query_runner.
-    You have access to the following tools:
-    {tool_names}
-    You should analyze the question and provide resolved entities to the supervisor. Here is a list of steps to help you accomplish your role:
-    If the question ask anything about any entities that could be natural product compound, find the relevant IRI to this chemical class using CHEMICAL_RESOLVER. Input is the chemical class name. For example, if salicin is mentioned in the question, provide its IRI using CHEMICAL_RESOLVER, input is salicin. 
+    tools_resolver = tools_resolver_creator(models["gpt4_preview"])
+    tool_names = [tool.name for tool in tools_resolver]
 
-    If a taxon is mentioned, find what is its wikidata IRI with TAXON_RESOLVER. Input is the taxon name. For example, if the question mentions acer saccharum, you should provide it's wikidata IRI using TAXON_RESOLVER tool.
+    system_messages = {
+        "resolver": ENPKG_AGENT_PROMPT.format(tool_names="\n".join(tool_names)),
+        "entry": ENTRY_AGENT_PROMPT.format(tool=tools["memory"].name),
+    }
 
-    If a target is mentioned, find the ChEMBLTarget IRI of the target with TARGET_RESOLVER. Input is the target name.
+    agents = {
+        "Sparql_query_runner": create_agent(
+            models["gpt4_preview"], tools["sparql"], SPARQL_AGENT_PROMPT
+        ),
+        "Interpreter_agent": create_agent(
+            models["gpt4_preview"], tools["interpreter"], INTERPRETER_AGENT_PROMPT
+        ),
+        "ENPKG_agent": create_agent(
+            models["gpt4_preview"], tools_resolver, system_messages["resolver"]
+        ),
+        "Entry_Agent": create_agent(
+            models["gpt4"], [tools["memory"]], system_messages["entry"]
+        ),
+        "supervisor": create_team_supervisor(
+            models["gpt4"],
+            SUPERVISOR_AGENT_PROMPT,
+            ["ENPKG_agent", "Sparql_query_runner", "Interpreter_agent"],
+        ),
+    }
 
-    If a SMILE structure is mentioned, find what is the InChIKey notation of the molecule with SMILE_CONVERTER. Input is the SMILE structure. For example, if there is a string with similar structure to CCC12CCCN3C1C4(CC3) in the question, provide it to SMILE_CONVERTER.
-        
-    Give me units relevant to numerical values in this question. Return nothing if units for value is not provided.
-    Be sure to say that these are the units of the quantities found in the knowledge graph.
-    Here is the list of units to find:
-    "retention time": "minutes",
-    "activity value": null, 
-    "feature area": "absolute count or intensity", 
-    "relative feature area": "normalized area in percentage", 
-    "parent mass": "ppm (parts-per-million) for m/z",
-    "mass difference": "delta m/z", 
-    "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
+    return agents
 
 
-     You are required to submit only the final answer to the supervisor. 
-        
-    """.format(
-        tool_names="\n".join(tool_names)
-    )
+def manage_workflow(
+    agents: Dict[str, AgentExecutor], question: str, thread_id: int = 1
+):
+    """Manages and executes a workflow with given agents.
 
-    # Create an agent for entity resolution based on the instructions provided in `system_message_resolver`.
-    enpkg_agent = create_agent(llm, tools_resolver, system_message_resolver)
+    This function sets up a workflow for processing a question through various agents.
+    It creates nodes for each agent, sets up the workflow, and then executes it by processing
+    the provided question. The workflow consists of adding nodes for each agent, creating
+    edges between agents and a supervisor, setting conditional edges for the workflow's logic,
+    and finally compiling and running the workflow.
 
-    # Create an agent for running SPARQL queries based on user requests and resolved entities provided by other agents.
-    system_message_sparql = """You are SPARQL query runner, you take as input the user request and resolved entities provided by other agents, generate a SPARQL query, run it on the knowledge graph and answer to the question using SPARQL_QUERY_RUNNER tool. Specifically, when providing user request and resolved entities to the SPARQL_QUERY_RUNNER tool, format them as 'entity from the question has entity type entity resolution'.
-     For example, you should provide the following input: catharanthus roseus has the Wikidata IRI https://www.wikidata.org/wiki/Q161093. Ensure this format is strictly adhered to for effective querying.  
+    Args:
+        agents: A dictionary of agent names to their corresponding `AgentExecutor` instances.
+            The dictionary must include a "supervisor" key for the supervisor agent.
+        question: The question or input to be processed by the workflow.
+        thread_id: An optional thread ID for the workflow execution, defaulting to 1.
 
-    If the output of the SPARQL_QUERY_RUNNER tool consists of only generated SPARQL query and path to the file containing the SPARQL output, you will need to generate a dictionary as output from your process. This dictionary should contain exactly three key-value pairs:
-    question: The key should be a string named 'question' and the value should be the natural language question you were asked to translate into a SPARQL query.
-    generated_sparql_query: The key should be a string named 'generated_sparql_query' and the value should be the SPARQL query you generated based on the natural language question.
-    file_path: The key should be a string named 'file_path' and the value should be the absolute path to the file where the generated SPARQL query is saved. In this case provide the generated dictionary to the supervisor which would call the Interpreter agent to further interpret the results.
+    Returns:
+        None. The function initiates processing of the stream but does not return any value.
+        Outputs and logs from the agents are handled internally within the function.
 
-    If the output of the SPARQL_QUERY_RUNNER tool consists of generated SPARQL query, path to the file containing the SPARQL output and the SPARQL output then you need to generate the final answer to the question based on the SPARQL output. Provide the final answer to the question together with the dictionary containing the question, generated_sparql_query and file_path. The dictionary should contain exactly three key-value pairs:
-    question: The key should be a string named 'question' and the value should be the natural language question you were asked to translate into a SPARQL query.
-    generated_sparql_query: The key should be a string named 'generated_sparql_query' and the value should be the SPARQL query you generated based on the natural language question.
-    file_path: The key should be a string named 'file_path' and the value should be the absolute path to the file where the generated SPARQL query is saved.
-     Provide the final answer to the supervisor.
+    Raises:
+        This function does not explicitly raise exceptions but exceptions can be raised
+        internally within the workflow or agent execution processes.
+
+    Example:
+        >>> agents = {
+            "Entry_Agent": entry_agent_executor,
+            "ENPKG_agent": enpkg_agent_executor,
+            "Sparql_query_runner": sparql_query_runner_executor,
+            "Interpreter_agent": interpreter_agent_executor,
+            "supervisor": supervisor_agent_executor
+        }
+        >>> manage_workflow(agents, "What is the capital of France?", thread_id=2)
     """
-    sparql_query_agent = create_agent(llm, tool_sparql, system_message_sparql)
-
-    system_message_interpreter = """You are an interpreter agent. Your main role is to analyze outputs from the Sparql_query_runner agent using the INTERPRETER_TOOL. The outputs from the Sparql_query_runner agent can be of two types:
-
-    The output is a dictionary containing 'question', 'generated_sparql_query', and 'file_path'. This typically happens when the Sparql_query_runner agent has executed a query to fetch results for a complex question. Your task is to provide this dictionary directly to the INTERPRETER_TOOL to get a concise answer. Ensure you format the dictionary correctly and include all necessary information so the INTERPRETER_TOOL can process it efficiently.
-
-    The output directly contains the answer to the question but still comes within a dictionary that includes the 'question', 'generated_sparql_query', and 'file_path'. Even if the answer is directly provided, your role remains to pass this entire dictionary to the INTERPRETER_TOOL. The tool requires this structured input to validate and format the final answer properly.
-
-    In both scenarios, your primary function is to ensure that the INTERPRETER_TOOL receives the necessary information in a structured dictionary format. This allows the tool to analyze the SPARQL query's output thoroughly and provide a clear, concise answer to the initial question."""
-
-    interpreter_agent = create_agent(llm, tool_interpreter, system_message_interpreter)
-    # Define a list of agent names that will be part of the supervisor system.
-    members = ["ENPKG_agent", "Sparql_query_runner", "Interpreter_agent"]
-
-    # Define the system prompt that outlines the role and responsibilities of the supervisor agent,
-    # including instructions on how to delegate tasks to specialized agents based on the user's question.
-    system_prompt = """You are a supervisor. As the supervisor, your primary role is to coordinate the flow of information between agents and ensure the appropriate processing of the user question based on its content. You have access to a team of specialized agents: {members}.
-
-    Here is a list of steps to help you accomplish your role:
-
-    Analyse the user question and delegate functions to the specialized agents below if needed:
-    If the question mentions any of the following entities: natural product compound, chemical name, taxon name, target, SMILES structure, or numerical value delegate the question to the ENPKG_agent. ENPKG_agent would provide resolved entities needed to generate SPARQL query. For example if the question mentions either caffeine, or Desmodium heterophyllum call ENPKG_agent.
-
-    If you have answers from the agent mentioned above, you provide the exact answer without modification with the user question to the Sparql_query_runner.
-
-    If the question does not mention chemical name, taxon name, target name, nor SMILES structure, delegate the question to the agent Sparql_query_runner. The Sparql_query_runner agent will perform further processing and provide the path containing the SPARQL output.
-
-    If the Sparql_query_runner provides a SPARQL query and the path to the file containing the SPARQL output without directly providing the answer (implying that the answer is too long to be directly included), then delegate this information to the Interpreter_agent for further analysis and interpretation. Provide the Interpreter_agent with the question, SPARQL query, and the path to the file provided by the Sparql_query_runner. Await the Interpreter_agent's response for the final answer.
-
-    Once the Interpreter_agent has completed its task mark the process as FINISH. Do not call the Interpreter_agent again.
-
-    If the Sparql_query_runner agent provides a SPARQL query, the path to the file containing the SPARQL output and final answer to the question, and there is no immediate need for further interpretation, normally mark the process as FINISH. However, if there is a need to visualize the results (regardless of the length of the SPARQL output), also call the Interpreter_agent to generate the necessary plot, chart, or graph based on the SPARQL output. The need for visualization should be assessed based on the user's request or if the nature of the data implies that visualization would enhance understanding. Once the Interpreter_agent has completed its task mark the process as FINISH. Do not call the Interpreter_agent again.
-
-    For example, the user provides the following question: For features from Melochia umbellata in PI mode with SIRIUS annotations, get the ones for which a feature in NI mode with the same retention time has the same SIRIUS annotation. Since the question mentions Melochia umbellata you should firstly delegate it to the ENPKG_agent which would provide wikidata IRI with TAXON_RESOLVER tool, then, you should delegate the question together with the output generated by ENPKG_agent to the Sparql_query_runner agent. Afterwards, if the Sparql_query_runner agent provided the answer to the question, SPARQL query and path to the file containing the SPARQL output and there is no need to visualize the output you should mark the process as FINISH. If the Sparql_query_runner agent  provided only SPARQL query and path to the file you should call Interpreter_agent which would interpret the results provided by Sparql_query_runner to generate the final response to the question.
-
-    Avoid calling the same agent if this agent has already been called previously and provided the answer. For example, if you have called ENPKG_agent and it provided InChIKey for chemical compound do not call this agent again.
-
-    Always tell the user the SPARQL query that has been returned by the Sparql_query_runner.
-
-    If the agent does not provide the expected output mark the process as FINISH.
-
-    Remember, your efficiency in routing the questions accurately and collecting responses is crucial for the seamless operation of our system. If you don't know the answer to any of the steps, please say explicitly and help the user by providing a query that you think will be better interpreted.
-    """
-
-    # Create an agent for entity resolution based on the instructions provided in `system_message_resolver`.
-    enpkg_agent = create_agent(llm, tools_resolver, system_message_resolver)
-
-    # Creating the Entry Agent prompt
-    # 1. Determine if the question is within the knowledge domain of our system, which includes chemistry, natural products chemistry, mass spectrometry, biology, metabolomics, knowledge graphs, and related areas.
-    entry_agent_prompt = """
-    You are the first point of contact for user questions in a team of LLMs designed to answer technical questions involving the retrieval and interpretation of information from a Knowledge Graph Database of LC-MS Metabolomics of Natural Products. As the entry agent, you need to be very succint in your communications and answer only what you are instructed to. You should not answer questions out of your role. Your replies will be used by other LLMs as imputs, so it should strictly contain only what you are instructed to do.  
-
-    Your role is to interpret the question sent by the user to you and to identify if the question is a "New Knowledge Question", a clarification you asked for a New Knowledge Question or a "Help me understand Question" and take actions based on this.
-
-    A New Knowledge Question would be a question that requires information that you don't have available information at the moment and are not asking to explain results from previous questions. Those questions should be contained in the domains of Metabolomics, Chemistry, Mass Spectometry, Biology and Natural Products chemistry, and can include, for example, asking about compounds in a certain organism, to select and count the number of features containing a chemical entity, etc. If you identify that the question sent is a New Knowledge Question, you have to do the following:
-
-    1. Check if the question requires clarification, focusing on these considerations:
-        - ONLY IF common usual names are mentioned, there is need for clarification on the specific species or taxa, as common names could refer to multiple entities. Some examples are provided:
-		-> The question "How many compounds annotated in positive mode in the extracts of mint contain a benzene substructure?" needs clarification since mint could refer to several species of the Mentha genus.
-		-> The question "Select all compounds annotated in positive mode containing a benzene substructure" don't need specification, since it implies that it whishes to select all compounds containing the benzene substructure from all organisms.
-        - ONLY IF the question includes unfinished scientific taxa specification, there is need for clarification only if the question implies specificity is needed. Some examples are provided:
-		-> The question "Select all compounds from the genus Cedrus" don't need clarification since it is already specifying that wants all species in the Cedrus genus.
-		-> The question "Which species of Arabidopsis contains more compounds annotated in negative mode in the database?" don't need clarification since it wants to compare all species from the genus Arabidopsis.
-		-> The question "What compounds contain a spermidine substructure from Arabidopsis?" needs clarification since it don't implies that wants the genus and also don't specify the species. 
-        - For questions involving ionization mode without specification, ask whether positive or negative mode information is sought, as the database separates these details. If no ionization mode is specified, this implies that the question is asking for both positive and negative ionization mode. 
-        - Remember: If the question does not mention a specific taxa and the context does not imply a need for such specificity, assume the question is asking for all taxa available in the database. There is no need for clarification in such cases.
-        - Similarly, if a chemical entity isn't specified, assume the query encompasses all chemical entities within the scope of the question. 
-
-    2. If you detected that there's need for clarification, you have to reply what information do you want to be more precise. If there's no need for clarification, reply "Starting the processing of the question"
-    3. When the user clarified your previous doubt, you have to now reply the original question and the clarification, as your answer will be used by the next LLM.
-
-
-    A "Help me understand Question" would be a follow up question, asking for explaining or providing more information about any previous answer. In this case, you have to:  
-
-    1. Utilize previous conversations stored in the your memory for context when replying to it, enabling more informed explanation about previous answers. If there's no information about it in your previous interactions, you should invoke your tool {tool} to search for information on the log. The input for the tool is what you want to search in the log. Use the answer given by the tool to help you reply back to the user. If there's also no information in the log, just reply that you don't have the information the user is looking for.
-
-    You can also identify the need for transforming a "Help me understand question" in to a "New Knowledge Question". This would be a specific case when the user wants a explanation for a previous answer, but this explanation needs new information, that has to be searched on the database. In this case, you can formulate a question to be searched in the database based on previous conversation and the new information needed. 
-
-    If the question is outside of your knowledge or scope, don't reply anything. Other members of your team will tackle the issue.
-
-    """.format(
-        tool=tool_memory.name
-    )
-
-    entry_agent = create_agent(llm_gpt4, [tool_memory], entry_agent_prompt)
-
-    # creating nodes for each agent
-    enpkg_node = functools.partial(agent_node, agent=enpkg_agent, name="ENPKG_agent")
-    entry_node = functools.partial(agent_node, agent=entry_agent, name="Entry_Agent")
-    sparql_query_node = functools.partial(
-        agent_node, agent=sparql_query_agent, name="Sparql_query_runner"
-    )
-    interpreter_agent_node = functools.partial(
-        agent_node, agent=interpreter_agent, name="Interpreter_agent"
-    )
-    supervisor_agent = create_team_supervisor(llm_gpt4, system_prompt, members)
-
-    # creating the workflow and adding nodes to it
     workflow = create_workflow()
 
-    workflow.add_node("Entry_Agent", entry_node)
-    workflow.add_node("ENPKG_agent", enpkg_node)
-    workflow.add_node("Sparql_query_runner", sparql_query_node)
-    workflow.add_node("supervisor", supervisor_agent)
-    workflow.add_node("Interpreter_agent", interpreter_agent_node)
+    # Create partial functions for nodes
+    nodes = {
+        name: functools.partial(agent_node, agent=agent, name=name)
+        for name, agent in agents.items()
+        if name != "supervisor"
+    }
+    nodes["supervisor"] = agents["supervisor"]
 
-    # Adding entry as a node to supervisor
-    workflow.add_edge("Entry_Agent", "supervisor")
+    # Add nodes to the workflow
+    for name, node in nodes.items():
+        workflow.add_node(name, node)
 
-    # connect all the edges in the graph
-    for member in members:
-        # We want our workers to ALWAYS "report back" to the supervisor when done
+    for member in [
+        "Entry_Agent",
+        "ENPKG_agent",
+        "Sparql_query_runner",
+        "Interpreter_agent",
+    ]:
         workflow.add_edge(member, "supervisor")
 
     workflow.add_conditional_edges(
@@ -614,11 +551,16 @@ def create_run_agent(question : str, thread_id : int =1):
         },
     )
 
-    #memory = SqliteSaver()
-
+    # Set entry point and compile
     workflow.set_entry_point("Entry_Agent")
+    memory = SqliteSaver()
     app = workflow.compile(checkpointer=memory)
-    result = process_stream(app, question, thread_id)
+    process_stream(app, question, thread_id)
+
+
+def create_and_run_agent(question: str, thread_id: int = 1):
+    agents = create_agents()
+    result = manage_workflow(agents, question, thread_id)
     return result
 
 
@@ -626,7 +568,7 @@ if __name__ == "__main__":
 
     # run with CLI ```python agent_supervisor.py````
 
-    #TODO: [Benjamin] questions should be in a configuration file?
+    # TODO: [Benjamin] questions should be in a configuration file?
 
     q1 = "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?"
     q1_bis = "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?"
@@ -653,4 +595,4 @@ if __name__ == "__main__":
     q17 = " For all the plant extracts plot the distribution of number of features per sample retention time vs mass to charge ratio"
     q18 = "What are the most frequently observed chemical compounds in Tabernaemontana genus? Provide a bar chart."
 
-    logger.info(create_run_agent(question=q5_bis, thread_id=1))
+    logger.info(create_and_run_agent(question=q5_bis, thread_id=1))
