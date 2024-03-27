@@ -50,7 +50,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 
 # langchain tools for base, structured tool definitions, and tool decorators
 from langchain.tools import BaseTool, StructuredTool, tool
-
+import os
 # Standard library import for object serialization
 import pickle
 from pathlib import Path
@@ -239,7 +239,7 @@ def interpreter_logic(
 def tool_interpreter_creator() -> list[StructuredTool]:
     """
     Creates an interpreter tool for processing user questions and SparQL queries.
-    
+
     Returns:
       list[StructuredTool]: A list of structured tools for interpreting user questions and SparQL queries.
     """
@@ -258,7 +258,7 @@ def memory_access_tool_creator() -> StructuredTool:
     """
     Creates a structured tool for generating answers based on
     logs.
-    
+
     Returns:
       StructuredTool: A structured tool for generating answers based on logs.
     """
@@ -475,7 +475,8 @@ def create_run_agent(question : str, thread_id : int =1):
     enpkg_agent = create_agent(llm, tools_resolver, system_message_resolver)
 
     # Create an agent for running SPARQL queries based on user requests and resolved entities provided by other agents.
-    system_message_sparql = """You are SPARQL query runner, you take as input the user request and resolved entities provided by other agents, generate a SPARQL query, run it on the knowledge graph and answer to the question using SPARQL_QUERY_RUNNER tool.  
+    system_message_sparql = """You are SPARQL query runner, you take as input the user request and resolved entities provided by other agents, generate a SPARQL query, run it on the knowledge graph and answer to the question using SPARQL_QUERY_RUNNER tool. Specifically, when providing user request and resolved entities to the SPARQL_QUERY_RUNNER tool, format them as 'entity from the question has entity type entity resolution'.
+     For example, you should provide the following input: catharanthus roseus has the Wikidata IRI https://www.wikidata.org/wiki/Q161093. Ensure this format is strictly adhered to for effective querying.  
 
     If the output of the SPARQL_QUERY_RUNNER tool consists of only generated SPARQL query and path to the file containing the SPARQL output, you will need to generate a dictionary as output from your process. This dictionary should contain exactly three key-value pairs:
     question: The key should be a string named 'question' and the value should be the natural language question you were asked to translate into a SPARQL query.
@@ -613,7 +614,7 @@ def create_run_agent(question : str, thread_id : int =1):
         },
     )
 
-    memory = SqliteSaver()
+    #memory = SqliteSaver()
 
     workflow.set_entry_point("Entry_Agent")
     app = workflow.compile(checkpointer=memory)
@@ -624,7 +625,7 @@ def create_run_agent(question : str, thread_id : int =1):
 if __name__ == "__main__":
 
     # run with CLI ```python agent_supervisor.py````
-    
+
     #TODO: [Benjamin] questions should be in a configuration file?
 
     q1 = "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?"
