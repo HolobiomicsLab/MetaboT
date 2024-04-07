@@ -563,6 +563,79 @@ def create_and_run_agent(question: str, thread_id: int = 1):
     result = manage_workflow(agents, question, thread_id)
     return result
 
+# Custom function for streamlit usage
+def create_langgraph_app_streamlit(
+    agents: Dict[str, AgentExecutor], memory: Any,
+):
+    """
+    Modified version of the manage_workflow for streamlit. This function creates the langgraph app and defines the workflow.
+
+    This function sets up a workflow for processing a question through various agents.
+    It creates nodes for each agent, sets up the workflow, and then executes it by processing
+    the provided question. The workflow consists of adding nodes for each agent, creating
+    edges between agents and a supervisor, setting conditional edges for the workflow's logic,
+    and finally compiling and returning the workflow.
+
+    Args:
+        agents: A dictionary of agent names to their corresponding `AgentExecutor` instances.
+            The dictionary must include a "supervisor" key for the supervisor agent.
+        memory: Memory initialized in the streamlit app.
+
+    Returns:
+        App. The function creates the app with the agents allowing the streaming of outputs in Streamlit
+
+    Raises:
+        This function does not explicitly raise exceptions but exceptions can be raised
+        internally within the workflow or agent execution processes.
+
+    Example:
+        >>> agents = {
+            "Entry_Agent": entry_agent_executor,
+            "ENPKG_agent": enpkg_agent_executor,
+            "Sparql_query_runner": sparql_query_runner_executor,
+            "Interpreter_agent": interpreter_agent_executor,
+            "supervisor": supervisor_agent_executor
+        }
+        >>> manage_workflow(agents, "What is the capital of France?", thread_id=2)
+    """
+    workflow = create_workflow()
+
+    # Create partial functions for nodes
+    nodes = {
+        name: functools.partial(agent_node, agent=agent, name=name)
+        for name, agent in agents.items()
+        if name != "supervisor"
+    }
+    nodes["supervisor"] = agents["supervisor"]
+
+    # Add nodes to the workflow
+    for name, node in nodes.items():
+        workflow.add_node(name, node)
+
+    for member in [
+        "Entry_Agent",
+        "ENPKG_agent",
+        "Sparql_query_runner",
+        "Interpreter_agent",
+    ]:
+        workflow.add_edge(member, "supervisor")
+
+    workflow.add_conditional_edges(
+        "supervisor",
+        lambda x: x["next"],
+        {
+            "ENPKG_agent": "ENPKG_agent",
+            "Sparql_query_runner": "Sparql_query_runner",
+            "Interpreter_agent": "Interpreter_agent",
+            "FINISH": END,
+        },
+    )
+
+    # Set entry point and compile
+    workflow.set_entry_point("Entry_Agent")
+    memory = memory
+    app = workflow.compile(checkpointer=memory)
+    return app
 
 if __name__ == "__main__":
 
