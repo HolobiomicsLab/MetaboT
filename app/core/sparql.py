@@ -20,6 +20,7 @@ import csv
 import tempfile
 from pathlib import Path
 import logging.config
+import os
 
 parent_dir = Path(__file__).parent.parent
 config_path = parent_dir / "config" / "logging.ini"
@@ -91,6 +92,13 @@ class GraphSparqlQAChain(Chain):
         return cleaned_query
 
     @staticmethod
+    def remove_xsd_prefix(query):
+        lines = query.split('\n')
+        filtered_lines = [line for line in lines if not line.startswith("PREFIX xsd:")]
+        updated_query = '\n'.join(filtered_lines)
+        return updated_query
+
+    @staticmethod
     def json_to_csv(json_data):
         """
         Converts JSON data into a CSV file and returns the path to the temporary
@@ -108,13 +116,17 @@ class GraphSparqlQAChain(Chain):
         else:  # Assume it's already a Python list of dictionaries
             data = json_data
 
-        # Create a temporary file
-        with tempfile.NamedTemporaryFile(
-            mode="w", delete=False, suffix=".csv", newline=""
-        ) as temp_file:
-            # Check if data is not empty and is a list
-            if data and isinstance(data, list):
-                # Extract headers from the first item assuming all items are dictionaries
+        if data and isinstance(data, list):
+            # Create a "kgbot" directory inside the system's temporary directory
+            kgbot_temp_dir = os.path.join(tempfile.gettempdir(), "kgbot")
+            os.makedirs(kgbot_temp_dir, exist_ok=True)  # Make the directory if it doesn't exist
+
+            # Define the path for the new CSV file within the "kgbot" directory
+            temp_csv_path = os.path.join(kgbot_temp_dir, tempfile.mktemp(suffix=".csv", dir=kgbot_temp_dir))
+
+            # Create and open the file for writing
+            with open(temp_csv_path, mode="w", newline="") as temp_file:
+                # Extract headers from the first item, assuming all items are dictionaries
                 headers = data[0].keys()
                 # Create a CSV writer object
                 csv_writer = csv.DictWriter(temp_file, fieldnames=headers)
@@ -122,12 +134,14 @@ class GraphSparqlQAChain(Chain):
                 csv_writer.writeheader()
                 # Write the rows
                 csv_writer.writerows(data)
-                # Store the path for use in the return value
-                temp_file_path = temp_file.name
-            else:
-                # Handle the case where data is empty or not a list
-                logger.info("JSON data is empty or not in the expected format.")
-                temp_file_path = None
+
+            # The path to return will be the full path to the newly created CSV file within "kgbot"
+            temp_file_path = temp_csv_path
+
+        else:
+            # Handle the case where data is empty or not a list
+            logger.info("JSON data is empty or not in the expected format.")
+            temp_file_path = None
 
         return temp_file_path
 
@@ -166,6 +180,8 @@ class GraphSparqlQAChain(Chain):
 
         # TODO [Franck]: why do we need this? The prompt explicitely says to NOT return any markdown, still there might be some?
         generated_sparql = self.remove_markdown_quotes(generated_sparql)
+        generated_sparql = self.remove_xsd_prefix(generated_sparql)
+        logger.debug("Generated SPARQL query (Removed xsd prefix after remove markdown prefix)): %s", generated_sparql)
 
         _run_manager.on_text("Generated SPARQL:",
                              end="\n", verbose=self.verbose)
@@ -175,12 +191,11 @@ class GraphSparqlQAChain(Chain):
 
         result = self.graph.query(generated_sparql)
 
-
         # creating csv temp file inside the _call
 
         temp_file_path = self.json_to_csv(result)
         
-        logger.info("Saving results to file: %s", temp_file_path)   
+        logger.info("Saving results to file: %s", temp_file_path)
 
         # Convert the SPARQL query output to  a string if it's not already
 
