@@ -80,7 +80,7 @@ def create_rdf_graph():
         RdfGraph: An RDF graph object.
     """
 
-    ## check if the graph is already created if not create it.
+    # check if the graph is already created if not create it.
     try:
         with open("../graphs/graph.pkl", "rb") as input_file:
             graph = pickle.load(input_file)
@@ -563,9 +563,11 @@ def create_and_run_agent(question: str, thread_id: int = 1):
     result = manage_workflow(agents, question, thread_id)
     return result
 
+
 # Custom function for streamlit usage
 def create_langgraph_app_streamlit(
-    agents: Dict[str, AgentExecutor], memory: Any,
+    agents: Dict[str, AgentExecutor],
+    memory: Any,
 ):
     """
     Modified version of the manage_workflow for streamlit. This function creates the langgraph app and defines the workflow.
@@ -636,6 +638,7 @@ def create_langgraph_app_streamlit(
     memory = memory
     app = workflow.compile(checkpointer=memory)
     return app
+
 
 if __name__ == "__main__":
 
