@@ -668,4 +668,4 @@ if __name__ == "__main__":
     q17 = " For all the plant extracts plot the distribution of number of features per sample retention time vs mass to charge ratio"
     q18 = "What are the most frequently observed chemical compounds in Tabernaemontana genus? Provide a bar chart."
 
-    logger.info(create_and_run_agent(question=q5_bis, thread_id=1))
+    logger.info(create_and_run_agent(question=q2, thread_id=1))

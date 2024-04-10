@@ -1,26 +1,22 @@
 from __future__ import annotations
 
+import csv
+import json
+import logging.config
+import os
+import re
+import tempfile
+from pathlib import Path
 from typing import Any, Dict, List, Optional
-
-from RdfGraphCustom import RdfGraph
-from langchain_core.language_models import BaseLanguageModel
-from langchain_core.prompts.base import BasePromptTemplate
-from langchain_core.pydantic_v1 import Field
 
 from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
-from prompts import (
-    SPARQL_GENERATION_SELECT_PROMPT,
-)
 from langchain.chains.llm import LLMChain
-import re
-
-import json
-import csv
-import tempfile
-from pathlib import Path
-import logging.config
-import os
+from langchain_core.language_models import BaseLanguageModel
+from langchain_core.prompts.base import BasePromptTemplate
+from langchain_core.pydantic_v1 import Field
+from prompts import SPARQL_GENERATION_SELECT_PROMPT
+from RdfGraphCustom import RdfGraph
 
 parent_dir = Path(__file__).parent.parent
 config_path = parent_dir / "config" / "logging.ini"
@@ -67,8 +63,7 @@ class GraphSparqlQAChain(Chain):
         Returns:
           GraphSparqlQAChain : A GraphSparqlQAChain object with the specified language model and prompt template.
         """
-        sparql_generation_select_chain = LLMChain(
-            llm=llm, prompt=sparql_select_prompt)
+        sparql_generation_select_chain = LLMChain(llm=llm, prompt=sparql_select_prompt)
 
         return cls(
             sparql_generation_select_chain=sparql_generation_select_chain,
@@ -93,9 +88,9 @@ class GraphSparqlQAChain(Chain):
 
     @staticmethod
     def remove_xsd_prefix(query):
-        lines = query.split('\n')
+        lines = query.split("\n")
         filtered_lines = [line for line in lines if not line.startswith("PREFIX xsd:")]
-        updated_query = '\n'.join(filtered_lines)
+        updated_query = "\n".join(filtered_lines)
         return updated_query
 
     @staticmethod
@@ -119,10 +114,14 @@ class GraphSparqlQAChain(Chain):
         if data and isinstance(data, list):
             # Create a "kgbot" directory inside the system's temporary directory
             kgbot_temp_dir = os.path.join(tempfile.gettempdir(), "kgbot")
-            os.makedirs(kgbot_temp_dir, exist_ok=True)  # Make the directory if it doesn't exist
+            os.makedirs(
+                kgbot_temp_dir, exist_ok=True
+            )  # Make the directory if it doesn't exist
 
             # Define the path for the new CSV file within the "kgbot" directory
-            temp_csv_path = os.path.join(kgbot_temp_dir, tempfile.mktemp(suffix=".csv", dir=kgbot_temp_dir))
+            temp_csv_path = os.path.join(
+                kgbot_temp_dir, tempfile.mktemp(suffix=".csv", dir=kgbot_temp_dir)
+            )
 
             # Create and open the file for writing
             with open(temp_csv_path, mode="w", newline="") as temp_file:
@@ -144,7 +143,6 @@ class GraphSparqlQAChain(Chain):
             temp_file_path = None
 
         return temp_file_path
-
 
     def _call(
         self,
@@ -169,32 +167,38 @@ class GraphSparqlQAChain(Chain):
         prompt = inputs[self.input_key]
         entities = inputs[self.entities_key]
 
+        logger.info(
+            "providing prompt and entities to the chain for generating SPARQL query"
+        )
+        logger.info("Prompt: %s", prompt)
+        logger.info("Entities: %s", entities)
+
         generated_sparql = self.sparql_generation_select_chain.run(
-            {
-                "question": prompt,
-                "entities": entities,
-                "schema": self.graph.get_schema
-            },
+            {"question": prompt, "entities": entities, "schema": self.graph.get_schema},
             callbacks=callbacks,
         )
 
         # TODO [Franck]: why do we need this? The prompt explicitely says to NOT return any markdown, still there might be some?
         generated_sparql = self.remove_markdown_quotes(generated_sparql)
         generated_sparql = self.remove_xsd_prefix(generated_sparql)
-        logger.debug("Generated SPARQL query (Removed xsd prefix after remove markdown prefix)): %s", generated_sparql)
+        logger.debug(
+            "Generated SPARQL query (Removed xsd prefix after remove markdown prefix)): %s",
+            generated_sparql,
+        )
 
-        _run_manager.on_text("Generated SPARQL:",
-                             end="\n", verbose=self.verbose)
+        _run_manager.on_text("Generated SPARQL:", end="\n", verbose=self.verbose)
         _run_manager.on_text(
             generated_sparql, color="green", end="\n", verbose=self.verbose
         )
+
+        logger.debug("Generated SPARQL query: %s", generated_sparql)
 
         result = self.graph.query(generated_sparql)
 
         # creating csv temp file inside the _call
 
         temp_file_path = self.json_to_csv(result)
-        
+
         logger.info("Saving results to file: %s", temp_file_path)
 
         # Convert the SPARQL query output to  a string if it's not already
@@ -232,6 +236,5 @@ class GraphSparqlQAChain(Chain):
                 "result": result,
                 "temp_file_path": temp_file_path,  # Add the file path to the results
             }
-
 
         return {self.output_key: contextualized_result}

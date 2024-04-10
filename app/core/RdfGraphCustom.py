@@ -127,6 +127,8 @@ class RdfGraph:
 
         return filtered_results
 
+
+    
     def get_graph_from_classes(self, classes: List[Dict]) -> rdflib.graph.Graph:
         """
         Generates an RDF graph from a list of class URIs, that represents the types of triples that were found in the endpoint.
@@ -175,6 +177,9 @@ class RdfGraph:
 
         except ParserError as e:
             raise ValueError("Generated SPARQL statement is invalid\n" f"{e}")
+
+        except Exception as e:
+            raise ValueError(f"An error occurred while querying the graph: {e}")
 
         # TODO [Franck]: deal with other possible exceptions (timeout, etc)
 
