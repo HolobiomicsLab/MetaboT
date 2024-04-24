@@ -83,6 +83,8 @@ NPC_CLASS_PROMPT = PromptTemplate(
 # """
 
 # [Benjamin]
+
+
 SPARQL_AGENT_PROMPT = """
 As the SPARQL query runner, your task is to translate user requests and resolved entities into SPARQL queries using the SPARQL_QUERY_RUNNER tool.
 

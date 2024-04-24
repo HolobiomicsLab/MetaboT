@@ -2,73 +2,88 @@ from __future__ import annotations
 
 import csv
 import json
-import logging.config
 import os
 import re
 import tempfile
-from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Dict
 
-from langchain.callbacks.manager import CallbackManagerForChainRun
-from langchain.chains.base import Chain
 from langchain.chains.llm import LLMChain
-from langchain_core.language_models import BaseLanguageModel
-from langchain_core.prompts.base import BasePromptTemplate
-from langchain_core.pydantic_v1 import Field
-from prompts import SPARQL_GENERATION_SELECT_PROMPT
-from RdfGraphCustom import RdfGraph
+from langchain_core.prompts.prompt import PromptTemplate
+from langchain_core.tools import tool
+from langchain.pydantic_v1 import BaseModel, Field
 
-parent_dir = Path(__file__).parent.parent
-config_path = parent_dir / "config" / "logging.ini"
-logging.config.fileConfig(config_path, disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
+from app.core.graph_management.RdfGraphCustom import RdfGraph
+from app.core.utils import setup_logger
+
+from ..tool_interface import ToolTemplate
+
+logger = setup_logger(__name__)
+
+
+SPARQL_GENERATION_SELECT_TEMPLATE = """Task: Generate a SPARQL SELECT statement for querying a graph database.
+For instance, to find all email addresses of John Doe, the following query in backticks would be suitable:
+
+```
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?email
+WHERE {{
+    ?person foaf:name "John Doe" .
+    ?person foaf:mbox ?email .
+}}
+```
+
+Please generate a SPARQL query based on the following requirements. The output must strictly adhere to these guidelines:
+
+Output Format: Your response should consist solely of the SPARQL query. Ensure the query is fully executable without any modifications or removals necessary. Do not include any markdown syntax (e.g., triple backticks), preamble words (like "sparql"), or any other text outside the SPARQL query itself.
+
+Content Clarity: The query should be clearly structured and formatted for readability. Use appropriate SPARQL conventions, prefixes, and syntax.
+
+Precision: The query must include all necessary prefixes and conditions as specified. It should be ready to run in a SPARQL endpoint without requiring any additional editing or formatting.
+
+Exclusivity: Do not encapsulate the query in any form of quotes (single, double, or block quotes). The response must contain the SPARQL query and nothing else. Any non-query text will be considered an error and will need correction.
+
+Contextualization : Use only the node types and properties provided in the schema. Do not use any node types and properties that are not explicitly provided. Include all necessary prefixes.
+
+Entities : Use the URI provided by the additional information to construct the query, if there is any. When available, use the URI rather than the Literal value of the entity.
+
+Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
+
+Casting: Given the schemas, when filtering values for properties, directly use the literal values without unnecessary casting to xsd:string, since they are already expected to be strings according to the RDF schema provided.
+
+Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards. It should be capable of being executed in a compatible SPARQL endpoint without errors.
+
+Schema:
+{schema}
+
+Additional information:
+{entities}
+
+The question is:
+{question}"""
+
+
+SPARQL_GENERATION_SELECT_PROMPT = PromptTemplate(
+    input_variables=["schema", "entities", "question"],
+    template=SPARQL_GENERATION_SELECT_TEMPLATE,
+)
+
+
+class SparqlInput(BaseModel):
+    question: str = Field(description="the original question from the user")
+    entities: str = Field(
+        description="strings containing for all entities, entity name and the corresponding entity identifier"
+    )
 
 
 ##Question-answering against an RDF or OWL graph by generating SPARQL statements.
-class GraphSparqlQAChain(Chain):
+class GraphSparqlQAChain(ToolTemplate):
 
-    graph: RdfGraph = Field(exclude=True)
-    sparql_generation_select_chain: LLMChain
-    input_key: str = "question"  #: :meta private:
-    entities_key: str = "entities"  #: :meta private:
-    output_key: str = "result"  #: :meta private:
-    sparql_key: str = "sparql_query_used"  #: :meta private:
-
-    @property
-    def input_keys(self) -> List[str]:
-        return [self.input_key]
-
-    @property
-    def output_keys(self) -> List[str]:
-        _output_keys = [self.output_key]
-        return _output_keys
-
-    @classmethod
-    def from_llm(
-        cls,
-        llm: BaseLanguageModel,
-        *,
-        sparql_select_prompt: BasePromptTemplate = SPARQL_GENERATION_SELECT_PROMPT,
-        **kwargs: Any,
-    ) -> GraphSparqlQAChain:
-        """
-        Takes a language model and prompt template as input to create a
-        GraphSparqlQAChain object.
-
-        Args:
-          cls: It is a conventional name used in class methods to refer to the class object.
-          llm (BaseLanguageModel): The large language model (LLM) used to generate SPARQL queries.
-          sparql_select_prompt (BasePromptTemplate): The prompt template used to generate SPARQL queries.
-
-        Returns:
-          GraphSparqlQAChain : A GraphSparqlQAChain object with the specified language model and prompt template.
-        """
-        sparql_generation_select_chain = LLMChain(llm=llm, prompt=sparql_select_prompt)
-
-        return cls(
-            sparql_generation_select_chain=sparql_generation_select_chain,
-            **kwargs,
+    def __init__(self, llm: LLMChain, graph: RdfGraph, **kwargs):
+        super().__init__(**kwargs)
+        self.sparql_generation_select_chain = LLMChain(
+            llm=llm, prompt=SPARQL_GENERATION_SELECT_PROMPT
         )
+        self.graph = graph
 
     @staticmethod
     def remove_markdown_quotes(query_with_markdown: str) -> str:
@@ -144,51 +159,43 @@ class GraphSparqlQAChain(Chain):
 
         return temp_file_path
 
-    def _call(
-        self,
-        inputs: Dict[str, Any],
-        run_manager: Optional[CallbackManagerForChainRun] = None,
-    ) -> Dict[str, str]:
+    ########## if not working here, think about the input given by the supervisor: probably a dict. check  if we need Dict[Str, Any]
+    @tool("SPARQL_QUERY_RUNNER", args_schema=SparqlInput)
+    def tool_func(self, question: str, entities: str) -> Dict[str, str]:
         """
 
         Query the Knowledge Graph after generating SPARQL query and return the results.
+        Takes the user question and the resolved entities as input, generates a SPARQL query using the LLM chain,
+        queries the knowledge graph, and returns the results.
 
         Args:
-          inputs (Dict[str, Any]): takes inputs in the form of a dictionary with keys `self.input_key` and `self.entities_key`.
-          run_manager (Optional[CallbackManagerForChainRun]): an optional parameter of type `CallbackManagerForChainRun`. It is used to manage
-        callbacks during the execution of the method.
+            question (str): the original question from the user.
+            entities (str): strings containing for all entities, entity name and the corresponding entity identifier.
 
         Returns:
           dict: A dictionary containing the contextualized sparql result.
 
         """
-        _run_manager = run_manager or CallbackManagerForChainRun.get_noop_manager()
-        callbacks = _run_manager.get_child()
-        prompt = inputs[self.input_key]
-        entities = inputs[self.entities_key]
 
         logger.info(
             "providing prompt and entities to the chain for generating SPARQL query"
         )
-        logger.info("Prompt: %s", prompt)
+        logger.info("Prompt: %s", question)
         logger.info("Entities: %s", entities)
 
         generated_sparql = self.sparql_generation_select_chain.run(
-            {"question": prompt, "entities": entities, "schema": self.graph.get_schema},
-            callbacks=callbacks,
+            {
+                "question": question,
+                "entities": entities,
+                "schema": self.graph.get_schema,
+            }
         )
 
-        # TODO [Franck]: why do we need this? The prompt explicitely says to NOT return any markdown, still there might be some?
         generated_sparql = self.remove_markdown_quotes(generated_sparql)
         generated_sparql = self.remove_xsd_prefix(generated_sparql)
         logger.debug(
             "Generated SPARQL query (Removed xsd prefix after remove markdown prefix)): %s",
             generated_sparql,
-        )
-
-        _run_manager.on_text("Generated SPARQL:", end="\n", verbose=self.verbose)
-        _run_manager.on_text(
-            generated_sparql, color="green", end="\n", verbose=self.verbose
         )
 
         logger.debug("Generated SPARQL query: %s", generated_sparql)
@@ -212,7 +219,7 @@ class GraphSparqlQAChain(Chain):
 
         # Now call the token_counter method with the string count the tokens
         tokens_result = RdfGraph.token_counter(result2_string)
-        tokens_question = RdfGraph.token_counter(prompt)
+        tokens_question = RdfGraph.token_counter(question)
         tokens_query = RdfGraph.token_counter(generated_sparql)
 
         # Sum of tokens from different parts
@@ -237,4 +244,4 @@ class GraphSparqlQAChain(Chain):
                 "temp_file_path": temp_file_path,  # Add the file path to the results
             }
 
-        return {self.output_key: contextualized_result}
+        return {"result": contextualized_result}

@@ -18,6 +18,42 @@ Conda is required for setting up the environment. For installation instructions,
 conda env create -f environment.yml
 ```
 
+## Project Structure
+
+````bash
+├── Creating_datasets_Langsmith.ipynb
+├── Evaluation_langgraph.ipynb
+├── LLM_chain_agent.ipynb
+├── agents
+│   ├── enpkg
+│   │   ├── agent.py
+│   │   ├── tool_chemicals.py
+│   │   ├── tool_smiles.py
+│   │   ├── tool_target.py
+│   │   └── tool_taxon.py
+│   ├── entry
+│   │   ├── agent.py
+│   │   └── tool_memory.py
+│   ├── interpreter
+│   │   ├── agent.py
+│   │   └── tool_interpreter.py
+│   ├── sparql
+│   │   ├── agent.py
+│   │   └── tool_sparql.py
+│   ├── supervisor
+│   │   └── agent_supervisor.py
+│   ├── prompts.py
+│   ├── agent_interface.py
+│   └── tool_interface.py
+├── custom_sqlite_file.py
+├── graph_management
+│   ├── RdfGraphCustom.py
+├── log_search.py
+└── main.py
+
+````
+
+
 ## Development guidelines
 
 To ensure that all contributors are aligned and to facilitate smoother integration of our work, we kindly ask that you adhere to the following guidelines:

@@ -14,11 +14,11 @@ from rdflib import BNode, Literal, Namespace, URIRef
 from rdflib.plugins.stores import sparqlstore
 from tqdm import tqdm
 
-parent_dir = Path(__file__).parent.parent
-config_path = parent_dir / "config" / "logging.ini"
-logging.config.fileConfig(config_path, disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
+from app.core.utils import setup_logger
 
+logger = setup_logger(__name__)
+
+parent_dir = Path(__file__).parent.parent.parent
 sparql_config_path = parent_dir / "config" / "sparql.ini"
 
 
@@ -28,7 +28,6 @@ class RdfGraph:
     including querying and schema generation. The subjects are rdfs:Class nodes.
     """
 
-    # sparql query to get all classes and their comments / faster than CLS_EX_RDF
     # TODO: handle domain and range of properties rdfs:domain and rdfs:range
 
     def __init__(
@@ -149,7 +148,7 @@ class RdfGraph:
         from rdflib.query import ResultRow
 
         try:
-            res = self.graph.query(query_object=query, initNs={})
+            res = self.graph.query(query_object=query, initNs={}, initBindings={})
 
         except ParserError as e:
             raise ValueError("Generated SPARQL statement is invalid\n" f"{e}")
