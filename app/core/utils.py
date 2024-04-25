@@ -5,8 +5,7 @@ import logging.config
 import os
 from pathlib import Path
 from typing import List, Optional, Type
-
-from app.core.agents.tool_interface import ToolTemplate
+from langchain.tools import BaseTool
 
 
 def setup_logger(name):
@@ -41,7 +40,7 @@ def load_config():
 
 def import_tools(directory: str, module_prefix: str, **kwargs) -> List:
     """
-    Imports all Python modules in a specified directory that inherit from ToolTemplate
+    Imports all Python modules in a specified directory that inherit from BaseTool
     and returns a list of these tools.
 
     Args:
@@ -71,33 +70,33 @@ def import_tools(directory: str, module_prefix: str, **kwargs) -> List:
             module = importlib.import_module(module_path)
             tool = find_tool_in_module(module, **kwargs)
             if tool:
-                tools.append(tool.tool_func)
-                logger.info(f"Imported tool: {tool.tool_func.name}")
+                tools.append(tool)
+                logger.info(f"Imported tool: {tool.name}")
             else:
-                logger.warning(f"No valid ToolTemplate subclass found in {module_name}")
+                logger.warning(f"No valid BaseTool subclass found in {module_name}")
         except (AttributeError, ImportError) as e:
             logger.error(f"Failed to import {module_name}: {e}")
     return tools
 
 
-def find_tool_in_module(module, **kwargs) -> Optional[Type[ToolTemplate]]:
+def find_tool_in_module(module, **kwargs) -> Optional[Type[BaseTool]]:
     """
-    Searches a given module for any class that is a subclass of ToolTemplate, but not ToolTemplate itself,
+    Searches a given module for any class that is a subclass of BaseTool, but not BaseTool itself,
     and returns an instance of it if found.
 
     Args:
         module: The module to inspect.
 
     Returns:
-        Optional[Type[ToolTemplate]]: An instance of the found subclass of ToolTemplate if any,
+        Optional[Type[BaseTool]]: An instance of the found subclass of BaseTool if any,
                                       None otherwise.
     """
     for attribute_name in dir(module):
         attribute = getattr(module, attribute_name)
         if (
             isinstance(attribute, type)
-            and issubclass(attribute, ToolTemplate)
-            and attribute is not ToolTemplate
+            and issubclass(attribute, BaseTool)
+            and attribute is not BaseTool
         ):
             return attribute(**kwargs)
     return None

@@ -1,33 +1,50 @@
-import logging.config
 import xml.etree.ElementTree as ET
-from pathlib import Path
 from urllib.parse import quote
 
 import requests
-from langchain_core.tools import tool
+
+
+from langchain.tools import BaseTool
+from langchain.pydantic_v1 import BaseModel, Field
+
+from typing import Optional
+
+from langchain.callbacks.manager import (
+    CallbackManagerForToolRun,
+)
+
 
 from app.core.utils import setup_logger
 
-from ..tool_interface import ToolTemplate
 
 logger = setup_logger(__name__)
 
 
-class TargetResolver(ToolTemplate):
+class TargetInput(BaseModel):
+    target_name: str = Field(
+        description="A string containing the target representation."
+    )
+
+
+class TargetResolver(BaseTool):
+    name: str = "TARGET_RESOLVER"
+    description: str = """
+    Convert a target_name string to ChEMBLTarget notation using the CHEMBL API.
+    The function takes a target string as input and returns the ChEMBLTarget IRI.
+
+    Args:
+        target_name (str): A string containing the target_name representation.
+    Returns:
+        str: A string containing the ChEMBLTarget notation.
+    """
+    args_schema = TargetInput
+
     def __init__(self):
         super().__init__()
 
-    @tool("TARGET_RESOLVER")
-    def tool_func(target_name: str):
-        """
-        Convert a target_name string to ChEMBLTarget notation using the CHEMBL API.
-        The function takes a target string as input and returns the ChEMBLTarget IRI.
-
-        Args:
-            target_name (str): A string containing the target_name representation.
-        Returns:
-            str: A string containing the ChEMBLTarget notation.
-        """
+    def _run(
+        self, target_name: str, run_manager: Optional[CallbackManagerForToolRun] = None
+    ) -> str:
         url = "https://www.ebi.ac.uk/chembl/api/data/target"
         params = {"pref_name__contains": quote(target_name)}
 
@@ -51,7 +68,7 @@ class TargetResolver(ToolTemplate):
                         target_iri,
                         target_name,
                     )
-                    return {f"{target_name} ChEMBLTarget IRI is {target_iri}"}
+                    return f"{target_name} ChEMBLTarget IRI is {target_iri}"
                 else:
                     logger.warning(
                         "No target found for %s, try again with a different name.",

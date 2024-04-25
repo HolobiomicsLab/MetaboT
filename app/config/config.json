@@ -1,17 +1,10 @@
 {
     "agents": [
-        {"name": "entry", "path": "app.core.agents.entry.agent"},
-        {"name": "enpkg", "path": "app.core.agents.enpkg.agent"},
-        {"name": "sparql", "path": "app.core.agents.sparql.agent"},
-        {"name": "interpreter", "path": "app.core.agents.interpreter.agent"},
+        {"name": "Entry_Agent", "path": "app.core.agents.entry.agent"},
+        {"name": "ENPKG_agent", "path": "app.core.agents.enpkg.agent"},
+        {"name": "Sparql_query_runner", "path": "app.core.agents.sparql.agent"},
+        {"name": "Interpreter_agent", "path": "app.core.agents.interpreter.agent"},
         {"name": "supervisor", "path": "app.core.agents.supervisor.agent"}
-    ],
-    "nodes": [
-        {"id": "Entry_Agent", "agent": "entry"},
-        {"id": "ENPKG_agent", "agent": "enpkg"},
-        {"id": "Sparql_query_runner", "agent": "sparql"},
-        {"id": "Interpreter_agent", "agent": "interpreter"},
-        {"id": "supervisor", "agent": "supervisor"}
     ],
     "edges": [
         {"source": "Entry_Agent", "target": "supervisor"},

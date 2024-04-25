@@ -1,18 +1,41 @@
-import logging.config
-from pathlib import Path
 from typing import Optional
 
-from langchain_core.tools import tool
 from SPARQLWrapper import JSON, SPARQLWrapper
+
+
+from langchain.tools import BaseTool
+from langchain.pydantic_v1 import BaseModel, Field
+
+from typing import Optional
+
+from langchain.callbacks.manager import (
+    CallbackManagerForToolRun,
+)
+
 
 from app.core.utils import setup_logger
 
-from ..tool_interface import ToolTemplate
 
 logger = setup_logger(__name__)
 
 
-class TaxonResolver(ToolTemplate):
+class TaxonInput(BaseModel):
+    taxon_name: str = Field(description="A string containing the taxon name.")
+
+
+class TaxonResolver(BaseTool):
+    name: str = "TAXON_RESOLVER"
+    description: str = """
+    Takes a taxon name string as input, builds a query, executes it, and returns
+    the Wikidata IRI if found.
+
+    Args:
+        taxon_name (str): A string that represents the name of a taxon.
+
+    Returns:
+        str: A string that contains the Wikidata IRI if found, otherwise `None`.
+    """
+    args_schema = TaxonInput
     ENDPOINT_URL = "https://query.wikidata.org/sparql"
     PREFIXES = """
         PREFIX prov: <http://www.w3.org/ns/prov#>
@@ -24,18 +47,10 @@ class TaxonResolver(ToolTemplate):
     def __init__(self):
         super().__init__()
 
-    @tool("TAXON_RESOLVER")
-    def tool_func(self, taxon_name: str) -> Optional[str]:
-        """
-        Takes a taxon name string as input, builds a query, executes it, and returns
-        the Wikidata IRI if found.
+    def _run(
+        self, taxon_name: str, run_manager: Optional[CallbackManagerForToolRun] = None
+    ) -> Optional[str]:
 
-        Args:
-          taxon_name (str): A string that represents the name of a taxon.
-
-        Returns:
-            str: A string that contains the Wikidata IRI if found, otherwise `None`.
-        """
         query = self.build_query(taxon_name)
         results = self.execute_query(query)
 

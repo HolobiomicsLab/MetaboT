@@ -3,11 +3,14 @@ import pickle
 from pathlib import Path
 
 from langchain_community.chat_models import ChatOpenAI
+import os
 
+from langsmith import Client
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 from app.core.agents.agents_factory import create_all_agents
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
 from app.core.utils import setup_logger
+
 
 logger = setup_logger(__name__)
 
@@ -28,7 +31,7 @@ def link_kg_database(endpoint_url: str):
     try:
         with open(graph_path, "rb") as input_file:
             graph = pickle.load(input_file)
-            logger.info(f"schema: {graph.get_schema}")
+            # logger.info(f"schema: {graph.get_schema}")
             return graph
     except FileNotFoundError:
         pass
@@ -38,7 +41,7 @@ def link_kg_database(endpoint_url: str):
 
     with open(graph_path, "wb") as output_file:
         pickle.dump(graph, output_file)
-    logger.info(f"schema: {graph.get_schema}")
+    # logger.info(f"schema: {graph.get_schema}")
     return graph
 
 
@@ -67,7 +70,26 @@ def llm_creation():
     return models
 
 
+def langsmith_setup():
+    # #Setting up the LangSmith
+    # #For now, all runs will be stored in the "KGBot Testing - GPT4"
+    # #If you want to separate the traces to have a better control of specific traces.
+    # #Metadata as llm version and temperature can be obtained from traces.
+
+    os.environ["LANGCHAIN_TRACING_V2"] = "true"
+    os.environ["LANGCHAIN_PROJECT"] = (
+        f"KGBot Testing - Interpreter_agent"  # Please update the name here if you want to create a new project for separating the traces.
+    )
+    os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+
+    client = Client()
+
+    # #Check if the client was initialized
+    print(f"Langchain client was initialized: {client}")
+
+
 def main():
+    langsmith_setup()
     endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     graph = link_kg_database(endpoint_url)
     models = llm_creation()
@@ -87,7 +109,7 @@ def main():
     q11 = "Count all the species per family in the collection"
     q12 = "Taxons can be found in enpkg:LabExtract. Find the best URI of the Taxon in the context of this question : \n Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon , which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?"
 
-    process_workflow(workflow, q3)
+    process_workflow(workflow, q6)
 
 
 if __name__ == "__main__":

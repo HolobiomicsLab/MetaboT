@@ -3,7 +3,7 @@ from langchain.agents import AgentExecutor
 # langchain output parser for OpenAI functions
 from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from prompt import MODEL_CHOICE, PROMPT
+from .prompt import MODEL_CHOICE, PROMPT
 
 from app.core.utils import load_config, setup_logger
 
@@ -36,6 +36,7 @@ def create_agent(llms, graph) -> AgentExecutor:
             "required": ["next"],
         },
     }
+
     prompt = ChatPromptTemplate.from_messages(
         [
             ("system", PROMPT),
@@ -47,6 +48,7 @@ def create_agent(llms, graph) -> AgentExecutor:
             ),
         ]
     ).partial(options=str(options), members=", ".join(members))
+
     return (
         prompt
         | llm.bind_functions(functions=[function_def], function_call="route")

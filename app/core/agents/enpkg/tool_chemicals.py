@@ -1,49 +1,74 @@
 from __future__ import annotations
 
-import logging.config
+
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+
+from typing import List, Optional
+
+from typing import Any, Dict, Optional
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote
 from urllib.request import urlopen
-
+from langchain_core.documents import Document
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.vectorstores import FAISS
-from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
+
+
+from langchain.tools import BaseTool
+from langchain.pydantic_v1 import BaseModel, Field
+
+from typing import Optional
+
+from langchain.callbacks.manager import (
+    CallbackManagerForToolRun,
+)
 
 from app.core.utils import setup_logger
 
-from ..tool_interface import ToolTemplate
 
 logger = setup_logger(__name__)
 
 
-class ChemicalResolver(ToolTemplate):
+class ChemicalInput(BaseModel):
+    chemical_name: str = Field(description="natural product compound string")
+
+
+class ChemicalResolver(BaseTool):
+    name: str = "CHEMICAL_RESOLVER"
+    description: str = """
+    Resolves chemicals to InChi keys.
+    Try to fetch the chemical InCHikey from National cancer institute API, if none, fallback to the NPCClass retriever,
+    which is a specific database correspondence between chemical names and NPC class URIs from ENPKG.
+
+    Args:
+        chemical_name str : the chemical name string.
+
+    Returns:
+        Dict[str, str]: a dictionary that contains the output chemical name and corresponding URI.
+    """
+    args_schema = ChemicalInput
+    csv_data: List[Document] = None
+    retriever: Any = None
 
     def __init__(self):
         super().__init__()
 
-    @tool("CHEMICAL_RESOLVER")
-    def tool_func(self, chemical_name: str) -> Dict[str, Any]:
-        """
-        Resolves chemicals to InChi keys and classifies them.
-        Try to fetch the chemical InCHikey from National cancer institute API, if none, fallback to the NPCClass retriever,
-        which is a specific database correspondence between chemical names and NPC class URIs from ENPKG.
-
-        Args:
-          chemical_name str : the chemical name string.
-
-        Returns:
-            Dict[str, str]: a dictionary that contains the output chemical name and corresponding URI.
-        """
+    def _run(
+        self,
+        chemical_name: str,
+        run_manager: Optional[CallbackManagerForToolRun] = None,
+    ) -> Dict[str, Any]:
 
         inchi_key = self.CIRconvert(chemical_name)
 
         if inchi_key:
-            res = f"InChIKey is {inchi_key}"
-            return {self.output_key: res}
+            return {
+                "chemical_name": chemical_name,
+                "class": "InChIKey",
+                "IRI": inchi_key,
+            }
 
         logger.info("InChIKey not found, trying NPC Classifier")
         ## verify that csv_data is in the attributes of the class
@@ -51,7 +76,7 @@ class ChemicalResolver(ToolTemplate):
             self.csv_data = self.csv_loader()
             self.retriever = self.npc_retriever(self.csv_data)
 
-        uris = self.retriever.invoke(chemical_name)[0]
+        uris = self.retriever.invoke(chemical_name)[0].page_content
         # if bug, try directly get_relevant_documents(),
         # https://api.python.langchain.com/en/latest/vectorstores/langchain_core.vectorstores.VectorStoreRetriever.html#langchain_core.vectorstores.VectorStoreRetriever
         res = {"chemical_name": chemical_name, "results": uris}
@@ -67,8 +92,11 @@ class ChemicalResolver(ToolTemplate):
             Any: a dictionary that contains the data from the CSV file.
         """
 
+        dir_path = Path(__file__).resolve().parent.parent.parent.parent
+        file_path = dir_path / "data" / "npc_all.csv"
+
         loader = CSVLoader(
-            file_path="../../../data/npc_all.csv",
+            file_path=file_path,
             csv_args={
                 "delimiter": ",",
                 "fieldnames": ["NPCClass", "NPCPathway", "NPCSuperClass"],

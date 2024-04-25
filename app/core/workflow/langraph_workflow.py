@@ -91,12 +91,10 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
     workflow = initiate_workflow()
 
     # Add nodes to the workflow based on JSON configuration
-    for node_config in config["nodes"]:
-        node_id = node_config["id"]
+    for node_config in config["agents"]:
+        node_id = node_config["name"]
         if node_id != "supervisor":
-            node = functools.partial(
-                agent_node, agent=agents[node_config["agent"]], name=node_id
-            )
+            node = functools.partial(agent_node, agent=agents[node_id], name=node_id)
         else:
             node = agents["supervisor"]
         workflow.add_node(node_id, node)

@@ -9,13 +9,18 @@ from typing import Dict
 
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts.prompt import PromptTemplate
-from langchain_core.tools import tool
 from langchain.pydantic_v1 import BaseModel, Field
+from langchain.tools import BaseTool
 
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 from app.core.utils import setup_logger
 
-from ..tool_interface import ToolTemplate
+from typing import Optional
+
+from langchain.callbacks.manager import (
+    CallbackManagerForToolRun,
+)
+
 
 logger = setup_logger(__name__)
 
@@ -59,7 +64,9 @@ Additional information:
 {entities}
 
 The question is:
-{question}"""
+{question}
+
+"""
 
 
 SPARQL_GENERATION_SELECT_PROMPT = PromptTemplate(
@@ -76,14 +83,110 @@ class SparqlInput(BaseModel):
 
 
 ##Question-answering against an RDF or OWL graph by generating SPARQL statements.
-class GraphSparqlQAChain(ToolTemplate):
+class GraphSparqlQAChain(BaseTool):
+    name = "SPARQL_QUERY_RUNNER"
+    description = """
+    The agent resolve the user's question by querying the knowledge graph database. 
+    The two inputs should be a string containing the user's question and a string containing the resolved entities in the question.
+
+        Args:
+            question (str): the original question from the user.
+            entities (str): strings containing for all entities, entity name, the class and the corresponding entity identifier.
+
+        Returns:
+          dict: A dictionary containing the contextualized sparql result.
+        
+        Example:
+            question: "What is the capital of France?"
+            entities: "France has the DBPEDIA IRI http://dbpedia.org/resource/France; capital has the DBPEDIA http://dbpedia.org/ontology/capital"
+            tool._run(question, entities)
+
+        """
+    verbose: bool = True
+    args_schema = SparqlInput
+    sparql_generation_select_chain: LLMChain = None
+    graph: RdfGraph = None
 
     def __init__(self, llm: LLMChain, graph: RdfGraph, **kwargs):
         super().__init__(**kwargs)
         self.sparql_generation_select_chain = LLMChain(
-            llm=llm, prompt=SPARQL_GENERATION_SELECT_PROMPT
+            llm=llm,
+            prompt=SPARQL_GENERATION_SELECT_PROMPT,
+            # verbose=True   #### FOR debugging
         )
         self.graph = graph
+
+    def _run(
+        self,
+        question: str,
+        entities: str,
+        run_manager: Optional[CallbackManagerForToolRun] = None,
+    ) -> Dict[str, str]:
+
+        logger.info(
+            "providing question and entities to the chain for generating SPARQL query"
+        )
+        logger.info("question: %s", question)
+        logger.info("Entities: %s", entities)
+
+        generated_sparql = self.sparql_generation_select_chain.run(
+            {
+                "question": question,
+                "entities": entities,
+                "schema": self.graph.get_schema,
+            }
+        )
+
+        generated_sparql = self.remove_markdown_quotes(generated_sparql)
+        generated_sparql = self.remove_xsd_prefix(generated_sparql)
+
+        logger.info("Generated SPARQL query: %s", generated_sparql)
+
+        result = self.graph.query(generated_sparql)
+
+        # creating csv temp file inside the _call
+
+        temp_file_path = self.json_to_csv(result)
+
+        logger.info("Saving results to file: %s", temp_file_path)
+
+        # Convert the SPARQL query output to  a string if it's not already
+
+        if isinstance(result, dict):  # Assuming result2 is a dictionary (JSON)
+            result2_string = json.dumps(result)
+        else:
+            result2_string = str(
+                result
+            )  # Make sure it's a string if it's not a dictionary
+
+        # Now call the token_counter method with the string count the tokens
+        tokens_result = RdfGraph.token_counter(result2_string)
+        tokens_question = RdfGraph.token_counter(question)
+        tokens_query = RdfGraph.token_counter(generated_sparql)
+
+        # Sum of tokens from different parts
+        total_tokens = tokens_result + tokens_question + tokens_query
+
+        # Define the LLM context window size
+        llm_context_window = 10000
+
+        # Check if the total token count exceeds the LLM's context window
+        if total_tokens > llm_context_window:
+            # If it exceeds, create a contextualized_result without the "result" field
+            contextualized_result = {
+                "query": generated_sparql,
+                # "result" is omitted because the total token count exceeds the LLM context window
+                "temp_file_path": temp_file_path,  # Add the file path to the results
+            }
+        else:
+            contextualized_result = {
+                "query": generated_sparql,
+                # Include the result as the total token count is within the LLM context window
+                "result": result,
+                "temp_file_path": temp_file_path,  # Add the file path to the results
+            }
+
+        return {"result": contextualized_result}
 
     @staticmethod
     def remove_markdown_quotes(query_with_markdown: str) -> str:
@@ -158,90 +261,3 @@ class GraphSparqlQAChain(ToolTemplate):
             temp_file_path = None
 
         return temp_file_path
-
-    ########## if not working here, think about the input given by the supervisor: probably a dict. check  if we need Dict[Str, Any]
-    @tool("SPARQL_QUERY_RUNNER", args_schema=SparqlInput)
-    def tool_func(self, question: str, entities: str) -> Dict[str, str]:
-        """
-
-        Query the Knowledge Graph after generating SPARQL query and return the results.
-        Takes the user question and the resolved entities as input, generates a SPARQL query using the LLM chain,
-        queries the knowledge graph, and returns the results.
-
-        Args:
-            question (str): the original question from the user.
-            entities (str): strings containing for all entities, entity name and the corresponding entity identifier.
-
-        Returns:
-          dict: A dictionary containing the contextualized sparql result.
-
-        """
-
-        logger.info(
-            "providing prompt and entities to the chain for generating SPARQL query"
-        )
-        logger.info("Prompt: %s", question)
-        logger.info("Entities: %s", entities)
-
-        generated_sparql = self.sparql_generation_select_chain.run(
-            {
-                "question": question,
-                "entities": entities,
-                "schema": self.graph.get_schema,
-            }
-        )
-
-        generated_sparql = self.remove_markdown_quotes(generated_sparql)
-        generated_sparql = self.remove_xsd_prefix(generated_sparql)
-        logger.debug(
-            "Generated SPARQL query (Removed xsd prefix after remove markdown prefix)): %s",
-            generated_sparql,
-        )
-
-        logger.debug("Generated SPARQL query: %s", generated_sparql)
-
-        result = self.graph.query(generated_sparql)
-
-        # creating csv temp file inside the _call
-
-        temp_file_path = self.json_to_csv(result)
-
-        logger.info("Saving results to file: %s", temp_file_path)
-
-        # Convert the SPARQL query output to  a string if it's not already
-
-        if isinstance(result, dict):  # Assuming result2 is a dictionary (JSON)
-            result2_string = json.dumps(result)
-        else:
-            result2_string = str(
-                result
-            )  # Make sure it's a string if it's not a dictionary
-
-        # Now call the token_counter method with the string count the tokens
-        tokens_result = RdfGraph.token_counter(result2_string)
-        tokens_question = RdfGraph.token_counter(question)
-        tokens_query = RdfGraph.token_counter(generated_sparql)
-
-        # Sum of tokens from different parts
-        total_tokens = tokens_result + tokens_question + tokens_query
-
-        # Define the LLM context window size
-        llm_context_window = 10000
-
-        # Check if the total token count exceeds the LLM's context window
-        if total_tokens > llm_context_window:
-            # If it exceeds, create a contextualized_result without the "result" field
-            contextualized_result = {
-                "query": generated_sparql,
-                # "result" is omitted because the total token count exceeds the LLM context window
-                "temp_file_path": temp_file_path,  # Add the file path to the results
-            }
-        else:
-            contextualized_result = {
-                "query": generated_sparql,
-                # Include the result as the total token count is within the LLM context window
-                "result": result,
-                "temp_file_path": temp_file_path,  # Add the file path to the results
-            }
-
-        return {"result": contextualized_result}

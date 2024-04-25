@@ -1,40 +1,61 @@
 from __future__ import annotations
 
-import logging.config
-from pathlib import Path
 
 from codeinterpreterapi import CodeInterpreterSession, File
-from langchain_core.tools import tool
 
+from langchain.pydantic_v1 import BaseModel, Field
+from langchain.tools import BaseTool
+
+from typing import Optional
+
+from langchain.callbacks.manager import (
+    CallbackManagerForToolRun,
+)
+import json
 from app.core.utils import setup_logger
 
-from ..tool_interface import ToolTemplate
 
 logger = setup_logger(__name__)
 
 
-class Interpreter(ToolTemplate):
+class InterpreterInput(BaseModel):
+    question: str = Field(description="the original question from the user")
+    generated_sparql_query: str = Field(description="the generated SPARQL query")
+    file_path: str = Field(
+        description="file path where result of generated SPARQL query is stored"
+    )
+
+
+class Interpreter(BaseTool):
+
+    name: str = "INTERPRETER_TOOL"
+    description: str = """
+    Interprets the results of a SPARQL query based on user's question.
+
+    Args:
+        question (str): The original question from the user.
+        generated_sparql_query (str): The generated SPARQL query.
+        file_path (str): The file path where the result of the generated SPARQL query is stored.
+
+    Returns:
+        None: Outputs the response after interpreting the SPARQL results.
+    """
+    args_schema = InterpreterInput
 
     def __init__(self):
         super().__init__()
 
-    @tool("INTERPRETER_TOOL")
-    def tool_func(
-        self, question: str, generated_sparql_query: str, file_path: str
+    def _run(
+        self,
+        input: str,
+        run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> None:
-        """Interprets the results of a SPARQL query based on user's question.
-        The function takes an original user question, generated sparql query, and generated sparql query result stored in file_path and returns interpreted answer content
 
-        Args:
-            question (str): The original question from the user.
-            generated_sparql_query (str): The generated SPARQL query.
-            file_path (str): The file path where the result of the generated SPARQL query is stored.
-
-        Returns:
-            None: Outputs the response after interpreting the SPARQL results.
-        """
-        # context manager for start/stop of the session
-        # define the user request
+        # TODO: quick fix to handle the input as the input is a dictionnary converted to string (should check langraph to fix this issue)
+        input_dict = json.loads(input)
+        question = input_dict["question"]
+        generated_sparql_query = input_dict["generated_sparql_query"]
+        file_path = input_dict["file_path"]
         logger.info(f"Interpreting {question}")
         logger.info(f"SPARQL query: {generated_sparql_query}")
         logger.info(f"File path: {file_path}")

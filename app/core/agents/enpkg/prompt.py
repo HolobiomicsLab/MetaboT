@@ -16,8 +16,6 @@ If a target is mentioned, find the ChEMBLTarget IRI of the target with TARGET_RE
 
 If a SMILE structure is mentioned, find what is the InChIKey notation of the molecule with SMILE_CONVERTER. Input is the SMILE structure. For example, if there is a string with similar structure to CCC12CCCN3C1C4(CC3) in the question, provide it to SMILE_CONVERTER.
 
-If a SMILE structure is mentioned, verify if you need to retrieve structural information about the chemical. Use SMILES_SUBSTRUCTURE_RESOLVER to solve wikidata ids of substructures. 
-
 Give me units relevant to numerical values in this question. Return nothing if units for value is not provided.
 Be sure to say that these are the units of the quantities found in the knowledge graph.
 Here is the list of units to find:
@@ -30,8 +28,9 @@ Here is the list of units to find:
 "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
 
 
-    You are required to submit only the final answer to the supervisor.
-
+    You are required to submit only the final answer to the supervisor. provide the entity passed to the tool, the IRI and the type of the IRI. 
+    For example, if the question is "What is the InChIKey of salicin?" you should provide the following answer:
+        The InChIKey IRI for salicin is: "InChIKey:QXMAKCNQJWJZGM-UHFFFAOYSA-N"
  """
 
 # [V2]

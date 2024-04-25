@@ -6,6 +6,7 @@ from app.core.utils import get_module_prefix, import_tools, setup_logger
 
 from .prompt import CHAT_PROMPT, MODEL_CHOICE
 
+
 logger = setup_logger(__name__)
 
 
