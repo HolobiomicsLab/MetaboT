@@ -6,15 +6,14 @@ import logging.config
 import re
 from io import StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import rdflib
-import tiktoken
-from rdflib import BNode, Literal, Namespace, URIRef
+from rdflib import BNode, URIRef
 from rdflib.plugins.stores import sparqlstore
 from tqdm import tqdm
 
-from app.core.utils import setup_logger
+from app.core.utils import setup_logger, token_counter
 
 logger = setup_logger(__name__)
 
@@ -162,13 +161,6 @@ class RdfGraph:
         return list(csv.DictReader(StringIO(csv_str)))
 
     @staticmethod
-    def token_counter(text: str) -> int:
-        tokenizer = tiktoken.encoding_for_model(model_name="gpt-4")
-        # TODO [Franck]: the model name should be a config param
-        tokens = tokenizer.encode(text)
-        return len(tokens)
-
-    @staticmethod
     def _get_local_name(iri: str) -> str:
         for sep in ["#", "/"]:
             prefix, found, local_name = iri.rpartition(sep)
@@ -257,7 +249,7 @@ class RdfGraph:
                 graph = self.get_graph_from_classes(clss)
                 self.schema = _rdf_s_schema(clss, graph)
 
-                logger.info("number of tokens %s", self.token_counter(self.schema))
+                logger.info("number of tokens %s", token_counter(self.schema))
 
             elif self.standard == "rdfs":
                 # TODO : implement the rdfs schema

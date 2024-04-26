@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 from typing import List, Optional, Type
 from langchain.tools import BaseTool
+import tiktoken
 
 
 def setup_logger(name):
@@ -114,3 +115,10 @@ def get_module_prefix(name):
     current_module = name
     module_parts = current_module.split(".")
     return ".".join(module_parts[:-1])
+
+
+def token_counter(text: str) -> int:
+    tokenizer = tiktoken.encoding_for_model(model_name="gpt-4")
+    # TODO [Franck]: the model name should be a config param
+    tokens = tokenizer.encode(text)
+    return len(tokens)

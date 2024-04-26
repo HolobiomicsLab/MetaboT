@@ -109,7 +109,7 @@ def main():
     q11 = "Count all the species per family in the collection"
     q12 = "Taxons can be found in enpkg:LabExtract. Find the best URI of the Taxon in the context of this question : \n Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon , which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?"
 
-    process_workflow(workflow, q6)
+    process_workflow(workflow, q2)
 
 
 if __name__ == "__main__":

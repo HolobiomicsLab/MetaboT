@@ -13,7 +13,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 
 from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.utils import setup_logger
+from app.core.utils import setup_logger, token_counter
 
 from typing import Optional
 
@@ -49,7 +49,7 @@ Exclusivity: Do not encapsulate the query in any form of quotes (single, double,
 
 Contextualization : Use only the node types and properties provided in the schema. Do not use any node types and properties that are not explicitly provided. Include all necessary prefixes.
 
-Entities : Use the URI provided by the additional information to construct the query, if there is any. When available, use the URI rather than the Literal value of the entity.
+Entities : Use the IRI provided by the additional information to construct the query, if there is any. When available, choose to use the IRI rather than the Literal value of the entity.
 
 Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
 
@@ -98,7 +98,7 @@ class GraphSparqlQAChain(BaseTool):
         
         Example:
             question: "What is the capital of France?"
-            entities: "France has the DBPEDIA IRI http://dbpedia.org/resource/France; capital has the DBPEDIA http://dbpedia.org/ontology/capital"
+            entities: "France has the DBPEDIA IRI http://dbpedia.org/resource/France; capital has the DBPEDIA IRI http://dbpedia.org/ontology/capital"
             tool._run(question, entities)
 
         """
@@ -112,7 +112,7 @@ class GraphSparqlQAChain(BaseTool):
         self.sparql_generation_select_chain = LLMChain(
             llm=llm,
             prompt=SPARQL_GENERATION_SELECT_PROMPT,
-            # verbose=True   #### FOR debugging
+            # verbose=True,  #### FOR debugging
         )
         self.graph = graph
 
@@ -160,9 +160,9 @@ class GraphSparqlQAChain(BaseTool):
             )  # Make sure it's a string if it's not a dictionary
 
         # Now call the token_counter method with the string count the tokens
-        tokens_result = RdfGraph.token_counter(result2_string)
-        tokens_question = RdfGraph.token_counter(question)
-        tokens_query = RdfGraph.token_counter(generated_sparql)
+        tokens_result = token_counter(result2_string)
+        tokens_question = token_counter(question)
+        tokens_query = token_counter(generated_sparql)
 
         # Sum of tokens from different parts
         total_tokens = tokens_result + tokens_question + tokens_query

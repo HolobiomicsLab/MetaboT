@@ -57,8 +57,11 @@ class TaxonResolver(BaseTool):
         if results:
             try:
                 bindings = results["results"]["bindings"]
+
                 if bindings:  # Check if the list is not empty
-                    return "wikidata IRI is " + bindings[0]["wikidata"]["value"]
+                    res = "wikidata IRI is " + bindings[0]["wikidata"]["value"]
+                    logger.info("Results found for the given taxon name. {res}")
+                    return res
                 else:
                     logger.info("No results found for the given taxon name.")
                     return None

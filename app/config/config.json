@@ -4,13 +4,15 @@
         {"name": "ENPKG_agent", "path": "app.core.agents.enpkg.agent"},
         {"name": "Sparql_query_runner", "path": "app.core.agents.sparql.agent"},
         {"name": "Interpreter_agent", "path": "app.core.agents.interpreter.agent"},
-        {"name": "supervisor", "path": "app.core.agents.supervisor.agent"}
+        {"name": "supervisor", "path": "app.core.agents.supervisor.agent"},
+        {"name": "Hello_Agent", "path": "app.core.agents.hello.agent"}
     ],
     "edges": [
         {"source": "Entry_Agent", "target": "supervisor"},
         {"source": "ENPKG_agent", "target": "supervisor"},
         {"source": "Sparql_query_runner", "target": "supervisor"},
-        {"source": "Interpreter_agent", "target": "supervisor"}
+        {"source": "Interpreter_agent", "target": "supervisor"},
+        {"source": "Hello_Agent", "target": "supervisor"}
     ],
     "conditional_edges": [
         {
@@ -20,6 +22,7 @@
                 {"condition_value": "ENPKG_agent", "target": "ENPKG_agent"},
                 {"condition_value": "Sparql_query_runner", "target": "Sparql_query_runner"},
                 {"condition_value": "Interpreter_agent", "target": "Interpreter_agent"},
+                {"condition_value": "Hello_Agent", "target": "Hello_Agent"},
                 {"condition_value": "FINISH", "target": "__end__"}
             ]
         }
@@ -27,6 +30,6 @@
     "entry_point": "Entry_Agent",
     "supervisor": {
         "name": "supervisor",
-        "members": ["ENPKG_agent", "Sparql_query_runner", "Interpreter_agent"]
+        "members": ["ENPKG_agent", "Sparql_query_runner", "Interpreter_agent", "Hello_Agent"]
     }
 }

@@ -18,41 +18,85 @@ Conda is required for setting up the environment. For installation instructions,
 conda env create -f environment.yml
 ```
 
-## Project Structure
+## Application Startup Instructions
+
+The application has been structured as a module and adheres to the dot notation convention for Python imports. To import a module within the Python script, you can either use an absolute path (e.g., app.core.module1.module2) or a relative import (e.g., ..core.module1.module2).
+
+### Launching the Application
+
+To launch the application, you should utilize the -m option from the Python command line interface. 
+The main entry point for the application is located within the main module under app.core.main. Follow the steps below to start the application:
 
 ````bash
-├── Creating_datasets_Langsmith.ipynb
-├── Evaluation_langgraph.ipynb
-├── LLM_chain_agent.ipynb
-├── agents
-│   ├── enpkg
-│   │   ├── agent.py
-│   │   ├── tool_chemicals.py
-│   │   ├── tool_smiles.py
-│   │   ├── tool_target.py
-│   │   └── tool_taxon.py
-│   ├── entry
-│   │   ├── agent.py
-│   │   └── tool_memory.py
-│   ├── interpreter
-│   │   ├── agent.py
-│   │   └── tool_interpreter.py
-│   ├── sparql
-│   │   ├── agent.py
-│   │   └── tool_sparql.py
-│   ├── supervisor
-│   │   └── agent_supervisor.py
-│   ├── prompts.py
-│   ├── agent_interface.py
-│   └── tool_interface.py
-├── custom_sqlite_file.py
-├── graph_management
-│   ├── RdfGraphCustom.py
-├── log_search.py
-└── main.py
+cd kgbot
+
+python -m app.core.main
 
 ````
 
+## Project Structure
+
+````bash
+.
+├── README.md
+├── app
+│   ├── config
+│   │   ├── config.json
+│   │   ├── logging.ini
+│   │   ├── logs
+│   │   │   ├── app.log
+│   │   │   └── app.log.1
+│   │   ├── params.ini
+│   │   └── sparql.ini
+│   ├── core
+│   │   ├── agents
+│   │   │   ├── agents_factory.py
+│   │   │   ├── enpkg
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   ├── substructure_workinprogress.py
+│   │   │   │   ├── tool_chemicals.py
+│   │   │   │   ├── tool_smiles.py
+│   │   │   │   ├── tool_target.py
+│   │   │   │   └── tool_taxon.py
+│   │   │   ├── entry
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_memory.py
+│   │   │   ├── interpreter
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_interpreter.py
+│   │   │   ├── sparql
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_sparql.py
+│   │   │   ├── supervisor
+│   │   │   │   ├── agent.py
+│   │   │   │   └── prompt.py
+│   │   │   ├── temp_for_record.py
+│   │   │   └── tool_interface.py
+│   │   ├── graph_management
+│   │   │   ├── RdfGraphCustom.py
+│   │   ├── main.py
+│   │   ├── memory
+│   │   │   ├── custom_sqlite_file.py
+│   │   │   └── log_search.py
+│   │   ├── utils.py
+│   │   └── workflow
+│   │       └── langraph_workflow.py
+│   ├── data
+│   ├── graphs
+│   │   ├── graph.pkl
+│   │   └── schema.ttl
+│   ├── notebooks
+│   └── tests
+├── environment.yml
+├── environment_alternative.yml
+└── langgraph_checkpoint.db
+
+
+````
 
 ## Development guidelines
 

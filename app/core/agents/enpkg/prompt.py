@@ -28,9 +28,11 @@ Here is the list of units to find:
 "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
 
 
-    You are required to submit only the final answer to the supervisor. provide the entity passed to the tool, the IRI and the type of the IRI. 
-    For example, if the question is "What is the InChIKey of salicin?" you should provide the following answer:
-        The InChIKey IRI for salicin is: "InChIKey:QXMAKCNQJWJZGM-UHFFFAOYSA-N"
+    You are required to submit only the final answer to the supervisor. 
+    provide the entity passed to the tool, the IRI and the type of the IRI. 
+    For example:
+    "salicin, http://purl.obolibrary.org/obo/CHEBI_88293, CHEBI;
+    acer saccharum, http://www.wikidata.org/entity/Q132023, Wikidata"
  """
 
 # [V2]

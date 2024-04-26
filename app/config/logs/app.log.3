@@ -1,0 +1,16 @@
+2024-04-26 15:17:15 - httpcore.connection - DEBUG - connect_tcp.started host='api.openai.com' port=443 local_address=None timeout=None socket_options=None
+2024-04-26 15:17:15 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x129526f90>
+2024-04-26 15:17:15 - httpcore.connection - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x128ef8e60> server_hostname='api.openai.com' timeout=None
+2024-04-26 15:17:15 - httpcore.connection - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x12aaa1550>
+2024-04-26 15:17:15 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2024-04-26 15:17:15 - httpcore.http11 - DEBUG - send_request_headers.complete
+2024-04-26 15:17:15 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2024-04-26 15:17:15 - httpcore.http11 - DEBUG - send_request_body.complete
+2024-04-26 15:17:15 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2024-04-26 15:17:18 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Fri, 26 Apr 2024 13:17:18 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'access-control-allow-origin', b'*'), (b'openai-model', b'text-embedding-ada-002'), (b'openai-organization', b'user-s3ol6daonpe1vlpbnpxiymtp'), (b'openai-processing-ms', b'1187'), (b'openai-version', b'2020-10-01'), (b'strict-transport-security', b'max-age=15724800; includeSubDomains'), (b'x-ratelimit-limit-requests', b'10000'), (b'x-ratelimit-limit-tokens', b'10000000'), (b'x-ratelimit-remaining-requests', b'9999'), (b'x-ratelimit-remaining-tokens', b'9936574'), (b'x-ratelimit-reset-requests', b'6ms'), (b'x-ratelimit-reset-tokens', b'380ms'), (b'x-request-id', b'req_6b7fb657a18f184b7e3776f214d73fd6'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Set-Cookie', b'__cf_bm=v7HH2jjhyUh.bTNPwWfW6OHS9_X57jOXrzYTU06qPMU-1714137438-1.0.1.1-VqrRV6wDNNkNwC1miWp7JXbpuIlCJ8OlPrRFUDMWiMGg2oEU7BeJzcSZkhyK4njhm0NGkemxCVKPhPKRAb.4Cg; path=/; expires=Fri, 26-Apr-24 13:47:18 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'Set-Cookie', b'_cfuvid=sxbKlkwK8VfvXytb_S6EjVbIyxCfgGfnIwYVYV4PpwM-1714137438072-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'Server', b'cloudflare'), (b'CF-RAY', b'87a6da1c7e022c6d-FRA'), (b'Content-Encoding', b'gzip'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2024-04-26 15:17:18 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/embeddings "HTTP/1.1 200 OK"
+2024-04-26 15:17:18 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2024-04-26 15:17:19 - httpcore.http11 - DEBUG - receive_response_body.complete
+2024-04-26 15:17:19 - httpcore.http11 - DEBUG - response_closed.started
+2024-04-26 15:17:19 - httpcore.http11 - DEBUG - response_closed.complete
+2024-04-26 15:17:19 - openai._base_client - DEBUG - HTTP Request: POST https://api.openai.com/v1/embeddings "200 OK"

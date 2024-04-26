@@ -64,11 +64,7 @@ class ChemicalResolver(BaseTool):
         inchi_key = self.CIRconvert(chemical_name)
 
         if inchi_key:
-            return {
-                "chemical_name": chemical_name,
-                "class": "InChIKey",
-                "IRI": inchi_key,
-            }
+            return f"{chemical_name}, InChIKey, {inchi_key}"
 
         logger.info("InChIKey not found, trying NPC Classifier")
         ## verify that csv_data is in the attributes of the class
@@ -79,7 +75,7 @@ class ChemicalResolver(BaseTool):
         uris = self.retriever.invoke(chemical_name)[0].page_content
         # if bug, try directly get_relevant_documents(),
         # https://api.python.langchain.com/en/latest/vectorstores/langchain_core.vectorstores.VectorStoreRetriever.html#langchain_core.vectorstores.VectorStoreRetriever
-        res = {"chemical_name": chemical_name, "results": uris}
+        res = f"{chemical_name}, NPCCLass, {uris}"
         logger.info(f"NPC Classifier result: {res}")
         return res
 
