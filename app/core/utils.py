@@ -34,7 +34,7 @@ logger = setup_logger(__name__)
 
 
 def load_config():
-    config_path = Path(__file__).resolve().parent.parent / "config" / "config.json"
+    config_path = Path(__file__).resolve().parent.parent / "config" / "langgraph.json"
     with open(config_path, "r") as file:
         return json.load(file)
 

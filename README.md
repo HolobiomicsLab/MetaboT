@@ -97,8 +97,39 @@ python -m app.core.main
 
 
 ````
+## Agent Setup guidelines
 
-## Development guidelines
+### Agent Directory Creation
+Create a dedicated folder for your agent within the app/core/agents directory. This will serve as the primary repository for all agent-specific files.
+
+### Standard File Structure
+The agent folder should include the following files:
+
+    agent.py: This file remains consistent across all agents. You should copy this from an existing agent, unless your tool requires accessing private class properties. For such cases, refer to the section 'If Your Tool Serves as an Agent' for guidance.
+
+    prompt.py: Set the MODEL_CHOICE variable to either llm or llm_preview as per the model hyperparameters defined in app/config/params.ini. Customize the prompt to align with your agent's purpose.
+
+    tool_xxxx.py (optional): Any tool scripts should inherit from the Langchain BaseTool class. Define the necessary class attributes such as name, description, and args_schema. Implement the _run function to execute the tool's functionality. Ensure to define a Pydantic model (class inheriting from BaseModel) for input validation, detailing the type and purpose of each input.
+
+### Supervisor Configuration
+Modify the supervisor prompt to integrate logic that recognizes and selects your agent. The revised prompt should be updated accordingly.
+
+![alt text](/app/ressources/prompt.png)
+
+### Configuration Updates
+Alter the app/config/laggraph.json file to incorporate your agent into the application's workflow, ensuring it is recognized as part of the operational sequence.
+
+![alt text](/app/ressources/image.png)
+
+### If Your Tool Serves as an Agent
+
+If your tool functions as an agent, particularly in scenarios requiring interaction with a LLM, specific class properties must be utilized. For an example, see the implementation in app/core/agents/sparql/tool_sparql.py.
+
+Additional class attributes may be necessary to allow use of LLM, extending beyond the basic attributes inherited from BaseTool. This includes defining theses within the init(), ands in the class attributes. Also, you should modify the agent.py file to incorporate instances of these properties through the import_tools() function. Review the tool_parameters variable in app/core/agents/sparql/agent.py for details.
+
+
+
+## Development Guidelines
 
 To ensure that all contributors are aligned and to facilitate smoother integration of our work, we kindly ask that you adhere to the following guidelines:
 

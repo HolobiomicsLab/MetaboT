@@ -1,5 +1,4 @@
 import configparser
-import pickle
 from pathlib import Path
 
 from langchain_community.chat_models import ChatOpenAI
@@ -10,7 +9,7 @@ from app.core.graph_management.RdfGraphCustom import RdfGraph
 from app.core.agents.agents_factory import create_all_agents
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
 from app.core.utils import setup_logger
-
+import pickle
 
 logger = setup_logger(__name__)
 
