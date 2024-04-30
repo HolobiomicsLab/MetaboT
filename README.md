@@ -41,11 +41,10 @@ python -m app.core.main
 ├── README.md
 ├── app
 │   ├── config
-│   │   ├── config.json
+│   │   ├── langgraph.json
 │   │   ├── logging.ini
 │   │   ├── logs
 │   │   │   ├── app.log
-│   │   │   └── app.log.1
 │   │   ├── params.ini
 │   │   └── sparql.ini
 │   ├── core
@@ -54,7 +53,6 @@ python -m app.core.main
 │   │   │   ├── enpkg
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
-│   │   │   │   ├── substructure_workinprogress.py
 │   │   │   │   ├── tool_chemicals.py
 │   │   │   │   ├── tool_smiles.py
 │   │   │   │   ├── tool_target.py
@@ -74,8 +72,10 @@ python -m app.core.main
 │   │   │   ├── supervisor
 │   │   │   │   ├── agent.py
 │   │   │   │   └── prompt.py
-│   │   │   ├── temp_for_record.py
-│   │   │   └── tool_interface.py
+│   │   │   └── toy_example
+│   │   │       ├── agent.py
+│   │   │       ├── prompt.py
+│   │   │       └── tool_say_hello.py
 │   │   ├── graph_management
 │   │   │   ├── RdfGraphCustom.py
 │   │   ├── main.py
@@ -90,6 +90,7 @@ python -m app.core.main
 │   │   ├── graph.pkl
 │   │   └── schema.ttl
 │   ├── notebooks
+│   ├── ressources
 │   └── tests
 ├── environment.yml
 ├── environment_alternative.yml
