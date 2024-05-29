@@ -83,4 +83,4 @@ CHAT_PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
-MODEL_CHOICE = "llm_preview"
+MODEL_CHOICE = "llm_o"

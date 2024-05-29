@@ -43,9 +43,11 @@ class TaxonResolver(BaseTool):
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX wd: <http://www.wikidata.org/entity/>
     """
+    openai_key: str = None
 
-    def __init__(self):
+    def __init__(self, openai_key: str = None):
         super().__init__()
+        self.openai_key = openai_key
 
     def _run(
         self, taxon_name: str, run_manager: Optional[CallbackManagerForToolRun] = None

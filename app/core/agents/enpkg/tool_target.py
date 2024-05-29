@@ -38,9 +38,11 @@ class TargetResolver(BaseTool):
         str: A string containing the ChEMBLTarget notation.
     """
     args_schema = TargetInput
+    openai_key: str = None
 
-    def __init__(self):
+    def __init__(self, openai_key: str = None):
         super().__init__()
+        self.openai_key = openai_key
 
     def _run(
         self, target_name: str, run_manager: Optional[CallbackManagerForToolRun] = None

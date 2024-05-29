@@ -6,6 +6,7 @@ import os
 import re
 import tempfile
 from typing import Dict
+from pathlib import Path
 
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts.prompt import PromptTemplate
@@ -13,7 +14,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 
 from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.utils import setup_logger, token_counter
+from app.core.utils import setup_logger, token_counter, create_user_session
 
 from typing import Optional
 
@@ -25,9 +26,9 @@ from langchain.callbacks.manager import (
 logger = setup_logger(__name__)
 
 
-SPARQL_GENERATION_SELECT_TEMPLATE = """Task: Generate a SPARQL SELECT statement for querying a graph database.
-For instance, to find all email addresses of John Doe, the following query in backticks would be suitable:
-
+SPARQL_GENERATION_SELECT_TEMPLATE = """
+Task: Generate a SPARQL SELECT statement for querying a graph database.
+For instance, to find all email addresses of John Doe, the following query in backticks is suitable:
 ```
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 SELECT ?email
@@ -36,27 +37,55 @@ WHERE {{
     ?person foaf:mbox ?email .
 }}
 ```
+Your task is to generate a SPARQL query based on the following requirements. The output must strictly adhere to these guidelines, please, read them carefully:
 
-Please generate a SPARQL query based on the following requirements. The output must strictly adhere to these guidelines:
+Output Format: Your response should consist solely of the SPARQL query. Do not include any markdown syntax (e.g., triple backticks), preamble words (like "sparql"), or any other text outside the SPARQL query itself.
 
-Output Format: Your response should consist solely of the SPARQL query. Ensure the query is fully executable without any modifications or removals necessary. Do not include any markdown syntax (e.g., triple backticks), preamble words (like "sparql"), or any other text outside the SPARQL query itself.
+Content Clarity: Ensure the query is clear, readable, properly formatted and includes only the necessary prefixes that are used in the query.
 
-Content Clarity: The query should be clearly structured and formatted for readability. Use appropriate SPARQL conventions, prefixes, and syntax.
+Precision: The query must include only necessary prefixes related to the question and conditions as specified. It should be ready to run in a SPARQL endpoint without requiring any additional editing or formatting. Do not include any prefixes that are not used in the query.
 
-Precision: The query must include all necessary prefixes and conditions as specified. It should be ready to run in a SPARQL endpoint without requiring any additional editing or formatting.
+Exclusivity: Do not encapsulate the query in any form of quotes (single, double, or block quotes). The response must contain the SPARQL query and nothing else.
 
-Exclusivity: Do not encapsulate the query in any form of quotes (single, double, or block quotes). The response must contain the SPARQL query and nothing else. Any non-query text will be considered an error and will need correction.
+Prefix Usage: Only include prefixes that are actually used in the query. Do not include unused and unnecessary prefixes. For example, if the foaf prefix is not used in the query, it should not be included.
 
-Contextualization : Use only the node types and properties provided in the schema. Do not use any node types and properties that are not explicitly provided. Include all necessary prefixes.
+Schema and Property Alignment: Ensure SPARQL query strictly adheres to the defined schema. Use only properties and node types that are explicitly provided in the schema. Use properties with nodes that are directly associated with them in the schema. Do not misapply properties between similar but distinct node types, such as ?InChIkey and ?InChIkey2D.
 
-Entities : Use the IRI provided by the additional information to construct the query, if there is any. When available, choose to use the IRI rather than the Literal value of the entity.
+Object Validation: Ensure the objects used in the query are valid for the given properties and classes according to the schema. Verify that the class-property-object relationships are correctly followed as defined in the schema. Do not mix objects between different classes for the same property.
+
+Path Traversal: If you need to access properties that do not directly belong to a given class, first link the class to an associated class that has the desired properties. This ensures the query adheres to the schema constraints.
+
+For example, to access the CHEMBL_ID of an entity represented by ?InChIkey2D, you need to first link ?InChIkey2D to its associated chemical entity, and then access the CHEMBL_ID through the chemical entity, since ?InChIkey2D does not have the property ns2:has_chembl_id directly. The SPARQL query should contain the following:
+```
+?InChIkey2D ns1:is_InChIkey2D_of ?chemicalEntity .
+?chemicalEntity ns2:has_chembl_id ?chembl_id.
+```
+If the question asks for annotations, access the annotations through the feature in the feature list. For instance, to get the ISDB annotations of a particular lab extract, the SPARQL query should contain:
+```
+?labExtract ns1:has_LCMS ?analysis .
+?analysis ns1:has_lcms_feature_list ?feature_list .
+?feature_list ns1:has_lcms_feature ?feature .
+?feature ns1:has_isdb_annotation ?Annotation .
+```
+Entities: Use the IRI provided by the additional information to construct the query, if there is any. When available, choose to use the IRI rather than the Literal value of the entity.
 
 Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
 
 Casting: Given the schemas, when filtering values for properties, directly use the literal values without unnecessary casting to xsd:string, since they are already expected to be strings according to the RDF schema provided.
 
-Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards. It should be capable of being executed in a compatible SPARQL endpoint without errors.
+Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards. Double check that it uses properties as defined in the schema and does not have any unused prefixes. It should be capable of being executed in a compatible SPARQL endpoint without errors.
 
+Important Note: Ensure that you correctly follow the property relationships as defined in the schema. For example, do not place properties with classes that do not directly own them. Here are correct examples of the property use:
+ex:John a ex:Person ;
+   ex:hasName "John Doe" ;
+   ex:authorOf ex:SomeBook .
+ex:SomeBook a ex:Book ;
+     ex:hasTitle  "Some Book Title" .
+
+And this example demonstrates incorrect use of properties:
+ex:SomeBook a ex:Book ;
+    ex:hasName "Some Book Title" .
+Thus, avoid using properties with the classes that are not associated with them.
 Schema:
 {schema}
 
@@ -65,7 +94,6 @@ Additional information:
 
 The question is:
 {question}
-
 """
 
 
@@ -106,8 +134,9 @@ class GraphSparqlQAChain(BaseTool):
     args_schema = SparqlInput
     sparql_generation_select_chain: LLMChain = None
     graph: RdfGraph = None
+    session_id: str = None
 
-    def __init__(self, llm: LLMChain, graph: RdfGraph, **kwargs):
+    def __init__(self, llm: LLMChain, graph: RdfGraph, session_id: str, **kwargs):
         super().__init__(**kwargs)
         self.sparql_generation_select_chain = LLMChain(
             llm=llm,
@@ -115,6 +144,7 @@ class GraphSparqlQAChain(BaseTool):
             # verbose=True,  #### FOR debugging
         )
         self.graph = graph
+        self.session_id = session_id
 
     def _run(
         self,
@@ -146,7 +176,7 @@ class GraphSparqlQAChain(BaseTool):
 
         # creating csv temp file inside the _call
 
-        temp_file_path = self.json_to_csv(result)
+        temp_file_path = self.json_to_csv(self, result)
 
         logger.info("Saving results to file: %s", temp_file_path)
 
@@ -168,7 +198,7 @@ class GraphSparqlQAChain(BaseTool):
         total_tokens = tokens_result + tokens_question + tokens_query
 
         # Define the LLM context window size
-        llm_context_window = 10000
+        llm_context_window = 6000
 
         # Check if the total token count exceeds the LLM's context window
         if total_tokens > llm_context_window:
@@ -212,7 +242,7 @@ class GraphSparqlQAChain(BaseTool):
         return updated_query
 
     @staticmethod
-    def json_to_csv(json_data):
+    def json_to_csv(self, json_data):
         """
         Converts JSON data into a CSV file and returns the path to the temporary
         CSV file.
@@ -230,29 +260,25 @@ class GraphSparqlQAChain(BaseTool):
             data = json_data
 
         if data and isinstance(data, list):
-            # Create a "kgbot" directory inside the system's temporary directory
-            kgbot_temp_dir = os.path.join(tempfile.gettempdir(), "kgbot")
-            os.makedirs(
-                kgbot_temp_dir, exist_ok=True
-            )  # Make the directory if it doesn't exist
+            # Getting the temporary directory path
+            
+            session_dir = create_user_session(self.session_id, user_session_dir=True)
 
-            # Define the path for the new CSV file within the "kgbot" directory
-            temp_csv_path = os.path.join(
-                kgbot_temp_dir, tempfile.mktemp(suffix=".csv", dir=kgbot_temp_dir)
-            )
+            # Create a NamedTemporaryFile within the session directory and keep it after closing
+            with tempfile.NamedTemporaryFile(suffix=".csv", dir=session_dir, delete=False) as temp_file:
+                temp_csv_path = Path(temp_file.name)  # Convert the temp file path to a Path object
 
-            # Create and open the file for writing
-            with open(temp_csv_path, mode="w", newline="") as temp_file:
-                # Extract headers from the first item, assuming all items are dictionaries
-                headers = data[0].keys()
-                # Create a CSV writer object
-                csv_writer = csv.DictWriter(temp_file, fieldnames=headers)
-                # Write the header
-                csv_writer.writeheader()
-                # Write the rows
-                csv_writer.writerows(data)
+                # Open the temp file path again for writing CSV data
+                with temp_csv_path.open(mode="w", newline="") as file:
+                    # Extract headers from the first item, assuming all items are dictionaries
+                    headers = data[0].keys()
+                    # Create a CSV writer object
+                    csv_writer = csv.DictWriter(file, fieldnames=headers)
+                    # Write the header
+                    csv_writer.writeheader()
+                    # Write the rows
+                    csv_writer.writerows(data)
 
-            # The path to return will be the full path to the newly created CSV file within "kgbot"
             temp_file_path = temp_csv_path
 
         else:

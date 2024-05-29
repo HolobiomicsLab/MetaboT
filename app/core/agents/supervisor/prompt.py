@@ -23,6 +23,8 @@ Avoid calling the same agent if this agent has already been called previously an
 
 Always tell the user the SPARQL query that has been returned by the Sparql_query_runner.
 
+If interpretation of a file is needed, delegate the task directly to interpreter agent unless it needs to resolve any chemical entity or retrieve extra information from sparql_query_runner. In this case, delegate the task to the aproppriate agent.
+
 If the agent does not provide the expected output mark the process as FINISH.
 
 

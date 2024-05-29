@@ -38,9 +38,11 @@ class SMILESResolver(BaseTool):
     inchikey = _run(smiles_string)
     """
     args_schema = SMILESInput
+    openai_key: str = None
 
-    def __init__(self):
+    def __init__(self, openai_key: str = None):
         super().__init__()
+        self.openai_key = openai_key
 
     def _run(
         self, smiles: str, run_manager: Optional[CallbackManagerForToolRun] = None

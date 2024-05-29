@@ -10,12 +10,16 @@ from .prompt import CHAT_PROMPT, MODEL_CHOICE
 logger = setup_logger(__name__)
 
 
-def create_agent(llms, graph) -> AgentExecutor:
+def create_agent(llms, graph, openai_key) -> AgentExecutor:
     logger.info("Creating agent with tools...")
     directory = os.path.dirname(__file__)
     module_prefix = get_module_prefix(__name__)
 
-    tools = import_tools(directory, module_prefix)
+    tool_parameters = {
+        "openai_key": openai_key,
+    }
+
+    tools = import_tools(directory, module_prefix, **tool_parameters)
 
     try:
         agent = create_openai_tools_agent(llms[MODEL_CHOICE], tools, CHAT_PROMPT)

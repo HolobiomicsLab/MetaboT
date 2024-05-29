@@ -1,0 +1,21 @@
+#### Welcome to the KGBot Agent WebApp
+
+This is a prototype to showcase the capabilities of the KGBot agent applied to the [ENPKG Dataset](https://doi.org/10.26434/chemrxiv-2023-sljbt).
+
+The KGBot is designed to retrieve, process, and interpret information stored in the ENPKG Knowledge Graph. Below are some recommendations and guidelines for using KGBot:
+
+- **Testing**: Feel free to test the capabilities of the KGBot with one of our preselected questions or ask your own questions.
+- **Asking Questions**: When asking something, please write in a direct and succinct way what your question is.
+- **Interactivity**: The bot is designed to handle and retrieve more information based on your previous questions, allowing more interactivity and follow-up conversations. If you have any questions about the answer you received from KGBot, you can simply ask for a better explanation or to retrieve more related information from the endpoint.
+- **Chat History**: The capability to follow up on previous questions is enabled by the chat history. Once the chat history is erased, the KGBot won't remember previous interactions.
+- **Handling Data**: We encourage you to keep the chat history only if it is pertinent to the conversation. If you want to change the subject or retrieve information that is unrelated to the current topic of the conversation, we advise you to download the log and files generated and clear the chat history.
+    - For example, if I started my interaction with the preselected question "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?", it is recommended to download the data and clean the conversation history before asking "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decreasing count of features as aspidosperma-type alkaloids? Group by extract."
+
+Please note that as the project is a prototype and still under development, the KGBot Agent requires an OpenAI API key to function properly. We kindly ask you to provide your own API key or to use a contributor key to unlock the features and capabilities offered with the agent. Thank you for your cooperation and understanding.
+
+If you have any comments or suggestions on the website or the KGBot, please feel free to reach out.
+
+The full code will be available soon.
+
+
+
