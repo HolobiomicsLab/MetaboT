@@ -16,9 +16,8 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 
-from langchain.tools import BaseTool
 from langchain.pydantic_v1 import BaseModel, Field
-
+from langchain.tools import BaseTool
 from typing import Optional
 
 from langchain.callbacks.manager import (
@@ -26,7 +25,9 @@ from langchain.callbacks.manager import (
 )
 
 from app.core.utils import setup_logger
+# from streamlit_webapp.streamlit_utils import get_openai_key
 
+import os
 
 logger = setup_logger(__name__)
 
@@ -48,12 +49,15 @@ class ChemicalResolver(BaseTool):
     Returns:
         Dict[str, str]: a dictionary that contains the output chemical name and corresponding URI.
     """
+
     args_schema = ChemicalInput
     csv_data: List[Document] = None
     retriever: Any = None
+    openai_key: str = None
 
-    def __init__(self):
+    def __init__(self, openai_key: str = None):
         super().__init__()
+        self.openai_key = openai_key
 
     def _run(
         self,
@@ -114,7 +118,7 @@ class ChemicalResolver(BaseTool):
         text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
         # chunk_size=1000 amounts to ~6 lignes in file npc_all.csv
         texts = text_splitter.split_documents(data)
-        embeddings = OpenAIEmbeddings()
+        embeddings = OpenAIEmbeddings(api_key=self.openai_key)
         db = FAISS.from_documents(texts, embeddings)
 
         return db.as_retriever()

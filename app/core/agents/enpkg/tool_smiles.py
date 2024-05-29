@@ -9,10 +9,8 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-
 from app.core.utils import setup_logger
-
-
+from langchain.tools import BaseTool
 logger = setup_logger(__name__)
 
 
@@ -37,10 +35,14 @@ class SMILESResolver(BaseTool):
     smiles_string = "CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45"
     inchikey = _run(smiles_string)
     """
-    args_schema = SMILESInput
 
-    def __init__(self):
+
+    args_schema = SMILESInput
+    openai_key: str = None
+
+    def __init__(self, openai_key: str = None):
         super().__init__()
+        self.openai_key = openai_key
 
     def _run(
         self, smiles: str, run_manager: Optional[CallbackManagerForToolRun] = None

@@ -1,0 +1,23 @@
+#Q How many features are annotated as 'Tetraketide meroterpenoids' ?
+
+# This is an example of a query that traverse the RDF graph to collect 
+# the number of MZmine features annottated as 'Tetraketide meroterpenoids'
+# by SIRIUS and present them with info about their origins.
+
+PREFIX jlw: <https://www.sinergiawolfender.org/jlw/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?species_label ?plant_part_label ( COUNT ( ?feature ) AS ?feature_count ) ?pfcode  ?sample
+WHERE{
+    ?annot        jlw:has_SIRIUS_classification_class 'Tetraketide meroterpenoids' .
+    ?feature      jlw:has_SIRIUS_classification        ?annot .
+    ?chromatogram jlw:has_MZmine_feature               ?feature .
+	?sample       jlw:has_MZmine_chromatogram		     ?chromatogram .
+    ?pfcode       jlw:has_lab_process                  ?sample .
+    ?pfcode       jlw:has_taxon                        ?taxon .
+    ?taxon        rdfs:label                             ?species_label .
+    ?pfcode       jlw:is_from_plant_part               ?plant_part .
+    ?plant_part   rdfs:label                             ?plant_part_label
+}
+GROUP BY ?sample ?pfcode ?species_label ?plant_part_label
+ORDER BY DESC(  ?feature_count )
+

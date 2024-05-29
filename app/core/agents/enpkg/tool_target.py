@@ -4,7 +4,7 @@ from urllib.parse import quote
 import requests
 
 
-from langchain.tools import BaseTool
+
 from langchain.pydantic_v1 import BaseModel, Field
 
 from typing import Optional
@@ -13,9 +13,8 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-
 from app.core.utils import setup_logger
-
+from langchain.tools import BaseTool
 
 logger = setup_logger(__name__)
 
@@ -37,10 +36,13 @@ class TargetResolver(BaseTool):
     Returns:
         str: A string containing the ChEMBLTarget notation.
     """
-    args_schema = TargetInput
 
-    def __init__(self):
+    args_schema = TargetInput
+    openai_key: str = None
+
+    def __init__(self, openai_key: str = None):
         super().__init__()
+        self.openai_key = openai_key
 
     def _run(
         self, target_name: str, run_manager: Optional[CallbackManagerForToolRun] = None

@@ -1,0 +1,52 @@
+### EXTRA hard
+Q: Compute all pairwise taxonomic distance between the species in the dataset ? 
+
+# This is a fast way to compute all distances between all pairs ot taxa.
+#
+# The tricks are
+#    1) to use a cartesian product to enumerate all pairs
+#    2) to hardcode all taxon ranks 
+# 
+# This is neither elegant nor portable, but damn fast !
+# Attempt to use COALESCE as a replacement for SUM was much slower
+# This is a relatively SLOW query: It takes ~4 min on my Mac to
+# return ~19 mio distances 
+
+PREFIX jlw: <https://www.sinergiawolfender.org/jlw/>
+  
+SELECT DISTINCT ?labExtract1 ?labExtract2 ( 
+      IF( ?species1  = ?species2,  0, 1 ) +
+      IF( ?genus1    = ?genus2,    0, 1 ) + 
+      IF( ?family1   = ?family2,   0, 1 ) +
+      IF( ?order1    = ?order2,    0, 1 ) +
+      IF( ?class1    = ?class2,    0, 1 ) +
+      IF( ?phylum1   = ?phylum2,   0, 1 ) +
+      IF( ?domain1   = ?domain2,   0, 1 ) AS ?distance )
+WHERE{ # Cartesian product follows:
+  { SELECT ?labExtract1 ?species1 ?genus1 ?family1 ?order1 ?class1 ?phylum1 ?domain1 
+  	WHERE { 
+		?pfcode1 jlw:has_taxon ?species1 ;
+  			     jlw:has_lab_process ?labExtract1 .
+    	# ?species1 jlw:taxo_rank 'species'      .
+    	?species1 jlw:has_parent_taxon ?genus1  .
+    	?genus1   jlw:has_parent_taxon ?family1 .
+    	?family1  jlw:has_parent_taxon ?order1  .
+    	?order1   jlw:has_parent_taxon ?class1  .
+    	?class1   jlw:has_parent_taxon ?phylum1 .
+    	?phylum1  jlw:has_parent_taxon ?domain1 .
+  }} 
+  { SELECT ?labExtract2 ?species2 ?genus2 ?family2 ?order2 ?class2 ?phylum2 ?domain2 
+    WHERE {
+    	?pfcode2 jlw:has_taxon ?species2 ;
+  			     jlw:has_lab_process ?labExtract2 .
+    	# ?species2 jlw:taxo_rank 'species'      .
+    	?species2 jlw:has_parent_taxon ?genus2  .
+    	?genus2   jlw:has_parent_taxon ?family2 .
+    	?family2  jlw:has_parent_taxon ?order2 .
+    	?order2   jlw:has_parent_taxon ?class2 .
+    	?class2   jlw:has_parent_taxon ?phylum2 .
+    	?phylum2  jlw:has_parent_taxon ?domain2 .
+  }}
+}
+
+

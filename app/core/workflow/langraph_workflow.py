@@ -12,6 +12,7 @@ from typing import (
     NoReturn,
     Sequence,
     TypedDict,
+    Literal,
 )
 
 # langchain output parser for OpenAI functions
@@ -30,6 +31,7 @@ from langgraph.graph import StateGraph
 
 from app.core.memory.custom_sqlite_file import SqliteSaver
 from app.core.utils import setup_logger, load_config
+
 
 logger = setup_logger(__name__)
 
@@ -74,6 +76,25 @@ def agent_node(state, agent, name: str) -> Dict[str, Any]:
     result = agent.invoke(state)
     return {"messages": [HumanMessage(content=result["output"], name=name)]}
 
+#####new function#####
+def router(state) -> Literal["supervisor", "__end__"]:
+    # This is the router
+    messages = state["messages"]
+    last_message = messages[-1]
+
+    if "The question is valid" in last_message.content:
+        return "supervisor"
+    return "__end__"
+
+
+def router_entry(state)-> Literal["supervisor", "Validator"]:
+    messages = state["messages"]
+    last_message = messages[-1]
+
+    if "Calling the supervisor" in last_message.content:
+        return "supervisor"
+    return "Validator"
+
 
 def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
     """
@@ -104,10 +125,63 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
         workflow.add_edge(edge["source"], edge["target"])
 
     # Add conditional edges based on JSON configuration
+    # for cond_edge in config["conditional_edges"]:
+    #     if cond_edge["condition"] == "next":
+    #         workflow.add_conditional_edges(
+    #             cond_edge["source"],
+    #             lambda x: x[cond_edge["condition"]],
+    #             {
+    #              target["condition_value"]: target["target"]
+    #              for target in cond_edge["targets"]
+    #              },
+    #     )
+    #     # adding more conditional edges
+    #     elif cond_edge["condition"] == "router":
+    #         workflow.add_conditional_edges(
+    #             cond_edge["source"],
+    #             router,
+    #             {
+    #                 target["condition_value"]: target["target"]
+    #                 for target in cond_edge["targets"]
+    #             },
+    #         )
+    ###adding more conditional edges
+    # workflow.add_conditional_edges(
+    #     "Validator",
+    #     router,
+    #     {"supervisor": "supervisor", "__end__": "__end__"}
+    # )
     for cond_edge in config["conditional_edges"]:
-        workflow.add_conditional_edges(
-            cond_edge["source"],
-            lambda x: x[cond_edge["condition"]],
+        if cond_edge["source"] == "supervisor":
+            # For supervisor, the condition is always expected to be a lambda function
+
+            workflow.add_conditional_edges(
+                cond_edge["source"],
+                lambda x: x["next"],
+                #lambda x: x[cond_edge["condition"]],
+                {
+                    target["condition_value"]: target["target"]
+                    for target in cond_edge["targets"]
+                },
+            )
+
+        if cond_edge["source"] == "Validator":
+            # For validator, the condition is expected to be a router function
+            workflow.add_conditional_edges(
+                cond_edge["source"],
+                router,
+            {
+                target["condition_value"]: target["target"]
+                for target in cond_edge["targets"]
+            },
+        )
+
+        elif cond_edge["source"] == "Entry_Agent":
+            # For Entry_Agent, the condition is expected to be a router function
+
+            workflow.add_conditional_edges(
+                cond_edge["source"],
+                router_entry,
             {
                 target["condition_value"]: target["target"]
                 for target in cond_edge["targets"]

@@ -9,14 +9,15 @@ from .prompt import CHAT_PROMPT, MODEL_CHOICE
 logger = setup_logger(__name__)
 
 
-def create_agent(llms, graph) -> AgentExecutor:
+def create_agent(llms, graph, session_id) -> AgentExecutor:
     logger.info("Creating agent with tools...")
     directory = os.path.dirname(__file__)
     module_prefix = get_module_prefix(__name__)
 
     tool_parameters = {
         "graph": graph,
-        "llm": llms["llm"],
+        "llm": llms["llm_o"],
+        "session_id": session_id
     }
 
     tools = import_tools(directory, module_prefix, **tool_parameters)

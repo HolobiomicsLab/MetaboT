@@ -1,0 +1,11 @@
+#Q: How many species are present per family ?
+
+PREFIX jlw: <https://www.sinergiawolfender.org/jlw/>
+SELECT ?family ( COUNT( ?species) AS ?c ) where { 
+	?family  jlw:has_taxo_rank    'family' .
+    ?genus   jlw:has_parent_taxon ?family  .
+    ?species jlw:has_parent_taxon ?genus   
+}
+GROUP BY ?family
+ORDER BY ?c
+

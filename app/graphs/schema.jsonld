@@ -1,0 +1,962 @@
+{
+  "@context": {
+    "ns1": "https://enpkg.commons-lab.org/kg/",
+    "ns2": "https://enpkg.commons-lab.org/module/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+
+  {
+    "@id": "ns1:LFpair",
+    "ns1:has_cosine": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_mass_difference": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_member": [
+      {
+        "@id": "ns1:LCMSFeature"
+      },
+      {
+        "@id": "ns1:MS2Spectrum"
+      }
+    ],
+    "ns1:has_mn_params": []
+  },
+  {
+    "@id": "ns1:LabBlank",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_LCMS": [
+      {
+        "@id": "ns1:LCMSAnalysis"
+      },
+      {
+        "@id": "ns1:LCMSAnalysisNeg"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:LabQc",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_LCMS": [
+      {
+        "@id": "ns1:LCMSAnalysis"
+      },
+      {
+        "@id": "ns1:LCMSAnalysisNeg"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:RawMaterial",
+    "ns1:has_lab_process": [
+      {
+        "@id": "ns1:LabExtract"
+      },
+      {
+        "@id": "ns1:LabObject"
+      }
+    ],
+    "ns1:has_unresolved_taxon": [],
+    "ns1:has_wd_id": [
+      {
+        "@id": "ns1:WDTaxon"
+      },
+      {
+        "@id": "ns1:XRef"
+      }
+    ],
+    "ns1:submitted_taxon": {
+      "@type": "xsd:string"
+    },
+    "ns2:has_broad_organe": [],
+    "ns2:has_organe": [],
+    "ns2:has_subsystem": [],
+    "ns2:has_tissue": []
+  },
+  {
+    "@id": "ns1:SpectralPair",
+    "ns1:has_cosine": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_mass_difference": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_member": [
+      {
+        "@id": "ns1:LCMSFeature"
+      },
+      {
+        "@id": "ns1:MS2Spectrum"
+      }
+    ],
+    "ns1:has_mn_params": []
+  },
+  {
+    "@id": "ns1:ChemicalEntity",
+    "ns1:has_npc_class": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_npc_pathway": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_npc_superclass": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_smiles": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_wd_id": [
+      {
+        "@id": "ns1:WDChemical"
+      },
+      {
+        "@id": "ns1:XRef"
+      }
+    ],
+    "ns2:has_chembl_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLChemical"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:InChIkey",
+    "ns1:has_npc_class": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_npc_pathway": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_npc_superclass": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_smiles": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_wd_id": [
+      {
+        "@id": "ns1:WDChemical"
+      },
+      {
+        "@id": "ns1:XRef"
+      }
+    ],
+    "ns2:has_chembl_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLChemical"
+      }
+    ]
+  },
+  {
+    "@id": "ns2:ChEMBLAssayResults",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:activity_relation": {
+      "@type": "xsd:string"
+    },
+    "ns2:activity_type": {
+      "@type": "xsd:string"
+    },
+    "ns2:activity_unit": {
+      "@type": "xsd:string"
+    },
+    "ns2:activity_value": {
+      "@type": "xsd:float"
+    },
+    "ns2:assay_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLAssay"
+      }
+    ],
+    "ns2:stated_in_document": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLDocument"
+      }
+    ],
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ],
+    "ns2:target_name": {
+      "@type": "xsd:string"
+    }
+  },
+  {
+    "@id": "ns2:ChEMBLDocument",
+    "ns2:journal_name": {
+      "@type": "xsd:string"
+    }
+  },
+  {
+    "@id": "ns1:BioAssayResults",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    },
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:SiriusCanopusAnnotation",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_canopus_npc_class": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      }
+    ],
+    "ns1:has_canopus_npc_class_prob": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_canopus_npc_pathway": [
+      {
+      "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      }
+    ],
+    "ns1:has_canopus_npc_pathway_prob": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_canopus_npc_superclass": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_canopus_npc_superclass_prob": {
+      "@type": "xsd:float"
+    }
+  },
+  {
+    "@id": "ns1:SiriusStructureAnnotation",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_InChIkey2D": {
+      "@id": "ns1:InChIkey2D"
+    },
+    "ns1:has_cosmic_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_ionization": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_sirius_adduct": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_sirius_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_zodiac_score": {
+      "@type": "xsd:float"
+    }
+  },
+  {
+    "@id": "ns1:Spec2VecDoc",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_spec2vec_loss": [
+      {
+        "@id": "ns1:Spec2VecLoss"
+      },
+      {
+        "@id": "ns1:spec2vec"
+      }
+    ],
+    "ns1:has_spec2vec_peak": [
+      {
+        "@id": "ns1:Spec2VecPeak"
+      },
+      {
+        "@id": "ns1:spec2vec"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:Spec2VecLoss",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_value": {
+      "@type": "xsd:float"
+    }
+  },
+  {
+    "@id": "ns1:Spec2VecPeak",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_value": {
+      "@type": "xsd:float"
+    }
+  },
+  {
+    "@id": "ns2:ChEMBLChemical",
+    "ns2:has_chembl_activity": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLAssayResults"
+      }
+    ]
+  },
+  {
+    "@id": "ns2:L610ugml",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    }
+  },
+  {
+    "@id": "ns2:Ldono10ugml",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    },
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ]
+  },
+  {
+    "@id": "ns2:Ldono2ugml",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    },
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ]
+  },
+  {
+    "@id": "ns2:SwissTPHBioAssay",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    },
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ]
+  },
+  {
+    "@id": "ns2:Tbrucei10ugml",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    },
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ]
+  },
+  {
+    "@id": "ns2:Tbrucei2ugml",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    },
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ]
+  },
+  {
+    "@id": "ns2:Tcruzi10ugml",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns2:inhibition_percentage": {
+      "@type": "xsd:float"
+    },
+    "ns2:target_id": [
+      {
+        "@id": "ns1:XRef"
+      },
+      {
+        "@id": "ns2:ChEMBLTarget"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:InChIkey2D",
+    "ns1:has_npc_class": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_npc_pathway": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_npc_superclass": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_smiles": {
+      "@type": "xsd:string"
+    },
+    "ns1:is_InChIkey2D_of": [
+      {
+        "@id": "ns1:ChemicalEntity"
+      },
+      {
+        "@id": "ns1:InChIkey"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:LCMSFeature",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:fast_search_gnpsdata_index_analog": [],
+    "ns1:fast_search_gnpsdata_index_no_analog": [],
+    "ns1:fast_search_gnpslibrary_analog": [],
+    "ns1:fast_search_gnpslibrary_no_analog": [],
+    "ns1:gnps_dashboard_view": [],
+    "ns1:has_canopus_annotation": [
+      {
+        "@id": "ns1:Annotation"
+      },
+      {
+        "@id": "ns1:SiriusCanopusAnnotation"
+      }
+    ],
+    "ns1:has_fbmn_ci": [],
+    "ns1:has_feature_area": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_ionization": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_isdb_annotation": [
+      {
+        "@id": "ns1:Annotation"
+      },
+      {
+        "@id": "ns1:IsdbAnnotation"
+      }
+    ],
+    "ns1:has_parent_mass": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_raw_spectrum": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_relative_feature_area": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_retention_time": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_row_id": {
+      "@type": "xsd:decimal"
+    },
+    "ns1:has_sirius_annotation": [
+      {
+        "@id": "ns1:Annotation"
+      },
+      {
+        "@id": "ns1:IsdbAnnotation"
+      },
+      {
+        "@id": "ns1:SiriusStructureAnnotation"
+      }
+    ],
+    "ns1:has_spec2vec_doc": [
+      {
+        "@id": "ns1:Spec2VecDoc"
+      },
+      {
+        "@id": "ns1:spec2vec"
+      }
+    ],
+    "ns1:has_usi": {
+      "@type": "xsd:string"
+    }
+  },
+  {
+    "@id": "ns1:IsdbAnnotation",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_InChIkey2D": {
+      "@id": "ns1:InChIkey2D"
+    },
+    "ns1:has_adduct": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_consistency_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_final_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_spectral_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_taxo_score": {
+      "@type": "xsd:float"
+    }
+  },
+  {
+    "@id": "ns1:LCMSAnalysisNeg",
+    "ns1:has_gnpslcms_link": [],
+    "ns1:has_lcms_feature_list": {
+      "@id": "ns1:LCMSFeatureList"
+    },
+    "ns1:has_massive_doi": [],
+    "ns1:has_massive_license": []
+  },
+  {
+    "@id": "ns1:LCMSFeatureList",
+    "ns1:has_ionization": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_lcms_feature": [
+      {
+        "@id": "ns1:LCMSFeature"
+      },
+      {
+        "@id": "ns1:MS2Spectrum"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:Annotation",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_InChIkey2D": {
+      "@id": "ns1:InChIkey2D"
+    },
+    "ns1:has_adduct": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_canopus_npc_class": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCClass"
+      }
+    ],
+    "ns1:has_canopus_npc_class_prob": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_canopus_npc_pathway": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCPathway"
+      }
+    ],
+    "ns1:has_canopus_npc_pathway_prob": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_canopus_npc_superclass": [
+      {
+        "@id": "ns1:ChemicalTaxonomy"
+      },
+      {
+        "@id": "ns1:NPCSuperclass"
+      }
+    ],
+    "ns1:has_canopus_npc_superclass_prob": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_consistency_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_cosmic_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_final_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_ionization": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_sirius_adduct": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_sirius_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_spectral_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_taxo_score": {
+      "@type": "xsd:float"
+    },
+    "ns1:has_zodiac_score": {
+      "@type": "xsd:float"
+    }
+  },
+{
+    "@id": "ns1:LCMSAnalysisPos",
+    "ns1:has_gnpslcms_link": [],
+    "ns1:has_lcms_feature_list": {
+      "@id": "ns1:LCMSFeatureList"
+    },
+    "ns1:has_massive_doi": [],
+    "ns1:has_massive_license": []
+},
+  {
+    "@id": "ns1:LabExtract",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_LCMS": [
+      {
+        "@id": "ns1:LCMSAnalysis"
+      },
+      {
+        "@id": "ns1:LCMSAnalysisNeg"
+      },
+      {
+        "@id": "ns1:LCMSAnalysisPos"
+      }
+    ],
+    "ns2:has_bioassay_results": [
+      {
+        "@id": "ns1:BioAssayResults"
+      },
+      {
+        "@id": "ns2:L610ugml"
+      },
+      {
+        "@id": "ns2:Ldono10ugml"
+      },
+      {
+        "@id": "ns2:Ldono2ugml"
+      },
+      {
+        "@id": "ns2:SwissTPHBioAssay"
+      },
+      {
+        "@id": "ns2:Tbrucei10ugml"
+      },
+      {
+        "@id": "ns2:Tbrucei2ugml"
+      },
+      {
+        "@id": "ns2:Tcruzi10ugml"
+      }
+    ]
+  },
+  {
+    "@id": "ns1:LabObject",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_LCMS": [
+      {
+        "@type": "xsd:string"
+      },
+      {
+        "@id": "ns1:LCMSAnalysis"
+      },
+      {
+        "@id": "ns1:LCMSAnalysisNeg"
+      },
+      {
+        "@id": "ns1:LCMSAnalysisPos"
+      },
+      {
+        "@id": "ns1:WDTaxon"
+      },
+      {
+        "@id": "ns1:XRef"
+      }
+    ],
+    "ns1:has_lab_process": [
+      {
+        "@id": "ns1:LabExtract"
+      },
+      {
+        "@id": "ns1:LabObject"
+      }
+    ],
+    "ns1:has_sirius_annotation": [
+      {
+        "@type": "xsd:string"
+      },
+      {
+        "@id": "ns1:LCMSAnalysis"
+      },
+      {
+        "@id": "ns1:LCMSAnalysisPos"
+      },
+      {
+        "@id": "ns1:LabExtract"
+      },
+      {
+        "@id": "ns1:LabObject"
+      },
+      {
+        "@id": "ns1:WDTaxon"
+      },
+      {
+        "@id": "ns1:XRef"
+      }
+    ],
+    "ns1:has_unresolved_taxon": [],
+    "ns1:has_wd_id": [
+      {
+        "@id": "ns1:WDTaxon"
+      },
+      {
+        "@id": "ns1:XRef"
+      }
+    ],
+    "ns1:submitted_taxon": {
+      "@type": "xsd:string"
+    },
+    "ns2:has_bioassay_results": [
+      {
+        "@id": "ns1:BioAssayResults"
+      },
+      {
+        "@id": "ns2:L610ugml"
+      },
+      {
+        "@id": "ns2:Ldono10ugml"
+      },
+      {
+        "@id": "ns2:Ldono2ugml"
+      },
+      {
+        "@id": "ns2:SwissTPHBioAssay"
+      },
+      {
+        "@id": "ns2:Tbrucei10ugml"
+      },
+      {
+        "@id": "ns2:Tbrucei2ugml"
+      },
+      {
+        "@id": "ns2:Tcruzi10ugml"
+      }
+    ],
+    "ns2:has_broad_organe": [],
+    "ns2:has_organe": [],
+    "ns2:has_subsystem": [],
+    "ns2:has_tissue": []
+  },
+{
+    "@id": "ns1:spec2vec",
+    "rdfs:label": {
+      "@type": "xsd:string"
+    },
+    "ns1:has_spec2vec_loss": [
+      {
+        "@id": "ns1:Spec2VecLoss"
+      },
+      {
+        "@id": "ns1:spec2vec"
+      }
+    ],
+    "ns1:has_spec2vec_peak": [
+      {
+        "@id": "ns1:Spec2VecPeak"
+      },
+      {
+        "@id": "ns1:spec2vec"
+      }
+    ],
+    "ns1:has_value": {
+      "@type": "xsd:float"
+    }
+  },
+  {
+    "@id": "ns1:LCMSAnalysis",
+    "ns1:has_gnpslcms_link": [],
+    "ns1:has_lcms_feature_list": {
+      "@id": "ns1:LCMSFeatureList"
+    },
+    "ns1:has_massive_doi": [],
+    "ns1:has_massive_license": []
+
+  },
+  {
+    "@id": "ns2:ChEMBLTarget",
+    "ns2:target_name": {
+      "@type": "xsd:string"
+    }
+  }
+]
+}
+

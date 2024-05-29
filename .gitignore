@@ -216,4 +216,5 @@ pyrightconfig.json
 
 /logs/
 app/graphs/graph.pkl
-app/config/logs/app.log.1
+app/config/logs/**
+./app/config/logs/*

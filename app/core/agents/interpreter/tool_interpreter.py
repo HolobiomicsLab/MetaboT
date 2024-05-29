@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-from codeinterpreterapi import CodeInterpreterSession, File
+from codeinterpreterapi import CodeInterpreterSession, File, settings
 
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
@@ -12,19 +12,18 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 import json
-from app.core.utils import setup_logger
+from app.core.utils import setup_logger, create_user_session
 
+import os
+import re
+import tempfile
+from pathlib import Path
 
 logger = setup_logger(__name__)
 
 
 class InterpreterInput(BaseModel):
-    question: str = Field(description="the original question from the user")
-    generated_sparql_query: str = Field(description="the generated SPARQL query")
-    file_path: str = Field(
-        description="file path where result of generated SPARQL query is stored"
-    )
-
+    input: str = Field(description="Input from Interpreter Agent containing the user's question, necessary file paths and other information.")
 
 class Interpreter(BaseTool):
 
@@ -33,17 +32,19 @@ class Interpreter(BaseTool):
     Interprets the results of a SPARQL query based on user's question.
 
     Args:
-        question (str): The original question from the user.
-        generated_sparql_query (str): The generated SPARQL query.
-        file_path (str): The file path where the result of the generated SPARQL query is stored.
+        input: Input from Interpreter Agent containing the user's question, necessary file paths and other information.
 
     Returns:
-        None: Outputs the response after interpreting the SPARQL results.
+        None: Outputs the response after interpreting files.
     """
     args_schema = InterpreterInput
+    openai_key: str = None
+    session_id: str = None
 
-    def __init__(self):
+    def __init__(self, openai_key: str, session_id: str):
         super().__init__()
+        self.openai_key = openai_key
+        self.session_id = session_id
 
     def _run(
         self,
@@ -51,26 +52,63 @@ class Interpreter(BaseTool):
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> None:
 
-        # TODO: quick fix to handle the input as the input is a dictionnary converted to string (should check langraph to fix this issue)
-        input_dict = json.loads(input)
-        question = input_dict["question"]
-        generated_sparql_query = input_dict["generated_sparql_query"]
-        file_path = input_dict["file_path"]
-        logger.info(f"Interpreting {question}")
-        logger.info(f"SPARQL query: {generated_sparql_query}")
-        logger.info(f"File path: {file_path}")
+        logger.info(f"Input: {input}")
+
+        file_paths = self.extract_file_paths(input)
+        logger.info(f"File paths: {file_paths}")
+
+        session_dir = create_user_session(self.session_id, user_session_dir=True)
+
+        # if os.getenv("CODEBOX_API_KEY"):
+        #     codebox_key = os.getenv("CODEBOX_API_KEY")
+        #     settings.CODEBOX_API_KEY = codebox_key
+        # Override the model setting
+
+        settings.OPENAI_API_KEY = self.openai_key
+
         with CodeInterpreterSession() as session:
-            user_request = f"""You are an interpreter agent. Your task is to analyze the output related to a SPARQL query, which could be in two forms:
-            If the output of the Sparql_query_runner agent is only the dictionary containing question: "{question}", generated SPARQL query: "{generated_sparql_query}" which was used to query the knowledge graph to answer to the question and path: "{file_path}" containing the SPARQL output then you should review the provided dataset from the file and SPARQL query to provide a clear, concise answer to the question. Additionally, if visualization of the results is necessary (e.g., when the SPARQL output is large or complex), you should provide an appropriate visualization, such as a bar chart, diagram, or plot, to effectively communicate the answer.
-            If the output of the Sparql_query_runner agent contains the answer to the question together with the dictionary containing the question: "{question}", generated SPARQL query: "{generated_sparql_query}" and path: "{file_path}", then you should analyze this output and provide visualization of the answer to the question. 
-            The type of visualization – bar chart, diagram, or plot – will depend on the nature of the SPARQL output and the best way to represent the answer to the question clearly.
-            Submit only the final answer to the supervisor. Indicate the format of the dataset for appropriate handling. """
-            files = [
-                File.from_path(file_path),
-            ]
+
+            user_request = (
+                "You are an interpreter helping to analyze different questions, files and outputs generated from a series of LLMs."
+                f"The details of the current request: {input}"
+                "Please interpret the current request to generate a meaningful answer."
+                "Here's some instructions that you have to follow for achieving the task:"
+                "1. For any file provided, analyse if and provide clear and brief information about it unless something else is asked."
+                "2. If any type of visualization is requested, use all information from the submited files to generate a .json file containing the JSON code for generating a plotly graph containing the requrested information. This file should have the same name as the analyzed file."
+                "3. After you finish your tasks, your answer should contain both the interpretation asked and the full visualization file name if any."
+            )
+
+            files = []
+
+            for file in file_paths:
+                files.append(File.from_path(file))
+                logger.info(f"File added to interpreter Agent: {file}")
 
             # generate the response
+            logger.info(f"Files submitted: {files}")
             response = session.generate_response(user_request, files=files)
-            # output the response (text + image)
-            response.show()
-            return response.content
+            logger.info(f"Interpreter Agent Response: {response}")
+
+            filepaths: list[str] = []
+            # Handling and saving output files
+            if response.files:
+                for file in response.files:
+                    logger.info(f"File: {file.name}")
+
+                    generated_file_path = session_dir / file.name
+                    with open(generated_file_path, 'wb') as f:
+                        f.write(file.content)
+                    filepaths.append(f"Visualization filepath: {str(generated_file_path)}")
+
+                    logger.info(f"File saved: {file.name}")
+            else:
+                logger.info("No files generated by Interpreter Tool.")
+
+            return f"{response}.\n\n The full path of the files generated are:\n" + "\n".join(filepaths)
+
+    def extract_file_paths(self, text: str):
+        # Regex to find file paths or filenames with extensions, possibly surrounded by quotes
+        regex = r"['\"]?([a-zA-Z0-9_/\\-]+(?:\.csv|\.tsv|\.mgf|\.txt|\.xlsx|\.xls))['\"]?"
+        matches = re.finditer(regex, text)
+        file_paths = [match.group(1).replace("'", "").replace('"', '') for match in matches]
+        return file_paths

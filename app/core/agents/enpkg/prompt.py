@@ -28,11 +28,12 @@ Here is the list of units to find:
 "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
 
 
-    You are required to submit only the final answer to the supervisor. 
-    provide the entity passed to the tool, the IRI and the type of the IRI. 
+You are required to submit only the final answer to the supervisor.
+ Provide the entity passed to the tool, the IRI and the type of the IRI. 
     For example:
     "salicin, http://purl.obolibrary.org/obo/CHEBI_88293, CHEBI;
     acer saccharum, http://www.wikidata.org/entity/Q132023, Wikidata"
+If you receive outputs from several tools, make sure to provide all those outputs to the supervisor.
  """
 
 # [V2]
@@ -83,4 +84,4 @@ CHAT_PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
-MODEL_CHOICE = "llm_preview"
+MODEL_CHOICE = "llm_o"
