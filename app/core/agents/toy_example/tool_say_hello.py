@@ -19,7 +19,7 @@ class HelloInput(BaseModel):
     input: str = Field(description="string 'say hello please'")
 
 
-class Interpreter(BaseTool):
+class Interpreter(KgbotBaseTool):
 
     name: str = "SAY_HELLO_TOOL"
     description: str = """

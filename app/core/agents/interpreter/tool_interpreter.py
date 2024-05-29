@@ -12,6 +12,8 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 import json
+
+from app.core.agents.sparql.base import KgbotBaseTool
 from app.core.utils import setup_logger
 
 
@@ -26,7 +28,7 @@ class InterpreterInput(BaseModel):
     )
 
 
-class Interpreter(BaseTool):
+class Interpreter(KgbotBaseTool):
 
     name: str = "INTERPRETER_TOOL"
     description: str = """
@@ -41,7 +43,8 @@ class Interpreter(BaseTool):
         None: Outputs the response after interpreting the SPARQL results.
     """
     args_schema = InterpreterInput
-
+    # added
+    requires_params = False  # This tool does not require additional initialization parameters
     def __init__(self):
         super().__init__()
 
@@ -68,7 +71,7 @@ class Interpreter(BaseTool):
             files = [
                 File.from_path(file_path),
             ]
-
+            logger.info(f"Files submitted: {files}")
             # generate the response
             response = session.generate_response(user_request, files=files)
             # output the response (text + image)

@@ -56,4 +56,4 @@ Remember, your efficiency in routing the questions accurately and collecting res
 # """
 
 
-MODEL_CHOICE = "llm"
+MODEL_CHOICE = "llm_o"

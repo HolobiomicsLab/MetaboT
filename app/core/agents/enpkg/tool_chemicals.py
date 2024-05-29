@@ -16,7 +16,6 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 
-from langchain.tools import BaseTool
 from langchain.pydantic_v1 import BaseModel, Field
 
 from typing import Optional
@@ -25,6 +24,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
+from app.core.agents.sparql.base import KgbotBaseTool
 from app.core.utils import setup_logger
 
 
@@ -35,7 +35,7 @@ class ChemicalInput(BaseModel):
     chemical_name: str = Field(description="natural product compound string")
 
 
-class ChemicalResolver(BaseTool):
+class ChemicalResolver(KgbotBaseTool):
     name: str = "CHEMICAL_RESOLVER"
     description: str = """
     Resolves chemicals to InChi keys.
@@ -48,6 +48,9 @@ class ChemicalResolver(BaseTool):
     Returns:
         Dict[str, str]: a dictionary that contains the output chemical name and corresponding URI.
     """
+    #added
+    requires_params = False  # This tool does not require additional initialization parameters
+
     args_schema = ChemicalInput
     csv_data: List[Document] = None
     retriever: Any = None

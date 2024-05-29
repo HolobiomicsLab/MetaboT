@@ -3,7 +3,6 @@ from typing import Optional
 from SPARQLWrapper import JSON, SPARQLWrapper
 
 
-from langchain.tools import BaseTool
 from langchain.pydantic_v1 import BaseModel, Field
 
 from typing import Optional
@@ -12,7 +11,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-
+from app.core.agents.sparql.base import KgbotBaseTool
 from app.core.utils import setup_logger
 
 
@@ -23,7 +22,7 @@ class TaxonInput(BaseModel):
     taxon_name: str = Field(description="A string containing the taxon name.")
 
 
-class TaxonResolver(BaseTool):
+class TaxonResolver(KgbotBaseTool):
     name: str = "TAXON_RESOLVER"
     description: str = """
     Takes a taxon name string as input, builds a query, executes it, and returns
@@ -36,6 +35,8 @@ class TaxonResolver(BaseTool):
         str: A string that contains the Wikidata IRI if found, otherwise `None`.
     """
     args_schema = TaxonInput
+    # added
+    requires_params = False  # This tool does not require additional initialization parameters
     ENDPOINT_URL = "https://query.wikidata.org/sparql"
     PREFIXES = """
         PREFIX prov: <http://www.w3.org/ns/prov#>

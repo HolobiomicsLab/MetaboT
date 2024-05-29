@@ -9,7 +9,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-
+from app.core.agents.sparql.base import KgbotBaseTool
 from app.core.utils import setup_logger
 
 
@@ -22,7 +22,7 @@ class SMILESInput(BaseModel):
     )
 
 
-class SMILESResolver(BaseTool):
+class SMILESResolver(KgbotBaseTool):
     name: str = "SMILES_RESOLVER"
     description: str = """
     Convert a SMILES string to InChIKey notation using the GNPS API.
@@ -37,6 +37,9 @@ class SMILESResolver(BaseTool):
     smiles_string = "CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45"
     inchikey = _run(smiles_string)
     """
+    #added
+    requires_params = False  # This tool does not require additional initialization parameters
+
     args_schema = SMILESInput
 
     def __init__(self):

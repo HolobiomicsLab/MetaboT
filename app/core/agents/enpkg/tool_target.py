@@ -4,7 +4,7 @@ from urllib.parse import quote
 import requests
 
 
-from langchain.tools import BaseTool
+
 from langchain.pydantic_v1 import BaseModel, Field
 
 from typing import Optional
@@ -13,7 +13,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-
+from app.core.agents.sparql.base import KgbotBaseTool
 from app.core.utils import setup_logger
 
 
@@ -26,7 +26,7 @@ class TargetInput(BaseModel):
     )
 
 
-class TargetResolver(BaseTool):
+class TargetResolver(KgbotBaseTool):
     name: str = "TARGET_RESOLVER"
     description: str = """
     Convert a target_name string to ChEMBLTarget notation using the CHEMBL API.
@@ -37,6 +37,9 @@ class TargetResolver(BaseTool):
     Returns:
         str: A string containing the ChEMBLTarget notation.
     """
+    #added
+    requires_params = False  # This tool does not require additional initialization parameters
+
     args_schema = TargetInput
 
     def __init__(self):

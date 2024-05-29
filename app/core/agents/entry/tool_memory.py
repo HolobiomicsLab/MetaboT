@@ -10,7 +10,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-
+from app.core.agents.sparql.base import KgbotBaseTool
 from app.core.memory.log_search import LogMemoryAccessTool
 from app.core.utils import setup_logger
 
@@ -22,7 +22,7 @@ class QueryInput(BaseModel):
     query: str = Field(description="Query string to search in memory logs.")
 
 
-class MemoryAccessTool(BaseTool):
+class MemoryAccessTool(KgbotBaseTool):
     name: str = "NEW_MEMORY_ACCESS_QUERY_RUNNER"
     description: str = """
     Generates an answer based on the logs and the provided query without explicitly calling the input.
@@ -33,6 +33,8 @@ class MemoryAccessTool(BaseTool):
     Returns:
         str: the response generated based on the query.
     """
+    # added
+    requires_params = False  # This tool does not require additional initialization parameters
     args_schema = QueryInput
 
     def __init__(self):

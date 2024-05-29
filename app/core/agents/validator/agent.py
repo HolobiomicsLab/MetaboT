@@ -6,6 +6,7 @@ from app.core.utils import get_module_prefix, import_tools, setup_logger
 
 from .prompt import CHAT_PROMPT, MODEL_CHOICE
 
+
 logger = setup_logger(__name__)
 
 
@@ -14,12 +15,7 @@ def create_agent(llms, graph) -> AgentExecutor:
     directory = os.path.dirname(__file__)
     module_prefix = get_module_prefix(__name__)
 
-    tool_parameters = {
-        "graph": graph,
-        "llm": llms["llm_o"],
-    }
-
-    tools = import_tools(directory, module_prefix, **tool_parameters)
+    tools = import_tools(directory, module_prefix)
 
     try:
         agent = create_openai_tools_agent(llms[MODEL_CHOICE], tools, CHAT_PROMPT)

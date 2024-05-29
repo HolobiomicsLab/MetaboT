@@ -8,6 +8,8 @@ from typing import List, Optional, Type
 from langchain.tools import BaseTool
 import tiktoken
 
+from app.core.agents.sparql.base import KgbotBaseTool
+
 
 def setup_logger(name):
     """
@@ -69,18 +71,19 @@ def import_tools(directory: str, module_prefix: str, **kwargs) -> List:
         )
         try:
             module = importlib.import_module(module_path)
+            #Check if parameters are needed
             tool = find_tool_in_module(module, **kwargs)
             if tool:
                 tools.append(tool)
                 logger.info(f"Imported tool: {tool.name}")
             else:
-                logger.warning(f"No valid BaseTool subclass found in {module_name}")
+                logger.warning(f"No valid KgbotBaseTool subclass found in {module_name}")
         except (AttributeError, ImportError) as e:
             logger.error(f"Failed to import {module_name}: {e}")
     return tools
 
 
-def find_tool_in_module(module, **kwargs) -> Optional[Type[BaseTool]]:
+def find_tool_in_module(module, **kwargs) -> Optional[Type[KgbotBaseTool]]:
     """
     Searches a given module for any class that is a subclass of BaseTool, but not BaseTool itself,
     and returns an instance of it if found.
@@ -96,8 +99,8 @@ def find_tool_in_module(module, **kwargs) -> Optional[Type[BaseTool]]:
         attribute = getattr(module, attribute_name)
         if (
             isinstance(attribute, type)
-            and issubclass(attribute, BaseTool)
-            and attribute is not BaseTool
+            and issubclass(attribute, KgbotBaseTool)
+            and attribute is not KgbotBaseTool
         ):
             return attribute(**kwargs)
     return None
