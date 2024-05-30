@@ -60,7 +60,7 @@ python -m app.core.main
 │   │   │   ├── entry
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_memory.py
+│   │   │   │   └── tool_fileparser.py
 │   │   │   ├── interpreter
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
@@ -68,7 +68,9 @@ python -m app.core.main
 │   │   │   ├── sparql
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_sparql.py
+│   │   │   │   ├── tool_merge_results.py
+│   │   │   │   ├── tool_sparql.py
+│   │   │   │   └── tool_wikidata_query.py
 │   │   │   ├── supervisor
 │   │   │   │   ├── agent.py
 │   │   │   │   └── prompt.py
@@ -80,8 +82,7 @@ python -m app.core.main
 │   │   │   ├── RdfGraphCustom.py
 │   │   ├── main.py
 │   │   ├── memory
-│   │   │   ├── custom_sqlite_file.py
-│   │   │   └── log_search.py
+│   │   │   └── custom_sqlite_file.py
 │   │   ├── utils.py
 │   │   └── workflow
 │   │       └── langraph_workflow.py
@@ -106,11 +107,19 @@ Create a dedicated folder for your agent within the app/core/agents directory. T
 ### Standard File Structure
 The agent folder should include the following files:
 
+#### Agent
     agent.py: This file remains consistent across all agents. You should copy this from an existing agent, unless your tool requires accessing private class properties. For such cases, refer to the section 'If Your Tool Serves as an Agent' for guidance.
+
+    During the agent's construction, the parameters are passed accordingly to what is defined in the agent.py file. Please check if the variables are correctly being defined on the agent_factory.py file.
+
+#### Prompt
 
     prompt.py: Set the MODEL_CHOICE variable to either llm or llm_preview as per the model hyperparameters defined in app/config/params.ini. Customize the prompt to align with your agent's purpose.
 
+#### Tools
     tool_xxxx.py (optional): Any tool scripts should inherit from the Langchain BaseTool class. Define the necessary class attributes such as name, description, and args_schema. Implement the _run function to execute the tool's functionality. Ensure to define a Pydantic model (class inheriting from BaseModel) for input validation, detailing the type and purpose of each input.
+
+    As for the agent, the tools can constructed with parameters passed dinamically. Please check Interpreter agent and tool for reference. 
 
 ### Supervisor Configuration
 Modify the supervisor prompt to integrate logic that recognizes and selects your agent. The revised prompt should be updated accordingly.
@@ -150,6 +159,10 @@ To maintain a unified code style across our project, we adhere to the PEP8 conve
 - **Black Formatter** in VSCode: The easiest way to format your code according to PEP8 is by using the Black Formatter extension in Visual Studio Code. Here’s how to use it:
     Install Black Formatter from the VSCode extensions marketplace.
     Right-click inside any Python file and select Format Document to automatically format your code.
+
+  ### Good practices with keys
+
+  As good practive with keys, to further isolate and later facilitate the deployment with online plataforms, please provide the keys as parameters and don't use environmental variables as those are not scalable for production. 
 
 
 ## Logging guidelines
