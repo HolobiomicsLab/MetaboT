@@ -1,0 +1,21 @@
+Q: Can you get the all information on each species (taxonomy, plant parts etc) ?
+
+PREFIX jlw: <https://www.sinergiawolfender.org/jlw/>
+
+SELECT ?PFcode ?species ?genus ?family ?order ?class ?phylum ?domain ?plant_part ?stock_quantity ?tube_quantity ?comment
+WHERE{
+    ?PFcode a jlw:PFCode        ;
+			rdfs:comment ?comment .
+    OPTIONAL { ?PFcode jlw:is_from_plant_part ?plant_part }
+    OPTIONAL { ?PFcode jlw:has_stock_quantity ?stock_quantity }
+    OPTIONAL { ?PFcode jlw:has_tube_quantity  ?tube_quantity }
+    OPTIONAL {
+		?PFcode  jlw:has_taxon        ?species .
+		?species jlw:has_parent_taxon ?genus   .
+    	?genus   jlw:has_parent_taxon ?family  .
+    	?family  jlw:has_parent_taxon ?order   .
+    	?order   jlw:has_parent_taxon ?class   .
+    	?class   jlw:has_parent_taxon ?phylum  .
+    	?phylum  jlw:has_parent_taxon ?domain  .
+	}
+}

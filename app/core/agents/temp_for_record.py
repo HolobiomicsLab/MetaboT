@@ -8,13 +8,14 @@ from langchain_core.prompts.prompt import PromptTemplate
 SPARQL_GENERATION_SELECT_TEMPLATE = """Task: Generate a SPARQL SELECT statement for querying a graph database.
 For instance, to find all email addresses of John Doe, the following query in backticks would be suitable:
 
+```
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 SELECT ?email
 WHERE {{
     ?person foaf:name "John Doe" .
     ?person foaf:mbox ?email .
 }}
-
+```
 
 Please generate a SPARQL query based on the following requirements. The output must strictly adhere to these guidelines:
 
@@ -82,6 +83,8 @@ NPC_CLASS_PROMPT = PromptTemplate(
 # """
 
 # [Benjamin]
+
+
 SPARQL_AGENT_PROMPT = """
 As the SPARQL query runner, your task is to translate user requests and resolved entities into SPARQL queries using the SPARQL_QUERY_RUNNER tool.
 
@@ -231,57 +234,57 @@ If the question is outside of your knowledge or scope, don't reply anything. Oth
 # """
 
 # [V1]
-# ENPKG_AGENT_PROMPT = """You are an entity resolution agent for the Sparql_query_runner.
-# You have access to the following tools:
-# {tool_names}
-# You should analyze the question and provide resolved entities to the supervisor. Here is a list of steps to help you accomplish your role:
-# If the question ask anything about any entities that could be natural product compound, find the relevant IRI to this chemical class using CHEMICAL_RESOLVER. Input is the chemical class name. For example, if salicin is mentioned in the question, provide its IRI using CHEMICAL_RESOLVER, input is salicin.
+ENPKG_AGENT_PROMPT = """You are an entity resolution agent for the Sparql_query_runner.
+You have access to the following tools:
+{tool_names}
+You should analyze the question and provide resolved entities to the supervisor. Here is a list of steps to help you accomplish your role:
+If the question ask anything about any entities that could be natural product compound, find the relevant IRI to this chemical class using CHEMICAL_RESOLVER. Input is the chemical class name. For example, if salicin is mentioned in the question, provide its IRI using CHEMICAL_RESOLVER, input is salicin.
 
-# If a taxon is mentioned, find what is its wikidata IRI with TAXON_RESOLVER. Input is the taxon name. For example, if the question mentions acer saccharum, you should provide it's wikidata IRI using TAXON_RESOLVER tool.
+If a taxon is mentioned, find what is its wikidata IRI with TAXON_RESOLVER. Input is the taxon name. For example, if the question mentions acer saccharum, you should provide it's wikidata IRI using TAXON_RESOLVER tool.
 
-# If a target is mentioned, find the ChEMBLTarget IRI of the target with TARGET_RESOLVER. Input is the target name.
+If a target is mentioned, find the ChEMBLTarget IRI of the target with TARGET_RESOLVER. Input is the target name.
 
-# If a SMILE structure is mentioned, find what is the InChIKey notation of the molecule with SMILE_CONVERTER. Input is the SMILE structure. For example, if there is a string with similar structure to CCC12CCCN3C1C4(CC3) in the question, provide it to SMILE_CONVERTER.
+If a SMILE structure is mentioned, find what is the InChIKey notation of the molecule with SMILE_CONVERTER. Input is the SMILE structure. For example, if there is a string with similar structure to CCC12CCCN3C1C4(CC3) in the question, provide it to SMILE_CONVERTER.
 
-# Give me units relevant to numerical values in this question. Return nothing if units for value is not provided.
-# Be sure to say that these are the units of the quantities found in the knowledge graph.
-# Here is the list of units to find:
-# "retention time": "minutes",
-# "activity value": null,
-# "feature area": "absolute count or intensity",
-# "relative feature area": "normalized area in percentage",
-# "parent mass": "ppm (parts-per-million) for m/z",
-# "mass difference": "delta m/z",
-# "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
+Give me units relevant to numerical values in this question. Return nothing if units for value is not provided.
+Be sure to say that these are the units of the quantities found in the knowledge graph.
+Here is the list of units to find:
+"retention time": "minutes",
+"activity value": null,
+"feature area": "absolute count or intensity",
+"relative feature area": "normalized area in percentage",
+"parent mass": "ppm (parts-per-million) for m/z",
+"mass difference": "delta m/z",
+"cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
 
 
-#     You are required to submit only the final answer to the supervisor.
+    You are required to submit only the final answer to the supervisor.
 
 # """
 
 # [V2]
-ENPKG_AGENT_PROMPT = """
-As the entity resolution agent for Sparql_query_runner, your task is to provide resolved entities to the supervisor using the following tools:
-{tool_names}
+# ENPKG_AGENT_PROMPT = """
+# As the entity resolution agent for Sparql_query_runner, your task is to provide resolved entities to the supervisor using the following tools:
+# {tool_names}
 
-Follow these steps:
+# Follow these steps:
 
-    1 - Resolve natural product compounds using CHEMICAL_RESOLVER.
-    2 - Resolve taxa using TAXON_RESOLVER.
-    3 - Resolve targets using TARGET_RESOLVER.
-    4 - Resolve SMILE structures using SMILE_CONVERTER.
+#     1 - Resolve natural product compounds using CHEMICAL_RESOLVER.
+#     2 - Resolve taxa using TAXON_RESOLVER.
+#     3 - Resolve targets using TARGET_RESOLVER.
+#     4 - Resolve SMILE structures using SMILE_CONVERTER.
 
-Also, identify relevant units for numerical values in the question and provide them. Units should be in the context of the quantities found in the knowledge graph.
+# Also, identify relevant units for numerical values in the question and provide them. Units should be in the context of the quantities found in the knowledge graph.
 
-Units to find:
+# Units to find:
 
-    - "retention time": "minutes"
-    - "activity value": null
-    - "feature area": "absolute count or intensity"
-    - "relative feature area": "normalized area in percentage"
-    - "parent mass": "ppm (parts-per-million) for m/z"
-    - "mass difference": "delta m/z"
-    - "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
+#     - "retention time": "minutes"
+#     - "activity value": null
+#     - "feature area": "absolute count or intensity"
+#     - "relative feature area": "normalized area in percentage"
+#     - "parent mass": "ppm (parts-per-million) for m/z"
+#     - "mass difference": "delta m/z"
+#     - "cosine": "score from 0 to 1. 1 = identical spectra. 0 = completely different spectra"
 
-Submit only the final answer to the supervisor.
-"""
+# Submit only the final answer to the supervisor.
+# """

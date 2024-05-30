@@ -1,0 +1,25 @@
+### Might not be fully fonctional due to ENPKG schema update.
+Q: Generate a SPARQL query to search for a given extract the m/z, retention time, molecular formula and its confidence score and the feature intensity.
+
+# For the extract specified in the BIND() clause below,
+# retrive the chromatogram info (RT,M/Z, peak area) and 
+# formula. Only features with very high confidence 
+# formula are shown. To be completed
+#
+PREFIX jlw: <https://www.sinergiawolfender.org/jlw/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?feature ?MZ ?RT ?string ?score ?area
+WHERE{
+    BIND( jlw:VGF142_F07 AS ?sample ) .
+    ?formula jlw:has_SIRIUS_formula_string ?string ;
+             jlw:has_SIRIUS_formula_score  ?score  .
+    ?feature jlw:has_SIRIUS_formula ?formula ;
+             jlw:has_MZmine_MZ ?MZ           ;
+             jlw:has_MZmine_RT ?RT           .
+    ?chromatogram jlw:has_MZmine_feature               ?feature .
+	?sample       jlw:has_MZmine_chromatogram		   ?chromatogram .
+    << ?chromatogram jlw:has_MZmine_feature ?feature >> jlw:has_MZMine_peak_area ?area
+    FILTER( ?score >= 0.98 )
+}
+ORDER BY ?RT
+

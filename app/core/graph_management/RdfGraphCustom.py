@@ -1,22 +1,24 @@
 from __future__ import annotations
 
+import configparser
 import csv
 import logging.config
 import re
 from io import StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import rdflib
-import tiktoken
-from rdflib import BNode, Literal, Namespace, URIRef
+from rdflib import BNode, URIRef
 from rdflib.plugins.stores import sparqlstore
 from tqdm import tqdm
 
-parent_dir = Path(__file__).parent.parent
-config_path = parent_dir / "config" / "logging.ini"
-logging.config.fileConfig(config_path, disable_existing_loggers=False)
-logger = logging.getLogger(__name__)
+from app.core.utils import setup_logger, token_counter
+
+logger = setup_logger(__name__)
+
+parent_dir = Path(__file__).parent.parent.parent
+sparql_config_path = parent_dir / "config" / "sparql.ini"
 
 
 class RdfGraph:
@@ -25,44 +27,7 @@ class RdfGraph:
     including querying and schema generation. The subjects are rdfs:Class nodes.
     """
 
-    # sparql query to get all classes and their comments / faster than CLS_EX_RDF
     # TODO: handle domain and range of properties rdfs:domain and rdfs:range
-
-    # TODO: [Benjamin] add sparql queries to configuration file
-
-    CLS_RDF = """
-    SELECT DISTINCT ?cls ?com ?label
-        WHERE {
-            ?cls a rdfs:Class .
-            OPTIONAL { ?cls rdfs:comment ?com }
-            OPTIONAL { ?cls rdfs:label ?label }
-        }
-        GROUP BY ?cls ?com ?label
-    """
-
-    CLS_REL_RDF = """
-    SELECT ?property (SAMPLE(COALESCE(?type, STR(DATATYPE(?value)), "Untyped")) AS ?valueType) WHERE {{
-        {{
-        SELECT ?instance WHERE {{
-            ?instance a <{class_uri}> .
-        }} LIMIT 1000
-        }}
-        ?instance ?property ?value .
-        OPTIONAL {{
-        ?value a ?type .
-        }}
-    }}
-    GROUP BY ?property ?type
-    LIMIT 300
-    """
-
-    EXCLUDED_URIS = [
-        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-        # "http://www.w3.org/2000/01/rdf-schema#label",
-        "http://www.w3.org/2000/01/rdf-schema#comment",
-        "http://www.w3.org/2000/01/rdf-schema#Class",
-        "http://xmlns.com/foaf/0.1/depiction",
-    ]
 
     def __init__(
         self,
@@ -84,6 +49,11 @@ class RdfGraph:
         self.standard = standard
         self.schema_file = schema_file
         self.namespaces = None
+        self.config = self.load_config(sparql_config_path)
+        logger.info("sparql_config_path %s", sparql_config_path)
+        self.CLS_RDF = self.config.get("sparqlQueries", "CLS_RDF")
+        self.CLS_REL_RDF = self.config.get("sparqlQueries", "CLS_REL_RDF")
+        self.EXCLUDED_URIS = self.config.get("excludedURIs", "uris").split(",")
 
         try:
             if self.standard not in (supported_standards := ("rdf", "rdfs", "owl")):
@@ -100,6 +70,12 @@ class RdfGraph:
         self._store.open(query_endpoint)
         self.graph = rdflib.Graph(self._store, bind_namespaces="none")
         self.load_schema()
+
+    @staticmethod
+    def load_config(config_path):
+        config = configparser.ConfigParser()
+        config.read(config_path)
+        return config
 
     @property
     def get_schema(self) -> str:
@@ -171,22 +147,18 @@ class RdfGraph:
         from rdflib.query import ResultRow
 
         try:
-            res = self.graph.query(query_object=query, initNs={})
+            res = self.graph.query(query_object=query, initNs={}, initBindings={})
 
         except ParserError as e:
             raise ValueError("Generated SPARQL statement is invalid\n" f"{e}")
+
+        except Exception as e:
+            raise ValueError(f"An error occurred while querying the graph: {e}")
 
         # TODO [Franck]: deal with other possible exceptions (timeout, etc)
 
         csv_str = res.serialize(format="csv").decode("utf-8")
         return list(csv.DictReader(StringIO(csv_str)))
-
-    @staticmethod
-    def token_counter(text: str) -> int:
-        tokenizer = tiktoken.encoding_for_model(model_name="gpt-4")
-        # TODO [Franck]: the model name should be a config param
-        tokens = tokenizer.encode(text)
-        return len(tokens)
 
     @staticmethod
     def _get_local_name(iri: str) -> str:
@@ -277,7 +249,7 @@ class RdfGraph:
                 graph = self.get_graph_from_classes(clss)
                 self.schema = _rdf_s_schema(clss, graph)
 
-                logger.info("number of tokens %s", self.token_counter(self.schema))
+                logger.info("number of tokens %s", token_counter(self.schema))
 
             elif self.standard == "rdfs":
                 # TODO : implement the rdfs schema
