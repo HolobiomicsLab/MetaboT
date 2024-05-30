@@ -160,7 +160,7 @@ To maintain a unified code style across our project, we adhere to the PEP8 conve
     Install Black Formatter from the VSCode extensions marketplace.
     Right-click inside any Python file and select Format Document to automatically format your code.
 
-  ### Good practices with keys
+### Good practices with keys
 
   As good practive with keys, to further isolate and later facilitate the deployment with online plataforms, please provide the keys as parameters and don't use environmental variables as those are not scalable for production. 
 
