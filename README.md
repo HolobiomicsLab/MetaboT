@@ -25,12 +25,20 @@ The application has been structured as a module and adheres to the dot notation 
 ### Launching the Application
 
 To launch the application, you should utilize the -m option from the Python command line interface. 
-The main entry point for the application is located within the main module under app.core.main. Follow the steps below to start the application:
+The main entry point for the application is located within the main module under app.core.main. The standard questions are defined as numbers (1 to 10), so follow the steps below to start the application:
 
 ````bash
 cd kgbot
 
-python -m app.core.main
+python -m app.core.main -q 1
+
+````
+
+Custom questions are also allowed and can be asked with the following command:
+
+````bash
+
+python -m app.core.main -c "Your custom question"
 
 ````
 
