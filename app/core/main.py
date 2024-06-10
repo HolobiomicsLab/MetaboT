@@ -115,8 +115,10 @@ def main():
     q8_bis= "How many features annotated as 'Tetraketide meroterpenoids' by CANOPUS are found for each submitted taxon and extract in database?"
     q9 = "What are all distinct submitted taxons for the extracts?"
     q10 = "What are the taxons, lab process and label (if one exists) for each sample? Sort by sample and then lab process"
-
-    process_workflow(workflow, q5_bis)
+    q11 = "Count all the species per family in the collection"
+    q12 = "Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon, which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?"
+    q13 = "What are the retention times, parent masses, and associated Spec2Vec peaks for features in the LC-MS analysis of the plant Rumex nepalensis in positive ion mode?"
+    process_workflow(workflow, q13)
 
 
 if __name__ == "__main__":

@@ -42,7 +42,7 @@ class PlantDatabaseChecker(KgbotBaseTool):
     def _run(
             self, plant_name: str, run_manager: Optional[CallbackManagerForToolRun] = None
     ) -> str:
-        csv_path = '/app/data/submitted_plants.csv'
+        csv_path = '/Users/madinabekbergenova/Desktop/LLMs/kgbot_dev_new/app/data/submitted_plants.csv'
 
         try:
             # Load the CSV file into a pandas DataFrame
