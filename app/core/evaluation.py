@@ -55,16 +55,16 @@ example_outputs = [
 
 # Creating the datasets for testing
 dataset_name = "Testing_gpt_4o_version_2"
-dataset = client.create_dataset(
-    dataset_name,
-    description="An example dataset of questions to run",
-)
+# dataset = client.create_dataset(
+#     dataset_name,
+#     description="An example dataset of questions to run",
+# )
 
-client.create_examples(
-    inputs=[{"question": question} for question in dataset_inputs],
-    outputs=[{"output": answer} for answer in example_outputs],
-    dataset_id=dataset.id,
-)
+# client.create_examples(
+#     inputs=[{"question": question} for question in dataset_inputs],
+#     outputs=[{"output": answer} for answer in example_outputs],
+#     dataset_id=dataset.id,
+# )
 
 
 @run_evaluator
