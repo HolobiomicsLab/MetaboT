@@ -284,7 +284,7 @@ class GraphSparqlQAChain(BaseTool):
         total_tokens = tokens_result + tokens_question + tokens_query
 
         # Define the LLM context window size
-        llm_context_window = 10000
+        llm_context_window = 6000
 
         # Check if the total token count exceeds the LLM's context window
         if total_tokens > llm_context_window:
@@ -340,7 +340,7 @@ class GraphSparqlQAChain(BaseTool):
         current_dir = os.path.dirname(__file__)
 
         # Construct the path to the faiss_db directory
-        db_path = os.path.join(current_dir, '..', '..', 'data', 'faiss_db')
+        db_path = os.path.abspath(os.path.join(current_dir, '..', '..', '..', 'data', 'faiss_db'))
 
         embeddings = OpenAIEmbeddings()
         db = FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
@@ -361,7 +361,7 @@ class GraphSparqlQAChain(BaseTool):
         current_dir = os.path.dirname(__file__)
 
         # Construct the path to the queries.json file
-        json_file = os.path.join(current_dir, '..', '..', 'data', 'queries.json')
+        json_file = os.path.abspath(os.path.join(current_dir, '..', '..', '..', 'data', 'queries.json'))
 
         # Extract the query texts
         database_queries = self.load_queries(json_file)
@@ -399,6 +399,7 @@ class GraphSparqlQAChain(BaseTool):
         with open(json_file, 'r') as file:
             data = json.load(file)
             return data['queries']
+
 
     def json_to_csv(self, json_data):
         """

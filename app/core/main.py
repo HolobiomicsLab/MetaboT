@@ -15,9 +15,11 @@ import os
 from langsmith import Client
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 from app.core.agents.agents_factory import create_all_agents
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-from app.core.utils import setup_logger
-import pickle
+from app.core.workflow.langraph_workflow import create_workflow, process_workflow, initiate_workflow, agent_node
+from app.core.memory.custom_sqlite_file import SqliteSaver
+from app.core.utils import setup_logger, load_config
+from app.core.agents.agents_factory import create_all_agents
+
 
 logger = setup_logger(__name__)
 
@@ -62,6 +64,7 @@ def llm_creation(api_key=None):
     Returns:
         dict: A dictionary containing the language models.
     """
+
     config = configparser.ConfigParser()
     config.read(params_path)
 
@@ -106,36 +109,36 @@ def langsmith_setup():
 
 
 def main():
-    # parser = argparse.ArgumentParser(description="Process a workflow with a predefined or custom question.")
-    # parser.add_argument('-q', '--question', type=int, choices=range(1, 13),
-    #                     help="Choose a standard question number from 1 to 12.")
-    # parser.add_argument('-c', '--custom', type=str,
-    #                     help="Provide a custom question.")
-    #
-    # args = parser.parse_args()
-    #
-    # standard_questions = [
-    #     "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?",
-    #     "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decreasing count of features as aspidosperma-type alkaloids? Group by extract.",
-    #     "Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon , which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?",
-    #     "Among the SIRIUS structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon, which ones are reported in the Tabernaemontana genus in Wikidata? Can use service <https://query.wikidata.org/sparql> to run a subquery to wikidata within the sparql query",
-    #     "Which compounds have annotations with chembl assay results indicating reported activity against T. cruzi by looking at the cosmic, zodiac and taxo scores?",
-    #     "Filter the pos ionization mode features of the Melochia umbellata taxon annotated as [M+H]+ by SIRIUS to keep the ones for which a feature in neg ionization mode is detected with the same retention time (+/- 3 seconds) and a mass corresponding to the [M-H]- adduct (+/- 5ppm).",
-    #     "For features from the Melochia umbellata taxon in pos ionization mode with SIRIUS annotations, get the ones for which a feature in neg ionization mode with the same retention time (+/- 3 seconds) has the same SIRIUS annotation by comparing the InCHIKey 2D. Return the features, retention times, and InChIKey2D",
-    #     "Which features were annotated as 'Tetraketide meroterpenoids' by SIRIUS, and how many such features were found for each species and plant part?",
-    #     "What are all distinct submitted taxons for the extracts in the knowledge graph?",
-    #     "What are the taxons, lab process and label (if one exists) for each sample? Sort by sample and then lab process",
-    #     "Count all the species per family in the collection",
-    #     "Taxons can be found in enpkg:LabExtract. Find the best URI of the Taxon in the context of this question: Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon, which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?"
-    # ]
-    #
-    # if args.question:
-    #     question = standard_questions[args.question - 1]
-    # elif args.custom:
-    #     question = args.custom
-    # else:
-    #     print("You must provide either a standard question number or a custom question.")
-    #     return
+    parser = argparse.ArgumentParser(description="Process a workflow with a predefined or custom question.")
+    parser.add_argument('-q', '--question', type=int, choices=range(1, 13),
+                        help="Choose a standard question number from 1 to 12.")
+    parser.add_argument('-c', '--custom', type=str,
+                        help="Provide a custom question.")
+
+    args = parser.parse_args()
+
+    standard_questions = [
+        "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?",
+        "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decreasing count of features as aspidosperma-type alkaloids? Group by extract.",
+        "Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon , which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?",
+        "Among the SIRIUS structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon, which ones are reported in the Tabernaemontana genus in Wikidata? Can use service <https://query.wikidata.org/sparql> to run a subquery to wikidata within the sparql query",
+        "Which compounds have annotations with chembl assay results indicating reported activity against T. cruzi by looking at the cosmic, zodiac and taxo scores?",
+        "Filter the pos ionization mode features of the Melochia umbellata taxon annotated as [M+H]+ by SIRIUS to keep the ones for which a feature in neg ionization mode is detected with the same retention time (+/- 3 seconds) and a mass corresponding to the [M-H]- adduct (+/- 5ppm).",
+        "For features from the Melochia umbellata taxon in pos ionization mode with SIRIUS annotations, get the ones for which a feature in neg ionization mode with the same retention time (+/- 3 seconds) has the same SIRIUS annotation by comparing the InCHIKey 2D. Return the features, retention times, and InChIKey2D",
+        "Which features were annotated as 'Tetraketide meroterpenoids' by SIRIUS, and how many such features were found for each species and plant part?",
+        "What are all distinct submitted taxons for the extracts in the knowledge graph?",
+        "What are the taxons, lab process and label (if one exists) for each sample? Sort by sample and then lab process",
+        "Count all the species per family in the collection",
+        "Taxons can be found in enpkg:LabExtract. Find the best URI of the Taxon in the context of this question: Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon, which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?"
+    ]
+
+    if args.question:
+        question = standard_questions[args.question - 1]
+    elif args.custom:
+        question = args.custom
+    else:
+        print("You must provide either a standard question number or a custom question.")
+        return
 
     langsmith_setup()
     endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
@@ -168,7 +171,7 @@ def main():
 
     process_workflow(workflow, q2)
 
+    process_workflow(workflow, question)
 
 if __name__ == "__main__":
-
     main()

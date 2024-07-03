@@ -35,8 +35,6 @@ class SMILESResolver(BaseTool):
     smiles_string = "CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45"
     inchikey = _run(smiles_string)
     """
-
-
     args_schema = SMILESInput
     openai_key: str = None
 

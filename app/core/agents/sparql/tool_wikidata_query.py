@@ -19,14 +19,6 @@ from langchain.callbacks.manager import (
 
 logger = setup_logger(__name__)
 
-"""
-Class in test phase:
-
-1.It should provide wikidata ids of structures found in genus of the taxa mentioned in the question.
-
-2.Still not clear how to pass this info further.
-
-"""
 
 class WikidataInput(BaseModel):
     wikidata_id: str = Field(description="A string containing the wikidata id.")

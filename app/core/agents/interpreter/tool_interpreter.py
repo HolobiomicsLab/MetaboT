@@ -62,7 +62,6 @@ class Interpreter(BaseTool):
         # if os.getenv("CODEBOX_API_KEY"):
         #     codebox_key = os.getenv("CODEBOX_API_KEY")
         #     settings.CODEBOX_API_KEY = codebox_key
-        # Override the model setting
 
         settings.OPENAI_API_KEY = self.openai_key
 
@@ -72,7 +71,7 @@ class Interpreter(BaseTool):
                 "You are an interpreter helping to analyze different questions, files and outputs generated from a series of LLMs."
                 f"The details of the current request: {input}"
                 "Please interpret the current request to generate a meaningful answer."
-                "Here's some instructions that you have to follow for achieving the task:"
+                "Here's some instructions that you have to follow for acheiving the task:"
                 "1. For any file provided, analyse if and provide clear and brief information about it unless something else is asked."
                 "2. If any type of visualization is requested, use all information from the submited files to generate a .json file containing the JSON code for generating a plotly graph containing the requrested information. This file should have the same name as the analyzed file."
                 "3. After you finish your tasks, your answer should contain both the interpretation asked and the full visualization file name if any."
