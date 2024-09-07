@@ -12,7 +12,7 @@ from typing import Optional
 
 from app.core.utils import setup_logger
 
-
+from pathlib import Path
 logger = setup_logger(__name__)
 
 class PlantInput(BaseModel):
@@ -41,7 +41,8 @@ class PlantDatabaseChecker(BaseTool):
     def _run(
             self, plant_name: str, run_manager: Optional[CallbackManagerForToolRun] = None
     ) -> str:
-        csv_path = '/Users/madinabekbergenova/Desktop/LLMs/kgbot_dev_new/app/data/submitted_plants.csv'
+        dir_path = Path(__file__).resolve().parent.parent.parent.parent
+        csv_path = dir_path/"data"/"submitted_plants.csv"
 
         try:
             # Load the CSV file into a pandas DataFrame
