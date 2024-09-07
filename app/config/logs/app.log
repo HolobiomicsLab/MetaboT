@@ -315,3 +315,75 @@ The visualization file will be generated in a JSON format for a plotly graph con
 2024-09-07 21:07:17 - app.core.utils - INFO - Imported tool: OUTPUT_MERGE
 2024-09-07 21:07:17 - app.core.utils - INFO - Importing tool from tool_sparql.py
 2024-09-07 21:07:17 - app.core.utils - INFO - Module name: tool_sparql
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_filesparser.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_filesparser
+2024-09-07 21:48:18 - numexpr.utils - INFO - Note: NumExpr detected 14 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2024-09-07 21:48:18 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.entry.tool_filesparser
+2024-09-07 21:48:18 - app.core.agents.entry.tool_filesparser - INFO - Initialized with folder path: /var/folders/20/4kgcw5656h12ss_nj18mndwm0000gn/T/kgbot/788c5eb40a154530a8a2d44674302d6b/input_files
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: FILE_ANALYZER
+2024-09-07 21:48:18 - app.core.agents.entry.agent - INFO - Agent created successfully with 1 tools.
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_target.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_target
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_target
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: TARGET_RESOLVER
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_smiles.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_smiles
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_smiles
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: SMILES_RESOLVER
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_chemicals.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_chemicals
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_chemicals
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: CHEMICAL_RESOLVER
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_taxon.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_taxon
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_taxon
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: TAXON_RESOLVER
+2024-09-07 21:48:18 - app.core.agents.enpkg.agent - INFO - Creating agent with tools...
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_target.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_target
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_target
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: TARGET_RESOLVER
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_smiles.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_smiles
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_smiles
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: SMILES_RESOLVER
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_chemicals.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_chemicals
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_chemicals
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: CHEMICAL_RESOLVER
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_taxon.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_taxon
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.enpkg.tool_taxon
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: TAXON_RESOLVER
+2024-09-07 21:48:18 - app.core.agents.enpkg.agent - INFO - Agent created successfully with 4 tools.
+2024-09-07 21:48:18 - app.core.agents.sparql.agent - INFO - Creating agent with tools...
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_wikidata_query.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_wikidata_query
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.sparql.tool_wikidata_query
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: WIKIDATA_QUERY_TOOL
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_merge_result.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_merge_result
+2024-09-07 21:48:18 - app.core.utils - INFO - Module path: app.core.agents.sparql.tool_merge_result
+2024-09-07 21:48:18 - app.core.utils - INFO - Imported tool: OUTPUT_MERGE
+2024-09-07 21:48:18 - app.core.utils - INFO - Importing tool from tool_sparql.py
+2024-09-07 21:48:18 - app.core.utils - INFO - Module name: tool_sparql
+2024-09-07 21:48:19 - app.core.utils - INFO - Module path: app.core.agents.sparql.tool_sparql
+2024-09-07 21:48:19 - app.core.utils - INFO - Imported tool: SPARQL_QUERY_RUNNER
+2024-09-07 21:48:19 - app.core.agents.sparql.agent - INFO - Agent created successfully with 3 tools.
+2024-09-07 21:48:19 - app.core.agents.interpreter.agent - INFO - Creating agent with tools...
+2024-09-07 21:48:19 - app.core.utils - INFO - Importing tool from tool_interpreter.py
+2024-09-07 21:48:19 - app.core.utils - INFO - Module name: tool_interpreter
+2024-09-07 21:48:19 - app.core.utils - INFO - Module path: app.core.agents.interpreter.tool_interpreter
+2024-09-07 21:48:19 - app.core.utils - INFO - Imported tool: INTERPRETER_TOOL
+2024-09-07 21:48:19 - app.core.agents.interpreter.agent - INFO - Agent created successfully with 1 tools.
+2024-09-07 21:48:19 - app.core.agents.validator.agent - INFO - Creating agent with tools...
+2024-09-07 21:48:19 - app.core.utils - INFO - Importing tool from tool_validator.py
+2024-09-07 21:48:19 - app.core.utils - INFO - Module name: tool_validator
+2024-09-07 21:48:19 - app.core.utils - INFO - Module path: app.core.agents.validator.tool_validator
+2024-09-07 21:48:19 - app.core.utils - INFO - Imported tool: PLANT_DATABASE_CHECKER
+2024-09-07 21:48:19 - app.core.agents.validator.agent - INFO - Agent created successfully with 1 tools.
+2024-09-07 21:48:19 - app.core.agents.agents_factory - INFO - Created 6 agents.
+2024-09-07 21:48:19 - app.core.agents.agents_factory - INFO - Agents: ['Entry_Agent', 'ENPKG_agent', 'Sparql_query_runner', 'Interpreter_agent', 'supervisor', 'Validator']
+2024-09-07 21:48:19 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-09-07 21:48:19 - app.core.workflow.langraph_workflow - ERROR - An error occurred: unsupported operand type(s) for -: 'str' and 'str'

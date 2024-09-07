@@ -203,7 +203,7 @@ def main():
     q_family = "Count all the species per family in the collection"
     q_substructure = "Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon, which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?"
 
-    process_workflow(workflow, q33)
+    process_workflow(workflow, q1)
 
     # process_workflow(workflow, question)
 
