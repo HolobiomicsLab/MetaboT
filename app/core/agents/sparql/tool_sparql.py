@@ -261,13 +261,13 @@ class GraphSparqlQAChain(BaseTool):
             result = self.graph.query(regenerated_sparql)
 
 
-        # creating csv temp file inside the _call
+        # Create csv temp file inside the _call
         temp_file_path = self.json_to_csv(result)
-        #add check conditions (if temp_file_path=null->generate new sparql query)
+
+        # Add check conditions (if temp_file_path=null->generate new sparql query)
         logger.info("Saving results to file: %s", temp_file_path)
 
         # Convert the SPARQL query output to  a string if it's not already
-
         if isinstance(result, dict):  # Assuming result2 is a dictionary (JSON)
             result2_string = json.dumps(result)
         else:

@@ -48,6 +48,11 @@
     {
       "id": 12,
       "query": "PREFIX ns1: <https://enpkg.commons-lab.org/kg/>\\nPREFIX ns2: <https://enpkg.commons-lab.org/module/>\\nSELECT ?InChIkey\\nWHERE {\\n    ?chemical ns2:has_chembl_activity ?assayResult .\\n    ?assayResult ns2:target_id ChEMBLTarget ;\\n                 ns2:activity_type \"type\" ;\\n                 ns2:activity_value ?activityValue .\\n    FILTER(?activityValue < value)\\n    ?InChIkey ns2:has_chembl_id ?chemical .\\n}\n"
-    }
+    },
+    {
+      "id": 13,
+      "query": "PREFIX ns1: <https://enpkg.commons-lab.org/kg/>\\nPREFIX ns2: <https://enpkg.commons-lab.org/module/>\\nSELECT ?npc_class ?smiles ?mass\\nWHERE {\\n    ?chemicalEntity ns1:has_wd_id <http://www.wikidata.org/entity/WDTaxon> ;\\n                     ns1:has_smiles ?smiles ;\\n                     ns1:has_npc_class ?npc_class .\\n    ?inchikey2d  ns1:is_InChIkey2D_of ?chemicalEntity.\\n    ?feature ns1:has_sirius_annotation ?annotation.\\n    ?annotation ns1:has_InChIkey2D ?inchikey2d.\\n    ?feature ns1:has_parent_mass ?mass.\\n  }"
+}
+
   ]
 }

@@ -190,6 +190,8 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
 
     # Set entry point and compile
     workflow.set_entry_point("Entry_Agent")
-    memory = SqliteSaver()
-    app = workflow.compile(checkpointer=memory)
+    # memory = SqliteSaver()
+    # app = workflow.compile(checkpointer=memory)
+    #trying the workflow without memory for evaluation
+    app = workflow.compile()
     return app

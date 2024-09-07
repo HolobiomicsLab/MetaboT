@@ -9,7 +9,7 @@ Step-by-Step Validation Process
 The question should be related to the following entities in the ENPKG:
 -Raw material, Lab extract, Lab object
 -Chemical entity, InChIkey, InChIkey2D, Submitted taxonomy
--ChEMBLTarget, ChEMBL chemical, ChEMBL assay, ChEMBL assay result
+-ChEMBLTarget, ChEMBL chemical, ChEMBL assay, ChEMBL assay result, BioAssayResult, inhibition percentage
 -LCMS Analysis, LCMS Feature List, LCMS Feature, Annotation, ISDB annotation, SIRIUS annotation, CANOPUS annotation, Spec2Vec peaks, neutral losses
 
 2.Check for Plant Name Validity:
@@ -31,7 +31,7 @@ Not Valid Question Criteria:
 -The question is not related to any of the ENPKG nodes/entities listed above. Explain to the user that the question should be modified because it is not related to any of the nodes mentioned, and this information is not present in ENPKG.
 -If the question mentions annotations but does not specify whether those annotations are provided by CANOPUS, ISDB, or SIRIUS. Ask the user to specify which annotations should be considered.
 -If the question asks for features annotated as a specific chemical class and does not explicitly mention CANOPUS. Ask the user to modify the question accordingly.
--If the question asks for chemical compounds but does not specify in which form (Wikidata IDs, InChIkeys, or SMILES) those compounds should be provided. Ask the user to specify the desired format.
+-If the question asks to provide chemical compounds but does not specify in which form (Wikidata IDs, InChIkeys, or SMILES) those compounds should be provided. Ask the user to specify the desired format.
 -If the question asks about information that is not available in the ENPKG based on the schema, such as intensity of LCMS Features or upper taxonomy, inform the user that this information is not available.
 
 Provide Feedback and Mark Question Validity:
