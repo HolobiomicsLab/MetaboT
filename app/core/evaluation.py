@@ -53,16 +53,7 @@ example_outputs = [
 
 # Creating the datasets for testing
 dataset_name = "Testing_new_evaluator30.08"
-# dataset = client.create_dataset(
-#     dataset_name,
-#     description="An example dataset of questions to run",
-# )
-#
-# client.create_examples(
-#     inputs=[{"question": question} for question in dataset_inputs],
-#     outputs=[{"output": answer} for answer in example_outputs],
-#     dataset_id=dataset.id,
-# )
+
 
 # custom criteria to evaluate sparql query
 custom_criteria = {
@@ -81,20 +72,6 @@ eval_chain_new_2= load_evaluator(
     EvaluatorType.CRITERIA,
     criteria=custom_criteria_2,
 )
-@run_evaluator
-def check_not_idk(run: Run, example: Example):
-    """Illustration of a custom evaluator."""
-    agent_response = run.outputs["output"]
-    if "don't know" in agent_response or "no results" in agent_response:
-        score = 0
-    else:
-        score = 1
-    # You can access the dataset labels in example.outputs[key]
-    # You can also access the model inputs in run.inputs[key]
-    return EvaluationResult(
-        key="not_uncertain",
-        score=score,
-    )
 
 
 # Defining the proper evaluation
@@ -106,7 +83,7 @@ evaluation_config = RunEvalConfig(
         # You can also select via the raw string "qa"
         EvaluatorType.QA,
         # trying new evaluator
-        RunEvalConfig.LabeledCriteria("helpfulness"),
+
         # You can select a default one such as "helpfulness" or provide your own.
 
         # The LabeledScoreString evaluator outputs a score on a scale from 1-10.
@@ -135,18 +112,7 @@ graph = link_kg_database(endpoint_url)
 models = llm_creation()
 agents = create_all_agents(models, graph)
 app = create_workflow(agents)
-# def evaluate_result(_input, thread_id: int = 1):
-#     message = {
-#                 "messages": [
-#                     HumanMessage(content=_input["question"])
-#                 ]
-#             }
-#     response = app.invoke(message, {
-#                 "configurable": {"thread_id": thread_id}
-#             }, )
-#     return {"output": response}
 
-# trying to  evaluate based on run
 def evaluate_result(_input, thread_id: int = 1):
     message = {
                 "messages": [

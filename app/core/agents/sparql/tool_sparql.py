@@ -49,7 +49,9 @@ Output Format: Your response should consist solely of the SPARQL query. Do not i
 
 Content Clarity: Ensure the query is clear, readable, properly formatted and includes only the necessary prefixes that are used in the query.
 
-Precision: The query must include only necessary prefixes related to the question and conditions as specified. It should be ready to run in a SPARQL endpoint without requiring any additional editing or formatting. Do not include any prefixes that are not used in the query.
+Precision: The query must include only necessary prefixes related to the question and conditions as specified. It should be ready to run in a SPARQL endpoint without requiring any additional editing or formatting. 
+
+Include only necessary variables that are directly referenced in the query. Do not define or select unused variables.
 
 Exclusivity: Do not encapsulate the query in any form of quotes (single, double, or block quotes). The response must contain the SPARQL query and nothing else.
 
@@ -58,6 +60,17 @@ Prefix Usage: Only include prefixes that are actually used in the query. Do not 
 Schema and Property Alignment: Ensure SPARQL query strictly adheres to the defined schema. Use only properties and node types that are explicitly provided in the schema. Use properties with nodes that are directly associated with them in the schema. Do not misapply properties between similar but distinct node types, such as ?InChIkey and ?InChIkey2D.
 
 Object Validation: Ensure the objects used in the query are valid for the given properties and classes according to the schema. Verify that the class-property-object relationships are correctly followed as defined in the schema. Do not mix objects between different classes for the same property.
+For example, here is the correct usage of objects: 
+```
+?chemicalEntity ns1:has_wd_id ?wd_id .
+?chemicalEntity ns1:has_smiles ?smiles .
+```
+And here is the incorrect usage (does not follow the schema):
+```
+?chemicalEntity ns1:has_wd_id ?InChIkey .
+?chemicalEntity ns1:has_npc_pathway ?smiles .
+```
+In this example, ns1:has_wd_id should not link ?chemicalEntity to ?InChIkey because ns1:has_wd_id only links ?chemicalEntity to ?wd_id(Wikidata ID of Chemical entity). Similarly, ns1:has_npc_pathway should not link to ?smiles.
 
 Path Traversal: If you need to access properties that do not directly belong to a given class, first link the class to an associated class that has the desired properties. This ensures the query adheres to the schema constraints.
 
@@ -73,14 +86,26 @@ If the question asks for annotations, access the annotations through the feature
 ?feature_list ns1:has_lcms_feature ?feature .
 ?feature ns1:has_isdb_annotation ?Annotation .
 ```
+If the question asks for features, ensure that LCMSFeatureList is accessed through LCMSAnalysis and not directly through LabExtract.
+
 Entities: Use the IRI provided by the additional information to construct the query, if there is any. When available, choose to use the IRI rather than the Literal value of the entity.
 
 Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
 
 Casting: Given the schemas, when filtering values for properties, directly use the literal values without unnecessary casting to xsd:string, since they are already expected to be strings according to the RDF schema provided.
 
-Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards. Double check that it uses properties as defined in the schema and does not have any unused prefixes. It should be capable of being executed in a compatible SPARQL endpoint without errors.
+Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards, verify that all selected variables are referenced in the WHERE clause or are used in the output. 
+Double check that it uses properties as defined in the schema and does not have any unused prefixes. It should be capable of being executed in a compatible SPARQL endpoint without errors.
 
+Be careful with the similar but not the same properties such as: 
+-ns1:has_lcms_feature_list and -ns1:has_lcms_feature which link to different objects.
+
+Also, double check that the properties of the following classes are not interchanged, since these are similar but not the same:
+-LabExtract vs. LabObject vs.RawMaterial
+-ChemicalEntity vs. ChEMBLChemical
+-InChIkey2D vs. InChIkey
+-LCMSFeature vs. LCMSFeatureList
+-ChEMBLChemical vs. ChEMBLAssay
 Important Note: Ensure that you correctly follow the property relationships as defined in the schema. For example, do not place properties with classes that do not directly own them. Here are correct examples of the property use:
 ex:John a ex:Person ;
    ex:hasName "John Doe" ;
@@ -88,10 +113,10 @@ ex:John a ex:Person ;
 ex:SomeBook a ex:Book ;
      ex:hasTitle  "Some Book Title" .
 
-And this example demonstrates incorrect use of properties:
+This example demonstrates incorrect use of properties:
 ex:SomeBook a ex:Book ;
     ex:hasName "Some Book Title" .
-Thus, avoid using properties with the classes that are not associated with them.
+Thus, avoid using properties with the classes and objects that are not associated with them.
 Schema:
 {schema}
 
@@ -126,6 +151,7 @@ Also, double check that the properties of the following classes are not intercha
 -ChemicalEntity vs. ChEMBLChemical
 -InChIkey2D vs. InChIkey
 -LCMSFeature vs. LCMSFeatureList
+-ChEMBLChemical vs. ChEMBLAssay
 
 3. Identify and Correct Errors: If any properties or objects do not match the schema, rewrite the SPARQL query to correctly reflect the schema's structure.
 
@@ -138,7 +164,10 @@ If you could not find errors in the query, it means that you misread the schema.
 
 If you could not find errors in the query, it means that you misread the schema. Please, review the schema carefully again and do all the steps again, you need to identify the mistake and provide the refined query.
 
-6. Output Format: Your response should consist solely of the corrected SPARQL query that is fully compliant with the schema. Do not include any markdown syntax (e.g., triple backticks), preamble words (like "sparql"), or any other text outside the SPARQL query itself.
+6. Validation: Before finalizing your response, ensure the query is syntactically correct and follows the SPARQL standards, verify that all selected variables are referenced in the WHERE clause or are used in the output.
+Include only necessary variables that are directly referenced in the query. Do not define or select unused variables.
+
+7. Output Format: Your response should consist solely of the corrected SPARQL query that is fully compliant with the schema. Do not include any markdown syntax (e.g., triple backticks), preamble words (like "sparql"), or any other text outside the SPARQL query itself.
 
 SPARQL query for you to correct:
 {generated_sparql}

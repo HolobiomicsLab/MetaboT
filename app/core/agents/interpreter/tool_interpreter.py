@@ -73,8 +73,8 @@ class Interpreter(BaseTool):
                 "Please interpret the current request to generate a meaningful answer."
                 "Here's some instructions that you have to follow for acheiving the task:"
                 "1. For any file provided, analyse if and provide clear and brief information about it unless something else is asked."
-                "2. If any type of visualization is requested, use all information from the submited files to generate a .json file containing the JSON code for generating a plotly graph containing the requrested information. This file should have the same name as the analyzed file."
-                "3. After you finish your tasks, your answer should contain both the interpretation asked and the full visualization file name if any."
+                "2. Only if a specific visualization (e.g., bar chart, diagram) is requested in the question, use the provided information to generate a .json file containing the JSON code for a Plotly graph. This file should be named identically to the analyzed file."
+                "3. After you finish your tasks, your answer should contain both the interpretation asked and the full visualization file name if visualization was requested."
             )
 
             files = []

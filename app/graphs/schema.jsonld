@@ -913,8 +913,8 @@
     ],
     "ns2:has_broad_organe": [],
     "ns2:has_organe": [],
-    "ns2:has_subsystem": [],
-    "ns2:has_tissue": []
+    "ns2:has_subsystem": []
+
   },
 {
     "@id": "ns1:spec2vec",
