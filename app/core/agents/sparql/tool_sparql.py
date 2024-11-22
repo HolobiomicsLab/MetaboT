@@ -65,12 +65,11 @@ For example, here is the correct usage of objects:
 ?chemicalEntity ns1:has_wd_id ?wd_id .
 ?chemicalEntity ns1:has_smiles ?smiles .
 ```
-And here is the incorrect usage (does not follow the schema):
+And here is the incorrect usage properties with objects (does not follow the schema):
 ```
 ?chemicalEntity ns1:has_wd_id ?InChIkey .
-?chemicalEntity ns1:has_npc_pathway ?smiles .
 ```
-In this example, ns1:has_wd_id should not link ?chemicalEntity to ?InChIkey because ns1:has_wd_id only links ?chemicalEntity to ?wd_id(Wikidata ID of Chemical entity). Similarly, ns1:has_npc_pathway should not link to ?smiles.
+In this example, ns1:has_wd_id should not link ?chemicalEntity to ?InChIkey because ns1:has_wd_id only links ?chemicalEntity to ?wd_id(Wikidata ID of Chemical entity). 
 
 Path Traversal: If you need to access properties that do not directly belong to a given class, first link the class to an associated class that has the desired properties. This ensures the query adheres to the schema constraints.
 
@@ -89,6 +88,7 @@ If the question asks for annotations, access the annotations through the feature
 If the question asks for features, ensure that LCMSFeatureList is accessed through LCMSAnalysis and not directly through LabExtract.
 
 Entities: Use the IRI provided by the additional information to construct the query, if there is any. When available, choose to use the IRI rather than the Literal value of the entity.
+Double check that provided entities are not used as subjects in the query. For example neither a Wikidata IRI (e.g., <http://www.wikidata.org/entity/Q15435584>) should never appear as a subject. 
 
 Simplification: Produce a query that is as concise as possible. Do not generate triples not necessary to answer the question.
 
@@ -103,9 +103,10 @@ Be careful with the similar but not the same properties such as:
 Also, double check that the properties of the following classes are not interchanged, since these are similar but not the same:
 -LabExtract vs. LabObject vs.RawMaterial
 -ChemicalEntity vs. ChEMBLChemical
--InChIkey2D vs. InChIkey
+-InChIkey vs. InChIkey2D
 -LCMSFeature vs. LCMSFeatureList
 -ChEMBLChemical vs. ChEMBLAssay
+For example, make sure that the property of ChEMBLChemical is not used together with ChEMBLAssay if ChEMBLAssay does not have that property.
 Important Note: Ensure that you correctly follow the property relationships as defined in the schema. For example, do not place properties with classes that do not directly own them. Here are correct examples of the property use:
 ex:John a ex:Person ;
    ex:hasName "John Doe" ;
@@ -155,10 +156,15 @@ Also, double check that the properties of the following classes are not intercha
 
 3. Identify and Correct Errors: If any properties or objects do not match the schema, rewrite the SPARQL query to correctly reflect the schema's structure.
 
-4. Double check that the query uses the proper entities which are also provided below. 
-For example if "ns1:has_wd_id" property is used, the object should be wikidata IRI, or if "ns2:target_id" is used, the object should be the ChEMBLTarget IRI, but not vice versa.
-
-If you could not find errors in the query, it means that you misread the schema. Please, review the schema carefully again and do all the steps again, you need to identify the mistake and provide the refined query.
+4. Validate Query Entities and Roles:
+Ensure correct property-object alignment: Verify that properties use the appropriate entities as objects. For instance:
+If ns1:has_wd_id is used, the object must be a Wikidata IRI.
+If ns2:target_id is used, the object must be a ChEMBLTarget IRI.
+Avoid using these properties with objects that do not match the expected entity type.
+Restrict entities to proper roles: Double-check that the specified entities are not misused as subjects in the query. For example:
+A Wikidata IRI must not be used as a subject; it should only be used as an object. Similarly, a ChEMBLTarget IRI must not appear as a subject.
+Schema interpretation check:
+If you cannot identify any errors in the query, this indicates a potential misinterpretation of the schema. Carefully review the schema documentation again. Ensure every property and entity usage adheres to the defined structure and constraints.
 
 5. If the template query is provided, consider it as an example of a right SPARQL query, compare the incorrect SPARQL query with it and identify the errors in the incorrect SPARQL query.
 

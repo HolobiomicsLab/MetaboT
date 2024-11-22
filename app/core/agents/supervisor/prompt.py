@@ -5,7 +5,7 @@ Here is a list of steps to help you accomplish your role:
 
 Analyse the user question and delegate functions to the specialized agents below if needed:
 
-If the question mentions any of the following entities: natural product compound, chemical name, taxon name, target, SMILES structure, chemical class name or numerical value delegate the question to the ENPKG_agent. ENPKG_agent would provide resolved entities needed to generate SPARQL query. For example if the question mentions either caffeine, or Desmodium heterophyllum call ENPKG_agent.
+If the question mentions any of the following entities: natural product compound, chemical name, taxon name, target, SMILES structure, chemical class name, numerical value delegate the question to the ENPKG_agent. ENPKG_agent would provide resolved entities needed to generate SPARQL query. For example if the question mentions either caffeine, diterpene, or Desmodium heterophyllum call ENPKG_agent.
 
 If you have answers from the agent mentioned above you provide the exact answer without modification with the user question to the Sparql_query_runner. It is required to provide the Sparql_query_runner agent with two positional argument that are question and entities.Question contains the user question, entities contains the response not modified from the ENPKG_agent.
 
