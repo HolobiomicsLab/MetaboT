@@ -8,14 +8,12 @@ from typing import List, Optional
 from langchain_core.tools import tool
 from SPARQLWrapper import JSON, SPARQLWrapper
 
-from app.core.utils import setup_logger, create_user_session
+from app.core.session import setup_logger, create_user_session
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
-
-
 
 logger = setup_logger(__name__)
 

@@ -16,7 +16,10 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.utils import setup_logger, token_counter, create_user_session
+from app.core.utils import token_counter
+from app.core.session import setup_logger, create_user_session
+from app.core.memory.database_manager import tools_database
+
 from typing import Optional
 
 # new imports for similarity search
@@ -460,6 +463,7 @@ class GraphSparqlQAChain(BaseTool):
 
             # Create a NamedTemporaryFile within the session directory and keep it after closing
             with tempfile.NamedTemporaryFile(suffix=".csv", dir=session_dir, delete=False) as temp_file:
+
                 temp_csv_path = Path(temp_file.name)  # Convert the temp file path to a Path object
 
                 # Open the temp file path again for writing CSV data
@@ -474,6 +478,20 @@ class GraphSparqlQAChain(BaseTool):
                     csv_writer.writerows(data)
 
             temp_file_path = temp_csv_path
+
+            output_data = {
+                "output": {
+                    "paths": [str(temp_file_path)],
+                }
+            }
+
+            logger.info(f"Output data: {output_data}")
+
+            db_manager = tools_database()
+            try:
+                db_manager.put(data=json.dumps(output_data), tool_name="tool_sparql")
+            except Exception as e:
+                logger.error(f"Error saving to database: {e}")
 
         else:
             # Handle the case where data is empty or not a list

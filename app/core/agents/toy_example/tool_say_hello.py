@@ -8,7 +8,7 @@ from typing import Optional
 from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
-from app.core.utils import setup_logger
+from app.core.session import setup_logger
 from langchain.pydantic_v1 import BaseModel, Field
 
 

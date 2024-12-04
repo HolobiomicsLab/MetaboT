@@ -13,12 +13,12 @@ from langchain_core.runnables import RunnableConfig
 from langchain_core.runnables.utils import ConfigurableFieldSpec
 from langgraph.checkpoint.base import BaseCheckpointSaver, Checkpoint
 
-from app.core.utils import setup_logger
+from app.core.session import setup_logger
 
 logger = setup_logger(__name__)
 
 
-class SqliteSaver(BaseCheckpointSaver):
+class SqliteCheckpointerSaver(BaseCheckpointSaver):
     # Specify the path to the database file
     database_path = "langgraph_checkpoint.db"
 

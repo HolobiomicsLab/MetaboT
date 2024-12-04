@@ -9,12 +9,14 @@ from langchain.callbacks.manager import (
 
 import json
 
-from app.core.utils import setup_logger, create_user_session
+from app.core.session import setup_logger, create_user_session
+from app.core.memory.database_manager import tools_database
+
 import tempfile
 import os
 from pathlib import Path
-
 import pandas as pd
+
 logger = setup_logger(__name__)
 
 class MergerInput(BaseModel):
@@ -62,9 +64,23 @@ class OutputMerger(BaseTool):
         # Find common IDs
         common_ids = df1[df1.iloc[:, 0].isin(df2.iloc[:, 0])]
         session_dir = create_user_session(self.session_id, user_session_dir=True)
+        logger.info(f"Session directory: {session_dir}")
 
         # Remove duplicates
         common_ids = common_ids.drop_duplicates()
         with tempfile.NamedTemporaryFile(delete=False, mode='w', suffix='.csv', newline='', dir=session_dir) as temp_file:
             common_ids.to_csv(temp_file.name, index=False)
+
+            output_data = {
+                "output": {
+                    "paths": [str(temp_file.name)]
+                }
+            }
+
+            db_manager = tools_database()
+            try:
+                db_manager.put(data=json.dumps(output_data), tool_name="tool_merge_result")
+            except Exception as e:
+                logger.error(f"Error saving to database: {e}")
+
             return temp_file.name

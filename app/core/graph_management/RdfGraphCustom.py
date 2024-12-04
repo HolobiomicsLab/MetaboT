@@ -13,7 +13,8 @@ from rdflib import BNode, URIRef
 from rdflib.plugins.stores import sparqlstore
 from tqdm import tqdm
 
-from app.core.utils import setup_logger, token_counter
+from app.core.utils import token_counter
+from app.core.session import setup_logger
 
 logger = setup_logger(__name__)
 

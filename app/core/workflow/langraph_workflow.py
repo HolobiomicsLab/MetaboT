@@ -29,8 +29,9 @@ from langgraph.graph import StateGraph
 
 # langgraph imports for prebuilt tool invocation
 
-from app.core.memory.custom_sqlite_file import SqliteSaver
-from app.core.utils import setup_logger, load_config
+from app.core.memory.database_manager import memory_database, tools_database
+from app.core.utils import load_config
+from app.core.session import setup_logger
 
 
 logger = setup_logger(__name__)
@@ -187,11 +188,18 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
                 for target in cond_edge["targets"]
             },
         )
+            
+    # Initializing the database if not already initialized
+    try:
+        db_manager = tools_database()
+        db_manager.initialize_db() # This is method needed only for the offline database initialization, this is why is o
+    except:
+        pass
 
     # Set entry point and compile
     workflow.set_entry_point("Entry_Agent")
-    # memory = SqliteSaver()
-    # app = workflow.compile(checkpointer=memory)
+    memory = memory_database()
+    app = workflow.compile(checkpointer=memory)
     #trying the workflow without memory for evaluation
-    app = workflow.compile()
+    # app = workflow.compile()
     return app

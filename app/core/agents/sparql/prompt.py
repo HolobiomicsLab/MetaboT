@@ -1,6 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 PROMPT = """
+
     As the SPARQL query runner, your task to analyze the question and use the tools available to you to provide the answer to the question.
     You have access to the following tools: SPARQL_QUERY_RUNNER, WIKIDATA_QUERY_TOOL, OUTPUT_MERGE. Here is a list of steps to help you accomplish your role, read them carefully:
     1) Only if the question needs comparison with WIKIDATA data, you should use WIKIDATA_QUERY_TOOL to get this data from the WIKIDATA. You should use this this tool only if the question requires information from WIKIDATA. For example if the question needs to compare data with compounds from Saussurea genus reported in WIKIDATA, then you should use this tool. The input is wikidata id provided by ENPKG_agent, it should start with Q, it should not be IRI.
@@ -34,11 +35,7 @@ PROMPT = """
     - Provide the final answer and the dictionary containing question, generated_sparql_query, and file_path to the supervisor.  
     Overall, make sure that SPARQL_QUERY_RUNNER gets the right input: the dictionary containing the question and entities provided by ENPKG_agent.
     
-  
-   
-   
 """
-
 
 CHAT_PROMPT = ChatPromptTemplate.from_messages(
     [

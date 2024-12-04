@@ -14,7 +14,7 @@ from langchain.callbacks.manager import (
 )
 
 
-from app.core.utils import setup_logger
+from app.core.session import setup_logger
 from langchain.tools import BaseTool
 
 logger = setup_logger(__name__)

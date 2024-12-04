@@ -4,7 +4,9 @@ import sys
 import inspect
 from uuid import uuid4
 
-from app.core.utils import load_config, setup_logger, create_user_session
+from app.core.utils import load_config
+from app.core.session import setup_logger, create_user_session
+
 
 logger = setup_logger(__name__)
 

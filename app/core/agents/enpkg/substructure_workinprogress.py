@@ -6,7 +6,7 @@ from typing import List, Optional
 from langchain_core.tools import tool
 from SPARQLWrapper import JSON, SPARQLWrapper
 
-from app.core.utils import setup_logger
+from app.core.session import setup_logger
 
 from ..tool_interface import ToolTemplate
 

@@ -24,8 +24,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-from app.core.utils import setup_logger
-# from streamlit_webapp.streamlit_utils import get_openai_key
+from app.core.session import setup_logger
 
 import os
 
