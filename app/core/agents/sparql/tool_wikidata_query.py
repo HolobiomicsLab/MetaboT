@@ -9,7 +9,7 @@ from langchain_core.tools import tool
 from SPARQLWrapper import JSON, SPARQLWrapper
 
 from app.core.utils import setup_logger, create_user_session
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
@@ -35,10 +35,10 @@ class WikidataStructureSearch(BaseTool):
         Returns:
             str: A string that contains the path to the file with Wikidata IRIs if found, otherwise `None`.
         """
-    args_schema = WikidataInput
+    # args_schema = WikidataInput
 
-    ENDPOINT_URL = "https://query.wikidata.org/sparql"
-    PREFIXES = """
+    ENDPOINT_URL: str = "https://query.wikidata.org/sparql"
+    PREFIXES: str = """
        PREFIX wd: <http://www.wikidata.org/entity/>
        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
     """

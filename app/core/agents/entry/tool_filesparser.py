@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from datetime import datetime
 from langchain.tools import BaseTool
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from pathlib import Path
 import tempfile
 import logging.config
@@ -15,7 +15,7 @@ class FileAnalyzer(BaseTool):
     description: str = """
     Analyzes files in a specified directory and provides a summary of their content.
     """
-    args_schema = BaseModel  # Using BaseModel directly since no specific input fields are necessary
+    # args_schema = BaseModel  # Using BaseModel directly since no specific input fields are necessary
     folder_path: Path = None
     openai_key: str = None
     session_id: str = None

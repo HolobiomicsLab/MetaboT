@@ -8,7 +8,7 @@ import threading
 from contextlib import contextmanager
 from typing import Optional
 
-from langchain_core.pydantic_v1 import Field
+from pydantic import Field
 from langchain_core.runnables import RunnableConfig
 from langchain_core.runnables.utils import ConfigurableFieldSpec
 from langgraph.checkpoint.base import BaseCheckpointSaver, Checkpoint

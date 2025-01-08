@@ -181,4 +181,4 @@ CHAT_PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
-MODEL_CHOICE = "llm_o"
+MODEL_CHOICE = "ollama_llama_3_2"

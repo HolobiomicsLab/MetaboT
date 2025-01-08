@@ -6,7 +6,9 @@ from typing import Any
 import functools
 import argparse
 
-from langchain_community.chat_models import ChatOpenAI
+# from langchain_community.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -69,7 +71,7 @@ def llm_creation(api_key=None):
     config = configparser.ConfigParser()
     config.read(params_path)
 
-    sections = ["llm", "llm_preview", "llm_o"]
+    sections = ["openai", "openai_preview", "openai_o", "openai_o_m","ollama_llama_3_2"]
     models = {}
 
     # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.
@@ -79,13 +81,22 @@ def llm_creation(api_key=None):
         temperature = config[section]["temperature"]
         model_id = config[section]["id"]
         max_retries = config[section]["max_retries"]
-        llm = ChatOpenAI(
-            temperature=temperature,
-            model=model_id,
-            max_retries=max_retries,
-            verbose=True,
-            openai_api_key=openai_api_key,
-        )
+        if section.startswith("openai"):
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_key=openai_api_key,
+            )  
+        elif section.startswith("ollama"):
+            llm = ChatOllama(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+            )  
+        
         models[section] = llm
 
     return models
@@ -141,7 +152,7 @@ def main():
     #     print("You must provide either a standard question number or a custom question.")
     #     return
 
-    langsmith_setup()
+    # langsmith_setup()
     endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     # endpoint_url = "https://enpkg.commons-lab.org/graphdb/sparql"
     graph = link_kg_database(endpoint_url)
@@ -203,7 +214,7 @@ def main():
     q_family = "Count all the species per family in the collection"
     q_substructure = "Among the structural annotations from the Tabernaemontana coffeoides (Apocynaceae) seeds extract taxon, which ones contain an aspidospermidine substructure, CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45?"
 
-    process_workflow(workflow, q1)
+    process_workflow(workflow, q2)
 
     # process_workflow(workflow, question)
 

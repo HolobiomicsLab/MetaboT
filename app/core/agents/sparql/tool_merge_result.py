@@ -1,4 +1,4 @@
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 
 from typing import Optional
@@ -38,7 +38,7 @@ class OutputMerger(BaseTool):
         output_file_path (str): The path to the temporary CSV file where the output with common Wikidata IDs will be saved.
 
     """
-    args_schema = MergerInput
+    # args_schema = MergerInput
     session_id: str = None
 
     def __init__(self, session_id: str):

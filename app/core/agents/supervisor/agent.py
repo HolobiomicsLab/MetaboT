@@ -51,6 +51,6 @@ def create_agent(llms, graph) -> AgentExecutor:
 
     return (
         prompt
-        | llm.bind_functions(functions=[function_def], function_call="route")
-        | JsonOutputFunctionsParser()
+        # | llm.bind_functions(functions=[function_def], function_call="route")
+        # | JsonOutputFunctionsParser()
     )

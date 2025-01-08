@@ -216,5 +216,7 @@ pyrightconfig.json
 
 /logs/
 app/graphs/graph.pkl
-app/config/logs/**
+app/config/logs/*
 ./app/config/logs/*
+
+app/studio/.langgraph_api

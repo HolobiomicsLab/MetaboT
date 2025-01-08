@@ -10,7 +10,7 @@ from pathlib import Path
 
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts.prompt import PromptTemplate
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
@@ -168,8 +168,8 @@ class SparqlInput(BaseModel):
 
 ##Question-answering against an RDF or OWL graph by generating SPARQL statements.
 class GraphSparqlQAChain(BaseTool):
-    name = "SPARQL_QUERY_RUNNER"
-    description = """
+    name: str = "SPARQL_QUERY_RUNNER"
+    description: str = """
     The agent resolve the user's question by querying the knowledge graph database. 
     The two inputs should be a string containing the user's question and a string containing the resolved entities in the question.
 
@@ -187,10 +187,10 @@ class GraphSparqlQAChain(BaseTool):
 
         """
     verbose: bool = True
-    args_schema = SparqlInput
+    # args_schema = SparqlInput
     sparql_generation_select_chain: LLMChain = None
     sparql_improvement_chain: LLMChain = None
-    requires_params = True
+    requires_params: bool = True
     graph: RdfGraph = None
     session_id: str = None
 

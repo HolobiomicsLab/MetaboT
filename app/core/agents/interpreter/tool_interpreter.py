@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from codeinterpreterapi import CodeInterpreterSession, File, settings
 
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 
 from typing import Optional
@@ -37,7 +37,7 @@ class Interpreter(BaseTool):
     Returns:
         None: Outputs the response after interpreting files.
     """
-    args_schema = InterpreterInput
+    # args_schema = InterpreterInput
     openai_key: str = None
     session_id: str = None
 

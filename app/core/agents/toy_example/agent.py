@@ -1,6 +1,6 @@
 import os
 
-from langchain.agents import AgentExecutor, create_openai_tools_agent
+from langchain.agents import AgentExecutor, create_openai_tools_agent, create_tool_calling_agent
 
 from app.core.utils import get_module_prefix, import_tools, setup_logger
 
@@ -17,7 +17,8 @@ def create_agent(llms, graph) -> AgentExecutor:
     tools = import_tools(directory, module_prefix)
 
     try:
-        agent = create_openai_tools_agent(llms[MODEL_CHOICE], tools, CHAT_PROMPT)
+        # agent = create_openai_tools_agent(llms[MODEL_CHOICE], tools, CHAT_PROMPT)
+        agent = create_tool_calling_agent(llms[MODEL_CHOICE], tools, CHAT_PROMPT)
         executor = AgentExecutor(agent=agent, tools=tools)
         logger.info(f"Agent created successfully with {len(tools)} tools.")
         return executor

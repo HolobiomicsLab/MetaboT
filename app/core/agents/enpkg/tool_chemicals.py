@@ -16,7 +16,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 from typing import Optional
 
@@ -50,7 +50,7 @@ class ChemicalResolver(BaseTool):
         Dict[str, str]: a dictionary that contains the output chemical name and corresponding URI.
     """
 
-    args_schema = ChemicalInput
+    # args_schema = ChemicalInput
     csv_data: List[Document] = None
     retriever: Any = None
     openai_key: str = None

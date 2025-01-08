@@ -9,7 +9,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 from app.core.utils import setup_logger
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 
 logger = setup_logger(__name__)
@@ -31,7 +31,7 @@ class Interpreter(BaseTool):
         str : 'Hello'
     """
 
-    args_schema = HelloInput
+    # args_schema = HelloInput
 
     def __init__(self):
         super().__init__()

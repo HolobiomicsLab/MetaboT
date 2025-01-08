@@ -5,7 +5,7 @@ import logging
 from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 from typing import Optional
 
@@ -33,7 +33,7 @@ class PlantDatabaseChecker(BaseTool):
     """
 
 
-    args_schema = PlantInput
+    # args_schema = PlantInput
 
     def __init__(self):
         super().__init__()

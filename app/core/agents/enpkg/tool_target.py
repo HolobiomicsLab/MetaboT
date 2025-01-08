@@ -5,7 +5,7 @@ import requests
 
 
 
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 from typing import Optional
 
@@ -38,7 +38,7 @@ class TargetResolver(BaseTool):
         str: A string containing the ChEMBLTarget notation.
     """
 
-    args_schema = TargetInput
+    # args_schema = TargetInput
     openai_key: str = None
 
     def __init__(self, openai_key: str = None):
