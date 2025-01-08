@@ -58,4 +58,4 @@ Remember, your efficiency in routing the questions accurately and collecting res
 # """
 
 
-MODEL_CHOICE = "ollama_llama_3_2"
+MODEL_CHOICE = "ollama_llama_3_3"

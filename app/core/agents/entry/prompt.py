@@ -55,4 +55,4 @@ CHAT_PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
-MODEL_CHOICE = "ollama_llama_3_2"
+MODEL_CHOICE = "ollama_llama_3_3"

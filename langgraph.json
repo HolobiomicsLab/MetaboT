@@ -1,0 +1,17 @@
+{
+  "dockerfile_lines": [],
+  "graphs": {
+    "KGbot": "./app/core/main_studio.py:graph",
+    "entry_agent": "./app/core/agents/entry/entry_studio.py:graph",
+    "validator_agent": "./app/core/agents/validator/validator_studio.py:graph",
+    "supervisor_agent": "./app/core/agents/supervisor/supervisor_studio.py:graph",
+    "enpkg_agent": "./app/core/agents/enpkg/enpkg_studio.py:graph",
+    "sparql_agent": "./app/core/agents/sparql/sparql_studio.py:graph",
+    "interpreter_agent": "./app/core/agents/interpreter/interpreter_studio.py:graph"
+  },
+  "env": "./.env",
+  "python_version": "3.13",
+  "dependencies": [
+    "."
+  ]
+}

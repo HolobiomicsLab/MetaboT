@@ -169,7 +169,7 @@ def get_module_prefix(name):
 
 
 def token_counter(text: str) -> int:
-    tokenizer = tiktoken.encoding_for_model(model_name="gpt-4")
+    tokenizer = tiktoken.encoding_for_model(model_name="gpt-4o")
     # TODO [Franck]: the model name should be a config param
     tokens = tokenizer.encode(text)
     return len(tokens)

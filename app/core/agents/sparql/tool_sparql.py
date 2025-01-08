@@ -8,7 +8,8 @@ import tempfile
 from typing import Dict
 from pathlib import Path
 
-from langchain.chains.llm import LLMChain
+# from langchain.chains.llm import LLMChain
+from langchain_core.runnables import RunnableSequence
 from langchain_core.prompts.prompt import PromptTemplate
 from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
@@ -188,23 +189,27 @@ class GraphSparqlQAChain(BaseTool):
         """
     verbose: bool = True
     # args_schema = SparqlInput
-    sparql_generation_select_chain: LLMChain = None
-    sparql_improvement_chain: LLMChain = None
+    sparql_generation_select_chain: RunnableSequence = None
+    sparql_improvement_chain: RunnableSequence = None
     requires_params: bool = True
     graph: RdfGraph = None
     session_id: str = None
 
-    def __init__(self, llm: LLMChain, graph: RdfGraph, session_id: str, **kwargs):
+    def __init__(self, llm: RunnableSequence, graph: RdfGraph, session_id: str, **kwargs):
         super().__init__(**kwargs)
-        self.sparql_generation_select_chain = LLMChain(
-            llm=llm,
-            prompt=SPARQL_GENERATION_SELECT_PROMPT,
-            # verbose=True,  #### FOR debugging
-        )
-        self.sparql_improvement_chain = LLMChain(
-            llm=llm,
-            prompt=SPARQL_IMPROVEMENT_PROMPT,
-        )
+        # self.sparql_generation_select_chain = LLMChain(
+        #     llm=llm,
+        #     prompt=SPARQL_GENERATION_SELECT_PROMPT,
+        #     # verbose=True,  #### FOR debugging
+        # )
+        self.sparql_generation_select_chain = SPARQL_GENERATION_SELECT_PROMPT | llm 
+        
+        # self.sparql_improvement_chain = LLMChain(
+        #     llm=llm,
+        #     prompt=SPARQL_IMPROVEMENT_PROMPT,
+        # )
+        self.sparql_improvement_chain = SPARQL_IMPROVEMENT_PROMPT | llm
+        
         self.graph = graph
         self.session_id = session_id
 

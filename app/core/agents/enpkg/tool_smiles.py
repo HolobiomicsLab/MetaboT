@@ -3,7 +3,7 @@ import requests
 from langchain.tools import BaseTool
 from pydantic import BaseModel, Field
 
-from typing import Optional
+from typing import Optional, Type
 
 from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
@@ -35,7 +35,7 @@ class SMILESResolver(BaseTool):
     smiles_string = "CCC12CCCN3C1C4(CC3)C(CC2)NC5=CC=CC=C45"
     inchikey = _run(smiles_string)
     """
-    # args_schema = SMILESInput
+    # args_schema: Type[BaseModel]  = SMILESInput
     openai_key: str = None
 
     def __init__(self, openai_key: str = None):
