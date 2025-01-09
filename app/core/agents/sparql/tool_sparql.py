@@ -166,6 +166,7 @@ If ns2:target_id is used, the object must be a ChEMBLTarget IRI.
 Avoid using these properties with objects that do not match the expected entity type.
 Restrict entities to proper roles: Double-check that the specified entities are not misused as subjects in the query. For example:
 A Wikidata IRI must not be used as a subject; it should only be used as an object. Similarly, a ChEMBLTarget IRI must not appear as a subject.
+
 Schema interpretation check:
 If you cannot identify any errors in the query, this indicates a potential misinterpretation of the schema. Carefully review the schema documentation again. Ensure every property and entity usage adheres to the defined structure and constraints.
 
