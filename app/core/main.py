@@ -292,9 +292,9 @@ def main():
     q99 = "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds."
     q99_bis = "What are the InChIKey2Ds of chemical entities annotated by ISDB in the lab extracts of Desmodium heterophyllum?"
     q41_bis = "What are the most frequent SIRIUS chemical structure annotations (planar structure) observed from the extracts belonging to Hibiscus syriacus? Provide the InChiKey2Ds of annotations."
-    process_workflow(workflow, q1)
+    # process_workflow(workflow, q2)
 
-    # process_workflow(workflow, question)
+    process_workflow(workflow, question)
 
 
 if __name__ == "__main__":
