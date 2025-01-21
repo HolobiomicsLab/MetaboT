@@ -3,7 +3,6 @@ from typing import Literal
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import MessagesState
 from langchain_core.messages import SystemMessage
-from IPython.display import Image, display
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph import MessagesState
 from langgraph.prebuilt import tools_condition,ToolNode

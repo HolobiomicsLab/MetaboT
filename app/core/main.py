@@ -71,7 +71,7 @@ def llm_creation(api_key=None):
     config = configparser.ConfigParser()
     config.read(params_path)
 
-    sections = ["openai", "openai_preview", "openai_o", "openai_o_m","ollama_llama_3_2","ollama_llama_3_3"]
+    sections = ["openai", "openai_preview", "openai_o", "openai_o_m","ollama_llama_3_2","ollama_llama_3_3", "ollama_llama_3_2_1b"]
     models = {}
 
     # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.

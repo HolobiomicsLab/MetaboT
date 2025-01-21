@@ -1,7 +1,7 @@
 {
   "dockerfile_lines": [],
   "graphs": {
-    "KGbot": "./app/core/main_studio.py:graph",
+    "KGbot": "./app/core/main_studio.py:app",
     "entry_agent": "./app/core/agents/entry/entry_studio.py:graph",
     "validator_agent": "./app/core/agents/validator/validator_studio.py:graph",
     "supervisor_agent": "./app/core/agents/supervisor/supervisor_studio.py:graph",

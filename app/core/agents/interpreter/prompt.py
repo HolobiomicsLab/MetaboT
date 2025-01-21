@@ -45,4 +45,4 @@ CHAT_PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
-MODEL_CHOICE = "ollama_llama_3_3"
+MODEL_CHOICE = "openai_o"

@@ -16,7 +16,7 @@ def create_agent(llms, graph, session_id) -> AgentExecutor:
 
     tool_parameters = {
         "graph": graph,
-        "llm": llms["ollama_llama_3_3"],
+        "llm": llms[MODEL_CHOICE],
         "session_id": session_id
     }
 

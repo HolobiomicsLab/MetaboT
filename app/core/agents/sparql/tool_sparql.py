@@ -9,7 +9,7 @@ from typing import Dict
 from pathlib import Path
 
 # from langchain.chains.llm import LLMChain
-from langchain_core.runnables import RunnableSequence
+from langchain_core.language_models import BaseChatModel 
 from langchain_core.prompts.prompt import PromptTemplate
 from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
@@ -189,13 +189,13 @@ class GraphSparqlQAChain(BaseTool):
         """
     verbose: bool = True
     # args_schema = SparqlInput
-    sparql_generation_select_chain: RunnableSequence = None
-    sparql_improvement_chain: RunnableSequence = None
+    sparql_generation_select_chain: BaseChatModel = None
+    sparql_improvement_chain: BaseChatModel = None
     requires_params: bool = True
     graph: RdfGraph = None
     session_id: str = None
 
-    def __init__(self, llm: RunnableSequence, graph: RdfGraph, session_id: str, **kwargs):
+    def __init__(self, llm: BaseChatModel, graph: RdfGraph, session_id: str, **kwargs):
         super().__init__(**kwargs)
         # self.sparql_generation_select_chain = LLMChain(
         #     llm=llm,
@@ -226,13 +226,13 @@ class GraphSparqlQAChain(BaseTool):
         logger.info("question: %s", question)
         logger.info("Entities: %s", entities)
 
-        generated_sparql = self.sparql_generation_select_chain.run(
+        generated_sparql = self.sparql_generation_select_chain.invoke(
             {
                 "question": question,
                 "entities": entities,
                 "schema": self.graph.get_schema,
             }
-        )
+        ).content
 
         generated_sparql = self.remove_markdown_quotes(generated_sparql)
         generated_sparql = self.remove_xsd_prefix(generated_sparql)
@@ -248,14 +248,14 @@ class GraphSparqlQAChain(BaseTool):
             #retrieving the sparql query template
             template_query = self.find_similar_query(generated_sparql)
             # Regenerate the SPARQL query
-            regenerated_sparql = self.sparql_improvement_chain.run(
+            regenerated_sparql = self.sparql_improvement_chain.invoke(
                 {
                     "generated_sparql": generated_sparql,
                     "schema": schema_retrieved,
                     "entities": entities,
                     "template_query": template_query,
                 }
-            )
+            ).content
 
             regenerated_sparql = self.remove_markdown_quotes(regenerated_sparql)
             regenerated_sparql = self.remove_xsd_prefix(regenerated_sparql)

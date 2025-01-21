@@ -1,5 +1,5 @@
 from langchain.agents import AgentExecutor
-
+from langchain_core.language_models import BaseChatModel 
 # langchain output parser for OpenAI functions
 from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -15,7 +15,7 @@ config = load_config()
 def create_agent(llms, graph) -> AgentExecutor:
     """Configure and return a supervisor agent with decision-making logic for task routing."""
 
-    llm = llms[MODEL_CHOICE]
+    llm:BaseChatModel = llms[MODEL_CHOICE]
     members = config["supervisor"]["members"]
     options = ["FINISH"] + members
 
@@ -52,5 +52,6 @@ def create_agent(llms, graph) -> AgentExecutor:
     return (
         prompt
         # | llm.bind_functions(functions=[function_def], function_call="route")
-        # | JsonOutputFunctionsParser()
+        | llm.bind(functions=[function_def], function_call="auto")
+        | JsonOutputFunctionsParser()
     )
