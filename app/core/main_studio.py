@@ -1,9 +1,10 @@
 from app.core.agents.agents_factory import create_all_agents
-from app.core.main import link_kg_database
+from app.core.main import langsmith_setup, link_kg_database
 from app.core.main import llm_creation
 from app.core.workflow.langraph_workflow import create_workflow
 
 # Link to the knowledge graph database and initialize models and agents
+# langsmith_setup()
 endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
 graph = link_kg_database(endpoint_url)
 models = llm_creation()

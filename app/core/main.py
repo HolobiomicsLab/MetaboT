@@ -2,14 +2,10 @@ import configparser
 from pathlib import Path
 import pickle
 import os
-from typing import Any
-import functools
-import argparse
-
-# from langchain_community.chat_models import ChatOpenAI
 from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import os
@@ -17,13 +13,14 @@ import os
 from langsmith import Client
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 from app.core.agents.agents_factory import create_all_agents
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow, initiate_workflow, agent_node
-from app.core.memory.custom_sqlite_file import SqliteSaver
-from app.core.utils import setup_logger, load_config
+from app.core.workflow.langraph_workflow import (
+    create_workflow,
+    process_workflow,
+)
+from app.core.utils import setup_logger
 from app.core.agents.agents_factory import create_all_agents
-# libraries needed to check the endpoint
-import requests
-import certifi
+
+
 logger = setup_logger(__name__)
 
 parent_dir = Path(__file__).resolve().parent.parent
@@ -57,6 +54,22 @@ def link_kg_database(endpoint_url: str):
     return graph
 
 
+def get_ovh_key():
+    return os.getenv("OVHCLOUD_API_KEY")
+
+
+def get_huggingface_key():
+    return os.getenv("HF_TOKEN")
+
+
+def get_google_key():
+    return os.getenv("GOOGLE_API_KEY")
+
+
+def get_deepseek_key():
+    return os.getenv("DEEPSEEK_API_KEY")
+
+
 def llm_creation(api_key=None):
     """
     Reads the parameters from the configuration file params.ini and initializes the language models.
@@ -71,7 +84,18 @@ def llm_creation(api_key=None):
     config = configparser.ConfigParser()
     config.read(params_path)
 
-    sections = ["openai", "openai_preview", "openai_o", "openai_o_m","ollama_llama_3_2","ollama_llama_3_3", "ollama_llama_3_2_1b"]
+    sections = [
+        "openai",
+        "openai_preview",
+        "openai_o",
+        "openai_o_m",
+        "ollama_llama_3_2",
+        "ollama_llama_3_3",
+        "ollama_llama_3_2_1b",
+        "deepseek_deepseek-chat",
+        "ovh_Meta-Llama-3_1-70B-Instruct",
+        "deepseek_deepseek-reasoner",
+    ]
     models = {}
 
     # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.
@@ -88,15 +112,38 @@ def llm_creation(api_key=None):
                 max_retries=max_retries,
                 verbose=True,
                 openai_api_key=openai_api_key,
-            )  
+            )
         elif section.startswith("ollama"):
             llm = ChatOllama(
                 temperature=temperature,
                 model=model_id,
                 max_retries=max_retries,
                 verbose=True,
-            )  
-        
+            )
+
+        elif section.startswith("deepseek"):
+            base_url = config[section]["base_url"]
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_base=base_url,
+                openai_api_key=get_deepseek_key(),
+            )
+
+        elif section.startswith("ovh"):
+            base_url = config[section]["base_url"]
+
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                base_url=base_url,
+                api_key=get_ovh_key(),
+            )
+
         models[section] = llm
 
     return models
@@ -175,7 +222,7 @@ def main():
     q1 = "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?"
     q2 = "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decresing count of features as aspidosperma-type alkaloids? Group by extract."
     q3 = "Provide the wikidata ids of the chemical entities annotated by SIRIUS for Tabernaemontana coffeoides seeds extract taxon obtained in positive mode which are also reported in the Tabernaemontana genus in Wikidata."
-    q5= "What are the Wikidata IDs of chemical entities that have ChEMBL activity against Trypanosoma cruzi?"
+    q5 = "What are the Wikidata IDs of chemical entities that have ChEMBL activity against Trypanosoma cruzi?"
     q6 = "Filter the pos ionization mode features of the Melochia umbellata taxon annotated as [M+H]+ by SIRIUS to keep the ones for which a feature in neg ionization mode is detected with the same retention time (+/- 3 seconds) and a mass corresponding to the [M-H]- SIRIUS adduct (+/- 5ppm). Provide the features and retention time."
     q7 = "For features from the Melochia umbellata taxon in pos ionization mode with SIRIUS annotations, get the ones for which a feature in neg ionization mode with the same retention time (+/- 3 seconds) has the same SIRIUS annotation by comparing the InCHIKey 2D. Return the features, retention times, and InChIKey2D"
     q8 = "How many features annotated as 'Tetraketide meroterpenoids' by CANOPUS are found for each submitted taxon and extract in database?"
@@ -186,7 +233,7 @@ def main():
     q13 = "How many distinct Wikidata identifiers (WD IDs) have InChIKey (IK) values that share the same InChIKey2D among annotations?"
     q14 = "Count the number of LCMS features in negative ionization mode"
     q15 = "Which molecules (represented by their InChIkey) have reported ChEMBL activity with activity type  IC50 and activity values below 500 nM against Leishmania donovani target?"
-    q16= "What are the mass spectrometry features detected for the plant Rumex nepalensis?"
+    q16 = "What are the mass spectrometry features detected for the plant Rumex nepalensis?"
     q17 = "What are the chemical structure ISDB annotations for Lovoa trichilioides ?"
     q18 = "Provide the Wikidata IDs of chemical structures and bioassay screening results of compounds identified from Musanga cecropioides that show significant inhibition percentages against Trypanosoma brucei rhodesiense?"
     q19 = "Which compounds derived from Craterispermum laurinum are annotated as Aspidosperma-type alkaloids, and what are their bioassay screening results against Leishmania donovani? Provide the Wikidata IDs."
@@ -217,6 +264,7 @@ def main():
     process_workflow(workflow, q2)
 
     # process_workflow(workflow, question)
+
 
 if __name__ == "__main__":
     main()
