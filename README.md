@@ -1,15 +1,35 @@
-# KGbot dev
+# Metabot dev
 
 ## General information
 
-**The main notebook** is at [https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb](https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb)
 
 We use the ```dev``` branch for pushing our contributions [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev). Please create your own branch like (either user centric like```dev_benjamin``` or feature centric like ```dev_langgraph```) and do a pull request to the ```dev``` branch when ready for reviewing.
 
 The prototype is in the ```prototype``` branch (frozen) [https://github.com/holobiomics-lab/kgbot/tree/prototype](https://github.com/holobiomics-lab/kgbot/tree/prototype)
 
+## System Requirements
 
-## Environment setup
+### Hardware
+- **CPU**: Any modern processor 
+- **RAM**: **At least 8GB**
+
+## Software Requirements
+
+### OS Requirements
+
+This package is supported for macOS. The package has been tested on the following systems:
+
+- **macOS**: Sonoma (14.5)
+
+## Installation guide
+
+### 1. Clone the Repository
+To access the latest code from the dev branch:
+```bash
+git clone https://github.com/holobiomics-lab/kgbot.git
+git checkout dev
+```
+### 2. Environment setup
 
 Conda is required for setting up the environment. For installation instructions, see: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
 1) Install conda
@@ -18,12 +38,12 @@ Conda is required for setting up the environment. For installation instructions,
 conda env create -f environment.yml
 ```
 
+
 ## Application Startup Instructions
 
 The application has been structured as a module and adheres to the dot notation convention for Python imports. To import a module within the Python script, you can either use an absolute path (e.g., app.core.module1.module2) or a relative import (e.g., ..core.module1.module2).
 
-### Launching the Application
-
+### Demo
 To launch the application, you should utilize the -m option from the Python command line interface. 
 The main entry point for the application is located within the main module under app.core.main. The standard questions are defined as numbers (1 to 10), so follow the steps below to start the application:
 
@@ -33,8 +53,10 @@ cd kgbot
 python -m app.core.main -q 1
 
 ````
+Expected output:
+Expected run time: 
 
-Custom questions are also allowed and can be asked with the following command:
+### Running the application on your custom question:
 
 ````bash
 
@@ -79,6 +101,10 @@ python -m app.core.main -c "Your custom question"
 │   │   │   │   ├── tool_merge_results.py
 │   │   │   │   ├── tool_sparql.py
 │   │   │   │   └── tool_wikidata_query.py
+│   │   │   ├── validator
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_validator.py
 │   │   │   ├── supervisor
 │   │   │   │   ├── agent.py
 │   │   │   │   └── prompt.py
@@ -95,6 +121,7 @@ python -m app.core.main -c "Your custom question"
 │   │   └── workflow
 │   │       └── langraph_workflow.py
 │   ├── data
+│   │   ├── submitted_plants.csv
 │   ├── graphs
 │   │   ├── graph.pkl
 │   │   └── schema.ttl
