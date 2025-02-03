@@ -17,26 +17,63 @@ The prototype is in the ```prototype``` branch (frozen) [https://github.com/holo
 
 ### OS Requirements
 
-This package is supported for macOS. The package has been tested on the following systems:
+This package has been tested on the following operating systems:
 
 - **macOS**: Sonoma (14.5)
+- **Linux**: Ubuntu 22.04 LTS, Debian 11
+
+Note: While the package is primarily tested on these systems, it should work on other Unix-based systems as well.
 
 ## Installation guide
 
-### 1. Clone the Repository
-To access the latest code from the dev branch:
-```bash
-git clone https://github.com/holobiomics-lab/kgbot.git
-git checkout dev
-```
-### 2. Environment setup
+### Prerequisites
 
-Conda is required for setting up the environment. For installation instructions, see: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
-1) Install conda
-2) To install the environment from the `environment.yml` file, use the following command:
-```sh
-conda env create -f environment.yml
-```
+1. **Conda Installation**
+   - Conda (Anaconda/Miniconda) needs to be installed on your system
+   - For installation instructions, visit: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
+
+2. **API Keys**
+   You will need the following API keys:
+   - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)
+   - **LangSmith API Key**: Get it from [LangSmith](https://smith.langchain.com/)
+
+   Create a `.env` file in the root directory with your keys:
+   ```bash
+   OPENAI_API_KEY=your_openai_key_here
+   LANGCHAIN_API_KEY=your_langsmith_key_here
+   LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
+   LANGCHAIN_PROJECT=your_project_name  # Optional, defaults to "default"
+   ```
+
+### Installation Steps
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/holobiomics-lab/kgbot.git
+   git checkout dev
+   cd kgbot
+   ```
+
+2. **Create and Activate the Conda Environment**
+
+   For macOS:
+   ```bash
+   conda env create -f environment.yml
+   conda activate kgbot
+   ```
+
+   For Linux:
+   ```bash
+   # First, make sure system dependencies are installed
+   sudo apt-get update
+   sudo apt-get install -y python3-dev build-essential
+
+   # Then create the conda environment
+   conda env create -f environment.yml
+   conda activate kgbot
+   ```
+
+   Note: If you encounter any issues with psycopg2, the environment.yml file is configured to use psycopg2-binary instead, which should work across both operating systems.
 
 
 ## Application Startup Instructions
@@ -247,4 +284,4 @@ Our configuration supports outputting log messages to two destinations:
 - Console: Log messages at the INFO level and above will be outputted to the console. This setup is intended for general monitoring and quick diagnostics.
 - File: A more detailed log, including messages at the DEBUG level and above, is written to a file. 
 
-The log files are located within the app/config/logs directory. 
+The log files are located within the app/config/logs directory.
