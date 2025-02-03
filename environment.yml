@@ -12,6 +12,7 @@ dependencies:
   - xz==5.4.6
   - pip:
       - app==0.0.1
+      - "codeboxapi>=0.0.19,<0.2.0"
       - chromadb==0.4.24
       - codeinterpreterapi==0.0.14
       - faiss-cpu==1.8.0
