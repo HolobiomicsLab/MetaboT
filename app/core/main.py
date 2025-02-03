@@ -2,9 +2,11 @@ import configparser
 from pathlib import Path
 import pickle
 import os
+from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
+from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 
 load_dotenv()
 
@@ -95,6 +97,8 @@ def llm_creation(api_key=None):
         "deepseek_deepseek-chat",
         "ovh_Meta-Llama-3_1-70B-Instruct",
         "deepseek_deepseek-reasoner",
+        "groq_Llama_3_3_70B",
+        "hugface_Llama_3_3_70B",
     ]
     models = {}
 
@@ -143,6 +147,23 @@ def llm_creation(api_key=None):
                 base_url=base_url,
                 api_key=get_ovh_key(),
             )
+
+        elif section.startswith("groq"):
+            llm = ChatGroq(
+                temperature=temperature,
+                model_name="llama-3.3-70b-versatile",
+                verbose=True,
+            )
+
+        elif section.startswith("hugface"):
+            hfe = HuggingFaceEndpoint(
+                repo_id=model_id,
+                task="text-generation",
+                max_new_tokens=512,
+                do_sample=False,
+                repetition_penalty=1.03,
+            )
+            llm = ChatHuggingFace(llm=hfe, verbose=True)
 
         models[section] = llm
 

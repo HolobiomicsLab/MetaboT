@@ -58,4 +58,4 @@ Remember, your efficiency in routing the questions accurately and collecting res
 # """
 
 
-MODEL_CHOICE = "openai_o"
+MODEL_CHOICE = "hugface_Llama_3_3_70B"

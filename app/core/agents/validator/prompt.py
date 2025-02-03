@@ -342,4 +342,4 @@ CHAT_PROMPT = ChatPromptTemplate.from_messages(
     ]
 )
 
-MODEL_CHOICE = "openai_o"
+MODEL_CHOICE = "hugface_Llama_3_3_70B"

@@ -52,4 +52,4 @@ CHAT_PROMPT = ChatPromptTemplate.from_messages(
 )
 
 #modified to gpt 4
-MODEL_CHOICE = "openai_o"
+MODEL_CHOICE = "hugface_Llama_3_3_70B"
