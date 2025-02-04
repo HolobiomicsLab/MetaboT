@@ -100,6 +100,18 @@ Expected run time:
 python -m app.core.main -c "Your custom question"
 
 ````
+### Handling Connection Errors
+Note: Occasionally, you might encounter the following error due to OpenAI's API connection issues:
+
+````bash
+
+ERROR - An error occurred: peer closed connection without sending complete message body (incomplete chunked read)
+
+````
+This issue is usually temporary and caused by OpenAI's servers. If you encounter it, try the following:
+ - **Retry the request** after a few minutes.  
+ - **Check your API key and network connection** to ensure everything is set up correctly.  
+- **If the problem persists, check OpenAI’s [status page](https://status.openai.com/)** for any ongoing outages.  
 
 ## Project Structure
 
