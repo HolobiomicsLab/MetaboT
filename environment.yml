@@ -1,4 +1,4 @@
-name: kgbot
+name: kgbot_test
 channels:
   - conda-forge
   - pytorch-nightly

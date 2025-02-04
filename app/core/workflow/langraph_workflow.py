@@ -33,7 +33,6 @@ from app.core.memory.database_manager import memory_database, tools_database
 from app.core.utils import load_config
 from app.core.session import setup_logger
 
-
 logger = setup_logger(__name__)
 
 
@@ -54,16 +53,16 @@ def process_workflow(app: StateGraph, question: str, thread_id: int = 1) -> NoRe
     try:
         # Iterate over the stream from app.stream()
         for s in app.stream(
-            {
-                "messages": [
-                    HumanMessage(
-                        content=question
-                    )  # Assuming q2 is the content of the message
-                ]
-            },
-            {
-                "configurable": {"thread_id": thread_id}
-            },  # Additional options for the stream
+                {
+                    "messages": [
+                        HumanMessage(
+                            content=question
+                        )  # Assuming q2 is the content of the message
+                    ]
+                },
+                {
+                    "configurable": {"thread_id": thread_id}
+                },  # Additional options for the stream
         ):
             # Check if "__end__" is not in the stream output
             if "__end__" not in s:
@@ -77,6 +76,7 @@ def agent_node(state, agent, name: str) -> Dict[str, Any]:
     result = agent.invoke(state)
     return {"messages": [HumanMessage(content=result["output"], name=name)]}
 
+
 #####new function#####
 def router(state) -> Literal["supervisor", "__end__"]:
     # This is the router
@@ -88,7 +88,7 @@ def router(state) -> Literal["supervisor", "__end__"]:
     return "__end__"
 
 
-def router_entry(state)-> Literal["supervisor", "Validator"]:
+def router_entry(state) -> Literal["supervisor", "Validator"]:
     messages = state["messages"]
     last_message = messages[-1]
 
@@ -159,7 +159,7 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
             workflow.add_conditional_edges(
                 cond_edge["source"],
                 lambda x: x["next"],
-                #lambda x: x[cond_edge["condition"]],
+                # lambda x: x[cond_edge["condition"]],
                 {
                     target["condition_value"]: target["target"]
                     for target in cond_edge["targets"]
@@ -171,11 +171,11 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
             workflow.add_conditional_edges(
                 cond_edge["source"],
                 router,
-            {
-                target["condition_value"]: target["target"]
-                for target in cond_edge["targets"]
-            },
-        )
+                {
+                    target["condition_value"]: target["target"]
+                    for target in cond_edge["targets"]
+                },
+            )
 
         elif cond_edge["source"] == "Entry_Agent":
             # For Entry_Agent, the condition is expected to be a router function
@@ -183,16 +183,16 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
             workflow.add_conditional_edges(
                 cond_edge["source"],
                 router_entry,
-            {
-                target["condition_value"]: target["target"]
-                for target in cond_edge["targets"]
-            },
-        )
-            
+                {
+                    target["condition_value"]: target["target"]
+                    for target in cond_edge["targets"]
+                },
+            )
+
     # Initializing the database if not already initialized
     try:
         db_manager = tools_database()
-        db_manager.initialize_db() # This is method needed only for the offline database initialization, this is why is o
+        db_manager.initialize_db()  # This is method needed only for the offline database initialization, this is why is o
     except:
         pass
 
@@ -200,6 +200,6 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
     workflow.set_entry_point("Entry_Agent")
     memory = memory_database()
     app = workflow.compile(checkpointer=memory)
-    #trying the workflow without memory for evaluation
+    # trying the workflow without memory for evaluation
     # app = workflow.compile()
     return app
