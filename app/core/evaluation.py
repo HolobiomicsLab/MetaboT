@@ -33,7 +33,7 @@ os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 client = Client()
 
 # Creating the datasets for testing
-dataset_name = "Big Benchmark"
+dataset_name = "smaller_benchmark_temporal"
 
 # custom criteria to evaluate sparql query
 custom_criteria = {
@@ -74,7 +74,7 @@ endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
 graph = link_kg_database(endpoint_url)
 models = llm_creation()
 agents = create_all_agents(models, graph)
-app = create_workflow(agents)
+app = create_workflow(agents, evaluation=True)
 
 def evaluate_result(_input, thread_id: int = 1):
     """Evaluate the result based on input and thread ID."""

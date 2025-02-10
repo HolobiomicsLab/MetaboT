@@ -97,12 +97,13 @@ def router_entry(state) -> Literal["supervisor", "Validator"]:
     return "Validator"
 
 
-def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
+def create_workflow(agents: Dict[str, AgentExecutor], evaluation=bool) -> StateGraph:
     """
     Create a workflow based on a JSON configuration file, based on the agents provided and langGraph library.
 
     Args:
         agents (Dict[str, AgentExecutor]): list of agents to be used in the workflow
+        evaluation
 
     Returns:
         StateGraph: The compiled workflow
@@ -198,8 +199,12 @@ def create_workflow(agents: Dict[str, AgentExecutor]) -> StateGraph:
 
     # Set entry point and compile
     workflow.set_entry_point("Entry_Agent")
-    memory = memory_database()
-    app = workflow.compile(checkpointer=memory)
+    if evaluation == True:
+        app = workflow.compile()
+
+    else:
+        memory = memory_database()
+        app = workflow.compile(checkpointer=memory)
     # trying the workflow without memory for evaluation
     # app = workflow.compile()
     return app
