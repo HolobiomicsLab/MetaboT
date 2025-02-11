@@ -18,7 +18,7 @@ jobs:
         uses: qodo-ai/pr-agent@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          #OPENAI_KEY: ${{ secrets.OPEN_AI_KEY }}
           CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}  # Anthropic API key
           PR_AGENT_MODEL: "claude-3.5-sonnet"  # Use Claude
           
