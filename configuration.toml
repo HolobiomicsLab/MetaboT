@@ -1,0 +1,5 @@
+[litellm]
+enable_callbacks = true
+success_callback = ["langsmith"]
+failure_callback = ["langsmith"]
+service_callback = []
