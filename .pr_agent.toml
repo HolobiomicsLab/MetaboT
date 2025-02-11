@@ -152,5 +152,5 @@ num_code_suggestions = 10  # Adjust how many improvements are suggested
 require_explanation = true  # Require explanations for changes
 
 [ignore]
-glob = ["deprecated/*"]
+glob = ["deprecated/*", "app/notebooks/*"]
 regex = ["^docs/", ".*\\.ttl$", ".*\\.ipynb$", ".*\\.pkl$", ".*\\.txt$", ".*\\.lock$", ".*\\.json$", ".*\\.yaml$", ".*\\.csv$",".*\\.txt$"]
