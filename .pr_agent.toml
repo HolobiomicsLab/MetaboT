@@ -1,7 +1,6 @@
 [config]
-model = "claude-3-5-sonnet-20241022"
-llm_provider = "anthropic"  # Ensure PR-Agent knows to use Anthropic API
-fallback_models = ["o3-mini"]  # Define a fallback model
+model = "gpt-4o"
+fallback_models = ["gpt-4o"]  # Define a fallback model
 model_weak="gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 
 # CLI
