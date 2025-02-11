@@ -6,9 +6,9 @@ api_base = "https://huggingface.co/api/inference-proxy/together"
 key = "${{ secrets.CLAUDE_KEY }}"
 
 [mistral]
-key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
+#key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
 #api_base = "https://codestral.mistral.ai/v1/chat/completions"
-#key = "${{ secrets.MISTRAL_KEY }}" 
+key = "${{ secrets.MISTRAL_KEY }}" 
 #api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
 
 [litellm] 
@@ -28,9 +28,13 @@ litellm.set_verbose=true
 #fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"]
 #model_weak = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" # optional, a weaker model to use for some easier tasks
 
-model = "mistral/codestral-latest"
-fallback_models = ["mistral/codestral-latest"]
-model_weak = "mistral/codestral-latest" # optional, a weaker model to use for some easier tasks
+#model = "mistral/codestral-latest"
+#fallback_models = ["mistral/codestral-latest"]
+#model_weak = "mistral/codestral-latest" # optional, a weaker model to use for some easier tasks
+
+model = "mistral/mistral-large-latest"
+fallback_models = ["mistral/mistral-large-latest"]
+model_weak = "mistral/mistral-large-latest" # optional, a weaker model to use for some easier tasks
 
 #ANTHROPIC DOES NOT WORK WELL ....
 #model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
