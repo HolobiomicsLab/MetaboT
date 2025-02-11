@@ -1,0 +1,38 @@
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+  issue_comment:
+
+jobs:
+  pr_agent_job:
+    if: ${{ github.event.sender.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    name: Run PR-Agent on every pull request and respond to comments
+    steps:
+      - name: PR-Agent action step
+        id: pragent
+        uses: qodo-ai/pr-agent@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #OPENAI_KEY: ${{ secrets.OPEN_AI_KEY }}
+          CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}  # Anthropic API key
+          PR_AGENT_MODEL: "claude-3.5-sonnet-20241022"  # Use Claude
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+          LANGSMITH_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
+          LANGSMITH_BASE_URL: ${{ secrets.LANGSMITH_BASE_URL }}
+          
+          # Enable Debugging
+          DEBUG_MODE: "true"
+
+          # Fine-tune Response Handling
+          MAX_RESPONSE_TOKENS: "8192"  # Optimize for long responses
+          MAX_WAIT_TIME: "60"  # Set a timeout for LLM response
+
+          # Auto Actions
+          github_action_config.auto_review: "true"
+          github_action_config.auto_describe: "true"
+          github_action_config.auto_improve: "true"

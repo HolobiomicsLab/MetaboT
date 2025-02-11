@@ -232,7 +232,7 @@ ns1:MS2Spectrum rdfs:label xsd:string ;
     ns1:has_sirius_annotation ns1:Annotation,
         ns1:IsdbAnnotation,
         ns1:SiriusStructureAnnotation ;
-    ns1:has_spec2vec_doc ns1:Spec2VecDoc,
+    ns1:has_spec2vec_doc nChes1:Spec2VecDoc,
         ns1:spec2vec ;
     ns1:has_usi xsd:string .
 
@@ -271,7 +271,7 @@ ns1:Annotation rdfs:label xsd:string ;
     ns1:has_ionization xsd:string ;
     ns1:has_sirius_adduct xsd:string ;
     ns1:has_sirius_score xsd:float ;
-    ns1:has_spectral_score xsd:float ;
+     xsd:float ;
     ns1:has_taxo_score xsd:float ;
     ns1:has_zodiac_score xsd:float .
 

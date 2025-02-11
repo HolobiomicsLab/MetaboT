@@ -190,3 +190,32 @@ pyrightconfig.json
 # Log and memory database
 *.log
 *.db
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
+.vscode/settings.json
+
+
+/logs/
+app/graphs/graph.pkl
+app/config/logs/**
+./app/config/logs/*
+.DS_Store
