@@ -1,6 +1,6 @@
 [huggingface]
 key = "${{ secrets.HUGGINGFACE_KEY }}"
-api_base = "https://huggingface.co/api/inference-proxy/together"
+#api_base = "https://huggingface.co/api/inference-proxy/together"
 
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"
