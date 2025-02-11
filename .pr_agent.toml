@@ -1,7 +1,7 @@
 [config]
 model = "gpt-4o"
 fallback_models = ["gpt-4o-mini"]  # Define a fallback model
-model_weak="gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 
 #model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
 #fallback_models = ["anthropic/claude-3-5-haiku-20241022"]  # Fallback model
@@ -17,7 +17,7 @@ success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
 #drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
-litellm.set_verbose=True
+litellm.set_verbose=true
 
 # CLI
 git_provider="github"
