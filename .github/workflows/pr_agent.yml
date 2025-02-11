@@ -27,10 +27,6 @@ jobs:
           # Enable Debugging
           DEBUG_MODE: "true"
 
-          # Fine-tune Response Handling
-          MAX_RESPONSE_TOKENS: "8192"  # Optimize for long responses
-          MAX_WAIT_TIME: "60"  # Set a timeout for LLM response
-
           # Auto Actions
           github_action_config.auto_review: "true"
           github_action_config.auto_describe: "true"
