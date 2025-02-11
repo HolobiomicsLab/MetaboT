@@ -10,28 +10,28 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
-litellm.set_verbose=true
-drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
-#forward_headers = ["X-Request-ID", "X-LangSmith-Trace-ID"]  ### Possible fix for langsmith with Anthropic
+#litellm.set_verbose=true 
+#drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
 
 [config]
 #model = "gpt-4o"
 #fallback_models = ["gpt-4o-mini"]  # Define a fallback model
 #model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 
+model = "huggingface/deepseek-ai/DeepSeek-R1"
+fallback_models = ["gpt-o3-mini"]
+model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+
+#ANTHROPIC DOES NOT WORK WELL ....
 #model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
 #fallback_models = ["anthropic/claude-3-5-haiku-20241022"]  # Fallback model
 #model_weak = "anthropic/claude-3-5-haiku-20241022"  # Weak model for lightweight tasks
 
-model = "huggingface/deepseek-ai/DeepSeek-R1"
-fallback_models = ["anthropic/claude-3-5-sonnet-20241022"]  # Define a fallback model
-model_weak = "anthropic/claude-3-5-haiku-20241022" # optional, a weaker model to use for some easier tasks
-
 # token limits
-custom_model_max_tokens=64000
-max_description_tokens = 4000
-max_commits_tokens = 4000
-max_model_tokens = 32000 # Limits the maximum number of tokens that can be used by any model, regardless of the model's default capabilities.
+custom_model_max_tokens= 128000
+max_description_tokens = 8000
+max_commits_tokens = 32000
+max_model_tokens = 64000 # Limits the maximum number of tokens that can be used by any model, regardless of the model's default capabilities.
 
 # CLI
 git_provider="github"
