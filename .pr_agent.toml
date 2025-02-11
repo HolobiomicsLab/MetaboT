@@ -1,12 +1,19 @@
 [config]
-model = "gpt-4o"
-fallback_models = ["gpt-4o-mini"]  # Define a fallback model
-model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+#model = "gpt-4o"
+#fallback_models = ["gpt-4o-mini"]  # Define a fallback model
+#model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 
 #model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
 #fallback_models = ["anthropic/claude-3-5-haiku-20241022"]  # Fallback model
 #model_weak = "anthropic/claude-3-5-haiku-20241022"  # Weak model for lightweight tasks
 
+model = "huggingface/deepseek-ai/DeepSeek-R1"
+fallback_models = ["anthropic/claude-3-5-haiku-20241022"]  # Define a fallback model
+model_weak = "anthropic/claude-3-5-sonnet-20241022" # optional, a weaker model to use for some easier tasks
+
+[huggingface]
+key = "${{ secrets.HUGGINGFACE_KEY }}"
+api_base = "https://huggingface.co/api/inference-proxy/together"
 
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"
@@ -16,7 +23,7 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
-#drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
+drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
 litellm.set_verbose=true
 
 # CLI
