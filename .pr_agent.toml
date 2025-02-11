@@ -8,7 +8,8 @@ fallback_models = ["anthropic/claude-3-5-haiku-20241022"]  # Fallback model
 model_weak = "anthropic/claude-3-5-haiku-20241022"  # Weak model for lightweight tasks
 
 [anthropic]
-KEY = "${CLAUDE_KEY}"
+#KEY = "${CLAUDE_KEY}"
+key = "${{ secrets.CLAUDE_KEY }}"
 
 # CLI
 git_provider="github"
@@ -64,7 +65,8 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
-drop_params = true   # IMPORTANT FOR CLAUDE TO SET TO FALSE
+drop_params = true   # IMPORTANT FOR CLAUDE TO SET TO true
+litellm.set_verbose=True
 
 [pr_reviewer] # /review #
 # enable/disable features
