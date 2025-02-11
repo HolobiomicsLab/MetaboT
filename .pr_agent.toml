@@ -7,7 +7,7 @@ key = "${{ secrets.CLAUDE_KEY }}"
 
 [mistral]
 key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
-api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
+#api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
 
 [litellm] 
 enable_callbacks = true
