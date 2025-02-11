@@ -23,7 +23,7 @@ jobs:
           PR_AGENT_MODEL: "claude-3.5-sonnet-20241022"  # Use Claude
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
-          LANGSMITH_BASE_URL: ${{ secrets.LANGSMITH_BASE_URL }}
+          #LANGSMITH_BASE_URL: ${{ secrets.LANGSMITH_BASE_URL }}
           
           # Enable Debugging
           DEBUG_MODE: "true"
