@@ -12,6 +12,7 @@ The prototype is in the ```prototype``` branch (frozen) [https://github.com/holo
 ### Hardware
 - **CPU**: Any modern processor 
 - **RAM**: **At least 8GB**
+sdsd
 
 ## Software Requirements
 
