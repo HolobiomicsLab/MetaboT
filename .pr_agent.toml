@@ -28,8 +28,8 @@ model = "huggingface/deepseek-ai/DeepSeek-R1"
 fallback_models = ["o3-mini"]
 #model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 #fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"]
-#model_weak = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" # optional, a weaker model to use for some easier tasks
-model_weak = "Qwen/Qwen2.5-Coder-32B-Instruct"
+#model_weak = "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" # optional, a weaker model to use for some easier tasks
+model_weak = "huggingface/Qwen/Qwen2.5-Coder-32B-Instruct"
 
 #model = "mistral/codestral-latest"
 #fallback_models = ["mistral/codestral-latest"]
