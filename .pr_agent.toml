@@ -153,4 +153,4 @@ require_explanation = true  # Require explanations for changes
 
 [ignore]
 glob = ["deprecated/*"]
-regex = ["^docs/", ".*\\.ttl$", ".*\\.ipynb$", ".*\\.pkl$", ".*\\.txt$", ".*\\.lock$"]
+regex = ["^docs/", ".*\\.ttl$", ".*\\.ipynb$", ".*\\.pkl$", ".*\\.txt$", ".*\\.lock$", ".*\\.json$", ".*\\.yaml$", ".*\\.csv$",".*\\.txt$"]
