@@ -100,18 +100,6 @@ Expected run time:
 python -m app.core.main -c "Your custom question"
 
 ````
-### Handling Connection Errors
-Note: Occasionally, you might encounter the following error due to OpenAI's API connection issues:
-
-````bash
-
-ERROR - An error occurred: peer closed connection without sending complete message body (incomplete chunked read)
-
-````
-This issue is usually temporary and caused by OpenAI's servers. If you encounter it, try the following:
- - **Retry the request** after a few minutes.  
- - **Check your API key and network connection** to ensure everything is set up correctly.  
-- **If the problem persists, check OpenAI’s [status page](https://status.openai.com/)** for any ongoing outages.  
 
 ## Project Structure
 
@@ -186,7 +174,7 @@ This issue is usually temporary and caused by OpenAI's servers. If you encounter
 ## Agent Setup guidelines
 
 ### Agent Directory Creation
-Create a dedicated folder for your agent within the app/core/agents directory. This will serve as the primary repository for all agent-specific files.
+Create a dedicated folder for your agent within the `app/core/agents directory`. This will serve as the primary repository for all agent-specific files.
 
 ### Standard File Structure
 The agent folder should include the following files:
@@ -198,7 +186,7 @@ The agent folder should include the following files:
 
 #### Prompt
 
-    prompt.py: Set the MODEL_CHOICE variable to either llm or llm_preview as per the model hyperparameters defined in app/config/params.ini. Customize the prompt to align with your agent's purpose.
+    prompt.py: Set the MODEL_CHOICE variable to either llm or llm_preview as per the model hyperparameters defined in `app/config/params.ini.` Customize the prompt to align with your agent's purpose.
 
 #### Tools
     tool_xxxx.py (optional): Any tool scripts should inherit from the Langchain BaseTool class. Define the necessary class attributes such as name, description, and args_schema. Implement the _run function to execute the tool's functionality. Ensure to define a Pydantic model (class inheriting from BaseModel) for input validation, detailing the type and purpose of each input.
@@ -206,20 +194,21 @@ The agent folder should include the following files:
     As for the agent, the tools can constructed with parameters passed dinamically. Please check Interpreter agent and tool for reference. 
 
 ### Supervisor Configuration
-Modify the supervisor prompt to integrate logic that recognizes and selects your agent. The revised prompt should be updated accordingly.
-
-![alt text](/app/ressources/prompt.png)
+Modify the supervisor prompt to integrate logic that recognizes and selects your agent. The revised prompt should be updated accordingly.  
+You can view the supervisor prompt in the code [here](https://github.com/holobiomics-lab/MetaboT/blob/d04d4ac23ab6a36b723af74298670ef06a8e9c5e/app/core/agents/supervisor/prompt.py).
 
 ### Configuration Updates
-Alter the app/config/laggraph.json file to incorporate your agent into the application's workflow, ensuring it is recognized as part of the operational sequence.
+Alter the `app/config/langgraph.json` file to incorporate your agent into the application's workflow, ensuring it is recognized as part of the operational sequence.  
+You can find the `langgraph.json` file [here](https://github.com/holobiomics-lab/MetaboT/blob/d04d4ac23ab6a36b723af74298670ef06a8e9c5e/app/config/langgraph.json).
 
 ![alt text](/app/ressources/image.png)
 
 ### If Your Tool Serves as an Agent
+If your tool functions as an agent, particularly in scenarios requiring interaction with an LLM, specific class properties must be utilized. For example, see the implementation [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py).
 
-If your tool functions as an agent, particularly in scenarios requiring interaction with a LLM, specific class properties must be utilized. For an example, see the implementation in app/core/agents/sparql/tool_sparql.py.
+Additional class attributes may be necessary to allow the use of LLMs, extending beyond the basic attributes inherited from `BaseTool`. This includes defining these within the `__init__()` method and in the class attributes. Also, you should modify the `agent.py` file to incorporate instances of these properties through the `import_tools()` function.  
 
-Additional class attributes may be necessary to allow use of LLM, extending beyond the basic attributes inherited from BaseTool. This includes defining theses within the init(), ands in the class attributes. Also, you should modify the agent.py file to incorporate instances of these properties through the import_tools() function. Review the tool_parameters variable in app/core/agents/sparql/agent.py for details.
+Review the `tool_parameters` variable [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/agent.py) for details.
 
 
 
