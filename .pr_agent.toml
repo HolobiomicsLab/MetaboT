@@ -28,9 +28,9 @@ litellm.set_verbose=true
 #fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"]
 #model_weak = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" # optional, a weaker model to use for some easier tasks
 
-model = "mistral/codestral-2501"
-fallback_models = ["mistral/codestral-latest"]
-model_weak = "mistral/codestral-2501" # optional, a weaker model to use for some easier tasks
+model = "codestral-2501"
+fallback_models = ["codestral-latest"]
+model_weak = "codestral-2501" # optional, a weaker model to use for some easier tasks
 
 #ANTHROPIC DOES NOT WORK WELL ....
 #model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
