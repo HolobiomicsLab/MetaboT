@@ -11,6 +11,11 @@ ignore_pr_folders = ["docs/"]
 ignore_pr_labels = ["no-analysis"]
 ignore_pr_users = ["dependabot[bot]"]
 
+[litellm] 
+enable_callbacks = true
+success_callback = ["langsmith"]
+failure_callback = ["langsmith"]
+
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"  # Pull API key from GitHub Secrets
 
