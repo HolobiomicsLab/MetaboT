@@ -11,7 +11,7 @@ success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
 #litellm.set_verbose=true 
-#drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
+drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE/CUSTOM MODELS TO SET TO true
 
 [config]
 #model = "gpt-4o"
