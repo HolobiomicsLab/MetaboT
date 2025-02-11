@@ -20,6 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
           CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}  # Anthropic API key
+          HUGGINGFACE_API_KEY : ${{ secrets.HUGGINGFACE_KEY }}
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
           LANGSMITH_BASE_URL: ${{ secrets.LANGSMITH_BASE_URL }}
