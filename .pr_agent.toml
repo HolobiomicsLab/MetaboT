@@ -2,14 +2,36 @@
 model = "claude-3.5-sonnet-20241022"
 llm_provider = "anthropic"  # Ensure PR-Agent knows to use Anthropic API
 fallback_models = ["claude-3-haiku-20241022"]  # Define a fallback model
+patch_extra_lines_before = 5
+patch_extra_lines_after = 2
+large_pr_mode = "enabled"  # Enable handling of large PRs
+
+ignore_pr_branches = ["main-to-dev"]
+ignore_pr_folders = ["docs/"]
+ignore_pr_labels = ["no-analysis"]
+ignore_pr_users = ["dependabot[bot]"]
 
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"  # Pull API key from GitHub Secrets
+
+[litellm]
+enable_callbacks = true
+success_callback = ["langsmith"]
+failure_callback = ["langsmith"]
+service_callback = []
 
 [pr_reviewer]
 require_tests_review = true  # Ensure PRs have tests
 require_security_review = true  # Flag security concerns
 require_documentation_review = true  # Ensure documentation updates
+
+[pr_description_prompt]
+system = """
+You are an expert code reviewer. Provide a concise and informative PR description.
+"""
+user = """
+Analyze the following pull request and summarize its key changes and implications. Propose relevant changes.
+"""
 
 extra_instructions = """
 - Highlight critical performance issue. 
