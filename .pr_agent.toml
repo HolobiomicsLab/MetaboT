@@ -1,11 +1,11 @@
 [config]
 #model = "gpt-4o"
-#fallback_models = ["gpt-4o"]  # Define a fallback model
+#fallback_models = ["gpt-4o-mini"]  # Define a fallback model
 #model_weak="gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 
-model = "claude-3.5-sonnet-20241022"  # Main model
-fallback_models = ["claude-3-haiku-20241022"]  # Fallback model
-model_weak = "claude-3-haiku-20241022"  # Weak model for lightweight tasks
+model = "anthropic/claude-3.5-sonnet-20241022"  # Main model
+fallback_models = ["anthropic/claude-3-haiku-20241022"]  # Fallback model
+model_weak = "anthropic/claude-3-haiku-20241022"  # Weak model for lightweight tasks
 
 # CLI
 git_provider="github"
