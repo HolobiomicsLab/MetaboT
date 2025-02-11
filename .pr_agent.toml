@@ -23,8 +23,10 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
-drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
 litellm.set_verbose=true
+drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
+forward_headers = ["X-Request-ID", "X-LangSmith-Trace-ID"]  ### Possible fix for langsmith with Anthropic
+
 
 # CLI
 git_provider="github"
