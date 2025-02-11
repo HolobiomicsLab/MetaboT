@@ -5,13 +5,17 @@ api_base = "https://huggingface.co/api/inference-proxy/together"
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"
 
+[mistral]
+key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
+api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
+
 [litellm] 
 enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
 #litellm.set_verbose=true 
-#drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE/CUSTOM MODELS TO SET TO true
+#drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUD MODELS TO SET TO true
 
 [config]
 #model = "gpt-4o"
@@ -19,8 +23,8 @@ service_callback = []
 #model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 
 model = "huggingface/deepseek-ai/DeepSeek-R1"
-fallback_models = ["gpt-o3-mini"]
-model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1"]
+model_weak = "mistral/codestral-2501" # optional, a weaker model to use for some easier tasks
 
 #ANTHROPIC DOES NOT WORK WELL ....
 #model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
