@@ -14,12 +14,6 @@ ignore_pr_users = ["dependabot[bot]"]
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"  # Pull API key from GitHub Secrets
 
-[litellm]
-enable_callbacks = true
-success_callback = ["langsmith"]
-failure_callback = ["langsmith"]
-service_callback = []
-
 [pr_reviewer]
 require_tests_review = true  # Ensure PRs have tests
 require_security_review = true  # Flag security concerns
