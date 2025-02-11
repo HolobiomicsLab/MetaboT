@@ -64,6 +64,7 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
+drop_params = true   # IMPORTANT FOR CLAUDE TO SET TO FALSE
 
 [pr_reviewer] # /review #
 # enable/disable features
