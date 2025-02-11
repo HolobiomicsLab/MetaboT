@@ -6,7 +6,7 @@ api_base = "https://huggingface.co/api/inference-proxy/together"
 key = "${{ secrets.CLAUDE_KEY }}"
 
 [mistral]
-key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
+key = "${{ secrets.MISTRAL_KEY }}"  # Add your Mistral API key here if required
 #api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
 
 [litellm] 
@@ -14,7 +14,7 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
-#litellm.set_verbose=true 
+litellm.set_verbose=true 
 #drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUD MODELS TO SET TO true
 
 [config]
