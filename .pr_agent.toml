@@ -7,6 +7,9 @@ model = "anthropic/claude-3.5-sonnet-20241022"  # Main model
 fallback_models = ["anthropic/claude-3-haiku-20241022"]  # Fallback model
 model_weak = "anthropic/claude-3-haiku-20241022"  # Weak model for lightweight tasks
 
+[anthropic]
+key = "${CLAUDE_KEY}"
+
 # CLI
 git_provider="github"
 publish_output=true
@@ -61,9 +64,6 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
-
-[anthropic]
-key = "${{ secrets.CLAUDE_KEY }}"  # Pull API key from GitHub Secrets
 
 [pr_reviewer] # /review #
 # enable/disable features
