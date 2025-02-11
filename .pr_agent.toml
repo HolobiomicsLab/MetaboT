@@ -11,8 +11,8 @@ success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
 litellm.set_verbose=true
-#drop_params = false   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
-#forward_headers = ["X-Request-ID", "X-LangSmith-Trace-ID"]  ### Possible fix for langsmith with Anthropic
+drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
+forward_headers = ["X-Request-ID", "X-LangSmith-Trace-ID"]  ### Possible fix for langsmith with Anthropic
 
 [config]
 #model = "gpt-4o"
@@ -24,8 +24,8 @@ litellm.set_verbose=true
 #model_weak = "anthropic/claude-3-5-haiku-20241022"  # Weak model for lightweight tasks
 
 model = "huggingface/deepseek-ai/DeepSeek-R1"
-fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1"]  # Define a fallback model
-model_weak = "huggingface/deepseek-ai/DeepSeek-R1" # optional, a weaker model to use for some easier tasks
+fallback_models = ["anthropic/claude-3-5-sonnet-20241022"]  # Define a fallback model
+model_weak = "anthropic/claude-3-5-haiku-20241022"" # optional, a weaker model to use for some easier tasks
 custom_model_max_tokens=64000
 
 # CLI
