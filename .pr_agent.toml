@@ -16,6 +16,7 @@ enable_callbacks = true
 success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
+use_client = false
 #litellm.set_verbose = true 
 #drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUD MODELS TO SET TO true
 
