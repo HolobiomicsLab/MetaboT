@@ -1,0 +1,134 @@
+[config]
+model = "claude-3.5-sonnet-20241022"
+llm_provider = "anthropic"  # Ensure PR-Agent knows to use Anthropic API
+fallback_models = ["claude-3-haiku-20241022"]  # Define a fallback model
+
+[anthropic]
+key = "${{ secrets.CLAUDE_KEY }}"  # Pull API key from GitHub Secrets
+
+[pr_reviewer]
+require_tests_review = true  # Ensure PRs have tests
+require_security_review = true  # Flag security concerns
+require_documentation_review = true  # Ensure documentation updates
+
+extra_instructions = """
+- Highlight critical performance issue. 
+- Identify potential security vulnerabilities.
+
+- Ensure a unified with Code Formatting across our project, we adhere to the PEP8 convention. 
+To meet these standards, we following Google Docstring Format. All documentation for classes and functions should be written following the Google Docstring format. 
+Review and adjust the generated docstrings as necessary to accurately reflect the code’s purpose and behavior.
+
+- Logging guidelines: Our logging configuration is centralized in an INI file located at app/config/logging.ini.
+Prefer Logging Over Print: For any output meant for debugging or information tracking, use the logger object instead of the print function. Please use the appropriate level when emitting log messages:
+To leverage logging setup, we incorporate code block from pathlib import Path .... logger = logging.getLogger(__name__) at the beginning of each Python script.
+Logs Outputs Our configuration supports outputting log messages to two destinations: Console: Log messages at the INFO level and above will be outputted to the console. This setup is intended for general monitoring and quick diagnostics.
+File: A more detailed log, including messages at the DEBUG level and above, is written to a file. The log files are located within the app/config/logs directory.
+
+- Configuration Updates: Alter the app/config/laggraph.json file to incorporate your agent into the application's workflow, ensuring it is recognized as part of the operational sequence.
+
+- The application has been structured as a module and adheres to the dot notation convention for Python imports. 
+To import a module within the Python script, you can either use an absolute path (e.g., app.core.module1.module2) or a relative import (e.g., ..core.module1.module2).
+.
+├── README.md
+├── app
+│   ├── config
+│   │   ├── langgraph.json
+│   │   ├── logging.ini
+│   │   ├── logs
+│   │   │   ├── app.log
+│   │   ├── params.ini
+│   │   └── sparql.ini
+│   ├── core
+│   │   ├── agents
+│   │   │   ├── agents_factory.py
+│   │   │   ├── enpkg
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── ...
+│   │   │   ├── entry
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_fileparser.py
+│   │   │   ├── interpreter
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_interpreter.py
+│   │   │   ├── sparql
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   ├── tool_merge_results.py
+│   │   │   │   ├── tool_sparql.py
+│   │   │   │   └── tool_wikidata_query.py
+│   │   │   ├── supervisor
+│   │   │   │   ├── agent.py
+│   │   │   │   └── prompt.py
+│   │   │   └── toy_example
+│   │   │       ├── agent.py
+│   │   │       ├── prompt.py
+│   │   │       └── tool_say_hello.py
+│   │   ├── graph_management
+│   │   │   ├── RdfGraphCustom.py
+│   │   ├── main.py
+│   │   ├── memory
+│   │   │   └── custom_sqlite_file.py
+│   │   ├── utils.py
+│   │   └── workflow
+│   │       └── langraph_workflow.py
+│   ├── data
+│   ├── graphs
+│   │   ├── graph.pkl
+│   │   └── schema.ttl
+│   ├── notebooks
+│   ├── ressources
+│   └── tests
+├── environment.yml
+├── environment_alternative.yml
+└── langgraph_checkpoint.db
+
+- Agent Setup guidelines: Agent Directory Creation: Create a dedicated folder for your agent within the app/core/agents directory. 
+Create a dedicated folder for your agent within the app/core/agents directory. This will serve as the primary repository for all agent-specific files. The agent folder should include the following files:
+agent.py: This file remains consistent across all agents. You should copy this from an existing agent, unless your tool requires accessing private class properties. For such cases, refer to the section 'If Your Tool Serves as an Agent' for guidance.
+During the agent's construction, the parameters are passed accordingly to what is defined in the agent.py file. Please check if the variables are correctly being defined on the agent_factory.py file.
+prompt.py: Set the MODEL_CHOICE variable to either llm or llm_preview as per the model hyperparameters defined in app/config/params.ini. Customize the prompt to align with your agent's purpose.
+tool_xxxx.py (optional): Any tool scripts should inherit from the Langchain BaseTool class. Define the necessary class attributes such as name, description, and args_schema. Implement the _run function to execute the tool's functionality. Ensure to define a Pydantic model (class inheriting from BaseModel) for input validation, detailing the type and purpose of each input.
+
+- Supervisor Agent Configuration: Modify the supervisor prompt to integrate logic that recognizes and selects your agent. The revised prompt should be updated accordingly.
+
+- If Your Tool Serves as an Agent: If your tool functions as an agent, particularly in scenarios requiring interaction with a LLM, specific class properties must be utilized. For an example, see the implementation in app/core/agents/sparql/tool_sparql.py.
+Additional class attributes may be necessary to allow use of LLM, extending beyond the basic attributes inherited from BaseTool. 
+This includes defining theses within the init(), ands in the class attributes. 
+Also, you should modify the agent.py file to incorporate instances of these properties through the import_tools() function. 
+Review the tool_parameters variable in app/core/agents/sparql/agent.py for details.
+
+When reviewing documentation updates in this pull request, please ensure the following:
+1. **Open Source Best Practices**:
+   - Verify that the documentation follows standard open-source contribution guidelines.
+   - Check if there is a clear README, CONTRIBUTING guide, and LICENSE file.
+   - Ensure any API documentation provides versioning information.
+
+2. **Community Engagement**:
+   - Suggest improvements for community contribution guidelines.
+   - Ensure documentation includes details on how users can report issues and contribute.
+   - If applicable, check for links to community discussion forums, Slack, Discord, or mailing lists.
+
+3. **Code Documentation**:
+   - If the PR modifies code, verify that inline comments and docstrings are updated accordingly.
+   - Suggest improving method/function/class documentation, especially for public-facing APIs.
+   - Ensure there are references to examples or best practices for using the code.
+
+4. **Clarity & Accessibility**:
+   - Ensure the documentation is **concise, structured, and easy to read**.
+   - Check that technical terms are explained where necessary.
+   - Suggest adding diagrams, tables, or bullet points for clarity.
+
+If any of these aspects are missing or unclear, provide changes that could be considered improve the documentation quality.
+
+"""
+
+[pr_code_suggestions]
+num_code_suggestions = 10  # Adjust how many improvements are suggested
+require_explanation = true  # Require explanations for changes
+
+[ignore]
+glob = ["deprecated/*"]
+regex = ["^docs/", ".*\\.ttl$", ".*\\.ipynb$", ".*\\.pkl$", ".*\\.txt$", ".*\\.lock$"]
