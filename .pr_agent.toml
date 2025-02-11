@@ -6,7 +6,7 @@ api_base = "https://huggingface.co/api/inference-proxy/together"
 key = "${{ secrets.CLAUDE_KEY }}"
 
 [mistral]
-key = "${{ secrets.MISTRAL_KEY }}"  # Add your Mistral API key here if required
+key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
 #api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
 
 [litellm] 
