@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           #OPENAI_KEY: ${{ secrets.OPEN_AI_KEY }}
           CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}  # Anthropic API key
-          PR_AGENT_MODEL: "claude-3.5-sonnet"  # Use Claude
+          PR_AGENT_MODEL: "claude-3.5-sonnet-20241022"  # Use Claude
           WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}  # Securely pass the secret
           
           # Enable Debugging
