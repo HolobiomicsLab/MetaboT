@@ -206,7 +206,7 @@ def main():
     graph = link_kg_database(endpoint_url)
     models = llm_creation()
     agents = create_all_agents(models, graph)
-    workflow = create_workflow(agents)
+    workflow = create_workflow(agents, evaluation= False)
 
     # checking the endpoint
     # def check_knowledge_graph_endpoint(url):

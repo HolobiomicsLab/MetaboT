@@ -1,29 +1,86 @@
-# KGbot dev
+# Metabot dev
 
 ## General information
 
-**The main notebook** is at [https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb](https://github.com/holobiomics-lab/kgbot/blob/dev/app/core/LLM_chain_agent.ipynb)
 
 We use the ```dev``` branch for pushing our contributions [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev). Please create your own branch like (either user centric like```dev_benjamin``` or feature centric like ```dev_langgraph```) and do a pull request to the ```dev``` branch when ready for reviewing.
 
 The prototype is in the ```prototype``` branch (frozen) [https://github.com/holobiomics-lab/kgbot/tree/prototype](https://github.com/holobiomics-lab/kgbot/tree/prototype)
 
+## System Requirements
 
-## Environment setup
+### Hardware
+- **CPU**: Any modern processor 
+- **RAM**: **At least 8GB**
 
-Conda is required for setting up the environment. For installation instructions, see: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
-1) Install conda
-2) To install the environment from the `environment.yml` file, use the following command:
-```sh
-conda env create -f environment.yml
-```
+## Software Requirements
+
+### OS Requirements
+
+This package has been tested on the following operating systems:
+
+- **macOS**: Sonoma (14.5)
+- **Linux**: Ubuntu 22.04 LTS, Debian 11
+
+Note: While the package is primarily tested on these systems, it should work on other Unix-based systems as well.
+
+## Installation guide
+
+### Prerequisites
+
+1. **Conda Installation**
+   - Conda (Anaconda/Miniconda) needs to be installed on your system
+   - For installation instructions, visit: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
+
+2. **API Keys**
+   You will need the following API keys:
+   - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)
+   - **LangSmith API Key**: Get it from [LangSmith](https://smith.langchain.com/)
+
+   Create a `.env` file in the root directory with your keys:
+   ```bash
+   OPENAI_API_KEY=your_openai_key_here
+   LANGCHAIN_API_KEY=your_langsmith_key_here
+   LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
+   LANGCHAIN_PROJECT=your_project_name  # Optional, defaults to "default"
+   ```
+
+### Installation Steps
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/holobiomics-lab/kgbot.git
+   git checkout dev
+   cd kgbot
+   ```
+
+2. **Create and Activate the Conda Environment**
+
+   For macOS:
+   ```bash
+   conda env create -f environment.yml
+   conda activate kgbot
+   ```
+
+   For Linux:
+   ```bash
+   # First, make sure system dependencies are installed
+   sudo apt-get update
+   sudo apt-get install -y python3-dev build-essential
+
+   # Then create the conda environment
+   conda env create -f environment.yml
+   conda activate kgbot
+   ```
+
+   Note: If you encounter any issues with psycopg2, the environment.yml file is configured to use psycopg2-binary instead, which should work across both operating systems.
+
 
 ## Application Startup Instructions
 
 The application has been structured as a module and adheres to the dot notation convention for Python imports. To import a module within the Python script, you can either use an absolute path (e.g., app.core.module1.module2) or a relative import (e.g., ..core.module1.module2).
 
-### Launching the Application
-
+### Demo
 To launch the application, you should utilize the -m option from the Python command line interface. 
 The main entry point for the application is located within the main module under app.core.main. The standard questions are defined as numbers (1 to 10), so follow the steps below to start the application:
 
@@ -33,14 +90,28 @@ cd kgbot
 python -m app.core.main -q 1
 
 ````
+Expected output:
+Expected run time: 
 
-Custom questions are also allowed and can be asked with the following command:
+### Running the application on your custom question:
 
 ````bash
 
 python -m app.core.main -c "Your custom question"
 
 ````
+### Handling Connection Errors
+Note: Occasionally, you might encounter the following error due to OpenAI's API connection issues:
+
+````bash
+
+ERROR - An error occurred: peer closed connection without sending complete message body (incomplete chunked read)
+
+````
+This issue is usually temporary and caused by OpenAI's servers. If you encounter it, try the following:
+ - **Retry the request** after a few minutes.  
+ - **Check your API key and network connection** to ensure everything is set up correctly.  
+- **If the problem persists, check OpenAI’s [status page](https://status.openai.com/)** for any ongoing outages.  
 
 ## Project Structure
 
@@ -79,6 +150,10 @@ python -m app.core.main -c "Your custom question"
 │   │   │   │   ├── tool_merge_results.py
 │   │   │   │   ├── tool_sparql.py
 │   │   │   │   └── tool_wikidata_query.py
+│   │   │   ├── validator
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_validator.py
 │   │   │   ├── supervisor
 │   │   │   │   ├── agent.py
 │   │   │   │   └── prompt.py
@@ -95,6 +170,7 @@ python -m app.core.main -c "Your custom question"
 │   │   └── workflow
 │   │       └── langraph_workflow.py
 │   ├── data
+│   │   ├── submitted_plants.csv
 │   ├── graphs
 │   │   ├── graph.pkl
 │   │   └── schema.ttl
@@ -220,4 +296,4 @@ Our configuration supports outputting log messages to two destinations:
 - Console: Log messages at the INFO level and above will be outputted to the console. This setup is intended for general monitoring and quick diagnostics.
 - File: A more detailed log, including messages at the DEBUG level and above, is written to a file. 
 
-The log files are located within the app/config/logs directory. 
+The log files are located within the app/config/logs directory.
