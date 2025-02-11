@@ -25,7 +25,7 @@ forward_headers = ["X-Request-ID", "X-LangSmith-Trace-ID"]  ### Possible fix for
 
 model = "huggingface/deepseek-ai/DeepSeek-R1"
 fallback_models = ["anthropic/claude-3-5-sonnet-20241022"]  # Define a fallback model
-model_weak = "anthropic/claude-3-5-haiku-20241022"" # optional, a weaker model to use for some easier tasks
+model_weak = "anthropic/claude-3-5-haiku-20241022" # optional, a weaker model to use for some easier tasks
 
 # token limits
 custom_model_max_tokens=64000
