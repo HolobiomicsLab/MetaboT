@@ -21,6 +21,8 @@ jobs:
           OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
           CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}  # Anthropic API key
           PR_AGENT_MODEL: "claude-3.5-sonnet-20241022"  # Use Claude
+          FALLBACK_MODELS: "claude-3-haiku-20241022"
+          PR_AGENT_WEAK_MODEL: "claude-3-haiku-20241022"
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
           LANGSMITH_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
           LANGSMITH_BASE_URL: ${{ secrets.LANGSMITH_BASE_URL }}
