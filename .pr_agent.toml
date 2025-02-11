@@ -5,7 +5,7 @@ api_base = "https://huggingface.co/api/inference-proxy/together"
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"
 
-[mistral]
+[mistralai]
 key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
 api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
 
@@ -24,7 +24,7 @@ service_callback = []
 
 model = "huggingface/deepseek-ai/DeepSeek-R1"
 fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1"]
-model_weak = "mistral/codestral-2501" # optional, a weaker model to use for some easier tasks
+model_weak = "mistralai/codestral-2501" # optional, a weaker model to use for some easier tasks
 
 #ANTHROPIC DOES NOT WORK WELL ....
 #model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
