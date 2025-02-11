@@ -80,6 +80,10 @@ To import a module within the Python script, you can either use an absolute path
 │   │   │   │   ├── tool_merge_results.py
 │   │   │   │   ├── tool_sparql.py
 │   │   │   │   └── tool_wikidata_query.py
+│   │   │   ├── validator
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_validator.py
 │   │   │   ├── supervisor
 │   │   │   │   ├── agent.py
 │   │   │   │   └── prompt.py
@@ -96,6 +100,7 @@ To import a module within the Python script, you can either use an absolute path
 │   │   └── workflow
 │   │       └── langraph_workflow.py
 │   ├── data
+│   │   ├── submitted_plants.csv
 │   ├── graphs
 │   │   ├── graph.pkl
 │   │   └── schema.ttl
