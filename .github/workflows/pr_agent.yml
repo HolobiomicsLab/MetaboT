@@ -19,6 +19,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MISTRALAI_KEY: ${{ secrets.MISTRAL_KEY }}
+          CODESTRAL_KEY: ${{ secrets.CODESTRAL_KEY }}
           CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}  # Anthropic API key
           HUGGINGFACE_API_KEY : ${{ secrets.HUGGINGFACE_KEY }}
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
