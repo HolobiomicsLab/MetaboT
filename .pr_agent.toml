@@ -2,6 +2,8 @@
 model = "claude-3.5-sonnet-20241022"
 llm_provider = "anthropic"  # Ensure PR-Agent knows to use Anthropic API
 fallback_models = ["claude-3-haiku-20241022"]  # Define a fallback model
+enable_webhooks = true
+webhook_secret = "${WEBHOOK_SECRET}"  # Dynamically fetch from the environment
 
 [anthropic]
 key = "${{ secrets.CLAUDE_KEY }}"  # Pull API key from GitHub Secrets
