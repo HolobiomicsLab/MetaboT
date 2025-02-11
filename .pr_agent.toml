@@ -16,7 +16,7 @@ key = "${{ secrets.HUGGINGFACE_KEY }}"
 api_base = "https://huggingface.co/api/inference-proxy/together"
 
 [anthropic]
-#key = "${{ secrets.CLAUDE_KEY }}"
+key = "${{ secrets.CLAUDE_KEY }}"
 
 [litellm] 
 enable_callbacks = true
@@ -24,8 +24,8 @@ success_callback = ["langsmith"]
 failure_callback = ["langsmith"]
 service_callback = []
 litellm.set_verbose=true
-drop_params = false   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
-forward_headers = ["X-Request-ID", "X-LangSmith-Trace-ID"]  ### Possible fix for langsmith with Anthropic
+#drop_params = false   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUDE TO SET TO true
+#forward_headers = ["X-Request-ID", "X-LangSmith-Trace-ID"]  ### Possible fix for langsmith with Anthropic
 
 
 # CLI
