@@ -21,9 +21,9 @@ use_client = false
 #drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUD MODELS TO SET TO true
 
 [config]
-model = "openai/gpt-4o"
-fallback_models = ["openai/gpt-4o-mini"]  # Define a fallback model
-model_weak = "openai/gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+model = "gpt-4o"
+fallback_models = ["gpt-4o-mini"]  # Define a fallback model
+model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
 
 #model = "huggingface/deepseek-ai/DeepSeek-R1"
 #fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1-Distill-Llama-70B"]
