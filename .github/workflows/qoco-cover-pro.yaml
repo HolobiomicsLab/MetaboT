@@ -71,8 +71,8 @@ jobs:
           code_coverage_report_path: ./coverage.xml
           coverage_type: cobertura
           test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
-          model: o3-mini
-          #model: anthropic/claude-3-5-sonnet-latest
+          #model: o3-mini
+          model: anthropic/claude-3-5-sonnet-latest
           max_iterations: 5
           desired_coverage: 90
           run_each_test_separately: true
