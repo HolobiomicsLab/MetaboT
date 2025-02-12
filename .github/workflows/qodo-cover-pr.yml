@@ -1,12 +1,7 @@
 name: qodo-cover-pr.yml
 
 on:
-  pull_request:
-    branches:
-      - main
-      - dev
-    types:
-      - labeled
+  workflow_dispatch:
 
 permissions:
   pull-requests: write  # Allows commenting on pull requests

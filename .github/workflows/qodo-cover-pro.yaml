@@ -7,16 +7,14 @@ on:
         description: "Desired coverage percentage"
         required: false
         default: "80"
-  pull_request:
-    branches:
-      - main
-      - dev
-    types:
-      - opened  # Trigger when a pull request is opened
 
 permissions:
   contents: write
   pull-requests: write
+  actions: write
+  checks: write
+  issues: write
+  statuses: write
 
 jobs:
   build:

@@ -1,12 +1,7 @@
 name: qodo-cover.yml
 
 on:
-  pull_request:
-    branches:
-      - main
-      - dev
-    types:
-      - opened  # Trigger when a pull request is opened
+  workflow_dispatch:
 
 jobs:
   build:

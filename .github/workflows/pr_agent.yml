@@ -3,6 +3,11 @@ name: pr_agent.yml
 on:
   pull_request:
     types: [opened, reopened, ready_for_review]
+    branches:
+      - main
+      - dev
+      - dev_lfx
+      - dev_madina
   issue_comment:
 
 jobs:
