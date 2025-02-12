@@ -1,45 +1,39 @@
-name: Run Qodo-Cover with Conda
+name: qodo-cover.yml
 
 on:
   pull_request:
     branches:
       - main
+      - dev
     types:
-      - opened
-      - synchronize
-      - reopened
-
-permissions:
-  pull-requests: write
-  contents: write
+      - opened  # Trigger when a pull request is opened
 
 jobs:
-  run-qodo-cover:
+  build:
     runs-on: ubuntu-22.04
+
     steps:
-      # Checkout the repository
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      # Set up Miniconda
       - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
+          python-version: "3.11.2"  # Ensure this matches your project's Python version
           auto-update-conda: true
-          activate-environment: test-env
-          environment-file: environment.yml
-          #python-version: "3.11.2"  # Ensure this matches your project's Python version
 
-      # Install dependencies in Conda environment
-      - name: Install Dependencies
+      - name: Create and Activate Conda Environment
         shell: bash -l {0}
         run: |
-          conda activate test-env
-          conda env update --file environment.yml --prune
-          pip install -r requirements.txt  # In case extra dependencies are needed
+          conda env create -f environment.yml
+          conda activate test-env  # Replace 'test-env' with your environment name
 
-      # Run Qodo Cover
-      - name: Qodo Cover
+      - name: Install Additional Dependencies
+        shell: bash -l {0}
+        run: |
+          pip install -r requirements.txt  # If you have additional requirements
+
+      - name: Run Qodo Cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -47,13 +41,8 @@ jobs:
           project_root: .
           code_coverage_report_path: ./coverage.xml
           test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
-          model: gpt-4o
+          model: anthropic/claude-3-5-sonnet-latest
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
-      # Run Tests with Conda environment
-      - name: Run Tests
-        shell: bash -l {0}
-        run: |
-          conda activate test-env
-          pytest --cov=. --cov-report=xml --cov-report=term
+          CLAUDE_KEY: ${{ secrets.OPENAI_API_KEY }}
+          
