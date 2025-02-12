@@ -1,0 +1,59 @@
+name: Run Qodo-Cover with Conda
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  run-qodo-cover:
+    runs-on: ubuntu-22.04
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Set up Miniconda
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: test-env
+          environment-file: environment.yml
+          #python-version: "3.11.2"  # Ensure this matches your project's Python version
+
+      # Install dependencies in Conda environment
+      - name: Install Dependencies
+        shell: bash -l {0}
+        run: |
+          conda activate test-env
+          conda env update --file environment.yml --prune
+          pip install -r requirements.txt  # In case extra dependencies are needed
+
+      # Run Qodo Cover
+      - name: Qodo Cover
+        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_language: python
+          project_root: .
+          code_coverage_report_path: ./coverage.xml
+          test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
+          model: gpt-4o
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      # Run Tests with Conda environment
+      - name: Run Tests
+        shell: bash -l {0}
+        run: |
+          conda activate test-env
+          pytest --cov=. --cov-report=xml --cov-report=term
