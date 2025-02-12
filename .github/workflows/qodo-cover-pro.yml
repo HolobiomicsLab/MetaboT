@@ -15,7 +15,7 @@ permissions:
   checks: write
   issues: write
   statuses: write
-  id-token: write  # Added for GitHub Actions authentication
+  id-token: write
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref || github.ref_name }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}  # Changed to use PAT instead of GITHUB_TOKEN
 
       # Install system dependencies
       - name: Install System Dependencies
@@ -49,8 +49,8 @@ jobs:
       - name: Run Qodo Cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref || github.ref_name }}  # Use head_ref for PRs, ref_name for direct pushes
+          github_token: ${{ secrets.PAT_TOKEN }}  # Changed to use PAT instead of GITHUB_TOKEN
+          branch: ${{ github.head_ref || github.ref_name }}
           project_language: python
           project_root: .
           code_coverage_report_path: ./coverage.xml
@@ -60,8 +60,8 @@ jobs:
           max_iterations: 5
           desired_coverage: 90
           run_each_test_separately: true
-          source_folder: app/core  # Only focus on app/core
-          test_folder: app/core/tests  # Ensure tests are stored here
+          source_folder: app/core
+          test_folder: app/core/tests
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_KEY }}
