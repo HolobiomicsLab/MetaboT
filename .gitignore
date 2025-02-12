@@ -218,4 +218,5 @@ pyrightconfig.json
 app/graphs/graph.pkl
 app/config/logs/**
 ./app/config/logs/*
+*/.DS_Store
 .DS_Store

@@ -1,4 +1,4 @@
-name: kgbot
+name: metabot
 channels:
   - conda-forge
   - pytorch-nightly

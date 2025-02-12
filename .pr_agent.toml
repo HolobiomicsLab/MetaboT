@@ -1,8 +1,59 @@
+[huggingface]
+key = "${{ secrets.HUGGINGFACE_KEY }}"
+api_base = "https://huggingface.co/api/inference-proxy/together"
+#api_base = "https://api-inference.huggingface.co/models"
+
+
+[anthropic]
+key = "${{ secrets.CLAUDE_KEY }}"
+
+[mistral]
+#key = "${{ secrets.CODESTRAL_KEY }}"  # Add your Mistral API key here if required
+#api_base = "https://codestral.mistral.ai/v1/chat/completions"
+#key = "${{ secrets.MISTRAL_KEY }}" 
+#api_base = "https://api.mistral.ai/v1"  # Use the correct Mistral API endpoint
+
+[litellm] 
+enable_callbacks = true
+success_callback = ["langsmith"]
+failure_callback = ["langsmith"]
+service_callback = []
+use_client = false
+#litellm.set_verbose = true 
+#drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUD MODELS TO SET TO true
+
 [config]
-model = "claude-3.5-sonnet-20241022"
-llm_provider = "anthropic"  # Ensure PR-Agent knows to use Anthropic API
-fallback_models = ["claude-3-haiku-20241022"]  # Define a fallback model
-#model_weak="gpt-4o-mini-2024-07-18" # optional, a weaker model to use for some easier tasks
+model = "gpt-4o"
+fallback_models = ["gpt-4o-mini"]  # Define a fallback model
+model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+
+#model = "huggingface/deepseek-ai/DeepSeek-R1"
+#fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1-Distill-Llama-70B"]
+#model_weak = "huggingface/Qwen/Qwen2.5-Coder-32B-Instruct"
+#fallback_models = ["o3-mini"]
+#model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+#fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"]
+#model_weak = "huggingface/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B" # optional, a weaker model to use for some easier tasks
+
+#model = "mistral/codestral-latest"
+#fallback_models = ["mistral/codestral-latest"]
+#model_weak = "mistral/codestral-latest" # optional, a weaker model to use for some easier tasks
+
+#model = "mistral/mistral-large-latest"
+#fallback_models = ["mistral/mistral-large-latest"]
+#model_weak = "mistral/mistral-large-latest" # optional, a weaker model to use for some easier tasks
+
+#ANTHROPIC DOES NOT WORK WELL ....
+#model = "anthropic/claude-3-5-sonnet-20241022"  # Main model
+#fallback_models = ["anthropic/claude-3-5-haiku-20241022"]  # Fallback model
+#model_weak = "anthropic/claude-3-5-haiku-20241022"  # Weak model for lightweight tasks
+
+# token limits
+custom_model_max_tokens= 128000
+max_description_tokens = 8000
+max_commits_tokens = 16000
+max_model_tokens = 100000 # Limits the maximum number of tokens that can be used by any model, regardless of the model's default capabilities.
+
 # CLI
 git_provider="github"
 publish_output=true
@@ -17,11 +68,8 @@ use_global_settings_file=true
 disable_auto_feedback = false
 ai_timeout=120 # 2minutes
 skip_keys = []
-# token limits
-max_description_tokens = 8000
-max_commits_tokens = 8000
-max_model_tokens = 64000 # Limits the maximum number of tokens that can be used by any model, regardless of the model's default capabilities.
-custom_model_max_tokens=-1 # for models not in the default list
+
+
 # patch extension logic
 patch_extension_skip_types =[".md",".txt"]
 allow_dynamic_context=true
@@ -50,17 +98,7 @@ enable_ai_metadata = false # will enable adding ai metadata
 
 ignore_pr_branches = ["main-to-dev"]
 ignore_pr_folders = ["docs/"]
-ignore_pr_labels = ["no-analysis"]
 ignore_pr_users = ["dependabot[bot]"]
-
-[litellm] 
-enable_callbacks = true
-success_callback = ["langsmith"]
-failure_callback = ["langsmith"]
-service_callback = []
-
-[anthropic]
-key = "${{ secrets.CLAUDE_KEY }}"  # Pull API key from GitHub Secrets
 
 [pr_reviewer] # /review #
 # enable/disable features
