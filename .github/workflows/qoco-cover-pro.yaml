@@ -65,7 +65,7 @@ jobs:
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name }}
+          branch: ${{ github.head_ref }}  # Changed from github.ref_name to github.head_ref
           project_language: python
           project_root: .
           code_coverage_report_path: ./coverage.xml
