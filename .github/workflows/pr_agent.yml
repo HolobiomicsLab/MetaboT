@@ -6,13 +6,21 @@ on:
 jobs:
   pr_agent_job:
     if: ${{ github.event.sender.type != 'Bot' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       issues: write
       pull-requests: write
       contents: write
     name: Run PR-Agent on every pull request and respond to comments
     steps:
+      - name: Cache pip dependencies
+        uses: actions/cache@v4.2.0
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: PR-Agent action step
         id: pragent
         uses: qodo-ai/pr-agent@main
