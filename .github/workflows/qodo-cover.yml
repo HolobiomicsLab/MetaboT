@@ -39,8 +39,7 @@ jobs:
       - name: Create and Activate Conda Environment
         shell: bash -l {0}
         run: |
-          conda env create -f environment.yml
-          conda activate metabot
+          conda env create -f environment.yml && conda activate metabot
 
       - name: Install Additional Dependencies
         shell: bash -l {0}
