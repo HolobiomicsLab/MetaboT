@@ -15,6 +15,7 @@ permissions:
   checks: write
   issues: write
   statuses: write
+  id-token: write  # Added for GitHub Actions authentication
 
 jobs:
   build:
