@@ -21,25 +21,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-dev build-essential
-
-      - name: Cache Conda Environment
-        uses: actions/cache@v4
-        with:
-          path: ~/.conda/envs
-          key: ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
-          restore-keys: |
-                  ${{ runner.os }}-conda-
-
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          python-version: "3.11.6"  # Ensure this matches your project's Python version
-          auto-update-conda: true
-
-      - name: Create and Activate Conda Environment
-        shell: bash -l {0}
-        run: |
-          conda env update -f environment.yml --prune && conda activate metabot
   
       - name: Cache pip Dependencies
         uses: actions/cache@v4
