@@ -1,0 +1,67 @@
+name: qodo-cover-pro.yml
+
+on:
+  workflow_dispatch:
+    inputs:
+      desired_coverage:
+        description: "Desired coverage percentage"
+        required: false
+        default: "80"
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  checks: write
+  issues: write
+  statuses: write
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Install system dependencies
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-dev build-essential
+
+      - name: Cache pip Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Additional Dependencies
+        run: |
+          pip install -r requirements.txt pytest-cov
+
+      - name: Run Qodo Cover
+        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}  # Changed from github.ref_name to github.head_ref
+          project_language: python
+          project_root: .
+          code_coverage_report_path: ./coverage.xml
+          coverage_type: cobertura
+          test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
+          #model: o3-mini
+          model: anthropic/claude-3-5-sonnet-latest
+          max_iterations: 5
+          desired_coverage: 90
+          run_each_test_separately: true
+          source_folder: app/core  # Only focus on app/core
+          test_folder: app/core/tests  # Ensure tests are stored here
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_KEY }}
