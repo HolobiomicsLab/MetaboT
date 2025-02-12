@@ -39,7 +39,7 @@ jobs:
       - name: Create and Activate Conda Environment
         shell: bash -l {0}
         run: |
-          conda env update -f environment.yml --prune && source activate metabot
+          conda env update -f environment.yml --prune && conda activate metabot
   
       - name: Cache pip Dependencies
         uses: actions/cache@v4
