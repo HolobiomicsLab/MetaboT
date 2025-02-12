@@ -9,6 +9,8 @@ jobs:
     env:
       LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGSMITH_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}  
+
 
     steps:
       - name: Checkout repository
