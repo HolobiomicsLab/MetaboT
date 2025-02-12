@@ -25,5 +25,5 @@ jobs:
     - name: Activate Conda Environment and Run Main Script
       run: |
         source ~/.bashrc  # Ensures Conda is initialized
-        conda activate my_env
+        conda activate kgbot
         python -m app.core.main -q 1
