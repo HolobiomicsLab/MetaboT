@@ -80,4 +80,4 @@ jobs:
           test_folder: app/core/tests  # Ensure tests are stored here
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_KEY }}

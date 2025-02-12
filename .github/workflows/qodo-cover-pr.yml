@@ -5,8 +5,6 @@ on:
     branches:
       - main
       - dev
-    types:
-      - labeled
 
 permissions:
   pull-requests: write  # Allows commenting on pull requests
@@ -58,4 +56,4 @@ jobs:
           test_folder: app/core/tests  # Ensure tests are stored here
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}
+          ANTHROPIC_API_KEY_KEY: ${{ secrets.CLAUDE_KEY }}
