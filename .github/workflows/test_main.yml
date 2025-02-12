@@ -1,0 +1,29 @@
+name: Run Main Script
+
+on:
+  workflow_dispatch:  # This allows manual triggering
+
+jobs:
+  run-main:
+    runs-on: ubuntu-latest
+    env:
+      LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: kgbot # Replace with your actual Conda environment name
+        environment-file: environment.yml
+        python-version: 3.11
+        auto-activate-base: false
+
+    - name: Activate Conda Environment and Run Main Script
+      run: |
+        source ~/.bashrc  # Ensures Conda is initialized
+        conda activate kgbot
+        python -m app.core.main -q 1
