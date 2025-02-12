@@ -1,0 +1,60 @@
+name: Run the qodo-cover-pr action
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+    types:
+      - labeled
+
+permissions:
+  pull-requests: write  # Allows commenting on pull requests
+  contents: write      # Allows reading files and creating pull requests
+
+jobs:
+  run-qodo-cover-pr-python:
+    # Only run if:
+    # 1. PR has the qodo-cover label
+    # 2. PR is open (not closed or draft)
+    if: |
+      github.event.pull_request.state == 'open' &&
+      github.event.pull_request.draft == false
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      # Install system dependencies
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-dev build-essential
+          python3 --version
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Qodo Cover PR
+        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover-pr@v0.1.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_language: python
+          project_root: .
+          code_coverage_report_path: ./coverage.xml
+          coverage_type: cobertura
+          test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
+          model: anthropic/claude-3-5-sonnet-latest
+          max_iterations: 3
+          desired_coverage: 90
+          run_each_test_separately: true
+          source_folder: app/core  # Only focus on app/core
+          test_folder: app/core/tests  # Ensure tests are stored here
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}
