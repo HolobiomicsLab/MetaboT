@@ -1,4 +1,4 @@
-name: Run the qodo-cover-pr action
+name: qodo-cover-pr.yml
 
 on:
   pull_request:
@@ -27,6 +27,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Install system dependencies
       - name: Install system dependencies
