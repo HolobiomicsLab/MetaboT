@@ -52,7 +52,7 @@ jobs:
       - name: Install Additional Dependencies
         shell: bash -l {0}
         run: |
-          pip install -r requirements.txt  # If you have additional requirements
+          pip install -r requirements.txt pytest-cov
           
       - name: Run Qodo Cover Agents
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1

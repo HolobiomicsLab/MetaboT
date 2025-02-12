@@ -59,7 +59,7 @@ jobs:
 
       - name: Install Additional Dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r requirements.txt pytest-cov
 
       - name: Run Qodo Cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
