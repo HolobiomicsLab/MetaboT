@@ -65,7 +65,7 @@ jobs:
           model: anthropic/claude-3-5-sonnet-latest
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          CLAUDE_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}
 
       - name: Run Qodo Cover for utils
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
