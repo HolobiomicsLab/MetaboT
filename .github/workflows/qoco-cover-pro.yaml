@@ -31,7 +31,7 @@ jobs:
       - name: Cache Conda Environment
         uses: actions/cache@v4
         with:
-          path: ~/.conda/envs/metabot
+          path: ~/.conda/envs
           key: ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
           restore-keys: |
                   ${{ runner.os }}-conda-
@@ -47,10 +47,17 @@ jobs:
         run: |
           conda env update -f environment.yml --prune && conda activate metabot
 
+      - name: Cache pip Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install Additional Dependencies
-        shell: bash -l {0}
         run: |
-          pip install -r requirements.txt  # If you have additional requirements
+          pip install -r requirements.txt
 
       - name: Run Qodo Cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
