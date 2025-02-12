@@ -1,30 +1,58 @@
-name: Run Main Script
+name: test_metabot_main.yml
 
 on:
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
   run-main:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
-      LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGCHAIN_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
+      LANGCHAIN_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-dev build-essential
+
+      - name: Cache Conda Environment
+        uses: actions/cache@v4
+        with:
+          path: ~/.conda/envs
+          key: ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-conda-
 
       - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: kgbot  # Your environment name
+          activate-environment: metabot
           environment-file: environment.yml
-          python-version: 3.11
+          python-version: 3.11.6
           auto-activate-base: false
+          auto-update-conda: true
 
-      - name: Activate Conda Environment and Run Main Script
+      - name: Cache pip Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Additional Dependencies
+        shell: bash -l {0}
         run: |
-          # Initialize conda for the shell session
-          eval "$(conda shell.bash hook)"
-          conda activate kgbot
+          conda activate metabot
+          pip install -r requirements.txt
+
+      - name: Run Main Script
+        shell: bash -l {0}
+        run: |
+          conda activate metabot
           python -m app.core.main -q 1
