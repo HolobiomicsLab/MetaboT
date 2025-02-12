@@ -52,21 +52,21 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           project_language: python
           project_root: .  # Set the project root to app/core/agents
-          code_coverage_report_path: ./coverage_agents.xml
-          test_command: "pytest --cov=app/core/agents --cov-report=xml --cov-report=term tests/app/core/agents"  # Adjust test command to point to app/core/tests
+          code_coverage_report_path: ./coverage_agents_factory.xml
+          test_command: "pytest --cov=app/core/agents/agents --cov-report=xml --cov-report=term tests/app/core/agents/agents/test_agents.py"  # Adjust test command to point to app/core/tests
           model: anthropic/claude-3-5-sonnet-latest
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CLAUDE_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-      - name: Run Qodo Cover for Interpreter Module
+      - name: Run Qodo Cover for utils
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           project_language: python
           project_root: .  # Set the project root to app/core/interpreter
           code_coverage_report_path: ./coverage_interpreter.xml
-          test_command: "pytest --cov=app/core/interpreter --cov-report=xml --cov-report=term tests/app/core/interpreter"  # Adjust test command to point to app/core/interpreter/tests
+          test_command: "pytest --cov=app/core/utils.py --cov-report=xml --cov-report=term tests/app/core/test_utils.py"
           model: anthropic/claude-3-5-sonnet-latest
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
