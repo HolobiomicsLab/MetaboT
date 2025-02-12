@@ -41,7 +41,7 @@ jobs:
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: "3.11.2"  # Ensure this matches your project's Python version
+          python-version: "3.11.6"  # Ensure this matches your project's Python version
           auto-update-conda: true
 
       - name: Create and Activate Conda Environment

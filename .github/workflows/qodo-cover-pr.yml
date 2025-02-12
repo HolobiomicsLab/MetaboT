@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - dev
+    types:
+      - labeled
 
 permissions:
   pull-requests: write  # Allows commenting on pull requests
@@ -32,7 +34,25 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3-dev build-essential
           python3 --version
-          
+
+      - name: Cache Conda Environment
+        uses: actions/cache@v4
+        with:
+          path: ~/.conda/envs
+          key: ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
+          restore-keys: |
+                  ${{ runner.os }}-conda-
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          python-version: "3.11.6"  # Ensure this matches your project's Python version
+          auto-update-conda: true
+
+      - name: Create and Activate Conda Environment
+        shell: bash -l {0}
+        run: |
+          conda env update -f environment.yml --prune && conda activate metabot
 
       - name: Install Python dependencies
         run: |
@@ -56,4 +76,4 @@ jobs:
           test_folder: app/core/tests  # Ensure tests are stored here
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY_KEY: ${{ secrets.CLAUDE_KEY }}
+          CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}
