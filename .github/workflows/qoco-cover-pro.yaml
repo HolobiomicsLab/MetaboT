@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
       # Install system dependencies
       - name: Install System Dependencies
