@@ -46,15 +46,28 @@ jobs:
         run: |
           pip install -r requirements.txt  # If you have additional requirements
 
-      - name: Run Qodo Cover
+      - name: Run Qodo Cover Agents
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           project_language: python
-          project_root: .
-          code_coverage_report_path: ./coverage.xml
-          test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
+          project_root: .  # Set the project root to app/core/agents
+          code_coverage_report_path: ./coverage_agents.xml
+          test_command: "pytest --cov=app/core/agents --cov-report=xml --cov-report=term tests/app/core/agents"  # Adjust test command to point to app/core/tests
           model: anthropic/claude-3-5-sonnet-latest
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CLAUDE_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Run Qodo Cover for Interpreter Module
+        uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_language: python
+          project_root: .  # Set the project root to app/core/interpreter
+          code_coverage_report_path: ./coverage_interpreter.xml
+          test_command: "pytest --cov=app/core/interpreter --cov-report=xml --cov-report=term tests/app/core/interpreter"  # Adjust test command to point to app/core/interpreter/tests
+          model: anthropic/claude-3-5-sonnet-latest
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLAUDE_KEY: ${{ secrets.CLAUDE_KEY }}
