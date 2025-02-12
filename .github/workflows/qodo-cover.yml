@@ -16,6 +16,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Install system dependencies
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-dev build-essential
+
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
@@ -26,7 +32,7 @@ jobs:
         shell: bash -l {0}
         run: |
           conda env create -f environment.yml
-          conda activate test-env  # Replace 'test-env' with your environment name
+          conda activate metabot
 
       - name: Install Additional Dependencies
         shell: bash -l {0}
