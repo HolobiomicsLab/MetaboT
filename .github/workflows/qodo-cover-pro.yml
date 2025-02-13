@@ -17,8 +17,7 @@ permissions:
   contents: write # Allows reading and writing files
   issues: write # Allows creating issues
   actions: write # Allows managing GitHub Actions
-  checks: write # Allows checking workflow runs
-  statuses: write # Allows managing commit statuses
+
 jobs:
   build:
     runs-on: ubuntu-22.04
