@@ -2,7 +2,6 @@
 
 ## General information
 
-
 We use the ```dev``` branch for pushing our contributions [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev). Please create your own branch like (either user centric like```dev_benjamin``` or feature centric like ```dev_langgraph```) and do a pull request to the ```dev``` branch when ready for reviewing.
 
 The prototype is in the ```prototype``` branch (frozen) [https://github.com/holobiomics-lab/kgbot/tree/prototype](https://github.com/holobiomics-lab/kgbot/tree/prototype)
@@ -75,7 +74,6 @@ Note: While the package is primarily tested on these systems, it should work on 
 
    Note: If you encounter any issues with psycopg2, the environment.yml file is configured to use psycopg2-binary instead, which should work across both operating systems.
 
-
 ## Application Startup Instructions
 
 The application has been structured as a module and adheres to the dot notation convention for Python imports. To import a module within the Python script, you can either use an absolute path (e.g., app.core.module1.module2) or a relative import (e.g., ..core.module1.module2).
@@ -107,68 +105,67 @@ python -m app.core.main -c "Your custom question"
 .
 ├── README.md
 ├── app
-│   ├── config
-│   │   ├── langgraph.json
-│   │   ├── logging.ini
-│   │   ├── logs
-│   │   │   ├── app.log
-│   │   ├── params.ini
-│   │   └── sparql.ini
-│   ├── core
-│   │   ├── agents
-│   │   │   ├── agents_factory.py
-│   │   │   ├── enpkg
-│   │   │   │   ├── agent.py
-│   │   │   │   ├── prompt.py
-│   │   │   │   ├── tool_chemicals.py
-│   │   │   │   ├── tool_smiles.py
-│   │   │   │   ├── tool_target.py
-│   │   │   │   └── tool_taxon.py
-│   │   │   ├── entry
-│   │   │   │   ├── agent.py
-│   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_fileparser.py
-│   │   │   ├── interpreter
-│   │   │   │   ├── agent.py
-│   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_interpreter.py
-│   │   │   ├── sparql
-│   │   │   │   ├── agent.py
-│   │   │   │   ├── prompt.py
-│   │   │   │   ├── tool_merge_results.py
-│   │   │   │   ├── tool_sparql.py
-│   │   │   │   └── tool_wikidata_query.py
-│   │   │   ├── validator
-│   │   │   │   ├── agent.py
-│   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_validator.py
-│   │   │   ├── supervisor
-│   │   │   │   ├── agent.py
-│   │   │   │   └── prompt.py
-│   │   │   └── toy_example
-│   │   │       ├── agent.py
-│   │   │       ├── prompt.py
-│   │   │       └── tool_say_hello.py
-│   │   ├── graph_management
-│   │   │   ├── RdfGraphCustom.py
-│   │   ├── main.py
-│   │   ├── memory
-│   │   │   └── custom_sqlite_file.py
-│   │   ├── utils.py
-│   │   └── workflow
-│   │       └── langraph_workflow.py
-│   ├── data
-│   │   ├── submitted_plants.csv
-│   ├── graphs
-│   │   ├── graph.pkl
-│   │   └── schema.ttl
-│   ├── notebooks
-│   ├── ressources
-│   └── tests
+│   ├── config
+│   │   ├── langgraph.json
+│   │   ├── logging.ini
+│   │   ├── logs
+│   │   │   ├── app.log
+│   │   ├── params.ini
+│   │   └── sparql.ini
+│   ├── core
+│   │   ├── agents
+│   │   │   ├── agents_factory.py
+│   │   │   ├── enpkg
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   ├── tool_chemicals.py
+│   │   │   │   ├── tool_smiles.py
+│   │   │   │   ├── tool_target.py
+│   │   │   │   └── tool_taxon.py
+│   │   │   ├── entry
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_fileparser.py
+│   │   │   ├── interpreter
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_interpreter.py
+│   │   │   ├── sparql
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   ├── tool_merge_results.py
+│   │   │   │   ├── tool_sparql.py
+│   │   │   │   └── tool_wikidata_query.py
+│   │   │   ├── validator
+│   │   │   │   ├── agent.py
+│   │   │   │   ├── prompt.py
+│   │   │   │   └── tool_validator.py
+│   │   │   ├── supervisor
+│   │   │   │   ├── agent.py
+│   │   │   │   └── prompt.py
+│   │   │   └── toy_example
+│   │   │       ├── agent.py
+│   │   │       ├── prompt.py
+│   │   │       └── tool_say_hello.py
+│   │   ├── graph_management
+│   │   │   ├── RdfGraphCustom.py
+│   │   ├── main.py
+│   │   ├── memory
+│   │   │   └── custom_sqlite_file.py
+│   │   ├── utils.py
+│   │   └── workflow
+│   │       └── langraph_workflow.py
+│   ├── data
+│   │   ├── submitted_plants.csv
+│   ├── graphs
+│   │   ├── graph.pkl
+│   │   └── schema.ttl
+│   ├── notebooks
+│   ├── ressources
+│   └── tests
 ├── environment.yml
 ├── environment_alternative.yml
 └── langgraph_checkpoint.db
-
 
 ````
 ## Agent Setup guidelines
@@ -210,8 +207,6 @@ Additional class attributes may be necessary to allow the use of LLMs, extending
 
 Review the `tool_parameters` variable [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/agent.py) for details.
 
-
-
 ## Development Guidelines
 
 To ensure that all contributors are aligned and to facilitate smoother integration of our work, we kindly ask that you adhere to the following guidelines:
@@ -223,20 +218,19 @@ To ensure that all contributors are aligned and to facilitate smoother integrati
     Install Mintlify Doc Writer from the VSCode extensions marketplace.
     In the extension's settings, set the docstring format to Google.
     To generate a docstring for a class or function, simply right-click on the code element and select the Generate Documentation option.
-    Review and adjust the generated docstrings as necessary to accurately reflect the code’s purpose and behavior.
+    Review and adjust the generated docstrings as necessary to accurately reflect the code's purpose and behavior.
 
 **Code Formatting**
 
 To maintain a unified code style across our project, we adhere to the PEP8 convention. This style guide helps in keeping our code readable and maintainable. Here's how to ensure your code meets these standards:
 
-- **Black Formatter** in VSCode: The easiest way to format your code according to PEP8 is by using the Black Formatter extension in Visual Studio Code. Here’s how to use it:
+- **Black Formatter** in VSCode: The easiest way to format your code according to PEP8 is by using the Black Formatter extension in Visual Studio Code. Here's how to use it:
     Install Black Formatter from the VSCode extensions marketplace.
     Right-click inside any Python file and select Format Document to automatically format your code.
 
 ### Good practices with keys
 
   As good practive with keys, to further isolate and later facilitate the deployment with online plataforms, please provide the keys as parameters and don't use environmental variables as those are not scalable for production. 
-
 
 ## Logging guidelines
 
@@ -245,7 +239,6 @@ These guidelines will help us efficiently track application behavior, debug issu
 **Configuration**
 
 Our logging configuration is centralized in an INI file located at app/config/logging.ini. This setup allows us to manage logging behavior across all scripts from a single location.
-
 
 **Integrating Logging into Your Scripts**
 
@@ -286,3 +279,93 @@ Our configuration supports outputting log messages to two destinations:
 - File: A more detailed log, including messages at the DEBUG level and above, is written to a file. 
 
 The log files are located within the app/config/logs directory.
+
+## Contributing
+
+We welcome contributions from the community! This section outlines how you can contribute to the project effectively.
+
+### Getting Started with Contributions
+
+1. **Fork the Repository**
+   - Fork the repository to your GitHub account
+   - Clone your fork to your local machine
+
+2. **Create a Feature Branch**
+   - Create a new branch from `dev` for your feature
+   - Use either user-centric (e.g., `dev_username`) or feature-centric (e.g., `dev_feature_name`) naming
+   ```bash
+   git checkout -b dev_your_branch_name
+   ```
+
+3. **Develop Your Feature**
+   - Follow the project's coding standards and guidelines
+   - Write clear, documented code
+   - Include appropriate tests for new functionality
+   - Ensure your code passes existing tests
+
+4. **Commit Guidelines**
+   - Write clear, descriptive commit messages
+   - Keep commits focused and atomic
+   - Use present tense ("Add feature" not "Added feature")
+   ```bash
+   git commit -m "Add new agent for processing chemical data"
+   ```
+
+### Pull Request Process
+
+1. **Prepare Your Changes**
+   - Update documentation for new features
+   - Ensure all tests pass
+   - Format code according to project guidelines
+   - Update README.md if necessary
+
+2. **Submit Pull Request**
+   - Push your changes to your fork
+   - Create a Pull Request to the `dev` branch
+   - Fill out the PR template completely
+   - Link any relevant issues
+
+3. **Code Review**
+   - Address reviewer comments
+   - Make requested changes
+   - Maintain a constructive dialogue with reviewers
+
+### Code Quality Guidelines
+
+1. **Testing**
+   - Write unit tests for new functionality
+   - Ensure tests are meaningful and cover edge cases
+   - Maintain or improve code coverage
+
+2. **Documentation**
+   - Update relevant documentation
+   - Add inline comments for complex logic
+   - Use Google Docstring format for function/class documentation
+
+3. **Code Style**
+   - Follow PEP 8 guidelines
+   - Use meaningful variable and function names
+   - Keep functions focused and manageable in size
+
+### Reporting Issues
+
+1. **Bug Reports**
+   - Use the issue tracker
+   - Include reproducible steps
+   - Provide system information
+   - Include relevant logs or error messages
+
+2. **Feature Requests**
+   - Clearly describe the proposed feature
+   - Explain the use case
+   - Consider implementation details
+   - Discuss potential impacts
+
+### Communication
+
+- Use clear, professional language
+- Be respectful and constructive
+- Ask questions if something is unclear
+- Share knowledge and help others learn
+
+Your contributions help make this project better for everyone. Thank you for considering contributing!
