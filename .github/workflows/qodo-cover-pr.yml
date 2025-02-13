@@ -22,7 +22,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}  # Changed to use PAT instead of GITHUB_TOKEN
+
 
       # Install system dependencies
       - name: Install system dependencies
@@ -47,7 +48,7 @@ jobs:
       - name: Qodo Cover PR
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover-pr@v0.1.6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
           project_language: python
           project_root: .
           code_coverage_report_path: ./coverage.xml

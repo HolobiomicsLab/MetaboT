@@ -1,7 +1,7 @@
 name: qodo-cover.yml
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
       - name: Run Qodo Cover Agents
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
           project_language: python
           project_root: .  # Set the project root to app/core/agents
           code_coverage_report_path: ./coverage_agents_factory.xml
@@ -46,7 +46,7 @@ jobs:
       - name: Run Qodo Cover for utils
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
           project_language: python
           project_root: .  # Set the project root to app/core/interpreter
           code_coverage_report_path: ./coverage_interpreter.xml

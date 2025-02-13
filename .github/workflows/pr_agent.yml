@@ -34,7 +34,7 @@ jobs:
         uses: qodo-ai/pr-agent@main
         env:
           LITELLM_SET_VERBOSE: "true"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
           MISTRAL_KEY: ${{ secrets.MISTRAL_KEY }}
           CODESTRAL_KEY: ${{ secrets.CODESTRAL_KEY }}
