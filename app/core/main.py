@@ -98,15 +98,13 @@ def langsmith_setup():
 
     os.environ["LANGCHAIN_TRACING_V2"] = "true"
     langchain_project = os.getenv("LANGCHAIN_PROJECT")
-    if not langchain_project:
-        langchain_project = "MetaboT"
-
-    os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+    LANGCHAIN_PROJECT = os.getenv("LANGCHAIN_PROJECT", "LANGSMITH_PROJECT", "MetaboT")
+    LANGCHAIN_ENDPOINT = os.environ("LANGCHAIN_ENDPOINT", "LANGSMITH_ENDPOINT", "https://api.smith.langchain.com")
 
     # Get the API key from the environment
-    api_key = os.getenv("LANGCHAIN_API_KEY")
+    api_key = os.getenv("LANGCHAIN_API_KEY", "LANGSMITH_PROJECT")
     if not api_key:
-        raise ValueError("LANGSMITH_API_KEY environment variable is not set")
+        raise ValueError("LANGCHAIN_API_KEY environment variable is not set")
 
     # Pass the API key to the Client constructor
     client = Client(api_key=api_key)
@@ -208,10 +206,8 @@ def main():
         return
 
     langsmith_setup()
-    endpoint_url = os.getenv("KG_ENDPOINT_URL")
-    if not endpoint_url:
-        endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
-        # endpoint_url = "https://enpkg.commons-lab.org/graphdb/sparql"
+    endpoint_url = os.getenv("KG_ENDPOINT_URL", "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG")
+    # endpoint_url = "https://enpkg.commons-lab.org/graphdb/sparql"
     graph = link_kg_database(endpoint_url)
     models = llm_creation()
     agents = create_all_agents(models, graph)
