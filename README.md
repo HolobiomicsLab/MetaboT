@@ -1,42 +1,41 @@
-# Metabot dev
+# MetaboT Dev ✨
 
-## General information
+## General Information
+We use the `dev` branch for pushing our contributions [here on GitHub](https://github.com/holobiomics-lab/MetaboT/tree/dev). Please create your own branch (either user-centric like `dev_benjamin` or feature-centric like `dev_langgraph`) and submit a pull request to the `dev` branch when you're ready for review. Our AI PR-Agent 🤖 is always standing by to help trigger pull requests and even handle issues smartly—because why not let a smarty pants bot lend a hand?
 
-We use the ```dev``` branch for pushing our contributions [https://github.com/holobiomics-lab/kgbot/tree/dev](https://github.com/holobiomics-lab/kgbot/tree/dev). Please create your own branch like (either user centric like```dev_benjamin``` or feature centric like ```dev_langgraph```) and do a pull request to the ```dev``` branch when ready for reviewing.
+The prototype is in the `prototype` branch (frozen) [check it out here](https://github.com/holobiomics-lab/MetaboT/tree/prototype).
 
-The prototype is in the ```prototype``` branch (frozen) [https://github.com/holobiomics-lab/kgbot/tree/prototype](https://github.com/holobiomics-lab/kgbot/tree/prototype)
+---
 
 ## System Requirements
-
 ### Hardware
-- **CPU**: Any modern processor 
-- **RAM**: **At least 8GB**
+- **CPU**: Any modern processor  
+- **RAM**: **At least 8GB**  
 
-## Software Requirements
+### Software Requirements
+#### OS Requirements
+This package has been tested on:
+- **macOS**: Sonoma (14.5)  
+- **Linux**: Ubuntu 22.04 LTS, Debian 11  
 
-### OS Requirements
+It should also work on other Unix-based systems. For more deets on compatibility, check out [GitHub Issues](https://github.com/holobiomics-lab/MetaboT/issues) if you run into troubles.
 
-This package has been tested on the following operating systems:
+---
 
-- **macOS**: Sonoma (14.5)
-- **Linux**: Ubuntu 22.04 LTS, Debian 11
-
-Note: While the package is primarily tested on these systems, it should work on other Unix-based systems as well.
-
-## Installation guide
+## Installation Guide 🚀
 
 ### Prerequisites
+1. **Conda Installation**  
+   - Ensure Conda (Anaconda/Miniconda) is installed.  
+   - [Conda Installation Docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
 
-1. **Conda Installation**
-   - Conda (Anaconda/Miniconda) needs to be installed on your system
-   - For installation instructions, visit: https://docs.conda.io/projects/conda/en/latest/user-guide/install/
+2. **API Keys**  
+   Required API keys:  
+   - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)  
+   - **LangSmith API Key**: Check [LangSmith](https://smith.langchain.com/)  
 
-2. **API Keys**
-   You will need the following API keys:
-   - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)
-   - **LangSmith API Key**: Get it from [LangSmith](https://smith.langchain.com/)
+   Create a `.env` file in the root directory with your credentials:
 
-   Create a `.env` file in the root directory with your keys:
    ```bash
    OPENAI_API_KEY=your_openai_key_here
    LANGCHAIN_API_KEY=your_langsmith_key_here
@@ -47,61 +46,58 @@ Note: While the package is primarily tested on these systems, it should work on 
 ### Installation Steps
 
 1. **Clone the Repository**
+
    ```bash
-   git clone https://github.com/holobiomics-lab/kgbot.git
+   git clone https://github.com/holobiomics-lab/MetaboT.git
    git checkout dev
-   cd kgbot
+   cd MetaboT
    ```
 
-2. **Create and Activate the Conda Environment**
+2. **Create and Activate the Conda Environment**  
 
    For macOS:
    ```bash
    conda env create -f environment.yml
-   conda activate kgbot
+   conda activate MetaboT
    ```
 
    For Linux:
    ```bash
-   # First, make sure system dependencies are installed
+   # Update system dependencies first
    sudo apt-get update
    sudo apt-get install -y python3-dev build-essential
 
-   # Then create the conda environment
+   # Then create and activate the conda environment
    conda env create -f environment.yml
-   conda activate kgbot
+   conda activate MetaboT
    ```
+   > Pro-tip: If you hit any issues with psycopg2, the `environment.yml` uses `psycopg2-binary` for maximum compatibility.
 
-   Note: If you encounter any issues with psycopg2, the environment.yml file is configured to use psycopg2-binary instead, which should work across both operating systems.
+---
 
-## Application Startup Instructions
-
-The application has been structured as a module and adheres to the dot notation convention for Python imports. To import a module within the Python script, you can either use an absolute path (e.g., app.core.module1.module2) or a relative import (e.g., ..core.module1.module2).
+## Application Startup Instructions ▶️
+The application is structured as a Python module with dot notation imports—so choose your style, whether absolute (e.g., `app.core.module1.module2`) or relative (e.g., `..core.module1.module2`).
 
 ### Demo
-To launch the application, you should utilize the -m option from the Python command line interface. 
-The main entry point for the application is located within the main module under app.core.main. The standard questions are defined as numbers (1 to 10), so follow the steps below to start the application:
+To launch the application, use Python's `-m` option. The main entry point is in `app.core.main`:
 
-````bash
-cd kgbot
-
+```bash
+cd MetaboT
 python -m app.core.main -q 1
+```
 
-````
-Expected output:
-Expected run time: 
+Expected output includes runtime metrics and a welcoming prompt. 😎
 
-### Running the application on your custom question:
+### Running with a Custom Question
 
-````bash
-
+```bash
 python -m app.core.main -c "Your custom question"
+```
 
-````
+---
 
 ## Project Structure
-
-````bash
+```bash
 .
 ├── README.md
 ├── app
@@ -109,7 +105,7 @@ python -m app.core.main -c "Your custom question"
 │   │   ├── langgraph.json
 │   │   ├── logging.ini
 │   │   ├── logs
-│   │   │   ├── app.log
+│   │   │   └── app.log
 │   │   ├── params.ini
 │   │   └── sparql.ini
 │   ├── core
@@ -148,7 +144,7 @@ python -m app.core.main -c "Your custom question"
 │   │   │       ├── prompt.py
 │   │   │       └── tool_say_hello.py
 │   │   ├── graph_management
-│   │   │   ├── RdfGraphCustom.py
+│   │   │   └── RdfGraphCustom.py
 │   │   ├── main.py
 │   │   ├── memory
 │   │   │   └── custom_sqlite_file.py
@@ -156,7 +152,7 @@ python -m app.core.main -c "Your custom question"
 │   │   └── workflow
 │   │       └── langraph_workflow.py
 │   ├── data
-│   │   ├── submitted_plants.csv
+│   │   └── submitted_plants.csv
 │   ├── graphs
 │   │   ├── graph.pkl
 │   │   └── schema.ttl
@@ -166,206 +162,106 @@ python -m app.core.main -c "Your custom question"
 ├── environment.yml
 ├── environment_alternative.yml
 └── langgraph_checkpoint.db
+```
 
-````
-## Agent Setup guidelines
+---
+
+## Agent Setup Guidelines 🧑‍💻
 
 ### Agent Directory Creation
-Create a dedicated folder for your agent within the `app/core/agents directory`. This will serve as the primary repository for all agent-specific files.
+Create a dedicated folder for your agent within the `app/core/agents/` directory.
 
 ### Standard File Structure
-The agent folder should include the following files:
+- **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.  
+  > Psst... don't let the complexities of Python imports overcomplicate your flow—trust the process!
 
-#### Agent
-    agent.py: This file remains consistent across all agents. You should copy this from an existing agent, unless your tool requires accessing private class properties. For such cases, refer to the section 'If Your Tool Serves as an Agent' for guidance.
+- **Prompt (`prompt.py`)**: Configure the `MODEL_CHOICE` variable to `llm` or `llm_preview` (per `app/config/params.ini`). Customize it for your specific context.
 
-    During the agent's construction, the parameters are passed accordingly to what is defined in the agent.py file. Please check if the variables are correctly being defined on the agent_factory.py file.
-
-#### Prompt
-
-    prompt.py: Set the MODEL_CHOICE variable to either llm or llm_preview as per the model hyperparameters defined in `app/config/params.ini.` Customize the prompt to align with your agent's purpose.
-
-#### Tools
-    tool_xxxx.py (optional): Any tool scripts should inherit from the Langchain BaseTool class. Define the necessary class attributes such as name, description, and args_schema. Implement the _run function to execute the tool's functionality. Ensure to define a Pydantic model (class inheriting from BaseModel) for input validation, detailing the type and purpose of each input.
-
-    As for the agent, the tools can constructed with parameters passed dinamically. Please check Interpreter agent and tool for reference. 
+- **Tools (`tool_xxxx.py`)** (optional): Inherit from the LangChain `BaseTool`, defining:
+  - `name`, `description`, `args_schema`
+  - A Pydantic model for input validation
+  - The `_run` method for execution
 
 ### Supervisor Configuration
-Modify the supervisor prompt to integrate logic that recognizes and selects your agent. The revised prompt should be updated accordingly.  
-You can view the supervisor prompt in the code [here](https://github.com/holobiomics-lab/MetaboT/blob/d04d4ac23ab6a36b723af74298670ef06a8e9c5e/app/core/agents/supervisor/prompt.py).
+Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomics-lab/MetaboT/blob/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
 
 ### Configuration Updates
-Alter the `app/config/langgraph.json` file to incorporate your agent into the application's workflow, ensuring it is recognized as part of the operational sequence.  
-You can find the `langgraph.json` file [here](https://github.com/holobiomics-lab/MetaboT/blob/d04d4ac23ab6a36b723af74298670ef06a8e9c5e/app/config/langgraph.json).
+Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomics-lab/MetaboT/app/config/langgraph.json).
 
 ![alt text](/app/ressources/image.png)
 
 ### If Your Tool Serves as an Agent
-If your tool functions as an agent, particularly in scenarios requiring interaction with an LLM, specific class properties must be utilized. For example, see the implementation [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py).
+For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!
 
-Additional class attributes may be necessary to allow the use of LLMs, extending beyond the basic attributes inherited from `BaseTool`. This includes defining these within the `__init__()` method and in the class attributes. Also, you should modify the `agent.py` file to incorporate instances of these properties through the `import_tools()` function.  
-
-Review the `tool_parameters` variable [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/agent.py) for details.
+---
 
 ## Development Guidelines
 
-To ensure that all contributors are aligned and to facilitate smoother integration of our work, we kindly ask that you adhere to the following guidelines:
-
 **Documentation Standards**
-- **Google Docstring Format**: All documentation for classes and functions should be written following the Google Docstring format. This format is both natural language and supports automatic documentation generation tools. The documentation is also parsed by the LLM to know about class/function signature, so natural language is more indicated.
-
-- **Mintlify Doc Writer for VSCode**: To simplify the process of writing docstrings, we recommend using the Mintlify Doc Writer extension available in Visual Studio Code. This tool automates the creation of docstrings. To use this extension effectively:
-    Install Mintlify Doc Writer from the VSCode extensions marketplace.
-    In the extension's settings, set the docstring format to Google.
-    To generate a docstring for a class or function, simply right-click on the code element and select the Generate Documentation option.
-    Review and adjust the generated docstrings as necessary to accurately reflect the code's purpose and behavior.
+- Use **Google Docstring Format**  
+- Consider the **Mintlify Doc Writer for VSCode** for automatically stylish and precise docstrings.
 
 **Code Formatting**
+- Stick to **PEP8**
+- Leverage the **Black Formatter** for a neat, uniform style.
 
-To maintain a unified code style across our project, we adhere to the PEP8 convention. This style guide helps in keeping our code readable and maintainable. Here's how to ensure your code meets these standards:
+> Because code deserves to look as sharp as your ideas. 😎
 
-- **Black Formatter** in VSCode: The easiest way to format your code according to PEP8 is by using the Black Formatter extension in Visual Studio Code. Here's how to use it:
-    Install Black Formatter from the VSCode extensions marketplace.
-    Right-click inside any Python file and select Format Document to automatically format your code.
+### Good Practices with Keys
+Pass keys as parameters instead of environment variables for scalable production deployments.
 
-### Good practices with keys
+---
 
-  As good practive with keys, to further isolate and later facilitate the deployment with online plataforms, please provide the keys as parameters and don't use environmental variables as those are not scalable for production. 
+## Logging Guidelines
+Centralized logging resides in `app/config/logging.ini`.
 
-## Logging guidelines
-
-These guidelines will help us efficiently track application behavior, debug issues, and understand application flow.
-
-**Configuration**
-
-Our logging configuration is centralized in an INI file located at app/config/logging.ini. This setup allows us to manage logging behavior across all scripts from a single location.
-
-**Integrating Logging into Your Scripts**
-
-To leverage logging setup, please incorporate the following code at the beginning of each Python script:
-
+Use the following snippet at the start of your Python scripts:
 ```python
 from pathlib import Path
 import logging.config
 
-# Determine the path to the logging configuration file if your file is in /core
 parent_dir = Path(__file__).parent.parent
 config_path = parent_dir / "config" / "logging.ini"
-
-# Configure logging based on the specified INI file
 logging.config.fileConfig(config_path, disable_existing_loggers=False)
-
-# Create a logger object for the current module
 logger = logging.getLogger(__name__)
-
 ```
+*Pro-tip:* Use `logger` over `print` for more elegant and traceable output.
 
-**Usage Recommendations**
+---
 
-**Prefer Logging Over Print**: For any output meant for debugging or information tracking, use the logger object instead of the print function. 
+## Contributing 🤝
 
-**Logging Levels**: Please use the appropriate level when emitting log messages:
-- logger.DEBUG: Detailed information, typically of interest only when diagnosing problems.
-- logger.INFO: Confirmation that things are working as expected.
-- logger.WARNING: Indicates a deviation from the norm but doesn't prevent the program from working
-- logger.ERROR: Issues that prevent certain functionalities from operating correctly but do not necessarily affect the overall application's ability to run.
-- logger.CRITICAL: These are used for errors that require immediate attention, such as a complete system failure or a critical resource unavailability.
+We warmly welcome your contributions! Here's how to dive in:
 
-**Logs Outputs**
-
-Our configuration supports outputting log messages to two destinations:
-
-- Console: Log messages at the INFO level and above will be outputted to the console. This setup is intended for general monitoring and quick diagnostics.
-- File: A more detailed log, including messages at the DEBUG level and above, is written to a file. 
-
-The log files are located within the app/config/logs directory.
-
-## Contributing
-
-We welcome contributions from the community! This section outlines how you can contribute to the project effectively.
-
-### Getting Started with Contributions
-
-1. **Fork the Repository**
-   - Fork the repository to your GitHub account
-   - Clone your fork to your local machine
-
+1. **Fork & Clone**  
+   - Fork the repo on [GitHub](https://github.com/holobiomics-lab/MetaboT) and clone your fork.
 2. **Create a Feature Branch**
-   - Create a new branch from `dev` for your feature
-   - Use either user-centric (e.g., `dev_username`) or feature-centric (e.g., `dev_feature_name`) naming
-   ```bash
-   git checkout -b dev_your_branch_name
-   ```
-
+   - Branch from `dev` (e.g., `dev_your_branch_name`).
 3. **Develop Your Feature**
-   - Follow the project's coding standards and guidelines
-   - Write clear, documented code
-   - Include appropriate tests for new functionality
-   - Ensure your code passes existing tests
+   - Write clean code with clear documentation (Google Docstring format is preferred).
+   - Our AI PR-Agent 🤖 automatically kicks in when you raise an issue or a pull request.
+4. **Commit**
+   - Use atomic commits with present-tense messages:
+     ```bash
+     git commit -m "Add new agent for processing chemical data"
+     ```
+   - That's the secret sauce to a smooth GitHub PR journey!
 
-4. **Commit Guidelines**
-   - Write clear, descriptive commit messages
-   - Keep commits focused and atomic
-   - Use present tense ("Add feature" not "Added feature")
-   ```bash
-   git commit -m "Add new agent for processing chemical data"
-   ```
+5. **Submit a Pull Request**
+   - Push your changes and create a PR against the `dev` branch. Fill out all necessary details, including links to related issues (e.g., [GitHub Issues](https://github.com/holobiomics-lab/MetaboT/issues)).
 
 ### Pull Request Process
-
-1. **Prepare Your Changes**
-   - Update documentation for new features
-   - Ensure all tests pass
-   - Format code according to project guidelines
-   - Update README.md if necessary
-
-2. **Submit Pull Request**
-   - Push your changes to your fork
-   - Create a Pull Request to the `dev` branch
-   - Fill out the PR template completely
-   - Link any relevant issues
-
-3. **Code Review**
-   - Address reviewer comments
-   - Make requested changes
-   - Maintain a constructive dialogue with reviewers
+- Update documentation, run tests, and ensure your code is formatted.  
+- The AI PR-Agent is active and will provide first-line feedback!
 
 ### Code Quality Guidelines
-
-1. **Testing**
-   - Write unit tests for new functionality
-   - Ensure tests are meaningful and cover edge cases
-   - Maintain or improve code coverage
-
-2. **Documentation**
-   - Update relevant documentation
-   - Add inline comments for complex logic
-   - Use Google Docstring format for function/class documentation
-
-3. **Code Style**
-   - Follow PEP 8 guidelines
-   - Use meaningful variable and function names
-   - Keep functions focused and manageable in size
+- Write meaningful tests.
+- Maintain rich inline documentation.
+- Adhere to PEP8 and best practices.
 
 ### Reporting Issues
+For bug reports or feature requests, please use our [GitHub Issues](https://github.com/holobiomics-lab/MetaboT/issues) page.
 
-1. **Bug Reports**
-   - Use the issue tracker
-   - Include reproducible steps
-   - Provide system information
-   - Include relevant logs or error messages
+---
 
-2. **Feature Requests**
-   - Clearly describe the proposed feature
-   - Explain the use case
-   - Consider implementation details
-   - Discuss potential impacts
-
-### Communication
-
-- Use clear, professional language
-- Be respectful and constructive
-- Ask questions if something is unclear
-- Share knowledge and help others learn
-
-Your contributions help make this project better for everyone. Thank you for considering contributing!
+Your contributions make MetaboT awesome! Thank you for being part of our journey and for keeping the code as sharp as your wit. 😎🚀
