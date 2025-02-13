@@ -97,9 +97,10 @@ def langsmith_setup():
     # #Metadata as llm version and temperature can be obtained from traces.
 
     os.environ["LANGCHAIN_TRACING_V2"] = "true"
-    os.environ["LANGCHAIN_PROJECT"] = (
-        f"KGBot Testing - IMPROVEMENT chain"  # Please update the name here if you want to create a new project for separating the traces.
-    )
+    langchain_project = os.getenv("LANGCHAIN_PROJECT")
+    if not langchain_project:
+        langchain_project = "MetaboT"
+
     os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 
     # Get the API key from the environment
@@ -207,8 +208,10 @@ def main():
         return
 
     langsmith_setup()
-    endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
-    # endpoint_url = "https://enpkg.commons-lab.org/graphdb/sparql"
+    endpoint_url = os.getenv("KG_ENDPOINT_URL")
+    if not endpoint_url:
+        endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+        # endpoint_url = "https://enpkg.commons-lab.org/graphdb/sparql"
     graph = link_kg_database(endpoint_url)
     models = llm_creation()
     agents = create_all_agents(models, graph)
