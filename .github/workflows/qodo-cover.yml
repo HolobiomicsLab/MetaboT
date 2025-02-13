@@ -3,6 +3,10 @@ name: qodo-cover.yml
 on:
   workflow_dispatch:  # Allows manual triggering
 
+permissions:
+    pull-requests: write # Allows commenting on pull requests
+    contents: write # Allows reading and writing files
+
 jobs:
   build:
     runs-on: ubuntu-22.04

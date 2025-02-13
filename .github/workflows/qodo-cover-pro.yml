@@ -9,13 +9,8 @@ on:
         default: "80"
 
 permissions:
-  contents: write
-  pull-requests: write
-  actions: write
-  checks: write
-  issues: write
-  statuses: write
-
+  pull-requests: write # Allows commenting on pull requests
+  contents: write # Allows reading and writing files
 jobs:
   build:
     runs-on: ubuntu-22.04

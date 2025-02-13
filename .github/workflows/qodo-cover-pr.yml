@@ -12,9 +12,7 @@ jobs:
     # Only run if:
     # 1. PR has the qodo-cover label
     # 2. PR is open (not closed or draft)
-    if: |
-      github.event.pull_request.state == 'open' &&
-      github.event.pull_request.draft == false
+
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout PR branch
