@@ -102,7 +102,13 @@ def langsmith_setup():
     )
     os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 
-    client = Client()
+    # Get the API key from the environment
+    api_key = os.getenv("LANGCHAIN_API_KEY")
+    if not api_key:
+        raise ValueError("LANGSMITH_API_KEY environment variable is not set")
+
+    # Pass the API key to the Client constructor
+    client = Client(api_key=api_key)
 
     # #Check if the client was initialized
     print(f"Langchain client was initialized: {client}")
