@@ -2,7 +2,16 @@ name: qodo-cover-pr.yml
 
 on:
   workflow_dispatch:
-
+    inputs:
+      branch:
+        description: "Branch to run coverage on"
+        required: false
+        default: "main"
+      desired_coverage:
+        description: "Desired coverage percentage"
+        required: false
+        default: "80"
+            
 permissions:
   pull-requests: write  # Allows commenting on pull requests
   contents: write      # Allows reading files and creating pull requests
@@ -12,9 +21,7 @@ jobs:
     # Only run if:
     # 1. PR has the qodo-cover label
     # 2. PR is open (not closed or draft)
-    if: |
-      github.event.pull_request.state == 'open' &&
-      github.event.pull_request.draft == false
+
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout PR branch
@@ -22,7 +29,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}  # Changed to use PAT instead of GITHUB_TOKEN
+
 
       # Install system dependencies
       - name: Install system dependencies
@@ -47,7 +55,7 @@ jobs:
       - name: Qodo Cover PR
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover-pr@v0.1.6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
           project_language: python
           project_root: .
           code_coverage_report_path: ./coverage.xml
