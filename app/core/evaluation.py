@@ -24,13 +24,25 @@ load_dotenv()
 # Set environment variables
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"] = (
-        f"KGBot Testing - problematic queries"  # Please update the name here if you want to create a new project for separating the traces.
+        os.environ.get("LANGCHAIN_PROJECT") or 
+        os.environ.get("LANGSMITH_PROJECT") or 
+        "MetaboT evaluation"
     )
-os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+os.environ["LANGCHAIN_ENDPOINT"] = (
+        os.environ.get("LANGCHAIN_ENDPOINT") or 
+        os.environ.get("LANGSMITH_ENDPOINT") or 
+        os.environ.get("LANGSMITH_BASE_URL") or 
+        "https://api.smith.langchain.com"
+    )
 
 
 # Initialize Langsmith client
-client = Client()
+api_key = os.environ.get("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
+if not api_key:
+    raise ValueError("The environment variable LANGCHAIN_API_KEY is not defined")
+
+    # Pass the API key to the Client constructor
+client = Client(api_key=api_key)
 
 # Creating the datasets for testing
 dataset_name = "smaller_benchmark_temporal"
@@ -70,7 +82,7 @@ Score 10: The answer is completely accurate and aligns perfectly with the refere
 
 
 # Link to the knowledge graph database and initialize models and agents
-endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
 graph = link_kg_database(endpoint_url)
 models = llm_creation()
 agents = create_all_agents(models, graph)

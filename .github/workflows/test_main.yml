@@ -1,4 +1,4 @@
-name: test_metabot_main.yml
+name: test_main.yml
 
 on:
   workflow_dispatch:  # Allows manual triggering
@@ -51,8 +51,11 @@ jobs:
           conda activate metabot
           pip install -r requirements.txt
 
-      - name: Run Main Script
+      - name: Run Multiple Questions
         shell: bash -l {0}
         run: |
           conda activate metabot
-          python -m app.core.main -q 1
+          for q in 1 10 32; do
+            echo "Processing question $q"
+            python -m app.core.main -q $q
+          done

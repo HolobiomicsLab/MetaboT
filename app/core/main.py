@@ -91,22 +91,43 @@ def llm_creation(api_key=None):
 
 
 def langsmith_setup():
-    # #Setting up the LangSmith
-    # #For now, all runs will be stored in the "KGBot Testing - GPT4"
-    # #If you want to separate the traces to have a better control of specific traces.
-    # #Metadata as llm version and temperature can be obtained from traces.
+    """
+    Set up the LangSmith environment and client if an API key is present.
+    If no API key is found, disable V2 tracing.
+    """
 
-    os.environ["LANGCHAIN_TRACING_V2"] = "true"
-    os.environ["LANGCHAIN_PROJECT"] = (
-        f"KGBot Testing - IMPROVEMENT chain"  # Please update the name here if you want to create a new project for separating the traces.
-    )
-    os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+    # Check whether an API key is present
+    api_key = os.environ.get("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
 
-    client = Client()
+    if not api_key:
+        # If there's no API key, disable V2 tracing
+        os.environ["LANGCHAIN_TRACING_V2"] = "false"
+        print("[LangSmith Setup] No API key found, LANGCHAIN_TRACING_V2 set to false.")
+        return  # no further setup needed
+    else:
+        # If an API key exists, enable V2 tracing
+        os.environ["LANGCHAIN_TRACING_V2"] = "true"
 
-    # #Check if the client was initialized
-    print(f"Langchain client was initialized: {client}")
+        # Set default project if not already set
+        os.environ["LANGCHAIN_PROJECT"] = (
+            os.environ.get("LANGCHAIN_PROJECT")
+            or os.environ.get("LANGSMITH_PROJECT")
+            or "MetaboT"
+        )
 
+        # Set default endpoint if not already set
+        os.environ["LANGCHAIN_ENDPOINT"] = (
+            os.environ.get("LANGCHAIN_ENDPOINT")
+            or os.environ.get("LANGSMITH_ENDPOINT")
+            or os.environ.get("LANGSMITH_BASE_URL")
+            or "https://api.smith.langchain.com"
+        )
+
+    try:
+        client = Client(api_key=api_key)
+        print(f"Langchain client was initialized: {client}")
+    except Exception as e:
+        print(f"Failed to initialize Langchain client: {e}")
 
 def main():
 
@@ -201,7 +222,8 @@ def main():
         return
 
     langsmith_setup()
-    endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+    endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+
     # endpoint_url = "https://enpkg.commons-lab.org/graphdb/sparql"
     graph = link_kg_database(endpoint_url)
     models = llm_creation()
