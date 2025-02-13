@@ -122,9 +122,12 @@ def langsmith_setup():
             or os.environ.get("LANGSMITH_BASE_URL")
             or "https://api.smith.langchain.com"
         )
+
+    try:
         client = Client(api_key=api_key)
         print(f"Langchain client was initialized: {client}")
-
+    except Exception as e:
+        print(f"Failed to initialize Langchain client: {e}")
 
 def main():
 
