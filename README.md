@@ -3,14 +3,13 @@
 
 ## General Information
 
-### About
-MetaboT is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, MetaboT translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, MetaboT offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. MetaboT can installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [https//metabot.holobiomicslab.cnrs.fr](https//metabot.holobiomicslab.cnrs.fr).
+🤖 MetaboT 🍵 is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, MetaboT translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, MetaboT offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. MetaboT can installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [https//metabot.holobiomicslab.cnrs.fr](https//metabot.holobiomicslab.cnrs.fr).
 
 ---
 
 ## Citation, Institutions & Funding Support
 
-If you use or reference MetaboT in your research, please cite it as follows:
+If you use or reference 🤖 MetaboT 🍵 in your research, please cite it as follows:
 
 **MetaboT: A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining**  
 *Madina Bekbergenova, et al. DOI.*
@@ -23,12 +22,12 @@ If you use or reference MetaboT in your research, please cite it as follows:
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland.
 
 **Funding Support:**  
-This work was supported by the French government through the France 2030 investment plan managed by the National Research Agency (ANR), as part of the Initiative of Excellence Université Côte d’Azur (Reference: ANR-15-IDEX-01) and served as a early prototype for the [MetaboLinkAI](https://www.metabolinkai.net) project (ANR-24-CE93-0012-01). This work also benefited from project [189921](https://data.snf.ch/grants/grant/189921) funded by the Swiss National Foundation (SNF).
+This work was supported by the French government through the France 2030 investment plan managed by the National Research Agency (ANR), as part of the Initiative of Excellence Université Côte d’Azur (*ANR-15-IDEX-01*) and served as a early prototype for the [MetaboLinkAI](https://www.metabolinkai.net) project (*ANR-24-CE93-0012-01*). This work also benefited from project [*189921*](https://data.snf.ch/grants/grant/189921) funded by the Swiss National Foundation (SNF).
 
 ---
 
 ### Prepare Your Mass Spectrometry Data
-To use MetaboT, your mass spectrometry processing and annotation results must first be represented as a knowledge graph, with the corresponding endpoint deployed. You can utilize the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800) for this purpose.
+To use 🤖 MetaboT 🍵, your mass spectrometry processing and annotation results must first be represented as a knowledge graph, with the corresponding endpoint deployed. You can utilize the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800) for this purpose.
 
 By default, MetaboT connects to the public ENPKG endpoint for the ENPKG knowledge graph, which hosts an open and reusable annotated mass spectrometry dataset derived from a chemodiverse collection of 1,600 plant extracts. For further details, please refer to the [associated publication](https://doi.org/10.1093/gigascience/giac124).
 
@@ -199,7 +198,7 @@ python -m app.core.main -c "Your custom question"
 ## Agent Setup Guidelines 🧑‍💻
 
 ### Agent Directory Creation
-Create a dedicated folder for your agent within the `app/core/agents/` directory.
+Create a [dedicated folder](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents) for your agent within the `app/core/agents/` directory. 
 
 ### Standard File Structure
 - **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.  
@@ -213,12 +212,10 @@ Create a dedicated folder for your agent within the `app/core/agents/` directory
   - The `_run` method for execution
 
 ### Supervisor Configuration
-Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomics-lab/MetaboT/blob/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
+Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
 
 ### Configuration Updates
 Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomics-lab/MetaboT/tree/main/app/config/langgraph.json).
-
-![alt text](/app/ressources/image.png)
 
 ### If Your Tool Serves as an Agent
 For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!
@@ -227,7 +224,7 @@ For LLM-interaction, make sure additional class properties are set in `agent.py`
 
 ## Development Guidelines
 
-**Contributing to MetaboT**
+**Contributing to 🤖 MetaboT 🍵**
 
 We use the `dev` branch for pushing our contributions [here on GitHub](https://github.com/holobiomics-lab/MetaboT/tree/dev). Please create your own branch (either user-centric like `dev_benjamin` or feature-centric like `dev_langgraph`) and submit a pull request to the `dev` branch when you're ready for review. Our AI PR-Agent 🤖 is always standing by to help trigger pull requests and even handle issues smartly—because why not let a smarty pants bot lend a hand?
 
