@@ -1,13 +1,38 @@
-# MetaboT Dev ✨
+
+# MetaboT 🧪 🤖 ✨ 🍵
 
 ## General Information
-We use the `dev` branch for pushing our contributions [here on GitHub](https://github.com/holobiomics-lab/MetaboT/tree/dev). Please create your own branch (either user-centric like `dev_benjamin` or feature-centric like `dev_langgraph`) and submit a pull request to the `dev` branch when you're ready for review. Our AI PR-Agent 🤖 is always standing by to help trigger pull requests and even handle issues smartly—because why not let a smarty pants bot lend a hand?
 
-The prototype is in the `prototype` branch (frozen) [check it out here](https://github.com/holobiomics-lab/MetaboT/tree/prototype).
+### About
+MetaboT is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, MetaboT translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, MetaboT offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. MetaboT can installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [https//metabot.holobiomicslab.cnrs.fr](https//metabot.holobiomicslab.cnrs.fr).
 
 ---
 
-## System Requirements
+## Citation, Institutions & Funding Support
+
+If you use or reference MetaboT in your research, please cite it as follows:
+
+**MetaboT: A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining**  
+*Madina Bekbergenova, et al. DOI.*
+
+**Institutions:**
+- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu)
+- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/)
+- [Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France](https://3ia.univ-cotedazur.eu/)
+- School of Pharmaceutical Sciences, University of Geneva, Switzerland.
+- Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland.
+
+**Funding Support:**  
+This work was supported by the French government through the France 2030 investment plan managed by the National Research Agency (ANR), as part of the Initiative of Excellence Université Côte d’Azur (Reference: ANR-15-IDEX-01) and served as a early prototype for the [MetaboLinkAI](https://www.metabolinkai.net) project (ANR-24-CE93-0012-01). This work also benefited from project [189921](https://data.snf.ch/grants/grant/189921) funded by the Swiss National Foundation (SNF).
+
+---
+
+### Prepare Your Mass Spectrometry Data
+To use MetaboT, your mass spectrometry processing and annotation results must first be represented as a knowledge graph, with the corresponding endpoint deployed. You can utilize the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800) for this purpose.
+
+By default, MetaboT connects to the public ENPKG endpoint for the ENPKG knowledge graph, which hosts an open and reusable annotated mass spectrometry dataset derived from a chemodiverse collection of 1,600 plant extracts. For further details, please refer to the [associated publication](https://doi.org/10.1093/gigascience/giac124).
+
+
 ### Hardware
 - **CPU**: Any modern processor  
 - **RAM**: **At least 8GB**  
@@ -25,6 +50,7 @@ It should also work on other Unix-based systems. For more deets on compatibility
 ## Installation Guide 🚀
 
 ### Prerequisites
+
 1. **Conda Installation**  
    - Ensure Conda (Anaconda/Miniconda) is installed.  
    - [Conda Installation Docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
@@ -34,14 +60,18 @@ It should also work on other Unix-based systems. For more deets on compatibility
    - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)  
    - **LangSmith API Key**: Check [LangSmith](https://smith.langchain.com/)  
 
+
+   > **Disclaimer:** The OpenAI API is a commercial and paid service. Our default model is **gpt-4o**, and its usage will incur costs according to OpenAI's pricing policy.  
+   > **Data Privacy:** Please note that data submitted to the OpenAI API is subject to OpenAI’s privacy policy. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
+
    Create a `.env` file in the root directory with your credentials:
 
    ```bash
    OPENAI_API_KEY=your_openai_key_here
    LANGCHAIN_API_KEY=your_langsmith_key_here
    LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
-   LANGCHAIN_PROJECT=your_project_name  # Optional, defaults to "default"
-   ```
+   LANGCHAIN_PROJECT=metabot_project 
+
 
 ### Installation Steps
 
@@ -186,7 +216,7 @@ Create a dedicated folder for your agent within the `app/core/agents/` directory
 Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomics-lab/MetaboT/blob/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
 
 ### Configuration Updates
-Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomics-lab/MetaboT/app/config/langgraph.json).
+Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomics-lab/MetaboT/tree/main/app/config/langgraph.json).
 
 ![alt text](/app/ressources/image.png)
 
@@ -196,6 +226,10 @@ For LLM-interaction, make sure additional class properties are set in `agent.py`
 ---
 
 ## Development Guidelines
+
+**Contributing to MetaboT**
+
+We use the `dev` branch for pushing our contributions [here on GitHub](https://github.com/holobiomics-lab/MetaboT/tree/dev). Please create your own branch (either user-centric like `dev_benjamin` or feature-centric like `dev_langgraph`) and submit a pull request to the `dev` branch when you're ready for review. Our AI PR-Agent 🤖 is always standing by to help trigger pull requests and even handle issues smartly—because why not let a smarty pants bot lend a hand?
 
 **Documentation Standards**
 - Use **Google Docstring Format**  
@@ -265,3 +299,9 @@ For bug reports or feature requests, please use our [GitHub Issues](https://gith
 ---
 
 Your contributions make MetaboT awesome! Thank you for being part of our journey and for keeping the code as sharp as your wit. 😎🚀
+
+---
+
+## License
+
+MetaboT is open source and released under the [MIT License](LICENSE). This license allows you to freely use, modify, and distribute the software, provided that you include the original copyright notice and license terms.
