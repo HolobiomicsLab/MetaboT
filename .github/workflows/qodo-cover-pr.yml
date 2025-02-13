@@ -2,7 +2,16 @@ name: qodo-cover-pr.yml
 
 on:
   workflow_dispatch:
-
+    inputs:
+      branch:
+        description: "Branch to run coverage on"
+        required: false
+        default: "main"
+      desired_coverage:
+        description: "Desired coverage percentage"
+        required: false
+        default: "80"
+            
 permissions:
   pull-requests: write  # Allows commenting on pull requests
   contents: write      # Allows reading files and creating pull requests

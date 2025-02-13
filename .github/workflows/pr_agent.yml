@@ -8,8 +8,14 @@ on:
       - dev
       - dev_lfx
       - dev_madina
-  issue_comment:
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
+        inputs:
+          branch:
+            description: "Branch to run action"
+            required: false
+            default: "dev"
+  issue_comment: 
+    types: [created]
 
 jobs:
   pr_agent_job:
