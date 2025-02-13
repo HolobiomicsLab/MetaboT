@@ -59,8 +59,7 @@ It should also work on other Unix-based systems. For more deets on compatibility
    - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)  
    - **LangSmith API Key**: Check [LangSmith](https://smith.langchain.com/)  
 
-
-   > **Disclaimer:** The OpenAI API is a commercial and paid service. Our default model is **gpt-4o**, and its usage will incur costs according to OpenAI's pricing policy.  
+   > **Disclaimer:** The OpenAI API is a commercial and paid service. Our default model is **gpt-4o**, and its usage will incur costs according to OpenAI's pricing policy.  By default, MetaboT uses gpt-4o.
    > **Data Privacy:** Please note that data submitted to the OpenAI API is subject to OpenAI’s privacy policy. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
 
    Create a `.env` file in the root directory with your credentials:
@@ -198,13 +197,13 @@ python -m app.core.main -c "Your custom question"
 ## Agent Setup Guidelines 🧑‍💻
 
 ### Agent Directory Creation
-Create a [dedicated folder](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents) for your agent within the `app/core/agents/` directory. 
+Create a dedicated folder for your agent within the `app/core/agents/` directory. See [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents).
 
 ### Standard File Structure
 - **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.  
   > Psst... don't let the complexities of Python imports overcomplicate your flow—trust the process!
 
-- **Prompt (`prompt.py`)**: Configure the `MODEL_CHOICE` variable to `llm` or `llm_preview` (per `app/config/params.ini`). Customize it for your specific context.
+- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks. Configure the `MODEL_CHOICE` variable to `llm-o` or `llm_preview` (per `app/config/params.ini`, [see here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/config/params.ini)).
 
 - **Tools (`tool_xxxx.py`)** (optional): Inherit from the LangChain `BaseTool`, defining:
   - `name`, `description`, `args_schema`
@@ -244,7 +243,7 @@ Pass keys as parameters instead of environment variables for scalable production
 ---
 
 ## Logging Guidelines
-Centralized logging resides in `app/config/logging.ini`.
+Centralized logging resides in `app/config/logging.ini`. See [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/config/logging.ini).
 
 Use the following snippet at the start of your Python scripts:
 ```python
