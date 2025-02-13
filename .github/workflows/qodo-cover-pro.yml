@@ -13,8 +13,12 @@ on:
         default: "80"
 
 permissions:
-  pull-requests: write # Allows commenting on pull requests
+  pull-requests: write # Allows commenting and creating pull requests
   contents: write # Allows reading and writing files
+  issues: write # Allows creating issues
+  actions: write # Allows managing GitHub Actions
+  checks: write # Allows checking workflow runs
+  statuses: write # Allows managing commit statuses
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -22,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Install Dependencies
         run: |
