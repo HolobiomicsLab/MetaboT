@@ -22,11 +22,20 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+      - name: Get branch name
+        id: branch-name
+        run: |
+          if [ "${{ github.head_ref }}" != "" ]; then
+            echo "branch=${{ github.head_ref }}" >> $GITHUB_OUTPUT
+          else
+            echo "branch=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          token: ${{ secrets.PAT_TOKEN }}  # Changed to use PAT instead of GITHUB_TOKEN
+          ref: ${{ steps.branch-name.outputs.branch }}
+          fetch-depth: 0
 
       # Install system dependencies
       - name: Install System Dependencies
@@ -49,8 +58,8 @@ jobs:
       - name: Run Qodo Cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
         with:
-          github_token: ${{ secrets.PAT_TOKEN }}  # Changed to use PAT instead of GITHUB_TOKEN
-          branch: ${{ github.head_ref || github.ref_name }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ steps.branch-name.outputs.branch }}
           project_language: python
           project_root: .
           code_coverage_report_path: ./coverage.xml
