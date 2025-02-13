@@ -21,54 +21,18 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Debug GitHub Context
-        run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Ref name: ${{ github.ref_name }}"
-          echo "Head ref: ${{ github.head_ref }}"
-          echo "Base ref: ${{ github.base_ref }}"
-
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-          token: ${{ secrets.PAT_TOKEN }}
-          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify Git Access
-        run: |
-          echo "Testing Git configuration and access..."
-          git config --list
-          echo "Checking remotes..."
-          git remote -v
-          echo "Fetching from remote..."
-          git fetch --all --prune
-          echo "Listing branches..."
-          git branch -a
-
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-dev build-essential
-
-      - name: Cache pip Dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install Additional Dependencies
+      - name: Install Dependencies
         run: |
           pip install -r requirements.txt pytest-cov
 
       - name: Run Qodo Cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
         with:
-          github_token: ${{ secrets.PAT_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref_name }}
           project_language: python
           project_root: .
@@ -84,11 +48,3 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_KEY }}
-
-      - name: Post-Run Debug
-        if: always()
-        run: |
-          echo "Final Git status..."
-          git status
-          echo "Current branch..."
-          git branch --show-current
