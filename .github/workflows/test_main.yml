@@ -1,4 +1,4 @@
-name: test_metabot_main.yml
+name: test_main.yml
 
 on:
   workflow_dispatch:  # Allows manual triggering
