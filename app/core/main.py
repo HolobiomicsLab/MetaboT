@@ -114,12 +114,12 @@ def langsmith_setup():
     if not api_key:
         raise ValueError("The environment variable LANGCHAIN_API_KEY is not defined")
 
-    # Pass the API key to the Client constructor
-    client = Client(api_key=api_key)
 
-    # #Check if the client was initialized
-    print(f"Langchain client was initialized: {client}")
-
+    try:
+        client = Client(api_key=api_key)
+        print(f"Langchain client was initialized: {client}")
+    except Exception as e:
+        print(f"Failed to initialize Langchain client: {e}")
 
 def main():
 
