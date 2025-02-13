@@ -31,10 +31,15 @@ jobs:
             echo "branch=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Configure Git
+        run: |
+          git config --global url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
           ref: ${{ steps.branch-name.outputs.branch }}
+          token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
 
       # Install system dependencies
@@ -58,7 +63,7 @@ jobs:
       - name: Run Qodo Cover
         uses: qodo-ai/qodo-ci/.github/actions/qodo-cover@v0.1.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT_TOKEN }}
           branch: ${{ steps.branch-name.outputs.branch }}
           project_language: python
           project_root: .
@@ -74,3 +79,8 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_KEY }}
+
+      - name: Cleanup Git Config
+        if: always()
+        run: |
+          git config --global --unset url."https://${{ secrets.PAT_TOKEN }}@github.com/".insteadOf "https://github.com/"
