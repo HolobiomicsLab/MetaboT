@@ -235,17 +235,19 @@ class GraphSparqlQAChain(BaseTool):
 
     def __init__(self, llm: dict, graph: RdfGraph, session_id: str, **kwargs):
         super().__init__(**kwargs)
-        self.sparql_generation_select_chain = LLMChain(
-            llm=llm["llm_o"],
-            prompt=SPARQL_GENERATION_SELECT_PROMPT,
-            # verbose=True,  #### FOR debugging
-        )
-        self.sparql_improvement_chain = LLMChain(
-            llm=llm["llm_o3_mini"],
-            prompt=SPARQL_IMPROVEMENT_PROMPT,
-        )
-        self.graph = graph
-        self.session_id = session_id
+    +    try:
+    +        self.sparql_generation_select_chain = LLMChain(
+    +            llm=llm["llm_o"],
+    +            prompt=SPARQL_GENERATION_SELECT_PROMPT,
+    +            # verbose=True,  #### FOR debugging
+    +        )
+    +        self.sparql_improvement_chain = LLMChain(
+    +            llm=llm["llm_o3_mini"],
+    +            prompt=SPARQL_IMPROVEMENT_PROMPT,
+    +        )
+    +    except KeyError as e:
+    +        logger.error(f"Missing LLM key: {e}")
+    +        raise
 
     def _run(
         self,
