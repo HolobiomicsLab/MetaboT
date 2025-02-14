@@ -76,8 +76,8 @@ jobs:
           
           # Check if the site is accessible
           SITE_URL="https://holobiomicslab.github.io/MetaboT/"
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $SITE_URL)
-          
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 $SITE_URL)
+
           if [ $HTTP_STATUS -eq 200 ]; then
             echo "Documentation deployed successfully at $SITE_URL"
           else
