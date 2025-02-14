@@ -248,6 +248,8 @@ class GraphSparqlQAChain(BaseTool):
     +    except KeyError as e:
     +        logger.error(f"Missing LLM key: {e}")
     +        raise
+        self.graph = graph
+        self.session_id = session_id
 
     def _run(
         self,
