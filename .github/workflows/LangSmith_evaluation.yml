@@ -4,8 +4,10 @@ on:
   workflow_dispatch:  
     inputs:
       branch:
-        description: "Branch to run coverage on"
-
+        description: "Branch to run action on"
+        required: false
+        default: "dev"
+ 
 jobs:
   evaluate:
     runs-on: ubuntu-22.04
