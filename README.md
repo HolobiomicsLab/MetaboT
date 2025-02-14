@@ -3,10 +3,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-g.svg)]()
 [![Arxiv](https://img.shields.io/badge/arXiv-2502.09604-B21A1B)]()
-[![Hugging Face Transformers](https://img.shields.io/badge/%F0%9F%A4%97-Transformers-blue)]()
-[![YouTube](https://img.shields.io/youtube/url/http/shields.io.svg?style=social)]()
-[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)]()
-[![Bluesky](https://img.shields.io/bluesky/url/http/shields.io.svg?style=social)]()
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-FFD21E?logo=huggingface&logoColor=000)]()
+[![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?logo=YouTube&logoColor=white)](https://www.youtube.com/@holobiomicslab)
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://x.com/HolobiomicLab)
+[![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff)](https://bsky.app/profile/holobiomicslab.bsky.social)
 [![GitHub Stars](https://img.shields.io/github/holobiomics-lab/metabot/SelfCite?style=social)](https://github.com/holobiomics-lab/metabot)
 
 ## General Information
@@ -25,8 +25,8 @@ If you use or reference 🤖 MetaboT 🍵 in your research, please cite it as fo
 [![DOI](https://img.shields.io/badge/DOI-10.48550/arXiv.2502.09604-green?color=FF8000?color=009922)]().
 
 **Institutions:**
-- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/github/holobiomics-lab/?style=social)](https://github.com/holobiomics-lab).
-- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/github/holobiomics-lab/?style=social)(https://team.inria.fr/wimmics/).
+- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white](https://github.com/holobiomics-lab).
+- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://team.inria.fr/wimmics/).
 - [Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France](https://3ia.univ-cotedazur.eu/)
 - School of Pharmaceutical Sciences, University of Geneva, Switzerland.
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland.
