@@ -1,10 +1,10 @@
-# Advanced Usage Examples
+# Advanced Usage Examples ⚡
 
 This guide demonstrates advanced usage patterns and complex workflows in MetaboT.
 
-## Complex Query Patterns
+## Complex Query Patterns 🔍
 
-### 1. Multi-Criteria Analysis
+### 1. Multi-Criteria Analysis 🧮
 
 Combine multiple analysis criteria in a single query:
 
@@ -24,7 +24,7 @@ Provide lab extracts, retention times, and inhibition percentage.
 results = process_workflow(workflow, query)
 ```
 
-### 2. Cross-Reference Analysis
+### 2. Cross-Reference Analysis 🔀
 
 Compare data across different annotation methods:
 
@@ -42,9 +42,9 @@ Return features, retention times, and InChIKey2D
 results = process_workflow(workflow, query)
 ```
 
-## Custom Workflows
+## Custom Workflows ⚙️
 
-### 1. Batch Processing with Custom Logic
+### 1. Batch Processing with Custom Logic 📦
 
 ```python
 from app.core.main import link_kg_database, llm_creation
@@ -89,7 +89,7 @@ samples = ['Lovoa trichilioides', 'Tabernaemontana coffeoides', 'Melochia umbell
 results_df = batch_process_samples(samples, workflow)
 ```
 
-### 2. Custom Analysis Pipeline
+### 2. Custom Analysis Pipeline 🧪
 
 ```python
 from typing import Dict, List, Any
@@ -155,9 +155,9 @@ pipeline = MetabolomicsAnalysisPipeline(workflow)
 results = pipeline.analyze_sample('Tabernaemontana coffeoides')
 ```
 
-## Advanced Data Integration
+## Advanced Data Integration 🔗
 
-### 1. Combining Multiple Data Sources
+### 1. Combining Multiple Data Sources 🔀
 
 ```python
 def integrate_metabolomics_data(workflow, sample_name: str):
@@ -216,7 +216,7 @@ def integrate_metabolomics_data(workflow, sample_name: str):
     return integrated_data
 ```
 
-### 2. Custom Visualization Pipeline
+### 2. Custom Visualization Pipeline 📈
 
 ```python
 import matplotlib.pyplot as plt
@@ -253,9 +253,9 @@ fig = visualize_metabolomics_results(data)
 plt.show()
 ```
 
-## Performance Optimization
+## Performance Optimization 🚀
 
-### 1. Caching Results
+### 1. Caching Results 💾
 
 ```python
 from functools import lru_cache

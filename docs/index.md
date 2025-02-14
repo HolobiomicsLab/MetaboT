@@ -1,31 +1,31 @@
-# Welcome to MetaboT
+# Welcome to MetaboT 🚀
 
 MetaboT is a powerful metabolomics analysis tool that leverages advanced AI and graph-based approaches for metabolomics data analysis and interpretation.
 
-## Key Features
+## Key Features ✨
 
-- **AI-Powered Analysis**: Utilizes LangChain and various AI agents for intelligent data processing
-- **Graph-Based Architecture**: Built on robust graph management systems for complex data relationships
-- **SPARQL Integration**: Advanced querying capabilities for metabolomics data
-- **Extensible Framework**: Modular design allowing for easy extension and customization
+- **AI-Powered Analysis** :robot:: Utilizes LangChain and various AI agents for intelligent data processing.
+- **Graph-Based Architecture** :chart_with_upwards_trend:: Built on robust graph management systems for complex data relationships.
+- **SPARQL Integration** :link:: Advanced querying capabilities for metabolomics data.
+- **Extensible Framework** :wrench:: Modular design allowing for easy extension and customization.
 
-## Project Overview
+## Project Overview 🔬
 
 MetaboT is designed to help researchers and scientists in:
 
-- Processing and analyzing metabolomics data
-- Identifying complex patterns and relationships
-- Generating insights from metabolomics experiments
-- Managing and querying large-scale metabolomics datasets
+- Processing and analyzing metabolomics data.
+- Identifying complex patterns and relationships.
+- Generating insights from metabolomics experiments.
+- Managing and querying large-scale metabolomics datasets.
 
-## Quick Links
+## Quick Links 🔗
 
-- [Installation Guide](getting-started/installation.md)
-- [Quick Start Tutorial](getting-started/quickstart.md)
-- [API Reference](api-reference/core.md)
-- [Example Usage](examples/basic-usage.md)
+- [Installation Guide :arrow_down:](getting-started/installation.md)
+- [Quick Start Tutorial :zap:](getting-started/quickstart.md)
+- [API Reference :book:](api-reference/core.md)
+- [Example Usage :computer:](examples/basic-usage.md)
 
-## Architecture
+## Architecture 🏗️
 
 MetaboT is built with a modular architecture consisting of several key components:
 
@@ -41,7 +41,7 @@ graph TD
     G --> H[Database]
 ```
 
-## Contributing
+## Contributing 🤝
 
 We welcome contributions! Please see our [Contributing Guide](contributing.md) for details on how to:
 
@@ -50,11 +50,11 @@ We welcome contributions! Please see our [Contributing Guide](contributing.md) f
 - Improve documentation
 - Participate in the community
 
-## License
+## License 📜
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Citation
+## Citation 🔖
 
 If you use MetaboT in your research, please cite:
 
@@ -73,14 +73,14 @@ If you use MetaboT in your research, please cite:
 }
 ```
 
-**Institutions:**
+**Institutions:** 🔬
 - Université Côte d'Azur, CNRS, ICN, Nice, France
 - INRIA, Université Côte d'Azur, CNRS, I3S, France
 - Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France
 - School of Pharmaceutical Sciences, University of Geneva, Switzerland
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland
 
-**Funding Support:**
+**Funding Support:** ✨
 - French government through France 2030 investment plan (ANR-15-IDEX-01)
 - [MetaboLinkAI](https://www.metabolinkai.net) project (ANR-24-CE93-0012-01)
 - Swiss National Foundation project [189921](https://data.snf.ch/grants/grant/189921)

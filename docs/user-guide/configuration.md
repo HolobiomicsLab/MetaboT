@@ -1,8 +1,8 @@
-# Configuration Guide
+# Configuration Guide 🛠️
 
 This guide details all configuration options available in MetaboT, helping you customize the system to your specific needs.
 
-## Configuration Files Overview
+## Configuration Files Overview 📁
 
 MetaboT uses several configuration files located in the `app/config/` directory:
 
@@ -11,7 +11,7 @@ MetaboT uses several configuration files located in the `app/config/` directory:
 - `logging.ini`: Logging configuration
 - `.env`: Environment variables (created by user)
 
-## Language Model Configuration
+## Language Model Configuration 🤖
 
 Located in `params.ini`, this configuration controls the behavior of different language models used in the system.
 
@@ -22,7 +22,7 @@ temperature = 0
 max_retries = 3
 ```
 
-### Available Sections
+### Available Sections 📋
 
 1. **Main LLM (`[llm]`)**
    - Primary language model for complex queries
@@ -44,18 +44,18 @@ max_retries = 3
    - Lightweight version
    - Useful for development and testing
 
-### Parameters
+### Parameters 📝
 
 - `id`: Model identifier (e.g., gpt-4, gpt-3.5-turbo)
 - `temperature`: Randomness in responses (0-1)
 - `max_retries`: Number of retry attempts
 - `model_kwargs`: Additional model parameters (optional)
 
-## SPARQL Configuration
+## SPARQL Configuration 🔍
 
 The `sparql.ini` file contains SPARQL query templates and settings for the knowledge graph interaction.
 
-### Query Templates
+### Query Templates 📑
 
 ```ini
 [sparqlQueries]
@@ -73,7 +73,7 @@ CLS_REL_RDF = SELECT ?property (SAMPLE(COALESCE(?type, STR(DATATYPE(?value)), "U
         WHERE {...}
 ```
 
-### Excluded URIs
+### Excluded URIs 🚫
 
 ```ini
 [excludedURIs]
@@ -83,11 +83,11 @@ uris = http://www.w3.org/1999/02/22-rdf-syntax-ns#type,
        http://xmlns.com/foaf/0.1/depiction
 ```
 
-## Logging Configuration
+## Logging Configuration 📝
 
 The `logging.ini` file controls the logging behavior of MetaboT.
 
-### Logger Settings
+### Logger Settings 🎛️
 
 ```ini
 [loggers]
@@ -98,7 +98,7 @@ level=INFO
 handlers=consoleHandler,fileHandler
 ```
 
-### Handler Configuration
+### Handler Configuration ⚙️
 
 1. **Console Handler**
    ```ini
@@ -118,7 +118,7 @@ handlers=consoleHandler,fileHandler
    args=('./app/config/logs/app.log', 'w', 100000, 5)
    ```
 
-### Formatter Settings
+### Formatter Settings 📄
 
 1. **Simple Formatter (Console)**
    ```ini
@@ -133,7 +133,7 @@ handlers=consoleHandler,fileHandler
    datefmt=%Y-%m-%d %H:%M:%S
    ```
 
-## Environment Variables
+## Environment Variables 🌐
 
 Create a `.env` file in the project root with these variables:
 
@@ -150,7 +150,7 @@ LANGCHAIN_PROJECT=MetaboT
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ```
 
-## Configuration Best Practices
+## Configuration Best Practices 💡
 
 1. **Language Model Selection**
    - Use `llm` for complex queries requiring high accuracy
@@ -172,7 +172,7 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
    - Rotate API keys regularly
    - Use different keys for development and production
 
-## Troubleshooting
+## Troubleshooting ⚠️
 
 ### Common Issues
 
@@ -191,9 +191,9 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
    - Check query syntax
    - Review timeout settings
 
-## Advanced Configuration
+## Advanced Configuration 🚀
 
-### Custom Model Integration
+### Custom Model Integration ⚙️
 
 To add a new language model configuration:
 
@@ -207,7 +207,7 @@ To add a new language model configuration:
 
 2. Update the model creation code in `app/core/main.py`
 
-### Custom Query Templates
+### Custom Query Templates 🛠️
 
 Add new SPARQL query templates to `sparql.ini`:
 
@@ -218,11 +218,12 @@ YOUR_QUERY_NAME = SELECT ...
 
 For detailed information about specific configurations, refer to the respective component documentation.
 
-## Default Dataset and Data Conversion
+## Default Dataset and Data Conversion 🔄
 
 By default, MetaboT is configured to automatically connect to the public ENPKG endpoint, which hosts an annotated mass spectrometry knowledge graph derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset allows you to explore and evaluate the capabilities of MetaboT immediately, without the need to convert your own data.
 
 If you wish to use your own mass spectrometry data:
 - Prepare your data by processing and annotating it using your preferred workflow.
 - Convert your processing and annotation results into a knowledge graph format using the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800).
+
 - Update the `KG_ENDPOINT_URL` in your `.env` file to point to your custom knowledge graph endpoint.

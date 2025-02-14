@@ -1,10 +1,10 @@
-# Contributing to MetaboT
+# Contributing to MetaboT 🤝
 
 Thank you for your interest in contributing to MetaboT! This guide will help you understand how to contribute effectively to the project.
 
-## Getting Started
+## Getting Started 🚀
 
-### Prerequisites
+#### Prerequisites ✅
 
 - Python 3.11 or higher
 - Git
@@ -16,9 +16,9 @@ Thank you for your interest in contributing to MetaboT! This guide will help you
   - LangChain framework
   - Scientific Python libraries (numpy, pandas, etc.)
 
-### Setting Up Development Environment
+#### Setting Up Development Environment 🔧
 
-1. Fork the repository:
+1. **Fork the repository:**
    ```bash
    # Clone your fork
    git clone https://github.com/YOUR_USERNAME/MetaboT.git
@@ -28,7 +28,7 @@ Thank you for your interest in contributing to MetaboT! This guide will help you
    git remote add upstream https://github.com/holobiomicslab/MetaboT.git
    ```
 
-2. Create a virtual environment:
+2. **Create a virtual environment:**
    ```bash
    # Using conda
    conda env create -f environment.yml
@@ -40,14 +40,14 @@ Thank you for your interest in contributing to MetaboT! This guide will help you
    .\venv\Scripts\activate   # Windows
    ```
 
-3. Install development dependencies:
+3. **Install development dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-## Development Workflow
+## Development Workflow 🛠️
 
-### 1. Create a Branch
+#### 1. Create a Branch 🌿
 
 ```bash
 # Update your main
@@ -58,14 +58,14 @@ git pull upstream main
 git checkout -b feature/your-feature-name
 ```
 
-### 2. Make Changes
+#### 2. Make Changes ✍️
 
 - Write clear, documented code
 - Follow the project's coding style
 - Add tests for new functionality
 - Update documentation as needed
 
-### 3. Test Your Changes
+#### 3. Test Your Changes ✅
 
 ```bash
 # Run the test suite
@@ -75,24 +75,24 @@ python -m pytest app/core/tests/
 python -m pytest app/core/tests/test_utils.py
 ```
 
-### 4. Submit Changes
+#### 4. Submit Changes 📤
 
-1. Commit your changes:
+1. **Commit your changes:**
    ```bash
    git add .
    git commit -m "feat: Add new feature X"
    ```
 
-2. Push to your fork:
+2. **Push to your fork:**
    ```bash
    git push origin feature/your-feature-name
    ```
 
-3. Create a Pull Request on GitHub
+3. **Create a Pull Request on GitHub**
 
-## Code Style Guidelines
+## Code Style Guidelines 🎨
 
-### Python Code Style
+#### Python Code Style
 
 - Follow PEP 8 guidelines
 - Use type hints
@@ -124,16 +124,16 @@ def process_feature(feature_data: Dict[str, Any]) -> Dict[str, float]:
     }
 ```
 
-### Documentation Style
+#### Documentation Style ✏️
 
 - Use Markdown for documentation
 - Include code examples
 - Provide clear explanations
 - Update the changelog
 
-## Adding New Features
+## Adding New Features ✨
 
-### 1. Agents
+#### 1. Agents 🤖
 
 When adding a new agent:
 
@@ -156,11 +156,11 @@ class NewAgent(BaseAgent):
         pass
 ```
 
-### 2. Tools
+#### 2. Tools 🔧
 
 When adding new tools:
 
-1. Create tool class in appropriate module
+1. Create a tool class in the appropriate module
 2. Implement required methods
 3. Add tests
 4. Update documentation
@@ -177,9 +177,9 @@ class NewTool:
         pass
 ```
 
-## Testing Guidelines
+## Testing Guidelines 🧪
 
-### 1. Unit Tests
+#### 1. Unit Tests
 
 - Write tests for new functionality
 - Use pytest fixtures
@@ -202,29 +202,29 @@ def test_process_feature():
     assert result['normalized_intensity'] == 1.0
 ```
 
-### 2. Integration Tests
+#### 2. Integration Tests
 
 - Test component interactions
 - Verify workflow functionality
 - Test with real data samples
 
-## Documentation
+## Documentation 📝
 
-### 1. Code Documentation
+#### 1. Code Documentation
 
 - Add docstrings to all functions/classes
 - Include type hints
 - Document exceptions
 - Provide usage examples
 
-### 2. User Documentation
+#### 2. User Documentation
 
 - Update relevant .md files
 - Add new features to examples
 - Include configuration details
 - Document breaking changes
 
-## Pull Request Process
+## Pull Request Process 🔀
 
 1. **Description**
    - Clearly describe the changes
@@ -241,30 +241,30 @@ def test_process_feature():
    - Receive approval from maintainers
    - Up-to-date documentation
 
-## Community Guidelines
+## Community Guidelines 🌐
 
-### Communication
+#### Communication 💬
 
 - Be respectful and inclusive
 - Use clear, technical language
 - Provide context for questions
 - Help others learn
 
-### Issue Reporting
+#### Issue Reporting 🐞
 
 1. Search existing issues
 2. Use issue templates
 3. Provide reproducible examples
 4. Include system information
 
-## Getting Help
+## Getting Help 🙋‍♂️
 
 - Check the documentation
 - Search existing issues
 - Ask in discussions
 - Contact maintainers
 
-## License
+## License 📜
 
 By contributing, you agree that your contributions will be licensed under the project's MIT License.
 

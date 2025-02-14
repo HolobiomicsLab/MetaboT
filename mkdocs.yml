@@ -1,39 +1,42 @@
 # Project information
 site_name: MetaboT Documentation
-site_description: Documentation for MetaboT - A Metabolomics Analysis Tool
-site_author: Holobiomics Lab
+site_description: Documentation for MetaboT - A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining
+site_author: HolobiomicsLab
 site_url: https://holobiomicslab.github.io/MetaboT
 
 # Repository
-repo_name: MetaboT
-repo_url: https://github.com/holobiomicslab/MetaboT
+repo_name: holobiomicslab/MetaboT
+repo_url: https://github.com/HolobiomicsLab/MetaboT
 edit_uri: edit/main/docs/
 
 # Copyright
-copyright: Copyright &copy; 2024 Holobiomics Lab
+copyright: Copyright &copy; 2025 Holobiomics Lab
 
 # Configuration
 theme:
   name: material
+  custom_dir: overrides
   language: en
   icon:
+    logo: material/book
     repo: fontawesome/brands/github
   
   # Color schemes
   palette:
-    # Light mode
+    # Light mode (CNRS Colors)
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: "#00284b"  # ✅ CNRS Blue
+      accent: "#ffeb6e"   # ✅ CNRS Yellow
       toggle:
-        icon: material/brightness-7
+        icon: material/brightness-4 
         name: Switch to dark mode
-    # Dark mode
+
+    # Dark mode (CNRS Colors)
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: "#0d1b2a"  # ✅ Dark CNRS Blue
+      accent: "#ffeb6e"   # ✅ CNRS Yellow
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -44,12 +47,13 @@ theme:
     - navigation.instant
     - navigation.tracking
     - navigation.tabs
+    - navigation.indexes 
     - navigation.sections
     - navigation.expand
     - navigation.indexes
     - navigation.top
     - navigation.footer
-    - toc.follow
+    - content.action.view
     - toc.integrate
     
     # Search
@@ -62,14 +66,20 @@ theme:
     - content.code.annotate
     - content.tabs.link
     - content.tooltips
+    - content.admonitions
+    - content.tabs
+    - content.action.edit
     
     # Header
     - header.autohide
 
+
+
 # Plugins
 plugins:
-  # Essential plugins
-  - search
+  - search:
+      lang: en
+      separator: '[\s\-]+'
   
   # Python API documentation
   - mkdocstrings:
@@ -93,7 +103,7 @@ markdown_extensions:
   # Python Markdown
   - abbr
   - admonition
-  - attr_list
+  - codehilite
   - def_list
   - footnotes
   - meta
@@ -110,6 +120,7 @@ markdown_extensions:
       smart_enable: all
   - pymdownx.caret
   - pymdownx.details
+  - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -133,6 +144,7 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
+  - footnotes
 
 # Extra styling and scripts
 extra_css:

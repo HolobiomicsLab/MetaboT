@@ -1,10 +1,10 @@
-# Quick Start Guide
+# Quick Start Guide 🚀
 
 This guide provides a step-by-step tutorial to help you quickly run and explore MetaboT, our metabolomics analysis tool.
 
 ---
 
-## Prerequisites
+## Prerequisites ✅
 
 Before you begin, ensure that you have:
 
@@ -16,7 +16,7 @@ Before you begin, ensure that you have:
 
 ---
 
-## Running a Standard Query
+## Running a Standard Query 🔍
 
 MetaboT includes several predefined queries that demonstrate its capabilities. For example, to run the first standard query (which counts features with matching SIRIUS/CSI:FingerID and ISDB annotations), execute:
 
@@ -31,7 +31,7 @@ python -m app.core.main -q 1
 
 ---
 
-## Running a Custom Query
+## Running a Custom Query 🛠️
 
 You can also run custom queries tailored to your research needs. For example, to query SIRIUS structural annotations for a specific plant:
 
@@ -45,7 +45,7 @@ python -m app.core.main -c "What are the SIRIUS structural annotations for Taber
 
 ---
 
-## Workflow Overview
+## Workflow Overview 🔄
 
 MetaboT leverages a multi-agent workflow architecture to process queries efficiently:
  
@@ -66,9 +66,9 @@ This modular design allows MetaboT to be extended and customized for various res
 
 ---
 
-## Example Scenarios
+## Example Scenarios 📚
 
-### 1. Basic Feature Analysis
+### 1. Basic Feature Analysis 📊
 
 Run a standard query to count LCMS features detected in negative ionization mode:
 
@@ -76,7 +76,7 @@ Run a standard query to count LCMS features detected in negative ionization mode
 python -m app.core.main -c "Count the number of LCMS features in negative ionization mode"
 ```
 
-### 2. Chemical Structure Analysis
+### 2. Chemical Structure Analysis 🧪
 
 Obtain structural annotations for a plant sample:
 
@@ -84,7 +84,7 @@ Obtain structural annotations for a plant sample:
 python -m app.core.main -c "What are the SIRIUS structural annotations for Tabernaemontana coffeoides?"
 ```
 
-### 3. Bioassay Results Exploration
+### 3. Bioassay Results Exploration 💉
 
 Examine bioassay data for compounds in a specified extract:
 
@@ -94,7 +94,7 @@ python -m app.core.main -c "List the bioassay results at 10µg/mL against T.cruz
 
 ---
 
-## Interacting with the Knowledge Graph
+## Interacting with the Knowledge Graph 🌐
 
 MetaboT connects to a knowledge graph to enrich analysis:
    
@@ -112,23 +112,22 @@ Make sure that your `KG_ENDPOINT_URL` environment variable is correctly set to p
 
 ---
 
-## Advanced Configuration
+## Advanced Configuration ⚙️
 
-### LangSmith Integration
+### LangSmith Integration 🔗
 
 For enhanced tracking and monitoring of workflow runs:
 
 1. **Set Up LangSmith:**
-
    ```bash
    export LANGCHAIN_API_KEY="your_api_key_here"
    export LANGCHAIN_PROJECT="MetaboT"
    ```
-
+   
 2. **Review LangSmith logs:**  
    LangSmith will log runtime details that can be used for debugging and auditing query executions.
 
-### Custom Model Settings
+### Custom Model Settings 🛠️
 
 Review and adjust the language model configurations in `app/config/params.ini`:
 
@@ -143,29 +142,29 @@ This ensures that the models used in your workflows are fine-tuned for your spec
 
 ---
 
-## Troubleshooting
+## Troubleshooting 🐞
 
 If you encounter issues, consider the following steps:
 
 - **Environment Variables:**  
   Verify that `OPENAI_API_KEY` and `KG_ENDPOINT_URL` are correctly set.
-
+  
 - **Knowledge Graph Access:**  
   Confirm that the knowledge graph endpoint is reachable and correctly configured in `sparql.ini`.
-
+  
 - **Testing:**  
   Run:
   ```bash
   python app/core/test_db_connection.py
   ```
   to check your database connection.
-
+  
 - **Logs:**  
   Review terminal output for any error messages or warnings during execution.
 
 ---
 
-## Next Steps
+## Next Steps ➡️
 
 - **Explore the [User Guide](../user-guide/overview.md)** for in-depth explanations of MetaboT's components.
 - **Review the [API Reference](../api-reference/core.md)** to understand function details.

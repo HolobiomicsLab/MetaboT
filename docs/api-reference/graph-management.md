@@ -1,12 +1,12 @@
-# Graph Management API Reference
+# Graph Management API Reference 📡
 
 This document details the graph management system in MetaboT, focusing on the RDF graph implementation and related utilities.
 
-## RDF Graph Custom
+## RDF Graph Custom 🗺️
 
 The `RdfGraphCustom` module (`app.core.graph_management.RdfGraphCustom`) provides the core functionality for interacting with RDF-based knowledge graphs.
 
-### Class: RdfGraph
+### Class: RdfGraph 🔍
 
 ```python
 class RdfGraph:
@@ -25,9 +25,9 @@ class RdfGraph:
         """
 ```
 
-#### Key Methods
+#### Key Methods ✨
 
-##### Query Execution
+##### Query Execution 🚀
 
 ```python
 def execute_query(self, query: str) -> Dict[str, Any]:
@@ -45,7 +45,7 @@ def execute_query(self, query: str) -> Dict[str, Any]:
     """
 ```
 
-##### Schema Management
+##### Schema Management 🏗️
 
 ```python
 @property
@@ -58,7 +58,7 @@ def get_schema(self) -> Dict[str, Any]:
     """
 ```
 
-##### Graph Operations
+##### Graph Operations ⚙️
 
 ```python
 def save(self, path: str = None) -> None:
@@ -78,11 +78,11 @@ def load(self, path: str) -> None:
     """
 ```
 
-## Query Templates
+## Query Templates 📄
 
 The system includes predefined SPARQL query templates for common operations.
 
-### Basic Queries
+### Basic Queries 🔰
 
 ```sparql
 # Class Information Query
@@ -111,9 +111,9 @@ GROUP BY ?property ?type
 LIMIT 300
 ```
 
-## Graph Utilities
+## Graph Utilities 🔧
 
-### URI Management
+### URI Management 🚦
 
 ```python
 class URIManager:
@@ -134,7 +134,7 @@ class URIManager:
         """
 ```
 
-### Query Building
+### Query Building 🏗️
 
 ```python
 class QueryBuilder:
@@ -155,6 +155,25 @@ class QueryBuilder:
             prefix (str): Prefix label
             uri (str): URI for the prefix
         """
+        self.prefixes[prefix] = uri
+    
+    def add_where_clause(self, clause: str) -> None:
+        """
+        Add a WHERE clause component.
+        
+        Args:
+            clause (str): A condition to add to the WHERE clause
+        """
+        self.where_clauses.append(clause)
+    
+    def set_limit(self, limit: int) -> None:
+        """
+        Set a LIMIT value for the query.
+        
+        Args:
+            limit (int): Maximum number of results to return
+        """
+        self.limit = limit
     
     def build(self) -> str:
         """
@@ -163,11 +182,22 @@ class QueryBuilder:
         Returns:
             str: Formatted SPARQL query
         """
+        query = ""
+        if self.prefixes:
+            for prefix, uri in self.prefixes.items():
+                query += f"PREFIX {prefix}: <{uri}>\n"
+        query += "SELECT * WHERE {\n"
+        for clause in self.where_clauses:
+            query += f"  {clause}\n"
+        query += "}\n"
+        if self.limit is not None:
+            query += f"LIMIT {self.limit}\n"
+        return query
 ```
 
-## Usage Examples
+## Usage Examples 📘
 
-### Basic Graph Operations
+### Basic Graph Operations 🔰
 
 ```python
 from app.core.graph_management.RdfGraphCustom import RdfGraph
@@ -190,7 +220,7 @@ results = graph.execute_query("""
 graph.save("graph_backup.pkl")
 ```
 
-### Complex Query Example
+### Complex Query Example 🧩
 
 ```python
 # Query for chemical structures with specific properties
@@ -213,7 +243,7 @@ LIMIT 100
 results = graph.execute_query(query)
 ```
 
-### Using Query Builder
+### Using Query Builder 🔨
 
 ```python
 builder = QueryBuilder()
@@ -228,7 +258,7 @@ query = builder.build()
 results = graph.execute_query(query)
 ```
 
-## Error Handling
+## Error Handling 🚨
 
 ```python
 class GraphError(Exception):
@@ -244,7 +274,7 @@ class QueryError(GraphError):
     pass
 ```
 
-### Error Handling Example
+### Error Handling Example ⚠️
 
 ```python
 try:
@@ -257,7 +287,7 @@ except ConnectionError as e:
     # Handle connection error
 ```
 
-## Performance Considerations
+## Performance Considerations ⚡️
 
 1. **Query Optimization**
    - Use appropriate LIMIT clauses

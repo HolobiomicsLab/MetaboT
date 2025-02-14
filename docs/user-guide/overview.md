@@ -1,10 +1,10 @@
-# MetaboT Overview
+# MetaboT Overview ✨
 
 MetaboT is an advanced metabolomics analysis tool that combines AI-powered agents, graph-based data management, and sophisticated query capabilities to analyze and interpret metabolomics data.
 
-## System Architecture
+## System Architecture 🏗️
 
-### Core Components
+### Core Components ⚙️
 
 ```mermaid
 graph TB
@@ -18,37 +18,37 @@ graph TB
     H --> I[Results]
 ```
 
-1. **Entry Agent**
+1. **Entry Agent** 🚪
    - Processes initial user queries
    - Performs query validation and preprocessing
    - Routes queries to appropriate processing paths
 
-2. **Supervisor Agent**
+2. **Supervisor Agent** 🎛️
    - Orchestrates the workflow between agents
    - Manages state and context throughout query processing
    - Ensures proper sequencing of operations
 
-3. **ENPKG Agent**
+3. **ENPKG Agent** 🧪
    - Handles metabolomics-specific processing
    - Manages chemical structure analysis
    - Processes bioassay data
 
-4. **SPARQL Agent**
+4. **SPARQL Agent** 🔎
    - Executes queries against the RDF knowledge graph
    - Optimizes query performance
    - Handles complex graph traversals
 
-5. **Interpreter Agent**
+5. **Interpreter Agent** 📢
    - Processes and formats query results
    - Generates human-readable outputs
    - Handles data visualization requests
 
-6. **Validator Agent**
+6. **Validator Agent** ✅
    - Ensures data quality and consistency
    - Validates query results
    - Performs error checking
 
-### Knowledge Graph Integration
+### Knowledge Graph Integration 🔗
 
 MetaboT utilizes a sophisticated RDF-based knowledge graph that:
 
@@ -59,9 +59,9 @@ MetaboT utilizes a sophisticated RDF-based knowledge graph that:
 
 **Note:** By default, MetaboT connects to the public ENPKG endpoint, which hosts an annotated mass spectrometry dataset derived from 1,600 plant extracts. This default dataset is provided to help you explore and understand the capabilities of MetaboT without needing a custom data conversion workflow immediately.
 
-## Key Features
+## Key Features 🚀
 
-### 1. Query Processing
+### 1. Query Processing 🔍
 
 MetaboT supports various types of queries:
 
@@ -69,24 +69,24 @@ MetaboT supports various types of queries:
 - **Custom Queries**: User-defined natural language queries
 - **SPARQL Queries**: Direct graph database queries
 
-### 2. Data Analysis Capabilities
+### 2. Data Analysis Capabilities 📊
 
-- **Chemical Structure Analysis**
+- **Chemical Structure Analysis** 🧬
   - SIRIUS/CSI:FingerID integration
   - ISDB annotation support
   - Structure similarity comparisons
 
-- **Metabolomics Analysis**
+- **Metabolomics Analysis** 🧪
   - Feature detection and analysis
   - Ionization mode processing
   - Retention time analysis
 
-- **Bioassay Integration**
+- **Bioassay Integration** 💊
   - Activity data analysis
   - Inhibition studies
   - Concentration-response relationships
 
-### 3. AI-Powered Processing
+### 3. AI-Powered Processing 🤖
 
 MetaboT leverages advanced AI capabilities through:
 
@@ -100,9 +100,9 @@ MetaboT leverages advanced AI capabilities through:
   - Specialized task processing
   - Adaptive response generation
 
-## Workflow Examples
+## Workflow Examples 🛠️
 
-### 1. Basic Feature Analysis
+### 1. Basic Feature Analysis 📝
 
 ```mermaid
 sequenceDiagram
@@ -122,7 +122,7 @@ sequenceDiagram
     Entry-->>User: Present results
 ```
 
-### 2. Chemical Structure Analysis
+### 2. Chemical Structure Analysis 🧪
 
 ```mermaid
 sequenceDiagram
@@ -141,21 +141,21 @@ sequenceDiagram
     Entry-->>User: Present structures
 ```
 
-## Performance Considerations
+## Performance Considerations ⚡️
 
-### Query Optimization
+### Query Optimization 🔧
 
 - Use specific queries when possible
 - Leverage standard queries for common operations
 - Consider query complexity and data volume
 
-### Resource Management
+### Resource Management 🗄️
 
 - Monitor memory usage during large queries
 - Consider batch processing for extensive analyses
 - Utilize caching when appropriate
 
-## Best Practices
+## Best Practices 👍
 
 1. **Query Design**
    - Start with standard queries when possible
@@ -172,7 +172,7 @@ sequenceDiagram
    - Monitor system resources
    - Regular maintenance of graph database
 
-## Integration Capabilities
+## Integration Capabilities 🔌
 
 MetaboT can be integrated with:
 
@@ -181,7 +181,7 @@ MetaboT can be integrated with:
 - Visualization tools
 - Reporting systems
 
-## Future Developments
+## Future Developments 🔮
 
 Planned enhancements include:
 

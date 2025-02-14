@@ -1,14 +1,14 @@
-# Agents API Reference
+# Agents API Reference 🤖
 
 This document details the agent system in MetaboT, including the various specialized agents and their roles in processing metabolomics queries.
 
-## Agent Factory
+## Agent Factory 🔧
 
 The agent factory (`app.core.agents.agents_factory`) manages the creation and configuration of all agents in the system.
 
-### Functions
+### Functions ⚙️
 
-#### `create_all_agents`
+#### `create_all_agents` 🛠️
 
 ```python
 def create_all_agents(models: Dict[str, ChatOpenAI], graph: RdfGraph) -> Dict[str, Any]
@@ -23,11 +23,11 @@ Creates and initializes all required agents for the MetaboT workflow.
 **Returns:**
 - Dictionary of initialized agents
 
-## Entry Agent
+## Entry Agent 🚪
 
 The entry agent (`app.core.agents.entry.agent`) serves as the initial point of contact for processing user queries.
 
-### Class: EntryAgent
+### Class: EntryAgent 🔑
 
 ```python
 class EntryAgent:
@@ -46,11 +46,11 @@ class EntryAgent:
 - `validate_input`: Input validation and sanitization
 - `determine_path`: Determines processing path for queries
 
-## ENPKG Agent
+## ENPKG Agent 🧪
 
 The ENPKG agent (`app.core.agents.enpkg.agent`) handles metabolomics-specific processing.
 
-### Class: ENPKGAgent
+### Class: ENPKGAgent 🔬
 
 ```python
 class ENPKGAgent:
@@ -66,11 +66,11 @@ class ENPKGAgent:
 - `tool_target`: Target analysis
 - `tool_taxon`: Taxonomic processing
 
-## SPARQL Agent
+## SPARQL Agent 🔎
 
 The SPARQL agent (`app.core.agents.sparql.agent`) manages interactions with the knowledge graph.
 
-### Class: SPARQLAgent
+### Class: SPARQLAgent 📡
 
 ```python
 class SPARQLAgent:
@@ -85,11 +85,11 @@ class SPARQLAgent:
 - `tool_merge_result`: Result merging and processing
 - `tool_wikidata_query`: Wikidata integration
 
-## Interpreter Agent
+## Interpreter Agent 📢
 
 The interpreter agent (`app.core.agents.interpreter.agent`) processes and formats query results.
 
-### Class: InterpreterAgent
+### Class: InterpreterAgent 🗣️
 
 ```python
 class InterpreterAgent:
@@ -104,11 +104,11 @@ class InterpreterAgent:
 - Data visualization support
 - Result contextualization
 
-## Validator Agent
+## Validator Agent ✅
 
 The validator agent (`app.core.agents.validator.agent`) ensures data quality and consistency.
 
-### Class: ValidatorAgent
+### Class: ValidatorAgent 🔍
 
 ```python
 class ValidatorAgent:
@@ -123,7 +123,7 @@ class ValidatorAgent:
 - Result validation
 - Error detection
 
-## Agent Communication
+## Agent Communication 💬
 
 Agents communicate through a structured message passing system:
 
@@ -137,11 +137,11 @@ class AgentMessage:
         self.metadata = metadata
 ```
 
-## Tool Integration
+## Tool Integration 🔌
 
 Each agent can integrate specialized tools:
 
-### Base Tool Class
+### Base Tool Class 📦
 
 ```python
 class BaseTool:
@@ -156,7 +156,7 @@ class BaseTool:
         raise NotImplementedError
 ```
 
-### Example Tool Implementation
+### Example Tool Implementation 🧩
 
 ```python
 class ChemicalStructureTool(BaseTool):
@@ -174,9 +174,9 @@ class ChemicalStructureTool(BaseTool):
         pass
 ```
 
-## Usage Examples
+## Usage Examples 📘
 
-### Basic Agent Usage
+### Basic Agent Usage 🔰
 
 ```python
 from app.core.agents.agents_factory import create_all_agents
@@ -197,7 +197,7 @@ entry_agent = agents['entry']
 result = entry_agent.process_query("Your query here")
 ```
 
-### Custom Agent Integration
+### Custom Agent Integration 🔄
 
 ```python
 class CustomAgent:
@@ -219,7 +219,7 @@ class CustomAgent:
 agents['custom'] = CustomAgent(models['llm'], graph)
 ```
 
-### Tool Development
+### Tool Development 🔨
 
 ```python
 class CustomTool(BaseTool):
