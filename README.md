@@ -25,8 +25,8 @@ If you use or reference 🤖 MetaboT 🍵 in your research, please cite it as fo
 [![DOI](https://img.shields.io/badge/DOI-00.0000/arXiv.000.00000-green?color=FF8000?color=009922)]()
 
 **Institutions:**
-- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/holobiomicslab).
-- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Wimmics).
+- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab website](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/holobiomicslab) organization.
+- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS website](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Wimmics) organization.
 - [Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France](https://3ia.univ-cotedazur.eu/).
 - School of Pharmaceutical Sciences, University of Geneva, Switzerland.
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland.
