@@ -1,6 +1,14 @@
 
 # MetaboT 🧪 🤖 ✨ 🍵
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-g.svg)]()
+[![Arxiv](https://img.shields.io/badge/arXiv-2502.09604-B21A1B)]()
+[![Hugging Face Transformers](https://img.shields.io/badge/%F0%9F%A4%97-Transformers-blue)]()
+[![YouTube](https://img.shields.io/youtube/url/http/shields.io.svg?style=social)]()
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)]()
+[![Bluesky](https://img.shields.io/bluesky/url/http/shields.io.svg?style=social)]()
+[![GitHub Stars](https://img.shields.io/github/holobiomics-lab/metabot/SelfCite?style=social)](https://github.com/holobiomics-lab/metabot)
+
 ## General Information
 
 🤖 MetaboT 🍵 is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, MetaboT translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, MetaboT offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. MetaboT can installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [https//metabot.holobiomicslab.cnrs.fr](https//metabot.holobiomicslab.cnrs.fr).
@@ -12,11 +20,13 @@
 If you use or reference 🤖 MetaboT 🍵 in your research, please cite it as follows:
 
 **MetaboT: A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining**  
-*Madina Bekbergenova, et al. DOI.*
+*Madina Bekbergenova$^\dagger$, et al. DOI.*
+
+[![DOI](https://img.shields.io/badge/DOI-10.48550/arXiv.2502.09604-green?color=FF8000?color=009922)]().
 
 **Institutions:**
-- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu)
-- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/)
+- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/github/holobiomics-lab/?style=social)](https://github.com/holobiomics-lab).
+- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/github/holobiomics-lab/?style=social)(https://team.inria.fr/wimmics/).
 - [Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France](https://3ia.univ-cotedazur.eu/)
 - School of Pharmaceutical Sciences, University of Geneva, Switzerland.
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland.
