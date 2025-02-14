@@ -240,7 +240,7 @@ Create a dedicated folder for your agent within the `app/core/agents/` directory
 - **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.  
   > Psst... don't let the complexities of Python imports overcomplicate your flow—trust the process!
 
-- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks. Configure the `MODEL_CHOICE`, default is `llm-o` for *gpt-4o* (per `app/config/params.ini`, [see here](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/params.ini)).
+- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks. Configure the `MODEL_CHOICE`, default is `llm-o` for *gpt-4o* (per `app/config/params.ini`, [see here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/config/params.ini)).
 
 - **Tools (`tool_xxxx.py`)** (optional): Inherit from the LangChain `BaseTool`, defining:
   - `name`, `description`, `args_schema`
