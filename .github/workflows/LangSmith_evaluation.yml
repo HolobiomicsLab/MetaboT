@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      LANGCHAIN_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
+      LANGCHAIN_PROJECT: ${{ secrets.LANGSMITH_EVALUATION }}
       LANGCHAIN_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
     steps:
       - name: Checkout repository
