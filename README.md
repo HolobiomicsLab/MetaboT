@@ -8,10 +8,36 @@
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://x.com/HolobiomicLab)
 [![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff)](https://bsky.app/profile/holobiomicslab.bsky.social)
 [![GitHub Stars](https://img.shields.io/github/holobiomicslab/metabot/SelfCite?style=social)](https://github.com/holobiomicslab/metabot)
+[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://holobiomicslab.github.io/MetaboT/)
 
 ## General Information
 
 🤖 MetaboT 🍵 is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, MetaboT translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, MetaboT offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. MetaboT can installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [https//metabot.holobiomicslab.cnrs.fr](https//metabot.holobiomicslab.cnrs.fr).
+
+## Documentation
+
+Comprehensive documentation is available at [https://holobiomicslab.github.io/MetaboT/](https://holobiomicslab.github.io/MetaboT/). It includes:
+
+- **Installation and Quick Start Guides**
+- **User Guide** with configuration details
+- **API Reference** for core components, agents, and graph management
+- **Usage Examples** for both basic and advanced scenarios
+- **Contributing Guidelines**
+
+The documentation is automatically built and deployed using GitHub Actions on every push to the main branch.
+
+To preview and build the documentation locally:
+
+```bash
+# Install the required dependencies
+pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python
+
+# To serve documentation locally, run:
+mkdocs serve
+
+# To build the documentation, run:
+mkdocs build
+```
 
 ---
 
