@@ -7,7 +7,7 @@
 [![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?logo=YouTube&logoColor=white)](https://www.youtube.com/@holobiomicslab)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://x.com/HolobiomicLab)
 [![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?logo=bluesky&logoColor=fff)](https://bsky.app/profile/holobiomicslab.bsky.social)
-[![GitHub Stars](https://img.shields.io/github/holobiomics-lab/metabot/SelfCite?style=social)](https://github.com/holobiomics-lab/metabot)
+[![GitHub Stars](https://img.shields.io/github/holobiomicslab/metabot/SelfCite?style=social)](https://github.com/holobiomicslab/metabot)
 
 ## General Information
 
@@ -20,14 +20,14 @@
 If you use or reference 🤖 MetaboT 🍵 in your research, please cite it as follows:
 
 **MetaboT: A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining**  
-*Madina Bekbergenova$^\dagger$, et al. DOI.*
+*Madina Bekbergenova, et al. DOI.*
 
-[![DOI](https://img.shields.io/badge/DOI-10.48550/arXiv.2502.09604-green?color=FF8000?color=009922)]().
+[![DOI](https://img.shields.io/badge/DOI-00.0000/arXiv.000.00000-green?color=FF8000?color=009922)]()
 
 **Institutions:**
-- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white](https://github.com/holobiomics-lab).
-- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://team.inria.fr/wimmics/).
-- [Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France](https://3ia.univ-cotedazur.eu/)
+- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white](https://github.com/holobiomicslab).
+- INRIA, Université Côte d’Azur, CNRS, I3S, France. [See WIMMICS](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Wimmics).
+- [Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France](https://3ia.univ-cotedazur.eu/).
 - School of Pharmaceutical Sciences, University of Geneva, Switzerland.
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland.
 
@@ -52,7 +52,7 @@ This package has been tested on:
 - **macOS**: Sonoma (14.5)  
 - **Linux**: Ubuntu 22.04 LTS, Debian 11  
 
-It should also work on other Unix-based systems. For more deets on compatibility, check out [GitHub Issues](https://github.com/holobiomics-lab/MetaboT/issues) if you run into troubles.
+It should also work on other Unix-based systems. For more deets on compatibility, check out [GitHub Issues](https://github.com/holobiomicslab/MetaboT/issues) if you run into troubles.
 
 ---
 
@@ -86,7 +86,7 @@ It should also work on other Unix-based systems. For more deets on compatibility
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/holobiomics-lab/MetaboT.git
+   git clone https://github.com/holobiomicslab/MetaboT.git
    git checkout dev
    cd MetaboT
    ```
@@ -208,13 +208,13 @@ python -m app.core.main -c "Your custom question"
 ## Agent Setup Guidelines 🧑‍💻
 
 ### Agent Directory Creation
-Create a dedicated folder for your agent within the `app/core/agents/` directory. See [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents).
+Create a dedicated folder for your agent within the `app/core/agents/` directory. See [here](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents).
 
 ### Standard File Structure
 - **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.  
   > Psst... don't let the complexities of Python imports overcomplicate your flow—trust the process!
 
-- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks. Configure the `MODEL_CHOICE`, default is `llm-o` for *gpt-4o* (per `app/config/params.ini`, [see here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/config/params.ini)).
+- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks. Configure the `MODEL_CHOICE`, default is `llm-o` for *gpt-4o* (per `app/config/params.ini`, [see here](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/params.ini)).
 
 - **Tools (`tool_xxxx.py`)** (optional): Inherit from the LangChain `BaseTool`, defining:
   - `name`, `description`, `args_schema`
@@ -222,13 +222,13 @@ Create a dedicated folder for your agent within the `app/core/agents/` directory
   - The `_run` method for execution
 
 ### Supervisor Configuration
-Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
+Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
 
 ### Configuration Updates
-Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomics-lab/MetaboT/tree/main/app/config/langgraph.json).
+Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json).
 
 ### If Your Tool Serves as an Agent
-For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomics-lab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!
+For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!
 
 ---
 
@@ -236,7 +236,7 @@ For LLM-interaction, make sure additional class properties are set in `agent.py`
 
 **Contributing to 🤖 MetaboT 🍵**
 
-We use the `dev` branch for pushing our contributions [here on GitHub](https://github.com/holobiomics-lab/MetaboT/tree/dev). Please create your own branch (either user-centric like `dev_benjamin` or feature-centric like `dev_langgraph`) and submit a pull request to the `dev` branch when you're ready for review. Our AI PR-Agent 🤖 is always standing by to help trigger pull requests and even handle issues smartly—because why not let a smarty pants bot lend a hand?
+We use the `dev` branch for pushing our contributions [here on GitHub](https://github.com/holobiomicslab/MetaboT/tree/dev). Please create your own branch (either user-centric like `dev_benjamin` or feature-centric like `dev_langgraph`) and submit a pull request to the `dev` branch when you're ready for review. Our AI PR-Agent 🤖 is always standing by to help trigger pull requests and even handle issues smartly—because why not let a smarty pants bot lend a hand?
 
 **Documentation Standards**
 - Use **Google Docstring Format**  
@@ -254,7 +254,7 @@ Pass keys as parameters instead of environment variables for scalable production
 ---
 
 ## Logging Guidelines
-Centralized logging resides in `app/config/logging.ini`. See [here](https://github.com/holobiomics-lab/MetaboT/blob/main/app/config/logging.ini).
+Centralized logging resides in `app/config/logging.ini`. See [here](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/logging.ini).
 
 Use the following snippet at the start of your Python scripts:
 ```python
@@ -275,7 +275,7 @@ logger = logging.getLogger(__name__)
 We warmly welcome your contributions! Here's how to dive in:
 
 1. **Fork & Clone**  
-   - Fork the repo on [GitHub](https://github.com/holobiomics-lab/MetaboT) and clone your fork.
+   - Fork the repo on [GitHub](https://github.com/holobiomicslab/MetaboT) and clone your fork.
 2. **Create a Feature Branch**
    - Branch from `dev` (e.g., `dev_your_branch_name`).
 3. **Develop Your Feature**
@@ -289,7 +289,7 @@ We warmly welcome your contributions! Here's how to dive in:
    - That's the secret sauce to a smooth GitHub PR journey!
 
 5. **Submit a Pull Request**
-   - Push your changes and create a PR against the `dev` branch. Fill out all necessary details, including links to related issues (e.g., [GitHub Issues](https://github.com/holobiomics-lab/MetaboT/issues)).
+   - Push your changes and create a PR against the `dev` branch. Fill out all necessary details, including links to related issues (e.g., [GitHub Issues](https://github.com/holobiomicslab/MetaboT/issues)).
 
 ### Pull Request Process
 - Update documentation, run tests, and ensure your code is formatted.  
@@ -301,7 +301,7 @@ We warmly welcome your contributions! Here's how to dive in:
 - Adhere to PEP8 and best practices.
 
 ### Reporting Issues
-For bug reports or feature requests, please use our [GitHub Issues](https://github.com/holobiomics-lab/MetaboT/issues) page.
+For bug reports or feature requests, please use our [GitHub Issues](https://github.com/holobiomicslab/MetaboT/issues) page.
 
 ---
 
