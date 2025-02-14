@@ -1,7 +1,13 @@
 name: test_main.yml
 
 on:
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:  # Allows manual trigger
+    inputs:
+      branch:
+        description: "Branch to run action on"
+        required: false
+        default: "dev"
+ 
 
 jobs:
   run-main:
