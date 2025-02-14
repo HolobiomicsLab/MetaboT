@@ -1,7 +1,7 @@
-name: Evaluate Code
+name: evaluate_code.yml
 
 on:
-  workflow_dispatch:  # Allows manual trigger
+  workflow_dispatch:  
     inputs:
       branch:
         description: "Branch to run coverage on"
