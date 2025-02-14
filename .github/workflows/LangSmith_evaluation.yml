@@ -2,6 +2,9 @@ name: Evaluate Code
 
 on:
   workflow_dispatch:  # Allows manual trigger
+    inputs:
+      branch:
+        description: "Branch to run coverage on"
 
 jobs:
   evaluate:
