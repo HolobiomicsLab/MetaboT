@@ -1,0 +1,196 @@
+# Project information
+site_name: MetaboT Documentation
+site_description: Documentation for MetaboT - A Metabolomics Analysis Tool
+site_author: Holobiomics Lab
+site_url: https://holobiomicslab.github.io/MetaboT
+
+# Repository
+repo_name: MetaboT
+repo_url: https://github.com/holobiomicslab/MetaboT
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2024 Holobiomics Lab
+
+# Configuration
+theme:
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  
+  # Color schemes
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  # Theme features
+  features:
+    # Navigation
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - toc.integrate
+    
+    # Search
+    - search.suggest
+    - search.highlight
+    - search.share
+    
+    # Content
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+    
+    # Header
+    - header.autohide
+
+# Plugins
+plugins:
+  # Essential plugins
+  - search
+  
+  # Python API documentation
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [app]
+          options:
+            show_source: true
+            show_root_heading: true
+            show_category_heading: true
+            show_submodules: true
+            docstring_style: google
+            docstring_section_style: table
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+      
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra styling and scripts
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+  - User Guide:
+    - Overview: user-guide/overview.md
+    - Configuration: user-guide/configuration.md
+  - API Reference:
+    - Core: api-reference/core.md
+    - Agents: api-reference/agents.md
+    - Graph Management: api-reference/graph-management.md
+  - Examples:
+    - Basic Usage: examples/basic-usage.md
+    - Advanced Examples: examples/advanced-examples.md
+  - Contributing: contributing.md
+
+# Additional settings
+extra:
+  # Social links
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/holobiomicslab
+      name: HolobiomicsLab on GitHub
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/HolobiomicLab
+      name: HolobiomicsLab on Twitter
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/@holobiomicslab
+      name: HolobiomicsLab on YouTube
+    - icon: material/web
+      link: https://holobiomicslab.cnrs.fr
+      name: HolobiomicsLab Website
+
+  # Analytics
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+    
+  # Cookie consent
+  consent:
+    title: Cookie consent
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+    actions:
+      - accept
+      - reject
+      - manage
