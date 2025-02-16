@@ -2,11 +2,19 @@
 
 This document details the agent system in MetaboT, including the various specialized agents and their roles in processing metabolomics queries.
 
+---
 ## Agent Factory 🔧
 
-The agent factory (`app.core.agents.agents_factory`) manages the creation and configuration of all agents in the system.
+The agent factory ([`app.core.agents.agents_factory`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/agents_factory.py)) manages the creation and configuration of all agents in the system:
 
-### Functions ⚙️
+- **ENPK Agent**: Located at [`app/core/agents/enpkg/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/enpkg/agent.py)
+- **Entry Agent**: Located at [`app/core/agents/entry/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/entry/agent.py)
+- **Interpreter Agent**: Located at [`app/core/agents/interpreter/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/interpreter/agent.py)
+- **Sparql Agent**: Located at [`app/core/agents/sparql/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)
+- **Validator Agent**: Located at [`app/core/agents/validator/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/validator/agent.py)
+- **Supervisor Agent**: Located at [`app/core/agents/supervisor/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/supervisor/agent.py)
+
+### Functions
 
 #### `create_all_agents` 🛠️
 
@@ -17,17 +25,20 @@ def create_all_agents(models: Dict[str, ChatOpenAI], graph: RdfGraph) -> Dict[st
 Creates and initializes all required agents for the MetaboT workflow.
 
 **Parameters:**
+
 - `models`: Dictionary of language models for different purposes
 - `graph`: RDF graph instance for knowledge graph interactions
 
 **Returns:**
+
 - Dictionary of initialized agents
 
+---
 ## Entry Agent 🚪
 
-The entry agent (`app.core.agents.entry.agent`) serves as the initial point of contact for processing user queries.
+The entry agent ([`app.core.agents.entry.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/entry/agent.py)) serves as the initial point of contact for processing user queries.
 
-### Class: EntryAgent 🔑
+### Class: EntryAgent
 
 ```python
 class EntryAgent:
@@ -42,15 +53,17 @@ class EntryAgent:
 ```
 
 **Key Methods:**
+
 - `process_query`: Initial query processing and routing
 - `validate_input`: Input validation and sanitization
 - `determine_path`: Determines processing path for queries
 
+---
 ## ENPKG Agent 🧪
 
-The ENPKG agent (`app.core.agents.enpkg.agent`) handles metabolomics-specific processing.
+The ENPKG agent ([`app.core.agents.enpkg.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/enpkg/agent.py)) handles metabolomics-specific processing.
 
-### Class: ENPKGAgent 🔬
+### Class: ENPKGAgent
 
 ```python
 class ENPKGAgent:
@@ -61,16 +74,18 @@ class ENPKGAgent:
 ```
 
 **Tools:**
+
 - `tool_chemicals`: Chemical structure analysis
 - `tool_smiles`: SMILES notation processing
 - `tool_target`: Target analysis
 - `tool_taxon`: Taxonomic processing
 
+---
 ## SPARQL Agent 🔎
 
-The SPARQL agent (`app.core.agents.sparql.agent`) manages interactions with the knowledge graph.
+The SPARQL agent ([`app.core.agents.sparql.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/sparql/agent.py)) manages interactions with the knowledge graph.
 
-### Class: SPARQLAgent 📡
+### Class: SPARQLAgent
 
 ```python
 class SPARQLAgent:
@@ -81,15 +96,17 @@ class SPARQLAgent:
 ```
 
 **Key Components:**
+
 - `tool_sparql`: SPARQL query execution
 - `tool_merge_result`: Result merging and processing
 - `tool_wikidata_query`: Wikidata integration
 
+---
 ## Interpreter Agent 📢
 
-The interpreter agent (`app.core.agents.interpreter.agent`) processes and formats query results.
+The interpreter agent ([`app.core.agents.interpreter.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/interpreter/agent.py)) processes and formats query results.
 
-### Class: InterpreterAgent 🗣️
+### Class: InterpreterAgent
 
 ```python
 class InterpreterAgent:
@@ -100,15 +117,17 @@ class InterpreterAgent:
 ```
 
 **Features:**
+
 - Natural language result formatting
 - Data visualization support
 - Result contextualization
 
+---
 ## Validator Agent ✅
 
-The validator agent (`app.core.agents.validator.agent`) ensures data quality and consistency.
+The validator agent ([`app.core.agents.validator.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/validator/agent.py)) ensures data quality and consistency.
 
-### Class: ValidatorAgent 🔍
+### Class: ValidatorAgent
 
 ```python
 class ValidatorAgent:
@@ -119,10 +138,12 @@ class ValidatorAgent:
 ```
 
 **Validation Types:**
+
 - Data consistency checks
 - Result validation
 - Error detection
 
+---
 ## Agent Communication 💬
 
 Agents communicate through a structured message passing system:
@@ -137,11 +158,12 @@ class AgentMessage:
         self.metadata = metadata
 ```
 
+---
 ## Tool Integration 🔌
 
 Each agent can integrate specialized tools:
 
-### Base Tool Class 📦
+### Base Tool Class
 
 ```python
 class BaseTool:
@@ -156,7 +178,7 @@ class BaseTool:
         raise NotImplementedError
 ```
 
-### Example Tool Implementation 🧩
+### Example Tool Implementation
 
 ```python
 class ChemicalStructureTool(BaseTool):
@@ -174,9 +196,10 @@ class ChemicalStructureTool(BaseTool):
         pass
 ```
 
+---
 ## Usage Examples 📘
 
-### Basic Agent Usage 🔰
+### Basic Agent Usage
 
 ```python
 from app.core.agents.agents_factory import create_all_agents
@@ -197,7 +220,7 @@ entry_agent = agents['entry']
 result = entry_agent.process_query("Your query here")
 ```
 
-### Custom Agent Integration 🔄
+### Custom Agent Integration
 
 ```python
 class CustomAgent:
@@ -219,7 +242,7 @@ class CustomAgent:
 agents['custom'] = CustomAgent(models['llm'], graph)
 ```
 
-### Tool Development 🔨
+### Tool Development
 
 ```python
 class CustomTool(BaseTool):
