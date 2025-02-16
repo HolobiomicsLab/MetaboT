@@ -1,6 +1,25 @@
-# Welcome to MetaboT 🚀
+---
+page_class: md-home
+body_class: md-home
+---
 
-MetaboT is a powerful metabolomics analysis tool that leverages advanced AI and graph-based approaches for metabolomics data analysis and interpretation.
+<div class="hero">
+  <div class="hero__layer layer-1"></div>
+  <div class="hero__layer layer-2"></div>
+  <div class="hero__layer layer-3"></div>
+  <div class="hero__layer layer-4"></div>
+  <div class="hero__content">
+    <h1 class="hero__title">MetaboT 🚀</h1>
+    <p class="hero__subtitle">A powerful metabolomics analysis tool leveraging AI and graph-based approaches</p>
+    <div class="hero__buttons">
+      <a href="getting-started/quickstart/" class="hero__button hero__button--primary">Get Started</a>
+    </div>
+  </div>
+</div>
+<div style="height: 6vh;"></div>
+
+
+# Welcome to MetaboT 🚀
 
 ## Key Features ✨
 
@@ -9,7 +28,7 @@ MetaboT is a powerful metabolomics analysis tool that leverages advanced AI and 
 - **SPARQL Integration** :link:: Advanced querying capabilities for metabolomics data.
 - **Extensible Framework** :wrench:: Modular design allowing for easy extension and customization.
 
-## Project Overview 🔬
+## Project Overview 🔬 {#project-overview}
 
 MetaboT is designed to help researchers and scientists in:
 
@@ -80,7 +99,7 @@ If you use MetaboT in your research, please cite:
 - School of Pharmaceutical Sciences, University of Geneva, Switzerland
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland
 
-**Funding Support:** ✨
-- French government through France 2030 investment plan (ANR-15-IDEX-01)
-- [MetaboLinkAI](https://www.metabolinkai.net) project (ANR-24-CE93-0012-01)
-- Swiss National Foundation project [189921](https://data.snf.ch/grants/grant/189921)
+<script>
+document.body.classList.add("md-home");
+</script>
+

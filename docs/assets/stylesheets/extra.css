@@ -1,6 +1,208 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/satoshi');
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90vh;
+  z-index: 2;
+  background: linear-gradient(135deg, var(--md-primary-fg-color) 0%, #1a365d 100%);
+  perspective: 2000px;
+  transform-style: preserve-3d;
+  margin-bottom: 0;
+  pointer-events: none; /* Allow clicks to pass through to navigation */
+}
+
+.hero__content {
+  pointer-events: auto; /* Re-enable clicks for hero content */
+}
+
+/* Adjust main content to be visible over the hero */
+.md-main {
+  position: relative;
+  z-index: 0;
+  background: transparent;
+}
+
+/* Main content styling for homepage */
+.md-content__inner:has(.hero) {
+  margin: 0;
+  background: var(--md-default-bg-color);
+  position: relative;
+  padding-top: 1rem; /* Reduced padding */
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border-radius: 2rem 2rem 0 0;
+  box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
+}
+
+/* Regular pages (non-home) */
+.md-main__inner {
+  background: var(--md-default-bg-color);
+  position: relative;
+  padding-top: 2rem;
+}
+
+/* Show navigation on index page */
+.md-nav {
+  display: block !important;
+  visibility: visible !important;
+}
+
+.hero__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* Layer 1: Abstract background with diagonal pattern */
+.layer-1 {
+  background:
+    linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.03) 75%),
+    linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.03) 75%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+  transform: translateZ(-2px) scale(3);
+  opacity: 0.5;
+}
+
+/* Layer 2: Molecule-like patterns */
+.layer-2::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 60% 30%, rgba(105,65,235,0.15) 0%, transparent 30%),
+    radial-gradient(circle at 30% 70%, rgba(105,65,235,0.15) 0%, transparent 30%),
+    radial-gradient(circle at 80% 20%, rgba(105,65,235,0.15) 0%, transparent 30%);
+  transform: translateZ(-1px) scale(2);
+}
+
+/* Layer 3: Graph visualization pattern */
+.layer-3::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(90deg, transparent 47%, rgba(255,255,255,0.07) 47%, rgba(255,255,255,0.07) 53%, transparent 53%),
+    linear-gradient(0deg, transparent 47%, rgba(255,255,255,0.07) 47%, rgba(255,255,255,0.07) 53%, transparent 53%);
+  background-size: 40px 40px;
+  transform: translateZ(-0.5px) scale(1.5);
+}
+
+/* Layer 4: Decorative elements */
+.layer-4::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,255,255,0.05) 0%, transparent 15%),
+    radial-gradient(circle at 90% 90%, rgba(255,255,255,0.05) 0%, transparent 15%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 20%);
+  transform: translateZ(0) scale(1);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 5;
+  color: white;
+  text-align: center;
+  padding: 6rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  animation: fadeIn 1s ease-out;
+}
+
+.hero__title {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hero__subtitle {
+  font-size: 1.75rem;
+  margin-bottom: 2.5rem;
+  color: rgba(255,255,255,0.95) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  font-weight: 400;
+  line-height: 1.4;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 160px;
+}
+
+.hero__button--primary {
+  background: var(--md-accent-fg-color);
+  color: var(--md-primary-fg-color) !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.hero__button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.hero__button--secondary {
+  background: rgba(255,255,255,0.1);
+  color: white !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.hero__button--secondary:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* -----------------------------------------------------------------------------------
    Root Variables
 ----------------------------------------------------------------------------------- */
@@ -27,24 +229,19 @@
     font-size: 1.0rem !important; /* Augmenté */
     font-weight: bold !important;
 }
-
 .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link { 
     font-size: 0.85rem !important; /* h2 */
     font-weight: bold !important;
 }
-
 .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
     font-size: 0.70rem !important; /* h3 */
 }
-
 [data-md-color-scheme="slate"] .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
     color: rgba(255, 255, 255, 0.75) !important; /* lighter color for h3 in dark mode */
 }
-
 .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
     font-size: 0.55rem !important; /* h4 */
 }
-
 [data-md-color-scheme="slate"] .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
     color: rgba(255, 255, 255, 0.65) !important; /* lighter color for h4 in dark mode */
 }
@@ -54,12 +251,46 @@
 ----------------------------------------------------------------------------------- */
 /* ✅ Texte blanc pour le menu en haut en mode clair */
 .md-header {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100 !important;
+    background-color: var(--md-primary-fg-color) !important;
+    transition: transform 0.3s ease;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.md-header.header--hidden {
+    transform: translateY(-100%);
+}
+
+.md-header__inner {
+    color: white !important;
     background-color: var(--md-primary-fg-color) !important;
 }
 
-.md-header__inner,
 .md-tabs {
+    position: fixed !important;
+    top: 2.37rem !important; /* Slightly reduced to remove gap */
+    left: 0;
+    right: 0;
     color: white !important;
+    background-color: var(--md-primary-fg-color) !important;
+    z-index: 99;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    opacity: 1;
+    transform-origin: top;
+    visibility: visible;
+    will-change: transform, opacity, visibility;
+}
+
+.md-tabs.tabs--hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .md-tabs__link {
@@ -72,6 +303,11 @@
     font-size: 0.9rem !important; /* h4 */
 }
 
+/* Adjust content padding to account for fixed header */
+.md-main__inner {
+    margin-top: 4.8rem !important;
+}
+
 /* -----------------------------------------------------------------------------------
    Dark Mode Colors
 ----------------------------------------------------------------------------------- */
@@ -79,29 +315,24 @@
 [data-md-color-scheme="slate"] .md-header {
     background-color: #0d1b2a !important; /* Bleu nuit */
 }
-
 /* ✅ Override root variables in dark mode */
 [data-md-color-scheme="slate"] {
     --md-primary-fg-color: #00284b !important;
     --md-default-bg-color: #1c2c3a !important; /* Lighter background for better contrast */
 }
-
 /* ✅ Dark mode: White text in header */
 [data-md-color-scheme="slate"] .md-header__inner,
 [data-md-color-scheme="slate"] .md-tabs,
 [data-md-color-scheme="slate"] .md-tabs__link {
     color: white !important;
 }
-
 [data-md-color-scheme="slate"] .md-tabs__link:hover {
     color: var(--md-accent-fg-color) !important;
 }
-
 /* ✅ Dark mode: Improve contrast for nav links */
 [data-md-color-scheme="slate"] .md-nav__link {
     color: #ffffff !important;
 }
-
 [data-md-color-scheme="slate"] .md-nav__link--active {
     color: var(--md-accent-fg-color) !important;
     font-weight: bold;
@@ -115,7 +346,6 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--md-title-font);
     color: var(--md-primary-fg-color); /* Bleu CNRS */
 }
-
 /* Dark mode headings */
 [data-md-color-scheme="slate"] h1,
 [data-md-color-scheme="slate"] h2,
@@ -125,13 +355,11 @@ h1, h2, h3, h4, h5, h6 {
 [data-md-color-scheme="slate"] h6 {
     color: rgba(255, 255, 255, 0.87) !important; /* Light color for better visibility in dark mode */
 }
-
 /* ✅ Appliquer Satoshi pour le texte */
 body, p, li, a {
     font-family: var(--md-text-font);
     color: var(--md-primary-fg-color--dark); /* Bleu CNRS */
 }
-
 /* ✅ Appliquer le texte en blanc pour le mode sombre */
 [data-md-color-scheme="slate"] body, 
 [data-md-color-scheme="slate"] p, 
@@ -143,10 +371,9 @@ body, p, li, a {
 /* -----------------------------------------------------------------------------------
    Miscellaneous
 ----------------------------------------------------------------------------------- */
-/* ✅ Supprimer le bouton "Back to top" 
-   (Note: "True" isn't a valid CSS display value—likely "none" was intended) */
+/* ✅ Supprimer le bouton "Back to top" */
 .md-top.md-icon {
-    display: True !important;
+    display: none !important;
 }
 
 /* -----------------------------------------------------------------------------------
@@ -156,46 +383,37 @@ body, p, li, a {
 .md-sidebar-secondary {
     display: block !important;
 }
-
 /* ✅ TOC styling (font size, color, indentation, etc.) */
 .md-nav__list[data-md-component="toc"] {
     display: block !important;
     opacity: 1 !important;
 }
-
 .md-nav__list[data-md-component="toc"] .md-nav__item {
     padding-left: 10px !important;
 }
-
 .md-nav__list[data-md-component="toc"] .md-nav__item .md-nav__link {
     font-size: 0.9rem !important;
     font-weight: normal !important;
     color: var(--md-primary-fg-color--dark) !important;
 }
-
 /* Dark mode TOC styles */
 [data-md-color-scheme="slate"] .md-nav__list[data-md-component="toc"] .md-nav__item .md-nav__link {
     color: rgba(255, 255, 255, 0.85) !important;
 }
-
 [data-md-color-scheme="slate"] .md-nav__list[data-md-component="toc"] .md-nav__item .md-nav__link:hover {
     color: #ffffff !important;
 }
-
 /* ✅ Fix TOC width */
 .md-sidebar--secondary {
     width: 280px !important;
 }
-
 /* ✅ Make sure TOC text is readable */
 [data-md-color-scheme="slate"] .md-sidebar-secondary .md-nav__link {
     color: rgba(255, 255, 255, 0.85) !important;
 }
-
 [data-md-color-scheme="slate"] .md-sidebar-secondary .md-nav__link:hover {
     color: #ffffff !important;
 }
-
 [data-md-color-scheme="slate"] .md-sidebar-secondary .md-nav__link.md-nav__link--active {
     color: var(--md-accent-fg-color) !important;
 }
@@ -211,12 +429,10 @@ body, p, li, a {
     width: 350px !important; /* Adjust as needed */
     max-width: 350px !important;
 }
-
 /* Dark mode backgrounds for sidebars */
 [data-md-color-scheme="slate"] .md-sidebar--primary {
     background-color: #1c2c3a !important;
 }
-
 [data-md-color-scheme="slate"] .md-sidebar--secondary {
     background-color: #1c2c3a !important;
 }
@@ -245,7 +461,6 @@ body, p, li, a {
 .md-header__button.md-logo img {
     filter: none !important;
 }
-
 /* Only invert in dark mode */
 [data-md-color-scheme="slate"] .md-header__button.md-logo img {
     filter: brightness(0) invert(1) !important;
@@ -259,75 +474,97 @@ body, p, li, a {
 .md-footer__button {
   color: var(--md-primary-fg-color) !important;
 }
-
 /* Dark mode – ensure they're visible */
 [data-md-color-scheme="slate"] .md-footer__link,
 [data-md-color-scheme="slate"] .md-footer__button {
   color: #ffffff !important;
 }
-
 /* No invert in light mode */
 .md-footer__button svg {
     filter: none !important;
 }
-
 /* Invert only in dark mode */
 [data-md-color-scheme="slate"] .md-footer__button svg {
     filter: brightness(0) invert(1) !important;
 }
-
 /* Light mode: Use default color */
 .md-header__button.md-logo img,
 .md-header__button .fa-github {
   filter: none !important;
   color: var(--md-primary-fg-color) !important;
 }
-
 /* Dark mode: Adjust colors as needed */
 [data-md-color-scheme="slate"] .md-header__button.md-logo img,
 [data-md-color-scheme="slate"] .md-header__button .fa-github {
   filter: brightness(0) invert(1) !important;
   color: #ffffff !important;
 }
-
 /* Only apply in light mode (when dark mode is not active) */
 :root:not([data-md-color-scheme="slate"]) .md-source__repository {
     color: white !important;
   }
-
-  /* Light mode: Force SVG icon fill to white */
+/* Light mode: Force SVG icon fill to white */
 :root:not([data-md-color-scheme="slate"]) .md-source__icon.md-icon svg path {
   fill: white !important;
 }
-
 /* Light mode only: force footer icon and title to white */
 :root:not([data-md-color-scheme="slate"]) .md-footer__button.md-icon,
 :root:not([data-md-color-scheme="slate"]) .md-footer__title {
   color: white !important;
   fill: white !important; /* if there's an SVG child */
 }
-
 /* Light mode: footer background = CNRS Blue, text = CNRS Violet */
 :root:not([data-md-color-scheme="slate"]) .md-footer__inner.md-grid {
-    background-color: #00284b !important; /* CNRS Blue */
-    color: #6941eb !important;           /* CNRS Violet */
+    background-color: #00284b !important;
+    color: #6941eb !important;
   }
   
-  :root:not([data-md-color-scheme="slate"]) .md-footer {
-    background-color: #00284b !important; /* CNRS Blue */
+:root:not([data-md-color-scheme="slate"]) .md-footer {
+    background-color: #00284b !important;
   }
-
-  /* Dark mode only */
+/* Dark mode only */
 [data-md-color-scheme="slate"] .md-footer__inner.md-grid,
 [data-md-color-scheme="slate"] .md-footer {
-  background-color: #1c2c3a !important; /* Example CNRS dark */
-  color: #e0e0e0 !important;           /* Light text */
+  background-color: #1c2c3a !important;
+  color: #e0e0e0 !important;
 }
-
 [data-md-color-scheme="slate"] .md-footer__title,
 [data-md-color-scheme="slate"] .md-footer__button.md-icon,
 [data-md-color-scheme="slate"] .md-footer-meta.md-typeset {
-  color: #e0e0e0 !important;  /* Light text/icon color */
-  fill: #e0e0e0 !important;   /* For inline SVG icons */
-  background-color: #00284b !important; /* Example CNRS dark */
+  color: #e0e0e0 !important;
+  fill: #e0e0e0 !important;
+  background-color: #00284b !important;
+}
+
+.md-header__inner {
+  color: white !important;
+  background-color: var(--md-primary-fg-color) !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.md-tabs {
+  position: fixed !important;
+  top: 2.4rem !important;
+  left: 0;
+  right: 0;
+  color: white !important;
+  background-color: var(--md-primary-fg-color) !important;
+  z-index: 99;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  will-change: transform, opacity;
+  border: none !important;
+  box-shadow: none !important;
+  margin: -1px 0 0 0;
+}
+
+.md-tabs.tabs--hidden,
+.md-tabs.tabs--hidden [data-md-component="tabs"] {
+  transform: translateY(-200%) !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
