@@ -16,15 +16,15 @@ Before installing MetaboT, ensure you have the following installed:
 
 ---
 
-### **Clone the Repository**
+## **Clone the Repository** 📥
 
-   ```bash
-   git clone https://github.com/holobiomicslab/MetaboT.git
-   git checkout [dev](https://github.com/holobiomicslab/MetaboT/tree/dev)
-   cd MetaboT
-   ```
+```bash
+git clone https://github.com/holobiomicslab/MetaboT.git
+git checkout [dev](https://github.com/holobiomicslab/MetaboT/tree/dev)
+cd MetaboT
+```
 
-### **Create and Activate the Conda Environment**
+## **Create and Activate the Conda Environment** ⚙️
 
    **For macOS:**
    ```bash
@@ -65,8 +65,7 @@ Before installing MetaboT, ensure you have the following installed:
 
 ---
 
-
-### Install Dependencies
+## Install Dependencies 📦
 
 ```bash
 pip install -r requirements.txt
@@ -74,7 +73,7 @@ pip install -r requirements.txt
 
 ---
 
-### Environment Variables
+## Environment Variables 🔑
 
 Create a `.env` file in the [root directory](https://github.com/holobiomicslab/MetaboT) with the following variables:
 
@@ -92,7 +91,7 @@ OPENAI_API_KEY=your_openai_api_key  # If using OpenAI services
 
 ---
 
-### SPARQL Endpoint Configuration
+## SPARQL Endpoint Configuration 🌐
 
 Edit [`app/config/sparql.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/sparql.ini) to configure your SPARQL endpoint:
 
@@ -102,10 +101,9 @@ endpoint=http://your-sparql-endpoint:8890/sparql
 graph=http://your-graph-uri
 ```
 
-
 ---
 
-### Verify Installation
+## Verify Installation ✅
 
 To verify your installation:
 
@@ -113,11 +111,9 @@ To verify your installation:
 python -m pytest app/core/tests/
 ```
 
-All tests should pass successfully.
-
 ---
 
-### Common Issues and Solutions
+## Common Issues 🐞
 
 #### Issue: Database Connection Error
 
@@ -126,7 +122,7 @@ If you encounter database connection issues:
 2. Verify database credentials in `.env`.
 3. Run the test connection script:
    ```bash
-   python [app/core/test_db_connection.py
+   python app/core/test_db_connection.py
    ```
 
 #### Issue: SPARQL Endpoint Connection
@@ -138,11 +134,9 @@ If SPARQL queries fail:
 
 ---
 
----
-
 ## Mass Spectrometry Data 🔬
 
-To use MetaboT, your mass spectrometry processing and annotation results must first be converted into a knowledge graph format using the ENPKG tool. By default, MetaboT connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of MetaboT without the need for custom data conversion immediately. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
+By default, MetaboT connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of MetaboT without the need for custom data conversion immediately. To use MetaboT on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
 
 Edit [`app/config/sparql.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/sparql.ini) to configure your SPARQL endpoint:
 
@@ -159,7 +153,7 @@ graph=http://your-graph-uri
 If you encounter any issues during installation:
 
 1. Check our [GitHub Issues](https://github.com/holobiomicslab/MetaboT/issues) for similar problems.
-2. Create a new [Issues](https://github.com/holobiomicslab/MetaboT/issues)  with detailed information about your setup and the error.
+2. Create a new [Issues](https://github.com/holobiomicslab/MetaboT/issues) with detailed information about your setup and the error.
 
 ---
 
