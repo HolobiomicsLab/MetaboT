@@ -3,7 +3,7 @@
 This guide details all configuration options available in MetaboT, helping you customize the system to your specific needs.
 
 ---
-## Configuration Files Overview 📁
+## Configuration Overview 📁
 
 MetaboT uses several configuration files located in the [`app/config/`](app/config/) directory:
 
@@ -12,6 +12,7 @@ MetaboT uses several configuration files located in the [`app/config/`](app/conf
 - **[`logging.ini`](app/config/logging.ini)**: Logging configuration
 - **.env**: Environment variables (created by user)
 
+---
 ## LLMs Configuration 🤖
 
 Located in [`params.ini`](app/config/params.ini), this configuration controls the behavior of different language models used in the system.
@@ -58,7 +59,7 @@ temperature = 1
 max_retries = 3
 ```
 
-### Available Sections 📋
+### Available Sections
 
 - **Main LLM (`[llm]`)**
   Primary language model for complex queries (GPT-4o 2024.08.06)
@@ -79,7 +80,7 @@ max_retries = 3
 
 Note: MetaboT supports any OpenAI-compatible API endpoints through custom configurations.
 
-### Parameters 📝
+### Parameters
 
 - `id`: Model identifier (e.g., gpt-4, gpt-3.5-turbo)
 - `temperature`: Randomness in responses (0-1)
