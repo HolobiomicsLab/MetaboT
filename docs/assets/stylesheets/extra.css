@@ -13,15 +13,12 @@ html {
   width: 100%;
   height: 90vh;
   z-index: 2;
-  background: linear-gradient(135deg, var(--md-primary-fg-color) 0%, #1a365d 100%);
-  perspective: 2000px;
-  transform-style: preserve-3d;
+  background: url('../images/hero-bg.png') center/cover;
   margin-bottom: 0;
-  pointer-events: none; /* Allow clicks to pass through to navigation */
 }
 
 .hero__content {
-  pointer-events: auto; /* Re-enable clicks for hero content */
+  pointer-events: auto;
 }
 
 /* Adjust main content to be visible over the hero */
@@ -36,7 +33,7 @@ html {
   margin: 0;
   background: var(--md-default-bg-color);
   position: relative;
-  padding-top: 1rem; /* Reduced padding */
+  padding-top: 1rem;
   padding-bottom: 2rem;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -57,66 +54,6 @@ html {
   visibility: visible !important;
 }
 
-.hero__layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  will-change: transform;
-  transform-style: preserve-3d;
-}
-
-/* Layer 1: Abstract background with diagonal pattern */
-.layer-1 {
-  background:
-    linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.03) 75%),
-    linear-gradient(45deg, rgba(255,255,255,0.03) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.03) 75%);
-  background-size: 60px 60px;
-  background-position: 0 0, 30px 30px;
-  transform: translateZ(-2px) scale(3);
-  opacity: 0.5;
-}
-
-/* Layer 2: Molecule-like patterns */
-.layer-2::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 60% 30%, rgba(105,65,235,0.15) 0%, transparent 30%),
-    radial-gradient(circle at 30% 70%, rgba(105,65,235,0.15) 0%, transparent 30%),
-    radial-gradient(circle at 80% 20%, rgba(105,65,235,0.15) 0%, transparent 30%);
-  transform: translateZ(-1px) scale(2);
-}
-
-/* Layer 3: Graph visualization pattern */
-.layer-3::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background:
-    linear-gradient(90deg, transparent 47%, rgba(255,255,255,0.07) 47%, rgba(255,255,255,0.07) 53%, transparent 53%),
-    linear-gradient(0deg, transparent 47%, rgba(255,255,255,0.07) 47%, rgba(255,255,255,0.07) 53%, transparent 53%);
-  background-size: 40px 40px;
-  transform: translateZ(-0.5px) scale(1.5);
-}
-
-/* Layer 4: Decorative elements */
-.layer-4::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 10% 10%, rgba(255,255,255,0.05) 0%, transparent 15%),
-    radial-gradient(circle at 90% 90%, rgba(255,255,255,0.05) 0%, transparent 15%),
-    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 20%);
-  transform: translateZ(0) scale(1);
-}
-
 .hero__content {
   position: relative;
   z-index: 5;
@@ -129,24 +66,27 @@ html {
 }
 
 .hero__title {
-  font-size: 4rem;
-  margin-bottom: 1.5rem;
-  color: white !important;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+   margin-bottom: 1.5rem;
+   color: white !important;
+   text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+   font-weight: 900;
+   font-size: 28px; /* Adjusts size based on screen width */
+   letter-spacing: 0.1em;
+   font-family: "IBM Plex Sans", sans-serif;
+
 }
 
 .hero__subtitle {
-  font-size: 1.75rem;
-  margin-bottom: 2.5rem;
-  color: rgba(255,255,255,0.95) !important;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  font-weight: 400;
-  line-height: 1.4;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+   font-size: 2.25rem;
+   margin-bottom: 2.5rem;
+   color: rgba(255,255,255,0.95) !important;
+   text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+   font-weight: 700; /* Bold */
+   line-height: 1.4;
+   max-width: 800px;
+   margin-left: auto;
+   margin-right: auto;
+   font-family: "Satoshi", sans-serif;
 }
 
 .hero__buttons {
@@ -172,11 +112,14 @@ html {
   background: var(--md-accent-fg-color);
   color: var(--md-primary-fg-color) !important;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  background-color: #f0f0f0; /* Light grey hover */
+
 }
 
-.hero__button--primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+.hero__button:hover {
+  background-color: #f0f0f0; /* Light grey hover */
+  color: #000;
+  transform: scale(1.05);
 }
 
 .hero__button--secondary {
@@ -313,7 +256,7 @@ html {
 ----------------------------------------------------------------------------------- */
 /* ✅ Mode sombre : Background CNRS pour le header */
 [data-md-color-scheme="slate"] .md-header {
-    background-color: #0d1b2a !important; /* Bleu nuit */
+    background-color: #00284b !important;
 }
 /* ✅ Override root variables in dark mode */
 [data-md-color-scheme="slate"] {
@@ -325,6 +268,7 @@ html {
 [data-md-color-scheme="slate"] .md-tabs,
 [data-md-color-scheme="slate"] .md-tabs__link {
     color: white !important;
+    background-color: #00284b !important;
 }
 [data-md-color-scheme="slate"] .md-tabs__link:hover {
     color: var(--md-accent-fg-color) !important;
