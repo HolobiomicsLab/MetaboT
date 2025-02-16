@@ -1,271 +1,115 @@
-# Contributing to MetaboT 🤝
+# Contributing to MetaboT 📝
 
-Thank you for your interest in contributing to MetaboT! This guide will help you understand how to contribute effectively to the project.
+We appreciate your interest in contributing to MetaboT! Below are the guidelines to help you get started.
 
-## Getting Started 🚀
+---
 
-#### Prerequisites ✅
+## How to Contribute 🤝
 
-- Python 3.11 or higher
-- Git
-- A GitHub account
-- Basic understanding of metabolomics concepts
-- Familiarity with:
-  - Python programming
-  - RDF and SPARQL
-  - LangChain framework
-  - Scientific Python libraries (numpy, pandas, etc.)
+### Fork the Repository
 
-#### Setting Up Development Environment 🔧
+Fork the [MetaboT repository](https://github.com/holobiomicslab/MetaboT) to your GitHub account.
 
-1. **Fork the repository:**
-   ```bash
-   # Clone your fork
-   git clone https://github.com/YOUR_USERNAME/MetaboT.git
-   cd MetaboT
-   
-   # Add upstream remote
-   git remote add upstream https://github.com/holobiomicslab/MetaboT.git
-   ```
+Clone your forked repository to your local machine:
 
-2. **Create a virtual environment:**
-   ```bash
-   # Using conda
-   conda env create -f environment.yml
-   
-   # Or using venv
-   python -m venv venv
-   source venv/bin/activate  # Unix/macOS
-   # or
-   .\venv\Scripts\activate   # Windows
-   ```
-
-3. **Install development dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Development Workflow 🛠️
-
-#### 1. Create a Branch 🌿
+- Fork the repository on GitHub.
+- Clone your fork and check out a new branch from the [`dev` branch](https://github.com/holobiomicslab/MetaboT/tree/dev).
 
 ```bash
-# Update your main
-git checkout main
-git pull upstream main
-
-# Create a new branch
-git checkout -b feature/your-feature-name
+git clone https://github.com/<your-username>/MetaboT.git
+cd MetaboT
+git checkout -b dev
 ```
 
-#### 2. Make Changes ✍️
+### Create a Branch
 
-- Write clear, documented code
-- Follow the project's coding style
-- Add tests for new functionality
-- Update documentation as needed
+Create a new branch for your feature or bugfix. For example, if you're working on a new feature, you might create a branch off the [`dev` branch](https://github.com/holobiomicslab/MetaboT/tree/dev).
 
-#### 3. Test Your Changes ✅
+#### Development Process
+
+**Making Changes**
+
+- Make your changes ensuring all references to files (e.g., configuration files like [app/config/params.ini](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/params.ini)) are updated as needed.
+- Commit your changes with clear, meaningful commit messages.
+- Push your feature branch and open a pull request against the [`dev` branch](https://github.com/holobiomicslab/MetaboT/tree/dev).
+
+
+### Code Guidelines
+
+- Follow the existing code style (Google DocString).
+- Write clear and concise commit messages.
+- Include comments and docstrings where necessary.
+
+---
+
+#### Code Standards 
+
+- Follow **PEP8** for Python code. See the [Python Style Guide (PEP 8)](https://www.python.org/dev/peps/pep-0008/).
+- Include detailed documentation and inline comments where applicable.
+
+---
+
+#### Tests 
+
+You can find our test suite in the [app/core/tests/](https://github.com/holobiomicslab/MetaboT/tree/main/app/core/tests) directory.
+
+#### Documentation
+
+Update the documentation to reflect your changes. This includes:
+
+- Docstrings in the code.
+- Relevant Markdown files in the [docs/ directory](https://github.com/holobiomicslab/MetaboT/tree/main/docs), including:
+  - [API Reference](https://github.com/holobiomicslab/MetaboT/tree/main/docs/api-reference)
+  - [User Guide](https://github.com/holobiomicslab/MetaboT/tree/main/docs/user-guide)
+  - [Examples](https://github.com/holobiomicslab/MetaboT/tree/main/docs/examples)
+  - [Getting Started](https://github.com/holobiomicslab/MetaboT/tree/main/docs/getting-started)
+
+---
+
+## Submitting Your Changes 📤
+
+### Commit Your Changes
+
+Commit your changes with a descriptive message:
 
 ```bash
-# Run the test suite
-python -m pytest app/core/tests/
-
-# Run specific tests
-python -m pytest app/core/tests/test_utils.py
+git add .
+git commit -m "Add new feature X"
 ```
 
-#### 4. Submit Changes 📤
+### Push to Your Fork
 
-1. **Commit your changes:**
-   ```bash
-   git add .
-   git commit -m "feat: Add new feature X"
-   ```
+Push your changes to your forked repository:
 
-2. **Push to your fork:**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-3. **Create a Pull Request on GitHub**
-
-## Code Style Guidelines 🎨
-
-#### Python Code Style
-
-- Follow PEP 8 guidelines
-- Use type hints
-- Write descriptive docstrings
-- Keep functions focused and small
-
-Example:
-```python
-from typing import Dict, Any
-
-def process_feature(feature_data: Dict[str, Any]) -> Dict[str, float]:
-    """
-    Process metabolomics feature data.
-    
-    Args:
-        feature_data: Dictionary containing feature information
-        
-    Returns:
-        Processed feature data with normalized values
-        
-    Raises:
-        ValueError: If required fields are missing
-    """
-    if 'intensity' not in feature_data:
-        raise ValueError("Missing required field: intensity")
-    
-    return {
-        'normalized_intensity': feature_data['intensity'] / 100.0
-    }
+```bash
+git push origin my-feature-branch
 ```
 
-#### Documentation Style ✏️
+### Open a Pull Request
 
-- Use Markdown for documentation
-- Include code examples
-- Provide clear explanations
-- Update the changelog
+Open a pull request from your branch to the [`dev` branch](https://github.com/holobiomicslab/MetaboT/tree/dev) of the original repository. Provide a clear description of your changes and any relevant information.
 
-## Adding New Features ✨
+---
 
-#### 1. Agents 🤖
+### Code Review
 
-When adding a new agent:
+Your pull request to the [`dev` branch](https://github.com/holobiomicslab/MetaboT/tree/dev) will be reviewed by an AI-agent and then by the maintainers. They may request changes or provide feedback. Please be responsive and address any comments or suggestions.
 
-1. Create a new module in `app/core/agents/`
-2. Implement the agent class
-3. Add to the agent factory
-4. Update documentation
+---
 
-Example:
-```python
-from app.core.agents.base import BaseAgent
+## Community 👥
 
-class NewAgent(BaseAgent):
-    def __init__(self, model, graph):
-        super().__init__(model, graph)
-        self.tools = self._initialize_tools()
-    
-    def process(self, input_data):
-        # Implementation
-        pass
-```
+- You are welcome to use, reuse, and enrich MetaboT.
+- Be respectful and considerate in your interactions.
+- Help others and share your knowledge.
+- Check our [examples](https://github.com/holobiomicslab/MetaboT/tree/main/docs/examples) for guidance.
 
-#### 2. Tools 🔧
+---
 
-When adding new tools:
+## Additional Resource 📚
 
-1. Create a tool class in the appropriate module
-2. Implement required methods
-3. Add tests
-4. Update documentation
+- [Writing Good Commit Messages](https://chris.beams.io/posts/git-commit/)
 
-Example:
-```python
-class NewTool:
-    def __init__(self):
-        self.name = "new_tool"
-        self.description = "Performs new analysis"
-    
-    def run(self, input_data):
-        # Implementation
-        pass
-```
+---
 
-## Testing Guidelines 🧪
-
-#### 1. Unit Tests
-
-- Write tests for new functionality
-- Use pytest fixtures
-- Mock external services
-- Test edge cases
-
-Example:
-```python
-import pytest
-from app.core.utils import process_feature
-
-def test_process_feature():
-    # Arrange
-    test_data = {'intensity': 100.0}
-    
-    # Act
-    result = process_feature(test_data)
-    
-    # Assert
-    assert result['normalized_intensity'] == 1.0
-```
-
-#### 2. Integration Tests
-
-- Test component interactions
-- Verify workflow functionality
-- Test with real data samples
-
-## Documentation 📝
-
-#### 1. Code Documentation
-
-- Add docstrings to all functions/classes
-- Include type hints
-- Document exceptions
-- Provide usage examples
-
-#### 2. User Documentation
-
-- Update relevant .md files
-- Add new features to examples
-- Include configuration details
-- Document breaking changes
-
-## Pull Request Process 🔀
-
-1. **Description**
-   - Clearly describe the changes
-   - Reference related issues
-   - List breaking changes
-
-2. **Review Process**
-   - Address reviewer comments
-   - Update tests as needed
-   - Maintain clean commit history
-
-3. **Merge Requirements**
-   - Pass all tests
-   - Receive approval from maintainers
-   - Up-to-date documentation
-
-## Community Guidelines 🌐
-
-#### Communication 💬
-
-- Be respectful and inclusive
-- Use clear, technical language
-- Provide context for questions
-- Help others learn
-
-#### Issue Reporting 🐞
-
-1. Search existing issues
-2. Use issue templates
-3. Provide reproducible examples
-4. Include system information
-
-## Getting Help 🙋‍♂️
-
-- Check the documentation
-- Search existing issues
-- Ask in discussions
-- Contact maintainers
-
-## License 📜
-
-By contributing, you agree that your contributions will be licensed under the project's MIT License.
-
-Thank you for contributing to MetaboT! Your efforts help improve metabolomics research tools for everyone.
+Thank you for contributing to MetaboT! Your efforts help make this project better for everyone.
