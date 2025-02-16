@@ -14,8 +14,9 @@ body_class: md-home
 </div>
 <div style="height: 6vh;"></div>
 
-
 # Welcome to 🧪 MetaboT 🍵 🚀
+
+> Take a break, brew a cup of tea 🍵, and let 🧪 MetaboT 🍵 dig into your mass spec data! While you enjoy your favorite brew, our AI system will be busy infusing your data with meaning. Sip, smile, and watch the insights steep into brilliance! ✨
 
 ## Key Features ✨
 
