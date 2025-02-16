@@ -18,91 +18,95 @@ graph TB
     H --> I[Results]
 ```
 
-1. **Entry Agent** 🚪
-   - Processes initial user queries
-   - Performs query validation and preprocessing
-   - Routes queries to appropriate processing paths
+- **Entry Agent** 🚪
+    - Processes initial user queries.
+    - Performs query validation and preprocessing.
+    - Routes queries to appropriate processing paths.
 
-2. **Supervisor Agent** 🎛️
-   - Orchestrates the workflow between agents
-   - Manages state and context throughout query processing
-   - Ensures proper sequencing of operations
+- **Supervisor Agent** 🎛️
+    - Orchestrates the workflow between agents.
+    - Manages state and context throughout query processing.
+    - Ensures proper sequencing of operations.
 
-3. **ENPKG Agent** 🧪
-   - Handles metabolomics-specific processing
-   - Manages chemical structure analysis
-   - Processes bioassay data
+- **ENPKG Agent** 🧪
+    - Handles metabolomics-specific processing.
+    - Manages chemical structure analysis.
+    - Processes bioassay data.
 
-4. **SPARQL Agent** 🔎
-   - Executes queries against the RDF knowledge graph
-   - Optimizes query performance
-   - Handles complex graph traversals
+- **SPARQL Agent** 🔎
+    - Executes queries against the RDF knowledge graph
+    - Optimizes query performance
+    - Handles complex graph traversals
 
-5. **Interpreter Agent** 📢
-   - Processes and formats query results
-   - Generates human-readable outputs
-   - Handles data visualization requests
+- **Interpreter Agent** 📢
+    - Processes and formats query results
+    - Generates human-readable outputs
+    - Handles data visualization requests
 
-6. **Validator Agent** ✅
-   - Ensures data quality and consistency
-   - Validates query results
-   - Performs error checking
+- **Validator Agent** ✅
+    - Ensures data quality and consistency
+    - Validates query results
+    - Performs error checking
 
 ### Knowledge Graph Integration 🔗
 
 MetaboT utilizes a sophisticated RDF-based knowledge graph that:
 
-- Stores metabolomics data and relationships
-- Enables complex query capabilities
-- Supports data integration from multiple sources
-- Maintains data provenance
+- Stores metabolomics data and relationships.
+- Enables complex query capabilities.
+- Supports data integration from multiple sources.
+- Maintains data provenance.
 
-**Note:** By default, MetaboT connects to the public ENPKG endpoint, which hosts an annotated mass spectrometry dataset derived from 1,600 plant extracts. This default dataset is provided to help you explore and understand the capabilities of MetaboT without needing a custom data conversion workflow immediately.
+**Note:**  By default, MetaboT connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of MetaboT without the need for custom data conversion immediately. To use MetaboT on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
 
 ## Key Features 🚀
 
-### 1. Query Processing 🔍
+### Query Processing 🔍
 
 MetaboT supports various types of queries:
 
 - **Standard Queries**: Pre-defined queries for common analyses
-- **Custom Queries**: User-defined natural language queries
-- **SPARQL Queries**: Direct graph database queries
+- **Custom Queries**: User-defined natural language queries.
+- **Knowledge Graph Integration**: Access and analyze data from a comprehensive knowledge graph.
+- **Advanced Data Processing**: Perform complex data analysis tasks with ease.
+- **Visualization Tools**: Generate visualizations to better understand your data.
 
-### 2. Data Analysis Capabilities 📊
+For development updates, please refer to the [`dev`](https://github.com/holobiomicslab/MetaboT/tree/dev) branch.
+ 
+### Data Analysis Capabilities 📊
 
 - **Chemical Structure Analysis** 🧬
-  - SIRIUS/CSI:FingerID integration
-  - ISDB annotation support
-  - Structure similarity comparisons
+    - SIRIUS annotation
+    - ISDB annotation support
+    - Structure similarity comparisons
 
 - **Metabolomics Analysis** 🧪
-  - Feature detection and analysis
-  - Ionization mode processing
-  - Retention time analysis
+    - Feature detection and analysis
+    - Ionization mode processing
+    - Retention time analysis
 
 - **Bioassay Integration** 💊
-  - Activity data analysis
-  - Inhibition studies
-  - Concentration-response relationships
+    - Activity data analysis
+    - Inhibition studies
+    - Concentration-response relationships
 
-### 3. AI-Powered Processing 🤖
+### AI-Powered Processing 🤖
 
 MetaboT leverages advanced AI capabilities through:
 
 - **Language Models**
-  - Natural language query processing
-  - Context-aware responses
-  - Intelligent result interpretation
+    - Natural language query processing
+    - Context-aware responses
+    - Result interpretation
 
 - **Agent Collaboration**
-  - Multi-agent workflow coordination
-  - Specialized task processing
-  - Adaptive response generation
+    - Multi-agent workflow coordination
+    - Specialized task processing
+    - Adaptive response generation
 
 ## Workflow Examples 🛠️
 
-### 1. Basic Feature Analysis 📝
+### Basic Feature Analysis 📝
 
 ```mermaid
 sequenceDiagram
@@ -122,7 +126,7 @@ sequenceDiagram
     Entry-->>User: Present results
 ```
 
-### 2. Chemical Structure Analysis 🧪
+### Chemical Structure Analysis 🧪
 
 ```mermaid
 sequenceDiagram
@@ -141,7 +145,7 @@ sequenceDiagram
     Entry-->>User: Present structures
 ```
 
-## Performance Considerations ⚡️
+## Performances  ⚡️
 
 ### Query Optimization 🔧
 
@@ -158,19 +162,15 @@ sequenceDiagram
 ## Best Practices 👍
 
 1. **Query Design**
-   - Start with standard queries when possible
-   - Build custom queries incrementally
-   - Test queries with smaller datasets first
+    - Start with standard queries when possible
+    - Build custom queries incrementally
+    - Test queries with smaller datasets first
 
-2. **Data Management**
-   - Regularly update knowledge graph data
-   - Maintain consistent data formats
-   - Document custom queries and workflows
 
-3. **System Configuration**
-   - Keep environment variables updated
-   - Monitor system resources
-   - Regular maintenance of graph database
+2. **System Configuration**
+    - Keep environment variables updated
+    - Monitor system resources
+    - Regular maintenance of graph database
 
 ## Integration Capabilities 🔌
 
