@@ -2,11 +2,12 @@
 
 This document provides detailed information about the core components and functions of MetaboT.
 
+---
 ## Main Module 🚀
 
-The main module (`app.core.main`) provides the primary entry points and core functionality for MetaboT.
+The main module ([`app.core.main`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/main.py)) provides the primary entry points and core functionality for MetaboT.
 
-### Functions ⚙️
+### Functions
 
 #### `link_kg_database` 🔗
 
@@ -60,11 +61,12 @@ Configures LangSmith integration for workflow tracking and monitoring.
 langsmith_setup()  # Sets up LangSmith environment
 ```
 
+---
 ## Graph Management 📡
 
-The graph management module provides tools for interacting with the RDF knowledge graph.
+The graph management module ([`app.core.graph_management.RdfGraphCustom`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py)) provides tools for interacting with the RDF knowledge graph.
 
-### RdfGraph Class 📊
+### RdfGraph Class
 
 ```python
 class RdfGraph:
@@ -79,15 +81,17 @@ class RdfGraph:
 ```
 
 **Key Methods:**
+
 - `get_schema`: Retrieves the graph schema
 - `execute_query`: Runs SPARQL queries against the graph
 - `save`: Persists the graph state
 
+---
 ## Workflow Management 🔄
 
-The workflow module (`app.core.workflow.langraph_workflow`) manages the processing pipeline.
+The workflow module ([`app.core.workflow.langraph_workflow`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/workflow/langraph_workflow.py)) manages the processing pipeline.
 
-### Functions ⚙️
+### Functions
 
 #### `create_workflow` 🏗️
 
@@ -119,11 +123,12 @@ Processes a query through the workflow.
 **Returns:**
 - Query results
 
+---
 ## Agent Factory 🏭
 
-The agent factory module (`app.core.agents.agents_factory`) manages agent creation and configuration.
+The agent factory module ([`app.core.agents.agents_factory`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/agents_factory.py)) manages agent creation and configuration.
 
-### Functions ⚙️
+### Functions
 
 #### `create_all_agents` 🛠️
 
@@ -140,11 +145,12 @@ Creates all required agents for the workflow.
 **Returns:**
 - Dictionary of initialized agents
 
+---
 ## Utility Functions 🧰
 
-The utils module (`app.core.utils`) provides common utility functions.
+The utils module ([`app.core.utils`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/utils.py)) provides common utility functions.
 
-### Functions ⚙️
+### Functions
 
 #### `setup_logger` 📝
 
@@ -174,6 +180,7 @@ Loads a configuration file.
 **Returns:**
 - Parsed configuration object
 
+---
 ## Error Handling 🚨
 
 MetaboT provides several error types for handling specific scenarios:
@@ -192,9 +199,10 @@ class QueryExecutionError(MetaboTError):
     pass
 ```
 
+---
 ## Usage Examples 📘
 
-### Basic Query Processing 🔰
+### Basic Query Processing
 
 ```python
 from app.core.main import link_kg_database, llm_creation
@@ -211,7 +219,7 @@ workflow = create_workflow(agents)
 results = process_workflow(workflow, "Your query here")
 ```
 
-### Custom Agent Integration 🔄
+### Custom Agent Integration
 
 ```python
 from app.core.agents.base import BaseAgent

@@ -2,11 +2,17 @@
 
 This document details the graph management system in MetaboT, focusing on the RDF graph implementation and related utilities.
 
-## RDF Graph Custom 🗺️
+---
+## RDF Graph Custom 🔄
 
-The `RdfGraphCustom` module (`app.core.graph_management.RdfGraphCustom`) provides the core functionality for interacting with RDF-based knowledge graphs.
+The [`RdfGraphCustom`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py) module (`app.core.graph_management.RdfGraphCustom`) provides the core functionality for interacting with RDF-based knowledge graphs.
 
-### Class: RdfGraph 🔍
+The custom RDF graph management is implemented in [`RdfGraphCustom.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py).
+
+The graph schema is defined in [`schema.ttl`](https://github.com/holobiomicslab/MetaboT/blob/main/app/graphs/schema.ttl) and [`schema.jsonld`](https://github.com/holobiomicslab/MetaboT/blob/main/app/graphs/schema.jsonld).
+
+### Class: RdfGraph
+[`RdfGraph`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py)
 
 ```python
 class RdfGraph:
@@ -25,8 +31,9 @@ class RdfGraph:
         """
 ```
 
-#### Key Methods ✨
+For a practical example of how graph management is used, refer to the main module in [`app/core/main.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/main.py).
 
+---
 ##### Query Execution 🚀
 
 ```python
@@ -82,7 +89,7 @@ def load(self, path: str) -> None:
 
 The system includes predefined SPARQL query templates for common operations.
 
-### Basic Queries 🔰
+### Basic Queries
 
 ```sparql
 # Class Information Query
@@ -111,9 +118,10 @@ GROUP BY ?property ?type
 LIMIT 300
 ```
 
-## Graph Utilities 🔧
+---
+## Graph Utilities 🛠️
 
-### URI Management 🚦
+### URI Management
 
 ```python
 class URIManager:
@@ -134,7 +142,7 @@ class URIManager:
         """
 ```
 
-### Query Building 🏗️
+### Query Building
 
 ```python
 class QueryBuilder:
@@ -195,9 +203,10 @@ class QueryBuilder:
         return query
 ```
 
-## Usage Examples 📘
+---
+## Usage Examples 💡
 
-### Basic Graph Operations 🔰
+### Basic Graph Operations
 
 ```python
 from app.core.graph_management.RdfGraphCustom import RdfGraph
@@ -220,7 +229,7 @@ results = graph.execute_query("""
 graph.save("graph_backup.pkl")
 ```
 
-### Complex Query Example 🧩
+### Complex Query Example
 
 ```python
 # Query for chemical structures with specific properties
@@ -243,22 +252,8 @@ LIMIT 100
 results = graph.execute_query(query)
 ```
 
-### Using Query Builder 🔨
-
-```python
-builder = QueryBuilder()
-builder.add_prefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-builder.add_prefix("chemical", "http://example.org/chemical/")
-
-builder.add_where_clause("?compound rdf:type chemical:Compound")
-builder.add_where_clause("?compound chemical:mass ?mass")
-builder.set_limit(100)
-
-query = builder.build()
-results = graph.execute_query(query)
-```
-
-## Error Handling 🚨
+---
+## Error Handling ⚠️
 
 ```python
 class GraphError(Exception):
@@ -274,7 +269,7 @@ class QueryError(GraphError):
     pass
 ```
 
-### Error Handling Example ⚠️
+### Error Handling Example
 
 ```python
 try:
@@ -287,21 +282,25 @@ except ConnectionError as e:
     # Handle connection error
 ```
 
-## Performance Considerations ⚡️
+---
+## Performance ⚡
 
 1. **Query Optimization**
-   - Use appropriate LIMIT clauses
-   - Include specific graph patterns
-   - Consider query complexity
+
+    - Use appropriate LIMIT clauses
+    - Include specific graph patterns
+    - Consider query complexity
 
 2. **Connection Management**
-   - Maintain persistent connections
-   - Handle timeouts appropriately
-   - Implement connection pooling for high-load scenarios
+
+    - Maintain persistent connections
+    - Handle timeouts appropriately
+    - Implement connection pooling for high-load scenarios
 
 3. **Data Volume**
-   - Consider pagination for large result sets
-   - Use streaming for large data transfers
-   - Implement caching where appropriate
+
+    - Consider pagination for large result sets
+    - Use streaming for large data transfers
+    - Implement caching where appropriate
 
 For more detailed information about specific graph operations or advanced usage, refer to the respective module documentation.
