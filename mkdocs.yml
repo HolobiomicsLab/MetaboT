@@ -5,7 +5,7 @@ site_author: HolobiomicsLab
 site_url: https://holobiomicslab.github.io/MetaboT
 
 # Repository
-repo_name: holobiomicslab/MetaboT
+repo_name: HolobiomicsLab/MetaboT
 repo_url: https://github.com/HolobiomicsLab/MetaboT
 edit_uri: edit/main/docs/
 
@@ -16,6 +16,7 @@ copyright: Copyright &copy; 2025 Holobiomics Lab
 theme:
   name: material
   custom_dir: overrides
+  collapse_navigation: false
   language: en
   icon:
     logo: material/book
@@ -50,7 +51,6 @@ theme:
     - navigation.indexes 
     - navigation.sections
     - navigation.expand
-    - navigation.indexes
     - navigation.top
     - navigation.footer
     - content.action.view

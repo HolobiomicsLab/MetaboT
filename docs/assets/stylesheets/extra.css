@@ -24,7 +24,7 @@
 ----------------------------------------------------------------------------------- */
 /* ✅ Taille de police pour les titres dans le menu de gauche */
 .md-nav__list .md-nav__item .md-nav__title { 
-    font-size: 1.1rem !important; /* Augmenté */
+    font-size: 1.0rem !important; /* Augmenté */
     font-weight: bold !important;
 }
 
@@ -33,12 +33,20 @@
     font-weight: bold !important;
 }
 
-.md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link { 
-    font-size: 0.65rem !important; /* h3 */
+.md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
+    font-size: 0.70rem !important; /* h3 */
 }
 
-.md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link { 
-    font-size: 0.45rem !important; /* h4 */
+[data-md-color-scheme="slate"] .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
+    color: rgba(255, 255, 255, 0.75) !important; /* lighter color for h3 in dark mode */
+}
+
+.md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
+    font-size: 0.55rem !important; /* h4 */
+}
+
+[data-md-color-scheme="slate"] .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__list .md-nav__item .md-nav__link {
+    color: rgba(255, 255, 255, 0.65) !important; /* lighter color for h4 in dark mode */
 }
 
 /* -----------------------------------------------------------------------------------
@@ -108,6 +116,16 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--md-primary-fg-color); /* Bleu CNRS */
 }
 
+/* Dark mode headings */
+[data-md-color-scheme="slate"] h1,
+[data-md-color-scheme="slate"] h2,
+[data-md-color-scheme="slate"] h3,
+[data-md-color-scheme="slate"] h4,
+[data-md-color-scheme="slate"] h5,
+[data-md-color-scheme="slate"] h6 {
+    color: rgba(255, 255, 255, 0.87) !important; /* Light color for better visibility in dark mode */
+}
+
 /* ✅ Appliquer Satoshi pour le texte */
 body, p, li, a {
     font-family: var(--md-text-font);
@@ -169,8 +187,12 @@ body, p, li, a {
    Left Sidebar
 ----------------------------------------------------------------------------------- */
 .md-sidebar--primary {
-    width: 400px !important; /* Adjust as needed */
-    max-width: 400px !important;
+    width: 350px !important; /* Adjust as needed */
+    max-width: 350px !important;
+}
+.md-sidebar__inner {
+    width: 350px !important; /* Adjust as needed */
+    max-width: 350px !important;
 }
 
 /* Dark mode backgrounds for sidebars */
