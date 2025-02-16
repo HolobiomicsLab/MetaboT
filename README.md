@@ -1,5 +1,5 @@
 ![Hero Background](docs/assets/images/hero-bg.png)
-![MetaboT Logo](metabot_logo.png)s
+![MetaboT Logo](assets/logo.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-g.svg)]()
 [![Arxiv](https://img.shields.io/badge/arXiv-2502.09604-B21A1B)]()
@@ -240,6 +240,8 @@ python -m app.core.main -c "Your custom question"
 │   ├── ressources
 │   └── tests
 ├── environment.yml
+├── environment_alternative.yml
+└── langgraph_checkpoint.db
 ```
 
 ---
