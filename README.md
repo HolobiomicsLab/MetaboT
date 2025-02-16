@@ -370,8 +370,8 @@ Take a break, brew a cup of tea, and have some fun with words while 🧪 MetaboT
 
 Here's a little puzzle to steep your brain:
 
-1. Unscramble the letters in **t-e-a-m-o-b-o-t** to reveal the secret spice behind our data wizard!
-2. What do you get when you mix a hot cup of tea with a powerful AI? Absolutely **tea-rific** insights!
+1. Unscramble the letters in *t-e-a-m-o-b-o-t* to reveal the secret spice behind our data wizard!
+2. What do you get when you mix a hot cup of tea with a powerful AI? Absolutely *tea-rific* insights!
 
 Remember: While you relax with your favorite treat, 🧪 MetaboT 🍵 is busy infusing data with meaning. Sip, smile, and let the insights steep into brilliance!
 
