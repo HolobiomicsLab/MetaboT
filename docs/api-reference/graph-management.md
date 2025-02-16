@@ -1,6 +1,6 @@
 # Graph Management API Reference 📡
 
-This document details the graph management system in MetaboT, focusing on the RDF graph implementation and related utilities.
+This document details the graph management system in 🧪 MetaboT 🍵, focusing on the RDF graph implementation and related utilities.
 
 ---
 ## RDF Graph Custom 🔄

@@ -1,6 +1,6 @@
-# MetaboT Overview ✨
+# 🧪 MetaboT 🍵 Overview ✨
 
-MetaboT is an advanced metabolomics analysis tool that combines AI-powered agents, graph-based data management, and sophisticated query capabilities to analyze and interpret metabolomics data.
+🧪 MetaboT 🍵 is an advanced metabolomics analysis tool that combines AI-powered agents, graph-based data management, and sophisticated query capabilities to analyze and interpret metabolomics data.
 
 ## System Architecture 🏗️
 
@@ -50,20 +50,20 @@ graph TB
 
 ### Knowledge Graph Integration 🔗
 
-MetaboT utilizes a sophisticated RDF-based knowledge graph that:
+🧪 MetaboT 🍵 utilizes a sophisticated RDF-based knowledge graph that:
 
 - Stores metabolomics data and relationships.
 - Enables complex query capabilities.
 - Supports data integration from multiple sources.
 - Maintains data provenance.
 
-**Note:**  By default, MetaboT connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of MetaboT without the need for custom data conversion immediately. To use MetaboT on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
+**Note:**  By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
 
 ## Key Features 🚀
 
 ### Query Processing 🔍
 
-MetaboT supports various types of queries:
+🧪 MetaboT 🍵 supports various types of queries:
 
 - **Standard Queries**: Pre-defined queries for common analyses
 - **Custom Queries**: User-defined natural language queries.
@@ -92,7 +92,7 @@ For development updates, please refer to the [`dev`](https://github.com/holobiom
 
 ### AI-Powered Processing 🤖
 
-MetaboT leverages advanced AI capabilities through:
+🧪 MetaboT 🍵 leverages advanced AI capabilities through:
 
 - **Language Models**
     - Natural language query processing
@@ -174,7 +174,7 @@ sequenceDiagram
 
 ## Integration Capabilities 🔌
 
-MetaboT can be integrated with:
+🧪 MetaboT 🍵 can be integrated with:
 
 - External databases
 - Custom analysis pipelines

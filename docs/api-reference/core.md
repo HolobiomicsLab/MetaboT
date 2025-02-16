@@ -1,11 +1,11 @@
 # Core API Reference ⚙️
 
-This document provides detailed information about the core components and functions of MetaboT.
+This document provides detailed information about the core components and functions of 🧪 MetaboT 🍵.
 
 ---
 ## Main Module 🚀
 
-The main module ([`app.core.main`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/main.py)) provides the primary entry points and core functionality for MetaboT.
+The main module ([`app.core.main`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/main.py)) provides the primary entry points and core functionality for 🧪 MetaboT 🍵.
 
 ### Functions
 
@@ -183,7 +183,7 @@ Loads a configuration file.
 ---
 ## Error Handling 🚨
 
-MetaboT provides several error types for handling specific scenarios:
+🧪 MetaboT 🍵 provides several error types for handling specific scenarios:
 
 ```python
 class MetaboTError(Exception):

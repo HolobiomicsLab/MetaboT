@@ -1,6 +1,6 @@
-# Contributing to MetaboT 📝
+# Contributing to 🧪 MetaboT 🍵 📝
 
-We appreciate your interest in contributing to MetaboT! Below are the guidelines to help you get started.
+We appreciate your interest in contributing to 🧪 MetaboT 🍵! Below are the guidelines to help you get started.
 
 ---
 
@@ -99,7 +99,7 @@ Your pull request to the [`dev` branch](https://github.com/holobiomicslab/Metabo
 
 ## Community 👥
 
-- You are welcome to use, reuse, and enrich MetaboT.
+- You are welcome to use, reuse, and enrich 🧪 MetaboT 🍵.
 - Be respectful and considerate in your interactions.
 - Help others and share your knowledge.
 - Check our [examples](https://github.com/holobiomicslab/MetaboT/tree/main/docs/examples) for guidance.
@@ -112,4 +112,4 @@ Your pull request to the [`dev` branch](https://github.com/holobiomicslab/Metabo
 
 ---
 
-Thank you for contributing to MetaboT! Your efforts help make this project better for everyone.
+Thank you for contributing to 🧪 MetaboT 🍵! Your efforts help make this project better for everyone.

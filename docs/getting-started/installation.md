@@ -1,12 +1,12 @@
 # Installation Guide 🚀
 
-This guide will walk you through the process of installing MetaboT and its dependencies.
+This guide will walk you through the process of installing 🧪 MetaboT 🍵 and its dependencies.
 
 ---
 
 ## Prerequisites 📋
 
-Before installing MetaboT, ensure you have the following installed:
+Before installing 🧪 MetaboT 🍵, ensure you have the following installed:
 
 - **pip** (Python package installer) — [Install pip](https://pip.pypa.io/en/stable/installation/)
 - **conda** — [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html)
@@ -136,7 +136,7 @@ If SPARQL queries fail:
 
 ## Mass Spectrometry Data 🔬
 
-By default, MetaboT connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of MetaboT without the need for custom data conversion immediately. To use MetaboT on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
+By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
 
 Edit [`app/config/sparql.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/sparql.ini) to configure your SPARQL endpoint:
 
@@ -159,6 +159,6 @@ If you encounter any issues during installation:
 
 **Next Steps**
 
-- Follow the [Quick Start Guide](../quickstart/) to begin using MetaboT.
+- Follow the [Quick Start Guide](../quickstart/) to begin using 🧪 MetaboT 🍵.
 - Review the [Configuration Guide](../../user-guide/configuration/) for detailed setup options.
 - Check out [Example Usage](../../examples/basic-usage/) for practical applications.

@@ -1,7 +1,6 @@
-
 # Quick Start Guide 🚀
 
-Welcome to the Quick Start Guide for MetaboT. This guide will help you quickly run and test the application.
+Welcome to the Quick Start Guide for 🧪 MetaboT 🍵. This guide will help you quickly run and test the application.
 
 ---
 
@@ -18,7 +17,7 @@ Before you begin, ensure that you have:
 
 ## Running a Standard Query 🔍
 
-MetaboT includes several predefined queries that demonstrate its capabilities. For example, to run the first standard query (which counts features with matching SIRIUS/CSI:FingerID and ISDB annotations), execute:
+🧪 MetaboT 🍵 includes several predefined queries that demonstrate its capabilities. For example, to run the first standard query (which counts features with matching SIRIUS/CSI:FingerID and ISDB annotations), execute:
 
 ```bash
 python -m app.core.main -q 1
@@ -44,7 +43,7 @@ python -m app.core.main -c "What are the SIRIUS structural annotations for Taber
 
 ## Workflow Overview 🔄
 
-MetaboT leverages a multi-agent workflow architecture to process queries efficiently:
+🧪 MetaboT 🍵 leverages a multi-agent workflow architecture to process queries efficiently:
 
 - **Entry Agent:** Processes the incoming query and routes it to the appropriate system.
 - **Supervisor Agent:** Oversees and coordinates all processing steps within the workflow.
@@ -54,7 +53,7 @@ MetaboT leverages a multi-agent workflow architecture to process queries efficie
 - **Validator Agent:** Checks consistency and accuracy of the results.
 
 
-This modular design allows MetaboT to be extended and customized for various research scenarios.
+This modular design allows 🧪 MetaboT 🍵 to be extended and customized for various research scenarios.
 
 ---
 
@@ -80,7 +79,7 @@ python -m app.core.main -c "List the bioassay results at 10µg/mL against T.cruz
 
 ## Interacting with the Knowledge Graph 🌐
 
-MetaboT connects to a knowledge graph to enrich analysis:
+🧪 MetaboT 🍵 connects to a knowledge graph to enrich analysis:
 ```python
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 
@@ -99,10 +98,10 @@ Make sure that your `KG_ENDPOINT_URL` environment variable is correctly set to p
 For enhanced tracking and monitoring of workflow runs, we are using [LangSmith](https://www.langchain.com/langsmith). An API key is needed ([free upon registration(]((https://www.langchain.com/langsmith))) and set the .env variable as follow:
 
 1. Set up LangSmith:
-   ```bash
-   export LANGCHAIN_API_KEY="your_api_key_here"
-   export LANGCHAIN_PROJECT="MetaboT"
-   ```
+    ```bash
+    export LANGCHAIN_API_KEY="your_api_key_here"
+    export LANGCHAIN_PROJECT="MetaboT"
+    ```
 2. Review LangSmith logs to access runtime details for debugging and auditing.
 
 ### Custom Model Settings
@@ -128,6 +127,6 @@ If you encounter issues, consider the following steps:
 ---
 **Next Steps** ➡️
 
-- Explore the User Guide for in-depth explanations of MetaboT's components.
+- Explore the User Guide for in-depth explanations of 🧪 MetaboT 🍵's components.
 - Review the API Reference to understand function details.
 - Examine the Examples for more advanced usage scenarios.

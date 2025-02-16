@@ -1,6 +1,6 @@
 # Agents API Reference 🤖
 
-This document details the agent system in MetaboT, including the various specialized agents and their roles in processing metabolomics queries.
+This document details the agent system in 🧪 MetaboT 🍵, including the various specialized agents and their roles in processing metabolomics queries.
 
 ---
 ## Agent Factory 🔧
@@ -22,7 +22,7 @@ The agent factory ([`app.core.agents.agents_factory`](https://github.com/Holobio
 def create_all_agents(models: Dict[str, ChatOpenAI], graph: RdfGraph) -> Dict[str, Any]
 ```
 
-Creates and initializes all required agents for the MetaboT workflow.
+Creates and initializes all required agents for the 🧪 MetaboT 🍵 workflow.
 
 **Parameters:**
 

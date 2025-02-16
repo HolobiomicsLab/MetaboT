@@ -1,6 +1,6 @@
 # Advanced Usage Examples ⚡
 
-This guide demonstrates advanced usage patterns and complex workflows in MetaboT.
+This guide demonstrates advanced usage patterns and complex workflows in 🧪 MetaboT 🍵.
 
 Key components used in these examples:
 - [`process_workflow`](https://github.com/nothiasl/MetaboT/blob/main/app/core/workflow/langraph_workflow.py)

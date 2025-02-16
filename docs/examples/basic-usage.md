@@ -1,6 +1,6 @@
 # Basic Usage Examples 🚀
 
-This guide provides practical examples of using MetaboT for common metabolomics analysis tasks.
+This guide provides practical examples of using 🧪 MetaboT 🍵 for common metabolomics analysis tasks.
 
 ---
 ## Standard Queries 🔬
@@ -189,6 +189,5 @@ query = "Which plant has extracts containing compounds that demonstrated inhibit
 ```
 
 **Next Steps** ⏭️
-
 
 For more [advanced usage](../advanced-examples) scenarios and detailed explanations, refer to the respective documentation sections.

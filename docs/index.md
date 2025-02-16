@@ -4,13 +4,9 @@ body_class: md-home
 ---
 
 <div class="hero">
-  <div class="hero__layer layer-1"></div>
-  <div class="hero__layer layer-2"></div>
-  <div class="hero__layer layer-3"></div>
-  <div class="hero__layer layer-4"></div>
   <div class="hero__content">
-    <h1 class="hero__title">MetaboT 🚀</h1>
-    <p class="hero__subtitle">A powerful metabolomics analysis tool leveraging AI and graph-based approaches</p>
+    <h1 class="hero__title"> 🧪 MetaboT 🍵 </h1>
+    <p class="hero__subtitle">Leveraging AI and knowledge graph for metabolomics analysis</p>
     <div class="hero__buttons">
       <a href="getting-started/quickstart/" class="hero__button hero__button--primary">Get Started</a>
     </div>
@@ -19,7 +15,7 @@ body_class: md-home
 <div style="height: 6vh;"></div>
 
 
-# Welcome to MetaboT 🚀
+# Welcome to 🧪 MetaboT 🍵 🚀
 
 ## Key Features ✨
 
@@ -30,7 +26,7 @@ body_class: md-home
 
 ## Project Overview 🔬 {#project-overview}
 
-MetaboT is designed to help researchers and scientists in:
+🧪 MetaboT 🍵 is designed to help researchers and scientists in:
 
 - Processing and analyzing metabolomics data.
 - Identifying complex patterns and relationships.
@@ -46,7 +42,7 @@ MetaboT is designed to help researchers and scientists in:
 
 ## Architecture 🏗️
 
-MetaboT is built with a modular architecture consisting of several key components:
+🧪 MetaboT 🍵 is built with a modular architecture consisting of several key components:
 
 ```mermaid
 graph TD
@@ -75,9 +71,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Citation 🔖
 
-If you use MetaboT in your research, please cite:
+If you use 🧪 MetaboT 🍵 in your research, please cite:
 
-**MetaboT: A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining**
+**🧪 MetaboT 🍵: A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining**
 *Madina Bekbergenova, et al.*
 
 ```bibtex
@@ -102,4 +98,3 @@ If you use MetaboT in your research, please cite:
 <script>
 document.body.classList.add("md-home");
 </script>
-
