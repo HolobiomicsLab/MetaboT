@@ -36,8 +36,8 @@ theme:
     # Dark mode (CNRS Colors)
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: "#0d1b2a"  # ✅ Dark CNRS Blue
-      accent: "#ffeb6e"   # ✅ CNRS Yellow
+      primary: "#1c2c3a"  # Lighter dark blue for better contrast
+      accent: "#8296a5"   # Softer accent color for better readability
       toggle:
         icon: material/brightness-4
         name: Switch to light mode

@@ -173,14 +173,31 @@ body, p, li, a {
     color: var(--md-primary-fg-color--dark) !important;
 }
 
+/* Dark mode TOC styles */
+[data-md-color-scheme="slate"] .md-nav__list[data-md-component="toc"] .md-nav__item .md-nav__link {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-md-color-scheme="slate"] .md-nav__list[data-md-component="toc"] .md-nav__item .md-nav__link:hover {
+    color: #ffffff !important;
+}
+
 /* ✅ Fix TOC width */
 .md-sidebar--secondary {
     width: 280px !important;
 }
 
 /* ✅ Make sure TOC text is readable */
-.md-sidebar-secondary .md-nav__link {
-    color: white !important;
+[data-md-color-scheme="slate"] .md-sidebar-secondary .md-nav__link {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-md-color-scheme="slate"] .md-sidebar-secondary .md-nav__link:hover {
+    color: #ffffff !important;
+}
+
+[data-md-color-scheme="slate"] .md-sidebar-secondary .md-nav__link.md-nav__link--active {
+    color: var(--md-accent-fg-color) !important;
 }
 
 /* -----------------------------------------------------------------------------------
@@ -312,4 +329,5 @@ body, p, li, a {
 [data-md-color-scheme="slate"] .md-footer-meta.md-typeset {
   color: #e0e0e0 !important;  /* Light text/icon color */
   fill: #e0e0e0 !important;   /* For inline SVG icons */
+  background-color: #00284b !important; /* Example CNRS dark */
 }
