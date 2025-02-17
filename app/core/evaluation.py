@@ -1,3 +1,4 @@
+
 from dotenv import load_dotenv
 
 
@@ -11,10 +12,10 @@ from app.core.main import link_kg_database
 from app.core.main import llm_creation
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
 from langsmith.evaluation import EvaluationResult, run_evaluator
-from langchain_community.evaluation import EvaluatorType
+from langchain.evaluation import EvaluatorType
 from langsmith.schemas import Example, Run
-from langchain_community.smith import run_on_dataset, RunEvalConfig
-from langchain_community.evaluation import load_evaluator
+from langchain.smith import run_on_dataset, RunEvalConfig
+from langchain.evaluation import load_evaluator
 from uuid import uuid4
 
 # Load environment variables
@@ -86,10 +87,6 @@ endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.o
 graph = link_kg_database(endpoint_url)
 models = llm_creation()
 agents = create_all_agents(models, graph)
-
-# Configure StateGraph with increased recursion limit
-StateGraph.config.recursion_limit = 50
-
 app = create_workflow(agents, evaluation=True)
 
 def evaluate_result(_input, thread_id: int = 1):
