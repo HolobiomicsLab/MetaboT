@@ -54,6 +54,12 @@ def link_kg_database(endpoint_url: str):
     return graph
 
 
+def get_deepseek_key():
+    return os.getenv("DEEPSEEK_API_KEY")
+
+def get_ovh_key():
+    return os.getenv("OVHCLOUD_API_KEY")
+
 def llm_creation(api_key=None):
     """
     Reads the parameters from the configuration file params.ini and initializes the language models.
@@ -68,7 +74,9 @@ def llm_creation(api_key=None):
     config = configparser.ConfigParser()
     config.read(params_path)
 
-    sections = ["llm", "llm_preview", "llm_o", "llm_mini", "llm_o3_mini", "llm_o1"]
+    sections = ["llm", "llm_preview", "llm_o", "llm_mini", "llm_o3_mini", "llm_o1",
+               "deepseek_deepseek-chat", "deepseek_deepseek-reasoner",
+               "ovh_Meta-Llama-3_1-70B-Instruct"]
     models = {}
 
     # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.
@@ -78,13 +86,35 @@ def llm_creation(api_key=None):
         temperature = config[section]["temperature"]
         model_id = config[section]["id"]
         max_retries = config[section]["max_retries"]
-        llm = ChatOpenAI(
-            temperature=temperature,
-            model=model_id,
-            max_retries=max_retries,
-            verbose=True,
-            openai_api_key=openai_api_key,
-        )
+        
+        if section.startswith("deepseek"):
+            base_url = config[section]["base_url"]
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_base=base_url,
+                openai_api_key=get_deepseek_key(),
+            )
+        elif section.startswith("ovh"):
+            base_url = config[section]["base_url"]
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                base_url=base_url,
+                api_key=get_ovh_key(),
+            )
+        else:
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_key=openai_api_key,
+            )
         models[section] = llm
 
     return models
