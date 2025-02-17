@@ -118,6 +118,7 @@ It should also work on other Unix-based systems. For more details on compatibili
    LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
    LANGCHAIN_PROJECT=metabot_project 
    ```
+   **Note:** The system can also be used with other LLM models, namely: Meta-Llama-3_1-70B-Instruct and deepseek-reasoner. For Meta-Llama-3_1-70B-Instruct (which runs on OVH Cloud – see [OVH Cloud](https://www.ovh.com/)), add the API key OVHCLOUD_API_KEY to your `.env` file; for deepseek-reasoner, add DEEPSEEK_API_KEY. Currently, all agents use the OpenAI model gpt-4o (including the SPARQL generation chain). Furthermore, if the initial query yields no results, a SPARQL improvement chain using the OpenAI o3-mini model is activated.
 
 ### Installation Steps
 
