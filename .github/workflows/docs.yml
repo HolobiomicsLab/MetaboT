@@ -1,11 +1,11 @@
 name: Deploy Documentation
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:  
+    inputs:
+      branch:
+        description: "Branch to run action on"
+        required: false
+        default: "main"
 
 permissions:
   contents: write
