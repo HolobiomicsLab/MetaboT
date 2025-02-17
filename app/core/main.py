@@ -6,9 +6,10 @@ from typing import Any
 import functools
 import argparse
 
-from langchain_community.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
 from dotenv import load_dotenv
 load_dotenv()
+
 
 import os
 
@@ -76,7 +77,7 @@ def llm_creation(api_key=None):
 
     sections = ["llm", "llm_preview", "llm_o", "llm_mini", "llm_o3_mini", "llm_o1",
                "deepseek_deepseek-chat", "deepseek_deepseek-reasoner",
-               "ovh_Meta-Llama-3_1-70B-Instruct"]
+               "ovh_Meta-Llama-3_1-70B-Instruct", "llm_litellm"]
     models = {}
 
     # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.
@@ -86,7 +87,6 @@ def llm_creation(api_key=None):
         temperature = config[section]["temperature"]
         model_id = config[section]["id"]
         max_retries = config[section]["max_retries"]
-        
         if section.startswith("deepseek"):
             base_url = config[section]["base_url"]
             llm = ChatOpenAI(
@@ -106,6 +106,13 @@ def llm_creation(api_key=None):
                 verbose=True,
                 base_url=base_url,
                 api_key=get_ovh_key(),
+            )
+        elif section.startswith("llm_litellm"):
+            llm = ChatLiteLLM(
+                temperature=float(temperature),
+                model=model_id,
+                max_retries=int(max_retries),
+                verbose=True,
             )
         else:
             llm = ChatOpenAI(
