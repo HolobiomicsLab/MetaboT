@@ -1,17 +1,16 @@
 {
     "agents": [
-        {"name": "Entry_Agent", "path": "app.core.agents.entry.agent"},
-        {"name": "ENPKG_agent", "path": "app.core.agents.enpkg.agent"},
-        {"name": "Sparql_query_runner", "path": "app.core.agents.sparql.agent"},
-        {"name": "Interpreter_agent", "path": "app.core.agents.interpreter.agent"},
-        {"name": "supervisor", "path": "app.core.agents.supervisor.agent"},
-        {"name": "Validator", "path": "app.core.agents.validator.agent"}
+        {"name": "Entry_Agent", "path": "app.core.agents.entry.agent", "llm_choice": "llm_litellm"},
+        {"name": "ENPKG_agent", "path": "app.core.agents.enpkg.agent", "llm_choice": "llm_o"},
+        {"name": "Sparql_query_runner", "path": "app.core.agents.sparql.agent", "llm_choice": "llm_o3_mini"},
+        {"name": "Interpreter_agent", "path": "app.core.agents.interpreter.agent", "llm_choice": "llm_preview"},
+        {"name": "supervisor", "path": "app.core.agents.supervisor.agent", "llm_choice": "llm_o1"},
+        {"name": "Validator", "path": "app.core.agents.validator.agent", "llm_choice": "llm_mini"}
     ],
     "edges": [
         {"source": "ENPKG_agent", "target": "supervisor"},
         {"source": "Sparql_query_runner", "target": "supervisor"},
         {"source": "Interpreter_agent", "target": "supervisor"}
-
     ],
     "conditional_edges": [
         {
@@ -26,18 +25,16 @@
         },
         {
             "source": "Validator",
-
             "targets": [
                 {"condition_value": "supervisor", "target": "supervisor"},
                 {"condition_value": "__end__", "target": "__end__"}
-        ]
-    },
+            ]
+        },
         {
             "source": "Entry_Agent",
-
             "targets": [
                 {"condition_value": "supervisor", "target": "supervisor"},
-                {"condition_value": "Validator", "target": "Validator" }
+                {"condition_value": "Validator", "target": "Validator"}
             ]
         }
     ],
