@@ -113,10 +113,10 @@ matplotlib-inline==0.1.6
 mdurl==0.1.2
 mediawikiapi==1.2
 mistune==3.0.2
-mkdocs==1.5.3
+mkdocs==1.6.1
 mkdocstrings==0.24.0
-mkdocstrings-python==1.7.5
-mkdocs-material[imaging]==9.6.4
+mkdocstrings-python
+mkdocs-material[imaging]
 mkdocs-minify-plugin
 mkdocs-git-revision-date-localized-plugin      
 monotonic==1.6
