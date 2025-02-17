@@ -1,0 +1,195 @@
+# Project information
+site_name: 🧪 MetaboT 🍵 Documentation
+site_description: Documentation for 🧪 MetaboT 🍵 - A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining
+site_author: HolobiomicsLab
+site_url: https://holobiomicslab.github.io/MetaboT
+
+# Repository
+repo_name: HolobiomicsLab/MetaboT
+repo_url: https://github.com/HolobiomicsLab/MetaboT
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2025 Holobiomics Lab
+
+# Configuration
+theme:
+  name: material
+  custom_dir: overrides
+  collapse_navigation: false
+  language: en
+  icon:
+    logo: material/book
+    repo: fontawesome/brands/github
+  
+  # Color schemes
+  palette:
+    # Light mode (CNRS Colors)
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: "#00284b"  # ✅ CNRS Blue
+      accent: "#ffeb6e"   # ✅ CNRS Yellow
+      toggle:
+        icon: material/brightness-4 
+        name: Switch to dark mode
+
+    # Dark mode (CNRS Colors)
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: "#1c2c3a"  # Lighter dark blue for better contrast
+      accent: "#8296a5"   # Softer accent color for better readability
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  # Theme features
+  features:
+    # Navigation
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.indexes 
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - content.action.view
+    - toc.integrate
+    
+    # Search
+    - search.suggest
+    - search.highlight
+    - search.share
+    
+    # Content
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+    - content.admonitions
+    - content.tabs
+    - content.action.edit
+    
+    # Header
+    - header.autohide
+
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-]+'
+  
+  # Python API documentation
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [app]
+          options:
+            show_source: true
+            show_root_heading: true
+            show_category_heading: true
+            show_submodules: true
+            docstring_style: google
+            docstring_section_style: table
+            show_signature: true
+            show_signature_annotations: true
+            separate_signature: true
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - codehilite
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+      
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - footnotes
+
+# Extra styling and scripts
+extra_css:
+  - assets/stylesheets/extra.css
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - assets/javascripts/navigation.js
+  - assets/javascripts/parallax.js
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+  - User Guide:
+    - Overview: user-guide/overview.md
+    - Configuration: user-guide/configuration.md
+  - API Reference:
+    - Core: api-reference/core.md
+    - Agents: api-reference/agents.md
+    - Graph Management: api-reference/graph-management.md
+  - Examples:
+    - Basic Usage: examples/basic-usage.md
+    - Advanced Examples: examples/advanced-examples.md
+  - Contributing: contributing.md
+
+# Additional settings
+extra:
+  # Social links
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/holobiomicslab
+      name: HolobiomicsLab on GitHub
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/HolobiomicLab
+      name: HolobiomicsLab on Twitter
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/@holobiomicslab
+      name: HolobiomicsLab on YouTube
+    - icon: material/web
+      link: https://holobiomicslab.cnrs.fr
+      name: HolobiomicsLab Website
+
+  # Analytics
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY

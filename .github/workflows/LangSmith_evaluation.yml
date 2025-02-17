@@ -1,24 +1,30 @@
-name: Evaluate Code
+name: evaluate_code.yml
 
 on:
-  workflow_dispatch:  # Allows manual trigger
-
+  workflow_dispatch:  
+    inputs:
+      branch:
+        description: "Branch to run action on"
+        required: false
+        default: "dev"
+ 
 jobs:
   evaluate:
     runs-on: ubuntu-22.04
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      LANGCHAIN_PROJECT: ${{ secrets.LANGSMITH_PROJECT }}
+      LANGCHAIN_PROJECT: ${{ secrets.LANGSMITH_EVALUATION }}
       LANGCHAIN_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Install System Dependencies
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-dev build-essential
 
-   - name: Cache Conda Environment
+      - name: Cache Conda Environment
         uses: actions/cache@v4
         with:
           path: ~/.conda/envs
@@ -26,7 +32,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-conda-
 
-    - name: Set up Miniconda
+      - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: metabot
