@@ -61,6 +61,9 @@ def get_deepseek_key():
 def get_ovh_key():
     return os.getenv("OVHCLOUD_API_KEY")
 
+def get_litellm_key():
+    return os.getenv("LITELLM_API_KEY")
+
 def llm_creation(api_key=None):
     """
     Reads the parameters from the configuration file params.ini and initializes the language models.
@@ -108,11 +111,14 @@ def llm_creation(api_key=None):
                 api_key=get_ovh_key(),
             )
         elif section.startswith("llm_litellm"):
+            base_url = config[section].get("base_url", None)
             llm = ChatLiteLLM(
                 temperature=float(temperature),
                 model=model_id,
                 max_retries=int(max_retries),
                 verbose=True,
+                api_key=get_litellm_key(),
+                base_url=base_url
             )
         else:
             llm = ChatOpenAI(

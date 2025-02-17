@@ -48,7 +48,12 @@ def create_all_agents(llms, graph, openai_key = None, session_id = None):
                  # Filter the args_dict to only include parameters the function accepts
                 filtered_args = {k: v for k, v in args_dict.items() if k in func_signature.parameters}
 
-                # Execute each agent's create_agent function with the filtered args from the own module
+                # If the agent configuration specifies an LLM choice, pass that specific instance
+                if "llm_choice" in agent:
+                    filtered_args["llm_instance"] = llms[agent["llm_choice"]]
+                else:
+                    filtered_args["llm_instance"] = llms.get("llm_o", None)
+                # Execute each agent's create_agent function with the filtered args from the agent module
                 executor = module.create_agent(**filtered_args)
 
                 executors[agent["name"]] = executor
