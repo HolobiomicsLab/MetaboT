@@ -64,28 +64,32 @@ def get_ovh_key():
 def get_litellm_key():
     return os.getenv("LITELLM_API_KEY")
 
-def llm_creation(api_key=None):
+def llm_creation(api_key=None, params_file=None):
     """
-    Reads the parameters from the configuration file params.ini and initializes the language models.
-
-    Args:
-        api_key (str, optional): The API key for the OpenAI API.
-
-    Returns:
-        dict: A dictionary containing the language models.
-    """
-
+     Reads the parameters from the configuration file (default is params.ini) and initializes the language models.
+ 
+     Args:
+         api_key (str, optional): The API key for the OpenAI API.
+         params_file (str, optional): Path to an alternate configuration file.
+ 
+     Returns:
+         dict: A dictionary containing the language models.
+     """
+ 
     config = configparser.ConfigParser()
-    config.read(params_path)
-
+    if params_file:
+        config.read(params_file)
+    else:
+        config.read(params_path)
+ 
     sections = ["llm", "llm_preview", "llm_o", "llm_mini", "llm_o3_mini", "llm_o1",
                "deepseek_deepseek-chat", "deepseek_deepseek-reasoner",
                "ovh_Meta-Llama-3_1-70B-Instruct", "llm_litellm"]
     models = {}
-
-    # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.
+ 
+    # Get the OpenAI API key from the configuration file or the environment variables if none is passed.
     openai_api_key = api_key if api_key else os.getenv("OPENAI_API_KEY")
-
+ 
     for section in sections:
         temperature = config[section]["temperature"]
         model_id = config[section]["id"]
@@ -129,7 +133,7 @@ def llm_creation(api_key=None):
                 openai_api_key=openai_api_key,
             )
         models[section] = llm
-
+ 
     return models
 
 
