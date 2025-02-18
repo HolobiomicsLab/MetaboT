@@ -109,8 +109,11 @@ This command initiates the agent workflow by constructing the RDF graph using th
 #### Issue: SPARQL Endpoint Connection
 
 If SPARQL queries fail:
+
 1. Check if the SPARQL endpoint is accessible.
+
 2. Verify that the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file is correctly set.
+
 3. Ensure proper network access/firewall settings.
 
 ---
