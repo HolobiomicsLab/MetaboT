@@ -54,11 +54,13 @@ llm = models['llm']  # Get the default model
 def langsmith_setup() -> None
 ```
 
-Configures LangSmith integration for workflow tracking and monitoring.
+Configures LangSmith integration for workflow tracking and monitoring. If the environment variable LANGCHAIN_API_KEY (or LANGSMITH_API_KEY) is provided, the function enables tracing and configures the default project and endpoint. Otherwise, it disables tracing.
+
+For advanced configuration details, see [Advanced Configuration](docs/getting-started/quickstart#advanced-configuration).
 
 **Example:**
 ```python
-langsmith_setup()  # Sets up LangSmith environment
+langsmith_setup()  # Configures LangSmith integration if API key is provided
 ```
 
 ---
@@ -215,26 +217,7 @@ models = llm_creation()
 agents = create_all_agents(models, graph)
 
 # Create and run workflow
-workflow = create_workflow(agents)
+workflow = create_workflow(agents,evaluation = False)
 results = process_workflow(workflow, "Your query here")
 ```
 
-### Custom Agent Integration
-
-```python
-from app.core.agents.base import BaseAgent
-
-class CustomAgent(BaseAgent):
-    def __init__(self, model, graph):
-        super().__init__(model, graph)
-        
-    def process(self, input_data):
-        # Custom processing logic
-        pass
-
-# Add to workflow
-agents['custom'] = CustomAgent(models['llm'], graph)
-workflow = create_workflow(agents)
-```
-
-For more detailed information about specific components, refer to the respective module documentation.
