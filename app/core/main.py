@@ -254,7 +254,6 @@ def main():
     langsmith_setup()
     endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
 
-    # endpoint_url = "https://enpkg.commons-lab.org/graphdb/sparql"
     graph = link_kg_database(endpoint_url)
     models = llm_creation()
     agents = create_all_agents(models, graph)

@@ -9,19 +9,23 @@
 ```mermaid
 graph TB
     A[User Query] --> B[Entry Agent]
-    B --> C[Supervisor Agent]
+    B --> G[Validator Agent]
+    G --> C[Supervisor Agent]
     C --> D[ENPKG Agent]
     C --> E[SPARQL Agent]
     C --> F[Interpreter Agent]
-    C --> G[Validator Agent]
-    D & E & F & G --> H[Knowledge Graph]
+     E  --> H[Knowledge Graph]
+    
     H --> I[Results]
 ```
 
 - **Entry Agent** 🚪
-    - Processes initial user queries.
-    - Performs query validation and preprocessing.
-    - Routes queries to appropriate processing paths.
+    - Accepts user queries and input files (if provided) and performs initial processing.
+
+- **Validator Agent** ✅
+    - Validates user questions for knowledge graph.
+    - Verifies plant names using the database.
+    - Checks question content against the knowledge graph schema.
 
 - **Supervisor Agent** 🎛️
     - Orchestrates the workflow between agents.
@@ -34,7 +38,7 @@ graph TB
     - Processes bioassay data.
 
 - **SPARQL Agent** 🔎
-    - Executes queries against the RDF knowledge graph
+    - Generates and executes queries against the RDF knowledge graph
     - Optimizes query performance
     - Handles complex graph traversals
 
@@ -43,10 +47,6 @@ graph TB
     - Generates human-readable outputs
     - Handles data visualization requests
 
-- **Validator Agent** ✅
-    - Ensures data quality and consistency
-    - Validates query results
-    - Performs error checking
 
 ### Knowledge Graph Integration 🔗
 
