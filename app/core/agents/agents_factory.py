@@ -13,7 +13,20 @@ logger = setup_logger(__name__)
 config = load_config()
 
 
-def create_all_agents(llms, graph, openai_key = None, session_id = None):
+def create_all_agents(llms, graph, openai_key=None, session_id=None):
+    """
+    Dynamically create and initialize all agent modules as specified in the configuration.
+
+    Parameters:
+        llms (dict): A dictionary mapping LLM keys to their instances.
+        graph: The graph instance used by the agents.
+        openai_key (str, optional): The OpenAI API key to be used by agents. If not provided, it will be read from the environment.
+        session_id (str, optional): A unique session identifier. If not provided, a new user session will be created.
+
+    Returns:
+        dict: A dictionary mapping agent names to their created executor instances.
+    """
+    
     agents = config["agents"]
     executors = {}
 
@@ -48,7 +61,17 @@ def create_all_agents(llms, graph, openai_key = None, session_id = None):
                  # Filter the args_dict to only include parameters the function accepts
                 filtered_args = {k: v for k, v in args_dict.items() if k in func_signature.parameters}
 
-                # Execute each agent's create_agent function with the filtered args from the own module
+                # If the agent configuration specifies an LLM choice, pass that specific instance
+                if "llm_instance" in func_signature.parameters:
+                    if llms and "llm_choice" in agent:
+                        if agent["llm_choice"] in llms:
+                            filtered_args["llm_instance"] = llms[agent["llm_choice"]]
+                        else:
+                            logger.error(f"LLM '{agent['llm_choice']}' specified for agent '{agent['name']}' is not available in configuration. Falling back to default LLM 'llm_o'.")
+                            filtered_args["llm_instance"] = llms.get("llm_o", None)
+                    else:
+                        filtered_args["llm_instance"] = llms.get("llm_o", None)
+                # Execute each agent's create_agent function with the filtered args from the agent module
                 executor = module.create_agent(**filtered_args)
 
                 executors[agent["name"]] = executor

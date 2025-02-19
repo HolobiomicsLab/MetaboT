@@ -6,9 +6,10 @@ from typing import Any, Optional, Tuple
 import functools
 import argparse
 
-from langchain_community.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
 from dotenv import load_dotenv
 load_dotenv()
+
 
 import os
 
@@ -72,33 +73,36 @@ def get_deepseek_key():
 def get_ovh_key():
     return os.getenv("OVHCLOUD_API_KEY")
 
-def llm_creation(api_key=None):
+def get_litellm_key():
+    return os.getenv("LITELLM_API_KEY")
+
+def llm_creation(api_key=None, params_file=None):
     """
-    Reads the parameters from the configuration file params.ini and initializes the language models.
-
-    Args:
-        api_key (str, optional): The API key for the OpenAI API.
-
-    Returns:
-        dict: A dictionary containing the language models.
-    """
-
+     Reads the parameters from the configuration file (default is params.ini) and initializes the language models.
+ 
+     Args:
+         api_key (str, optional): The API key for the OpenAI API.
+         params_file (str, optional): Path to an alternate configuration file.
+ 
+     Returns:
+         dict: A dictionary containing the language models.
+     """
+ 
     config = configparser.ConfigParser()
-    config.read(params_path)
+    if params_file:
+        config.read(params_file)
+    else:
+        config.read(params_path)
 
-    sections = ["llm_preview", "llm_o", "llm_mini", "llm_o3_mini", "llm_o1",
-               "deepseek_deepseek-chat", "deepseek_deepseek-reasoner",
-               "ovh_Meta-Llama-3_1-70B-Instruct"]
     models = {}
-
-    # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.
+ 
+    # Get the OpenAI API key from the configuration file or the environment variables if none is passed.
     openai_api_key = api_key if api_key else os.getenv("OPENAI_API_KEY")
-
-    for section in sections:
+ 
+    for section in config.sections():
         temperature = config[section]["temperature"]
         model_id = config[section]["id"]
         max_retries = config[section]["max_retries"]
-        
         if section.startswith("deepseek"):
             base_url = config[section]["base_url"]
             llm = ChatOpenAI(
@@ -119,6 +123,16 @@ def llm_creation(api_key=None):
                 base_url=base_url,
                 api_key=get_ovh_key(),
             )
+        elif section.startswith("llm_litellm"):
+            base_url = config[section].get("base_url", None)
+            llm = ChatLiteLLM(
+                temperature=float(temperature),
+                model=model_id,
+                max_retries=int(max_retries),
+                verbose=True,
+                api_key=get_litellm_key(),
+                base_url=base_url
+            )
         else:
             llm = ChatOpenAI(
                 temperature=temperature,
@@ -128,7 +142,7 @@ def llm_creation(api_key=None):
                 openai_api_key=openai_api_key,
             )
         models[section] = llm
-
+ 
     return models
 
 
