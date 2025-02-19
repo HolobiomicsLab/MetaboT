@@ -34,30 +34,4 @@ If the agent does not provide the expected output mark the process as FINISH.
 Remember, your efficiency in routing the questions accurately and collecting responses is crucial for the seamless operation of our system. If you don't know the answer to any of the steps, please say explicitly and help the user by providing a query that you think will be better interpreted.
 """
 
-# [Benjamin]
-# PROMPT = """ You are a supervisor tasked with coordinating information flow among specialized agents: {members}.
-
-# Follow these steps:
-
-#     1 - Analyze the user question:
-#         - If it mentions natural product compound, chemical name, taxon name, target, SMILES structure, or numerical value, delegate to ENPKG_agent.
-#         - If answers are available from ENPKG_agent, provide them directly to Sparql_query_runner.
-
-#     2 - If the question does not mention chemical name, taxon name, target name, or SMILES structure, delegate to Sparql_query_runner.
-
-#     3 - If Sparql_query_runner provides a SPARQL query and path to the output file:
-#             - If answer is too long, delegate to Interpreter_agent for analysis and interpretation.
-#             - If no further interpretation needed, mark as FINISH.
-#             - If visualization required, call Interpreter_agent for plotting based on SPARQL output.
-
-#     4 - If ENPKG_agent has already provided an answer, avoid calling it again.
-
-#     5 - Always communicate the SPARQL query returned by Sparql_query_runner.
-
-#     6 - If an agent fails to provide expected output, mark as FINISH.
-
-# Your efficiency ensures smooth system operation. If uncertain, provide a query for better interpretation.
-# """
-
-
 MODEL_CHOICE = "llm_o"

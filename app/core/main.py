@@ -6,9 +6,10 @@ from typing import Any
 import functools
 import argparse
 
-from langchain_community.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
 from dotenv import load_dotenv
 load_dotenv()
+
 
 import os
 
@@ -54,74 +55,126 @@ def link_kg_database(endpoint_url: str):
     return graph
 
 
-def llm_creation(api_key=None):
+def get_deepseek_key():
+    return os.getenv("DEEPSEEK_API_KEY")
+
+def get_ovh_key():
+    return os.getenv("OVHCLOUD_API_KEY")
+
+def get_litellm_key():
+    return os.getenv("LITELLM_API_KEY")
+
+def llm_creation(api_key=None, params_file=None):
     """
-    Reads the parameters from the configuration file params.ini and initializes the language models.
-
-    Args:
-        api_key (str, optional): The API key for the OpenAI API.
-
-    Returns:
-        dict: A dictionary containing the language models.
-    """
-
+     Reads the parameters from the configuration file (default is params.ini) and initializes the language models.
+ 
+     Args:
+         api_key (str, optional): The API key for the OpenAI API.
+         params_file (str, optional): Path to an alternate configuration file.
+ 
+     Returns:
+         dict: A dictionary containing the language models.
+     """
+ 
     config = configparser.ConfigParser()
-    config.read(params_path)
-
-    sections = ["llm", "llm_preview", "llm_o", "llm_3_5", "llm_mini"]
+    if params_file:
+        config.read(params_file)
+    else:
+        config.read(params_path)
+ 
+    sections = ["llm", "llm_preview", "llm_o", "llm_mini", "llm_o3_mini", "llm_o1",
+               "deepseek_deepseek-chat", "deepseek_deepseek-reasoner",
+               "ovh_Meta-Llama-3_1-70B-Instruct", "llm_litellm"]
     models = {}
-
-    # Get the OpenAI API key from the configuration file or the environment variables if none as passed. This allows Streamlit to pass the API key as an argument.
+ 
+    # Get the OpenAI API key from the configuration file or the environment variables if none is passed.
     openai_api_key = api_key if api_key else os.getenv("OPENAI_API_KEY")
-
+ 
     for section in sections:
         temperature = config[section]["temperature"]
         model_id = config[section]["id"]
         max_retries = config[section]["max_retries"]
-        llm = ChatOpenAI(
-            temperature=temperature,
-            model=model_id,
-            max_retries=max_retries,
-            verbose=True,
-            openai_api_key=openai_api_key,
-        )
+        if section.startswith("deepseek"):
+            base_url = config[section]["base_url"]
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_base=base_url,
+                openai_api_key=get_deepseek_key(),
+            )
+        elif section.startswith("ovh"):
+            base_url = config[section]["base_url"]
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                base_url=base_url,
+                api_key=get_ovh_key(),
+            )
+        elif section.startswith("llm_litellm"):
+            base_url = config[section].get("base_url", None)
+            llm = ChatLiteLLM(
+                temperature=float(temperature),
+                model=model_id,
+                max_retries=int(max_retries),
+                verbose=True,
+                api_key=get_litellm_key(),
+                base_url=base_url
+            )
+        else:
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_key=openai_api_key,
+            )
         models[section] = llm
-
+ 
     return models
 
 
 def langsmith_setup():
-    # #Setting up the LangSmith
-    # #For now, all runs will be stored in the "KGBot Testing - GPT4"
-    # #If you want to separate the traces to have a better control of specific traces.
-    # #Metadata as llm version and temperature can be obtained from traces.
+    """
+    Set up the LangSmith environment and client if an API key is present.
+    If no API key is found, disable V2 tracing.
+    """
 
-    os.environ["LANGCHAIN_TRACING_V2"] = "true"
-
-    os.environ["LANGCHAIN_PROJECT"] = (
-        os.environ.get("LANGCHAIN_PROJECT") or 
-        os.environ.get("LANGSMITH_PROJECT") or 
-        "MetaboT"
-    )
-
-    os.environ["LANGCHAIN_ENDPOINT"] = (
-        os.environ.get("LANGCHAIN_ENDPOINT") or 
-        os.environ.get("LANGSMITH_ENDPOINT") or 
-        os.environ.get("LANGSMITH_BASE_URL") or 
-        "https://api.smith.langchain.com"
-    )
-
-    # Récupérer la clé API depuis l'environnement
+    # Check whether an API key is present
     api_key = os.environ.get("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
+
     if not api_key:
-        raise ValueError("The environment variable LANGCHAIN_API_KEY is not defined")
+        # If there's no API key, disable V2 tracing
+        os.environ["LANGCHAIN_TRACING_V2"] = "false"
+        print("[LangSmith Setup] No API key found, LANGCHAIN_TRACING_V2 set to false.")
+        return  # no further setup needed
+    else:
+        # If an API key exists, enable V2 tracing
+        os.environ["LANGCHAIN_TRACING_V2"] = "true"
 
-    # Pass the API key to the Client constructor
-    client = Client(api_key=api_key)
+        # Set default project if not already set
+        os.environ["LANGCHAIN_PROJECT"] = (
+            os.environ.get("LANGCHAIN_PROJECT")
+            or os.environ.get("LANGSMITH_PROJECT")
+            or "MetaboT"
+        )
 
-    # #Check if the client was initialized
-    print(f"Langchain client was initialized: {client}")
+        # Set default endpoint if not already set
+        os.environ["LANGCHAIN_ENDPOINT"] = (
+            os.environ.get("LANGCHAIN_ENDPOINT")
+            or os.environ.get("LANGSMITH_ENDPOINT")
+            or os.environ.get("LANGSMITH_BASE_URL")
+            or "https://api.smith.langchain.com"
+        )
 
+    try:
+        client = Client(api_key=api_key)
+        print(f"Langchain client was initialized: {client}")
+    except Exception as e:
+        print(f"Failed to initialize Langchain client: {e}")
 
 def main():
 
