@@ -35,6 +35,7 @@ class RdfGraph:
         query_endpoint: Optional[str],
         standard: Optional[str] = "rdf",
         schema_file: Optional[str] = None,
+        auth: Optional[Tuple[str, str]] = None,  # Add auth parameter
     ) -> None:
         """
         Set up the RDFlib graph
@@ -66,8 +67,8 @@ class RdfGraph:
         except ValueError as e:
             logger.error(f"Error: {e}")
             raise
-
-        self._store = sparqlstore.SPARQLStore()
+    
+        self._store = sparqlstore.SPARQLStore(auth=auth)
         self._store.open(query_endpoint)
         self.graph = rdflib.Graph(self._store, bind_namespaces="none")
         self.load_schema()

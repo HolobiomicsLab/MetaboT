@@ -25,6 +25,7 @@ dependencies:
       - langchain_core==0.1.30
       - langchain_openai==0.0.8
       - langgraph==0.0.26
+      - litellm==1.61.6
       - langsmith==0.1.22
       - matplotlib==3.8.3
       - networkx==3.2.1

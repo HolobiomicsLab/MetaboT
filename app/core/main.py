@@ -10,6 +10,149 @@ from app.core.utils import setup_logger
 # Load environment variables
 load_dotenv()
 
+from typing import Any, Optional, Tuple
+import functools
+import argparse
+
+from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
+from dotenv import load_dotenv
+load_dotenv()
+
+
+import os
+
+from langsmith import Client
+from app.core.graph_management.RdfGraphCustom import RdfGraph
+from app.core.agents.agents_factory import create_all_agents
+from app.core.workflow.langraph_workflow import create_workflow, process_workflow, initiate_workflow, agent_node
+from app.core.utils import setup_logger, load_config
+from app.core.agents.agents_factory import create_all_agents
+# libraries needed to check the endpoint
+import requests
+import certifi
+logger = setup_logger(__name__)
+
+parent_dir = Path(__file__).resolve().parent.parent
+graph_path = parent_dir / "graphs" / "graph.pkl"
+params_path = parent_dir / "config" / "params.ini"
+
+
+def link_kg_database(endpoint_url: str, auth: Optional[Tuple[str, str]] = None):
+    """
+    Checks if an RDF graph is already created, and if not, it initializes and saves a new RDF graph object using a specified endpoint URL.
+    
+    Args:
+        endpoint_url (str): The URL of the SPARQL endpoint.
+        auth (Optional[Tuple[str, str]]): Optional tuple of (username, password) for authentication.
+            If not provided, will try to use SPARQL_USERNAME and SPARQL_PASSWORD from environment.
+
+    Returns:
+        RdfGraph: An RDF graph object.
+    """
+
+    # Try to get authentication from environment if not provided
+    if auth is None:
+        username = os.getenv("SPARQL_USERNAME")
+        password = os.getenv("SPARQL_PASSWORD")
+        if username and password:
+            auth = (username, password)
+
+    # check if the graph is already created if not create it.
+    try:
+        with open(graph_path, "rb") as input_file:
+            graph = pickle.load(input_file)
+            # logger.info(f"schema: {graph.get_schema}")
+            return graph
+    except FileNotFoundError:
+        pass
+
+    # Initialize the RdfGraph object with the given endpoint and the standard set to 'rdf'
+    graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf", auth=auth)
+
+    with open(graph_path, "wb") as output_file:
+        pickle.dump(graph, output_file)
+    # logger.info(f"schema: {graph.get_schema}")
+    return graph
+
+
+def get_deepseek_key():
+    return os.getenv("DEEPSEEK_API_KEY")
+
+def get_ovh_key():
+    return os.getenv("OVHCLOUD_API_KEY")
+
+def get_litellm_key():
+    return os.getenv("LITELLM_API_KEY")
+
+def llm_creation(api_key=None, params_file=None):
+    """
+     Reads the parameters from the configuration file (default is params.ini) and initializes the language models.
+ 
+     Args:
+         api_key (str, optional): The API key for the OpenAI API.
+         params_file (str, optional): Path to an alternate configuration file.
+ 
+     Returns:
+         dict: A dictionary containing the language models.
+     """
+ 
+    config = configparser.ConfigParser()
+    if params_file:
+        config.read(params_file)
+    else:
+        config.read(params_path)
+
+    models = {}
+ 
+    # Get the OpenAI API key from the configuration file or the environment variables if none is passed.
+    openai_api_key = api_key if api_key else os.getenv("OPENAI_API_KEY")
+ 
+    for section in config.sections():
+        temperature = config[section]["temperature"]
+        model_id = config[section]["id"]
+        max_retries = config[section]["max_retries"]
+        if section.startswith("deepseek"):
+            base_url = config[section]["base_url"]
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_base=base_url,
+                openai_api_key=get_deepseek_key(),
+            )
+        elif section.startswith("ovh"):
+            base_url = config[section]["base_url"]
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                base_url=base_url,
+                api_key=get_ovh_key(),
+            )
+        elif section.startswith("llm_litellm"):
+            base_url = config[section].get("base_url", None)
+            llm = ChatLiteLLM(
+                temperature=float(temperature),
+                model=model_id,
+                max_retries=int(max_retries),
+                verbose=True,
+                api_key=get_litellm_key(),
+                base_url=base_url
+            )
+        else:
+            llm = ChatOpenAI(
+                temperature=temperature,
+                model=model_id,
+                max_retries=max_retries,
+                verbose=True,
+                openai_api_key=openai_api_key,
+            )
+        models[section] = llm
+ 
+    return models
+
 logger = setup_logger(__name__)
 
 def langsmith_setup() -> Optional[Client]:
@@ -121,13 +264,13 @@ def main():
         "Retrieve the Inchikeys of chemical entities from Desmodium heterophyllum that are annotated as rotenoids by CANOPUS and have ChEMBL assay results showing activity against Trypanosoma cruzi. Provide 10 Inchikeys.",
         "Retrieve the Inchikeys and corresponding Wikidata IDs of chemical compounds with inhibition activity greater than 70% against Leishmania donovani target at 10 µg/mL. Restrict to 10 Inchikeys. ",
         "Which chemical entities from Melochia umbellata taxon in pos ionization mode have features annotated by SIRIUS? Provide 10 Inchikeys and corresponding Wikidata IDs.",
-        "What are the InChIKeys and corresponding Wikidata IDs of chemical entities associated with LCMS features in positive ionization mode that have an ISDB annotation and a feature area greater than 1,000,000? List the top 10 results in descending order by feature area.",
+        "What are the InChIKeys and corresponding Wikidata IDs of chemical entities associated with LCMS features in positive ionization mode that have an ISDB annotation and a feature area greater than 1,000,000? ",
         "Which chemical compounds detected in extracts of Desmodium heterophyllum are annotated as alkaloids in positive and negative ionization modes by SIRIUS? Provide the InChIKeys of 10 compounds.",
         "What are the chemical compounds with mass greater than 800 Da detected in LCMS features of Craterispermum laurinum? Provide the InChIKeys and molecular masses of the top 10 compounds.",
-        "List the chemical compounds from Tabernaemontana coffeoides that have both ISDB and SIRIUS structural annotations matching a retention time of less than 5 minutes. Provide the InChIKeys and corresponding Wikidata IDs of 10 compounds.",
-        "Which chemical compounds are detected in positive ionization mode from Tabernaemontana coffeoides? Provide the InChIKeys and corresponding Wikidata Ids of 10 compounds.",
-        "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds.",
-        "What are the InChIKeys and their corresponding Wikidata IDs for chemical entities annotated by ISDB in the lab extracts of Desmodium heterophyllum?"
+        "List the chemical compounds from Tabernaemontana coffeoides that have both ISDB and SIRIUS structural annotations matching a retention time of less than 5 minutes. Provide the InChIKey2Ds of compounds.",
+        "Which chemical compounds are detected in positive ionization mode from Tabernaemontana coffeoides plant extract? Provide the InChIKey2Ds of compounds.",
+        "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds."
+        "What are the InChIKey2Ds of chemical entities annotated by ISDB in the lab extracts of Desmodium heterophyllum?",
     ]
     parser = argparse.ArgumentParser(description="Process a workflow with a predefined or custom question.")
     parser.add_argument('-q', '--question', type=str, required=True,
@@ -150,6 +293,22 @@ def main():
         or os.environ.get("KG_ENDPOINT_URL")
         or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     )
+    if args.question:
+        question = standard_questions[args.question - 1]
+    elif args.custom:
+        question = args.custom
+    else:
+        print("You must provide either a standard question number or a custom question.")
+        return
+    
+    username = os.getenv("SPARQL_USERNAME")
+    password = os.getenv("SPARQL_PASSWORD")
+    auth = (username, password) if username and password else None
+
+    graph = link_kg_database(endpoint_url, auth)
+    models = llm_creation()
+    agents = create_all_agents(models, graph)
+    workflow = create_workflow(agents, evaluation = False)
 
     try:
         # Create and process workflow
