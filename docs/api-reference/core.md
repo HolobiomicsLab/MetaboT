@@ -183,23 +183,71 @@ Loads a configuration file.
 - Parsed configuration object
 
 ---
-## Error Handling 🚨
+## Database Management 💾
 
-🧪 MetaboT 🍵 provides several error types for handling specific scenarios:
+The database management module provides two specialized databases for managing tools data and workflow state.
+
+### Tools Database 🔧
+
+The tools database ([`app.core.memory.tools_database`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/memory/tools_database.py)) manages data associated with agent tools.
 
 ```python
-class MetaboTError(Exception):
-    """Base error for MetaboT operations."""
-    pass
-
-class GraphConnectionError(MetaboTError):
-    """Raised when unable to connect to the knowledge graph."""
-    pass
-
-class QueryExecutionError(MetaboTError):
-    """Raised when a query fails to execute."""
-    pass
+def tools_database() -> ToolsDatabaseManager
 ```
+
+Creates or returns a singleton instance of the tools database manager.
+
+**Features:**
+
+- Automatically discovers and tracks tool usage
+- Maintains interaction history
+- Stores tool-specific data
+- Supports both SQLite (default) and custom database backends
+
+**Configuration:**
+
+- Default: Creates local `tools_database.db` file
+- Custom: Set via environment variables:
+  - `DATABASE_URL`: Database connection string
+  - `TOOLS_DATABASE_MANAGER_CLASS`: Custom manager class path
+
+### Memory Database 💭
+
+The memory database ([`app.core.memory.custom_sqlite_file`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/memory/custom_sqlite_file.py)) manages workflow state and checkpoints.
+
+```python
+def memory_database() -> SqliteCheckpointerSaver
+```
+
+Creates or returns a singleton instance of the memory database manager.
+
+**Features:**
+
+- Saves workflow state checkpoints
+- Supports multi-threading (essential for Streamlit)
+- Automatic cleanup on restart
+- Thread-safe operations
+
+**Configuration:**
+
+- Default: Creates local `langgraph_checkpoint.db` file
+- Custom: Set via environment variables:
+  - `DATABASE_URL`: Database connection string
+  - `MEMORY_DATABASE_MANAGER_CLASS`: Custom manager class path
+
+**Example:**
+```python
+from app.core.memory.database_manager import memory_database, tools_database
+
+# Initialize databases
+tools_db = tools_database()  # Returns SqliteToolsDatabaseManager by default
+memory_db = memory_database()  # Returns SqliteCheckpointerSaver by default
+
+# Create workflow with memory
+workflow = create_workflow(agents, evaluation=False)
+app = workflow.compile(checkpointer=memory_db)
+```
+
 
 ---
 ## Usage Examples 📘
@@ -207,6 +255,7 @@ class QueryExecutionError(MetaboTError):
 ### Basic Query Processing
 
 ```python
+
 from app.core.main import link_kg_database, llm_creation
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
 from app.core.agents.agents_factory import create_all_agents
@@ -220,4 +269,3 @@ agents = create_all_agents(models, graph)
 workflow = create_workflow(agents,evaluation = False)
 results = process_workflow(workflow, "Your query here")
 ```
-
