@@ -1,242 +1,285 @@
 # Agents API Reference 🤖
 
-This document details the agent system in 🧪 MetaboT 🍵, including the various specialized agents and their roles in processing metabolomics queries.
+This document details the agent system in the application, including the specialized agents and their roles in processing queries.
 
----
+## Common Architecture
 
-## Agent Factory 🔧
+All agents in the system share a similar architectural pattern and are managed by the agent factory ([`app.core.agents.agents_factory`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/agents_factory.py)):
 
-The agent factory ([`app.core.agents.agents_factory`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/agents_factory.py)) manages the creation and configuration of all agents in the system:
+**Core Components:**
 
-- **ENPK Agent**: Located at [`app/core/agents/enpkg/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/enpkg/agent.py)
-- **Entry Agent**: Located at [`app/core/agents/entry/agent.py`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/entry/agent.py)
-- **Interpreter Agent**: Located at [`app/core/agents/interpreter/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/interpreter/agent.py)
-- **Sparql Agent**: Located at [`app/core/agents/sparql/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)
-- **Validator Agent**: Located at [`app/core/agents/validator/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/validator/agent.py)
-- **Supervisor Agent**: Located at [`app/core/agents/supervisor/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/supervisor/agent.py)
+- Creation: Created using `create_openai_tools_agent` function
+- Dynamic Tool Loading: Use dynamic tool loading through the `import_tools` utility
+- Configurable Behavior: Configured with specific prompts that define their roles and behaviors
+- AI-Powered Processing: Utilize OpenAI compatible language models for processing
+- Encapsulated Execution: Return an `AgentExecutor` that encapsulates both the agent and its tools
 
----
+**Agent Locations:**
 
-## Common Mechanism for Tool Import
-
-All agents are created via their respective factory functions. These functions use the common utility `import_tools` to dynamically scan the agent’s directory for Python files with names beginning with the prefix `tool_`. Each such file contains an implementation extending the base class `BaseTool`. The imported tools provide specialized functions such as:
-
-- **File Analysis:** For instance, a tool that analyzes submitted files, returning the full file path and a summary of contents.
-- **Chemical Structure Analysis:** Analyzing molecular structures.
-- **SMILES Processing:** Handling SMILES string representations.
-- **Molecular Target Analysis and Taxonomic Processing:** Providing detailed analyses for metabolomics data.
+- **ENPKG Agent**: [`app/core/agents/enpkg/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/enpkg/agent.py)
+- **Entry Agent**: [`app/core/agents/entry/agent.py`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/entry/agent.py)
+- **Interpreter Agent**: [`app/core/agents/interpreter/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/interpreter/agent.py)
+- **SPARQL Agent**: [`app/core/agents/sparql/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)
+- **Validator Agent**: [`app/core/agents/validator/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/validator/agent.py)
+- **Supervisor Agent**: [`app/core/agents/supervisor/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/supervisor/agent.py)
 
 ---
 
 ## Entry Agent 🚪
 
-The Entry Agent is instantiated via the factory function [`create_agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/entry/agent.py) in the entry agent module.
+The Entry Agent serves as the first point of contact for user interactions.
 
-**Purpose:**  
-- Acts as the initial point of contact for processing user queries.
-- Preprocesses queries, including detecting and analyzing submitted files.
+**Purpose:**
 
-**Key Features:**  
-- Dynamically loads tools from its directory (e.g., `FILE_ANALYZER`) to analyze files.
-- Uses a customized prompt from [prompt.py](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/entry/prompt.py) to classify and route queries.
-- Returns an `AgentExecutor` that encapsulates both the agent and its integrated tools for efficient query processing.
+- Initial query processing and classification
+- File analysis for submitted documents
 
----
 
-## ENPKG Agent 🧪
+**Key Features:**
 
-The ENPKG Agent is instantiated via the factory function [`create_agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/enpkg/agent.py) in the ENPKG agent module.
+- Classifies queries into "New Knowledge Question" or "Help me understand Question"
+- Analyzes submitted files using the FILE_ANALYZER tool
+- Validates query completeness and requests clarification when needed
 
-**Purpose:**  
-- Specializes in processing metabolomics data related to natural products, with a focus on chemical structure analysis.
+**Tools:**
 
-**Key Features:**  
-- Dynamically imports specialized tools using `import_tools` with an additional configuration parameter `openai_key`.
-- Utilizes a dedicated prompt from [prompt.py](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/enpkg/prompt.py) tailored for metabolomics queries.
-- Integrated tools include:
-  - **tool_chemicals:** Analyzes chemical structures.
-  - **tool_smiles:** Processes SMILES representations.
-  - **tool_target:** Performs molecular target analysis.
-  - **tool_taxon:** Conducts taxonomic processing of metabolomics data.
+- FILE_ANALYZER: Processes and analyzes submitted files, providing file paths and content summaries
 
----
+**Usage Cases:**
 
-## SPARQL Agent 🔎
-
-The SPARQL Agent ([`app.core.agents.sparql.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/sparql/agent.py)) manages interactions with the knowledge graph.
-
-### Class: SPARQLAgent
-
-```python
-class SPARQLAgent:
-    """
-    Handles SPARQL query generation and execution.
-    Optimizes queries for the knowledge graph.
-    """
-```
-
-**Key Components:**
-- `tool_sparql`: SPARQL query execution.
-- `tool_merge_result`: Merges and processes query results.
-- `tool_wikidata_query`: Integrates with Wikidata for query enrichment.
-
----
-
-## Interpreter Agent 📢
-
-The Interpreter Agent ([`app.core.agents.interpreter.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/interpreter/agent.py)) processes and formats query results for human readability.
-
-### Class: InterpreterAgent
-
-```python
-class InterpreterAgent:
-    """
-    Processes and formats query results for human readability.
-    Supports data visualization and context enrichment.
-    """
-```
-
-**Features:**
-- Natural language result formatting.
-- Data visualization support.
-- Context enrichment of results.
+- When users submit new queries requiring database information
+- When files need to be analyzed
+- For follow-up questions requiring context from previous conversations
 
 ---
 
 ## Validator Agent ✅
 
-The Validator Agent ([`app.core.agents.validator.agent`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/validator/agent.py)) ensures data quality and consistency.
+The Validator Agent ensures query validity and data quality.
 
-### Class: ValidatorAgent
+**Purpose:**
 
-```python
-class ValidatorAgent:
-    """
-    Validates query results and ensures data quality.
-    Performs error checking and consistency validation.
-    """
-```
+- Validates user queries against database capabilities
+- Ensures data quality and consistency
+- Provides feedback for invalid queries
 
-**Validation Types:**
-- Data consistency checks.
-- Result validation.
-- Error detection.
+**Validation Checks:**
 
----
+- Plant name verification in database
+- Query compatibility with schema
+- Content relevance to available nodes/entities
 
-## Agent Communication 💬
+**Tools:**
 
-Agents communicate using a structured message passing system:
+- PLANT_DATABASE_CHECKER: Verifies plant names in database
 
-```python
-class AgentMessage:
-    """
-    Structured message format for inter-agent communication.
-    """
-    def __init__(self, content: Any, metadata: Dict[str, Any]):
-        self.content = content
-        self.metadata = metadata
-```
+**Validation Criteria:**
+
+- Plant-specific and feature-related queries
+- Grouping, counting, and annotation comparisons
+- Schema compatibility
+- Data availability
 
 ---
 
-## Tool Integration 🔌
+## Supervisor Agent 👨‍💼
 
-Each agent can integrate specialized tools.
+The Supervisor Agent orchestrates the interaction between all other agents in the system.
 
-### Base Tool Class
+**Purpose:**
 
-```python
-class BaseTool:
-    """
-    Base class for agent-specific tools.
-    """
-    def __init__(self, name: str, description: str):
-        self.name = name
-        self.description = description
-        
-    def run(self, *args, **kwargs):
-        raise NotImplementedError
-```
+- Coordinates information flow between agents
+- Makes routing decisions based on query content
+- Ensures proper processing sequence
+- Manages agent responses and task completion
 
-### Example Tool Implementation
+**Key Features:**
 
-```python
-class ChemicalStructureTool(BaseTool):
-    """
-    Tool for chemical structure analysis.
-    """
-    def __init__(self):
-        super().__init__(
-            name="chemical_structure",
-            description="Analyzes chemical structures in metabolomics data"
-        )
-    
-    def run(self, structure_data: Dict[str, Any]) -> Dict[str, Any]:
-        # Implementation for chemical structure analysis
-        pass
-```
+- Intelligent task delegation based on query content
+- Dynamic routing between specialized agents
+- Result aggregation and process completion control
+- Visualization request handling
+
+**Decision Making:**
+
+- Routes queries containing entities (compounds, taxa, targets) to ENPKG Agent
+- Forwards resolved entities and queries to SPARQL Agent
+- Directs query results to Interpreter Agent when needed
+- Determines when to complete the process
+
+
 
 ---
 
-## Usage Examples 📘
+## ENPKG Agent 🧬
 
-### Basic Agent Usage
+The ENPKG Agent specializes in resolving and standardizing entities mentioned in queries.
 
+**Purpose:**
+
+- Resolves entity references to standardized identifiers
+- Handles multiple types of entities (chemicals, taxa, targets)
+- Provides unit information for numerical values
+
+**Tools:**
+
+- CHEMICAL_RESOLVER: Maps chemical names to standardized IRIs
+- TAXON_RESOLVER: Resolves taxonomic names to Wikidata IRIs
+- TARGET_RESOLVER: Maps target names to ChEMBLTarget IRIs
+- SMILE_CONVERTER: Converts SMILE structures to InChIKey notation
+
+**Entity Types Handled:**
+
+- Natural product compounds (with chemical class IRIs)
+- Taxonomic names (with Wikidata IRIs)
+- Molecular targets (with ChEMBL IRIs)
+- Chemical structures (in SMILE notation)
+
+---
+
+## SPARQL Agent 🔎
+
+The SPARQL Agent handles the generation and execution of database queries.
+
+**Purpose:**
+
+- Generates and executes SPARQL queries
+- Handles query optimization and improvement
+- Manages data retrieval and formatting
+
+**Key Components:**
+
+- Query Generation Chain: Creates initial SPARQL queries
+- Query Improvement Chain: Refines queries if initial results are empty
+- Vector Search: Finds similar successful queries for improvement
+- Schema Validation: Ensures queries follow database schema
+
+**Tools:**
+
+- SPARQL_QUERY_RUNNER: Executes SPARQL queries against the knowledge graph
+- WIKIDATA_QUERY_TOOL: Retrieves data from Wikidata in specific case
+- OUTPUT_MERGE: Combines results from multiple sources
+
+**Query Processing Features:**
+
+- Automatic query improvement when no results are found
+- Token management for large result sets
+- Result formatting to CSV for further processing
+- Results are automatically saved as temporary CSV files in the user's session directory
+- Local CSV storage enables users to perform additional analysis or processing on the results
+- Temporary files are organized by session for easy access and management
+
+---
+
+## Interpreter Agent 📊
+
+The Interpreter Agent processes and formats query results for human understanding.
+
+**Purpose:**
+
+- Processes SPARQL query outputs
+- Handles file interpretation
+- Generates visualizations
+- Provides clear, formatted answers
+
+**Input Processing:**
+- Handles SPARQL query results
+- Processes user-submitted files
+- Interprets data files
+
+**Tools:**
+
+- INTERPRETER_TOOL: Main tool for data interpretation and visualization
+
+**Output Types:**
+
+- Text interpretations of query results
+- Generated visualizations
+- Formatted data summaries
+- File path references for downloads
+
+---
+
+## Agent Interaction Architecture 🔄
+
+The agent system is implemented using [LangGraph](https://www.langchain.com/langgraph)'s StateGraph, where agents operate as nodes in a directed graph with state-managed transitions.
+
+**Core Architecture:**
 ```python
-from app.core.agents.agents_factory import create_all_agents
-from app.core.graph_management.RdfGraphCustom import RdfGraph
-
-# Initialize components
-graph = RdfGraph(endpoint_url="your_endpoint")
-models = {
-    'llm': your_language_model,
-    'llm_3_5': your_backup_model
-}
-
-# Create agents
-agents = create_all_agents(models, graph)
-
-# Use a specific agent
-entry_agent = agents['entry']
-result = entry_agent.process_query("Your query here")
+class AgentState(TypedDict):
+    messages: Annotated[Sequence[BaseMessage], operator.add]  # Accumulated messages
+    next: str  # Next routing target
 ```
 
-### Custom Agent Integration
+**Workflow Components:**
 
-```python
-class CustomAgent:
-    def __init__(self, model, graph):
-        self.model = model
-        self.graph = graph
-        self.tools = self._initialize_tools()
-    
-    def _initialize_tools(self):
-        return {
-            'custom_tool': CustomTool()
-        }
-    
-    def process(self, input_data):
-        # Custom processing logic
-        pass
+1. Graph Structure:
+    - Entry_Agent as the designated entry point
+    - Nodes representing individual agents
+    - Conditional edges defining valid transitions
+    - State preservation across transitions
 
-# Add to agent factory
-agents['custom'] = CustomAgent(models['llm'], graph)
-```
+2. Routing Logic:
+    - Entry_Agent can route to Supervisor or Validator
+    - Validator makes routing decisions based on query validation
+    - Supervisor dynamically routes to specialized agents
+    - Process ends when valid response generated or error detected
 
-### Tool Development
+3. State Management:
+      - Messages accumulate throughout processing
+      - Each agent adds its output to message history
+      - State maintained across all transitions
+      - Metadata preserved for context
 
-```python
-class CustomTool(BaseTool):
-    def __init__(self):
-        super().__init__(
-            name="custom_tool",
-            description="Custom processing tool"
-        )
-    
-    def run(self, input_data):
-        # Tool implementation
-        return processed_data
-```
+**Communication Patterns:**
 
-For more detailed information about specific agents or tools, refer to their respective module documentation.
+1. Primary Flow:
+   ```
+   Entry_Agent → Validator → Supervisor → [Specialized Agents] → __end__
+   ```
+
+2. Conditional Branching:
+    * Validator routes based on query validity
+    * Supervisor routes based on query content analysis
+    * Dynamic routing to specialized agents as needed
+
+3. Message Handling:
+    * Human messages initiate workflow
+    * Agent responses added to message sequence
+    * State updates trigger next agent selection
+    * Final response terminates workflow
+
+**This architecture ensures:**
+
+  * Clear communication paths
+  * Stateful processing
+  * Dynamic routing
+  * Error handling
+  * Process monitoring
+
+---
+
+## Agent Setup Guidelines 🧑‍💻
+
+### Agent Directory Creation
+Create a dedicated folder for your agent within the `app/core/agents/` directory. See [here](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents).
+
+### Standard File Structure
+- **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.
+  > Psst... don't let the complexities of Python imports overcomplicate your flow—trust the process!
+
+- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks. Configure the `MODEL_CHOICE`, default is `llm_o` for *gpt-4o* (per [`app/config/params.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/params.ini)).
+
+- **Tools (`tool_xxxx.py`)** (optional): Inherit from the LangChain `BaseTool`, defining:
+    - `name`, `description`, `args_schema`
+    - A Pydantic model for input validation
+    - The `_run` method for execution
+
+### Supervisor Configuration
+Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
+
+### Configuration Updates
+Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json).
+
+### If Your Tool Serves as an Agent
+For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!

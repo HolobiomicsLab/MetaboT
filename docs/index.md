@@ -47,14 +47,15 @@ body_class: md-home
 
 ```mermaid
 graph TD
-    A[Entry Agent] --> B[Supervisor Agent]
-    B --> C[ENPKG Agent]
-    B --> D[SPARQL Agent]
-    B --> E[Interpreter Agent]
-    B --> F[Validator Agent]
-    C --> G[Graph Management]
-    D --> G
-    G --> H[Database]
+    A[Entry Agent] --> B[Validator Agent]
+    B --> C[Supervisor Agent]
+    C --> D[ENPKG Agent]
+    C --> E[SPARQL Agent]
+    C --> F[Interpreter Agent]
+   
+    E --> G[Knowledge Graph]
+    
+   
 ```
 
 ## Contributing 🤝
