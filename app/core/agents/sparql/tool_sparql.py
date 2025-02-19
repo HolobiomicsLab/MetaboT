@@ -254,7 +254,7 @@ class GraphSparqlQAChain(BaseTool):
     def _run(
         self,
         question: str,
-        entities: str,
+        entities: str = "",
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> Dict[str, str]:
 
