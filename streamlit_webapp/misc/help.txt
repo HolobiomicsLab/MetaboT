@@ -1,0 +1,29 @@
+#### MetaboT help
+
+This demo showcases the capabilities of the MetaboT on the [ENPKG 1,600 plant extracts dataset](https://doi.org/10.26434/chemrxiv-2023-sljbt).
+
+The MetaboT is designed to retrieve, process, and interpret information stored in the ENPKG Knowledge Graph, as well as from user provided input files (experimental). 
+
+To use the MetaboT, a valid OpenAI API Key needs to be provided. For obtaining one, see [https://platform.openai.com/docs/quickstart/account-setup](https://platform.openai.com/docs/quickstart/account-setup).
+
+Below are some recommendations and guidelines for using the MetaboT:
+
+- **Cost**: When asking a question to the MetaboT, the AI-system performs API calls to OpenAI models that are billed on the account associated with the key. The cost varies depending on the question and is usually in the range of 0.05-0.2 euros/usd.
+- **OpenAI Key**: Do not share/expose your OpenAI key ! 
+- **Testing**: Feel free to test the capabilities of the MetaboT with one of our preselected questions or ask your own questions.
+- **Asking Questions**: When asking something, please write in a direct and succinct way what your question is.
+- **Interactivity**: The bot is designed to handle and retrieve more information based on your previous questions, allowing more interactivity and follow-up conversations. If you have any questions about the answer you received from MetaboT, you can simply ask for a better explanation or to retrieve more related information from the endpoint.
+- **Chat History**: The capability to follow up on previous questions is enabled by the chat history. Once the chat history is erased, the MetaboT won't remember previous interactions.
+- **Handling Data**: We encourage you to keep the chat history only if it is pertinent to the conversation. If you want to change the subject or retrieve information that is unrelated to the current topic of the conversation, we advise you to download the log and files generated and clear the chat history.
+    - For example, if I started my interaction with the preselected question "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?", it is recommended to download the data and clean the conversation history before asking "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decreasing count of features as aspidosperma-type alkaloids? Group by extract."
+
+- **Disclaimer**: We are committed to protecting your privacy. This web app does not record or store any interactions locally. However, please be aware that interactions are processed by OpenAI's servers to generate responses. OpenAI may store and use this data in accordance with their privacy policy and terms of service. By using this web app, you consent to the processing of your interactions by OpenAI. For more information, please review [OpenAI's Privacy Policy](https://www.openai.com/privacy) and [Terms of Service](https://www.openai.com/terms).
+
+Please note that as the project is a prototype and still under development, the Metabot AI-system requires an OpenAI API key to function properly. We kindly ask you to provide your own API key or to use a contributor key to unlock the features and capabilities offered with the agent. Thank you for your cooperation and understanding.
+
+If you have any comments or suggestions on the website or the MetaboT, please feel free to reach out.
+
+The full code will be available soon at [https://github.com/holobiomicslab/metabot](https://github.com/holobiomicslab/metabot).
+
+
+

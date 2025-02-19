@@ -1,7 +1,15 @@
-import configparser
-from pathlib import Path
-import pickle
 import os
+import argparse
+from typing import Any, Dict, Optional
+from dotenv import load_dotenv
+from langsmith import Client
+
+from app.core.workflow.langraph_workflow import create_workflow, process_workflow
+from app.core.utils import setup_logger
+
+# Load environment variables
+load_dotenv()
+
 from typing import Any, Optional, Tuple
 import functools
 import argparse
@@ -145,48 +153,52 @@ def llm_creation(api_key=None, params_file=None):
  
     return models
 
+logger = setup_logger(__name__)
 
-def langsmith_setup():
+def langsmith_setup() -> Optional[Client]:
     """
     Set up the LangSmith environment and client if an API key is present.
-    If no API key is found, disable V2 tracing.
+    
+    Returns:
+        Optional[Client]: LangSmith client if setup successful, None otherwise
     """
-
     # Check whether an API key is present
     api_key = os.environ.get("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
 
     if not api_key:
-        # If there's no API key, disable V2 tracing
         os.environ["LANGCHAIN_TRACING_V2"] = "false"
-        print("[LangSmith Setup] No API key found, LANGCHAIN_TRACING_V2 set to false.")
-        return  # no further setup needed
-    else:
-        # If an API key exists, enable V2 tracing
-        os.environ["LANGCHAIN_TRACING_V2"] = "true"
+        logger.info("No LangSmith API key found, LANGCHAIN_TRACING_V2 set to false.")
+        return None
 
-        # Set default project if not already set
-        os.environ["LANGCHAIN_PROJECT"] = (
-            os.environ.get("LANGCHAIN_PROJECT")
-            or os.environ.get("LANGSMITH_PROJECT")
-            or "MetaboT"
-        )
+    # If an API key exists, enable V2 tracing
+    os.environ["LANGCHAIN_TRACING_V2"] = "true"
 
-        # Set default endpoint if not already set
-        os.environ["LANGCHAIN_ENDPOINT"] = (
-            os.environ.get("LANGCHAIN_ENDPOINT")
-            or os.environ.get("LANGSMITH_ENDPOINT")
-            or os.environ.get("LANGSMITH_BASE_URL")
-            or "https://api.smith.langchain.com"
-        )
+    # Set default project if not already set
+    os.environ["LANGCHAIN_PROJECT"] = (
+        os.environ.get("LANGCHAIN_PROJECT")
+        or os.environ.get("LANGSMITH_PROJECT")
+        or "MetaboT"
+    )
+
+    # Set default endpoint if not already set
+    os.environ["LANGCHAIN_ENDPOINT"] = (
+        os.environ.get("LANGCHAIN_ENDPOINT")
+        or os.environ.get("LANGSMITH_ENDPOINT")
+        or os.environ.get("LANGSMITH_BASE_URL")
+        or "https://api.smith.langchain.com"
+    )
 
     try:
         client = Client(api_key=api_key)
-        print(f"Langchain client was initialized: {client}")
+        logger.info(f"Langchain client initialized: {client}")
+        return client
     except Exception as e:
-        print(f"Failed to initialize Langchain client: {e}")
+        logger.error(f"Failed to initialize Langchain client: {e}")
+        return None
 
 def main():
-
+    """Main function to run the workflow."""
+    # Define command line arguments
     standard_questions = [
         "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?",
         "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decresing count of features as aspidosperma-type alkaloids? Group by extract.",
@@ -260,15 +272,27 @@ def main():
         "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds."
         "What are the InChIKey2Ds of chemical entities annotated by ISDB in the lab extracts of Desmodium heterophyllum?",
     ]
-
     parser = argparse.ArgumentParser(description="Process a workflow with a predefined or custom question.")
-    parser.add_argument('-q', '--question', type=int, choices=range(1, (len(standard_questions))),
-                        help=f"Choose a standard question number from 1 to {len(standard_questions)}.")
-    parser.add_argument('-c', '--custom', type=str,
-                        help="Provide a custom question.")
+    parser.add_argument('-q', '--question', type=str, required=True,
+                        help="The question to process")
+    parser.add_argument('-e', '--evaluation', action='store_true',
+                        help="Enable evaluation mode")
+    parser.add_argument('--api-key', type=str,
+                        help="OpenAI API key (optional, defaults to environment variable)")
+    parser.add_argument('--endpoint', type=str,
+                        help="Knowledge graph endpoint URL (optional)")
 
     args = parser.parse_args()
 
+    # Initialize LangSmith if available
+    langsmith_client = langsmith_setup()
+
+    # Get endpoint URL from arguments or environment
+    endpoint_url = (
+        args.endpoint
+        or os.environ.get("KG_ENDPOINT_URL")
+        or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+    )
     if args.question:
         question = standard_questions[args.question - 1]
     elif args.custom:
@@ -276,10 +300,6 @@ def main():
     else:
         print("You must provide either a standard question number or a custom question.")
         return
-
-    langsmith_setup()
-    endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
-
     
     username = os.getenv("SPARQL_USERNAME")
     password = os.getenv("SPARQL_PASSWORD")
@@ -290,8 +310,19 @@ def main():
     agents = create_all_agents(models, graph)
     workflow = create_workflow(agents, evaluation = False)
 
-    process_workflow(workflow, question)
-
+    try:
+        # Create and process workflow
+        workflow = create_workflow(
+            api_key=args.api_key,
+            endpoint_url=endpoint_url,
+            evaluation=args.evaluation
+        )
+        
+        process_workflow(workflow, args.question)
+        
+    except Exception as e:
+        logger.error(f"Error processing workflow: {e}")
+        raise
 
 if __name__ == "__main__":
     main()

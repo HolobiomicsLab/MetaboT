@@ -1,54 +1,47 @@
-
 from dotenv import load_dotenv
-
-
 import os
 from langsmith import Client
 from langchain_core.messages import BaseMessage, HumanMessage
 from langgraph.graph import StateGraph
-from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.agents.agents_factory import create_all_agents
-from app.core.main import link_kg_database
-from app.core.main import llm_creation
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
+from app.core.workflow.langraph_workflow import create_workflow
 from langsmith.evaluation import EvaluationResult, run_evaluator
 from langchain.evaluation import EvaluatorType
 from langsmith.schemas import Example, Run
 from langchain.smith import run_on_dataset, RunEvalConfig
 from langchain.evaluation import load_evaluator
 from uuid import uuid4
+from app.core.utils import setup_logger
 
 # Load environment variables
 load_dotenv()
 
+logger = setup_logger(__name__)
 
-# Set environment variables
+# Set environment variables for LangSmith
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"] = (
-        os.environ.get("LANGCHAIN_PROJECT") or 
-        os.environ.get("LANGSMITH_PROJECT") or 
-        "MetaboT evaluation"
-    )
+    os.environ.get("LANGCHAIN_PROJECT")
+    or os.environ.get("LANGSMITH_PROJECT")
+    or "MetaboT evaluation"
+)
 os.environ["LANGCHAIN_ENDPOINT"] = (
-        os.environ.get("LANGCHAIN_ENDPOINT") or 
-        os.environ.get("LANGSMITH_ENDPOINT") or 
-        os.environ.get("LANGSMITH_BASE_URL") or 
-        "https://api.smith.langchain.com"
-    )
-
+    os.environ.get("LANGCHAIN_ENDPOINT")
+    or os.environ.get("LANGSMITH_ENDPOINT")
+    or os.environ.get("LANGSMITH_BASE_URL")
+    or "https://api.smith.langchain.com"
+)
 
 # Initialize Langsmith client
 api_key = os.environ.get("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
 if not api_key:
     raise ValueError("The environment variable LANGCHAIN_API_KEY is not defined")
 
-    # Pass the API key to the Client constructor
 client = Client(api_key=api_key)
 
-# Creating the datasets for testing
+# Dataset configuration
 dataset_name = "smaller_benchmark_temporal"
 
-# custom criteria to evaluate sparql query
+# Custom criteria for SPARQL query evaluation
 custom_criteria = {
     "structural similarity of SPARQL queries":
         "How similar is the structure of the generated SPARQL query to the reference SPARQL query? Does the generated query correctly match subjects to their corresponding objects as in the reference query"
@@ -59,7 +52,6 @@ eval_chain_new = load_evaluator(
     EvaluatorType.LABELED_CRITERIA,
     criteria=custom_criteria,
 )
-
 
 # Define the evaluation configuration
 evaluation_config = RunEvalConfig(
@@ -74,36 +66,49 @@ Score 5: The answer has moderate relevance but contains inaccuracies.
 Score 7: The answer aligns with the reference but has minor errors or omissions.
 Score 10: The answer is completely accurate and aligns perfectly with the reference."""
             },
-             normalize_by=10,
+            normalize_by=10,
         ),
     ],
-
     custom_evaluators=[eval_chain_new],
 )
 
-
-# Link to the knowledge graph database and initialize models and agents
-endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
-graph = link_kg_database(endpoint_url)
-models = llm_creation()
-agents = create_all_agents(models, graph)
-app = create_workflow(agents, evaluation=True)
+    # Create workflow in evaluation mode
+workflow = create_workflow(
+    api_key=os.getenv("OPENAI_API_KEY"),    
+    evaluation=True
+)
 
 def evaluate_result(_input, thread_id: int = 1):
-    """Evaluate the result based on input and thread ID."""
+    """
+    Evaluate the result based on input and thread ID.
+    
+    Args:
+        _input (dict): Input containing messages to process
+        thread_id (int): Thread identifier for the evaluation
+        
+    Returns:
+        dict: The evaluation result
+    """
+    
+    # Prepare the message
     message = {
-                "messages": [
-                    HumanMessage(content=_input["messages"][0]["content"])
-                ]
-            }
-    response = app.invoke(message, {
-                "configurable": {"thread_id": thread_id}
-            }, )
+        "messages": [
+            HumanMessage(content=_input["messages"][0]["content"])
+        ]
+    }
+    
+    # Process the message through the workflow
+    response = workflow.invoke(
+        message,
+        {"configurable": {"thread_id": thread_id}},
+    )
+    
     return {"output": response}
 
 
 # Generate a unique identifier for the project
 unique_id = uuid4().hex[0:8]
+
 
 # Run evaluation on the dataset
 chain_results = run_on_dataset(
@@ -113,8 +118,9 @@ chain_results = run_on_dataset(
     verbose=True,
     project_name=f"Testing the app-{unique_id}",
     client=client,
-
- project_metadata={
-         "model": "gpt-4o",
-   },
+    project_metadata={
+        "model": "gpt-4o",
+    },
 )
+
+
