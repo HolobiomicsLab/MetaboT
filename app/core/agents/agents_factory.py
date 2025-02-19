@@ -63,7 +63,7 @@ def create_all_agents(llms, graph, openai_key=None, session_id=None):
 
                 # If the agent configuration specifies an LLM choice, pass that specific instance
                 if "llm_instance" in func_signature.parameters:
-                    if "llm_choice" in agent:
+                    if llms and "llm_choice" in agent:
                         if agent["llm_choice"] in llms:
                             filtered_args["llm_instance"] = llms[agent["llm_choice"]]
                         else:
