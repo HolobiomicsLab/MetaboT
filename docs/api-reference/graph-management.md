@@ -5,202 +5,128 @@ This document details the graph management system in 🧪 MetaboT 🍵, focusing
 ---
 ## RDF Graph Custom 🔄
 
-The [`RdfGraphCustom`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py) module (`app.core.graph_management.RdfGraphCustom`) provides the core functionality for interacting with RDF-based knowledge graphs.
-
-The custom RDF graph management is implemented in [`RdfGraphCustom.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py).
-
-The graph schema is defined in [`schema.ttl`](https://github.com/holobiomicslab/MetaboT/blob/main/app/graphs/schema.ttl) and [`schema.jsonld`](https://github.com/holobiomicslab/MetaboT/blob/main/app/graphs/schema.jsonld).
+The [`RdfGraphCustom`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py) module provides core functionality for interacting with RDF-based knowledge graphs, with a focus on managing and querying RDF schema information. It is primarily used by the SPARQL query generation chain to execute queries against the configured endpoint.
 
 ### Class: RdfGraph
-[`RdfGraph`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py)
+
+The `RdfGraph` class handles RDF graph representation, focusing on schema management and SPARQL query execution. The class primarily works with rdfs:Class nodes and their relationships.
+
+#### Constructor
 
 ```python
-class RdfGraph:
-    """
-    Custom RDF graph implementation for metabolomics data management.
-    Provides methods for graph operations and SPARQL query execution.
-    """
-    
-    def __init__(self, query_endpoint: str, standard: str = "rdf"):
-        """
-        Initialize RDF graph connection.
-        
-        Args:
-            query_endpoint (str): SPARQL endpoint URL
-            standard (str): RDF standard to use (default: "rdf")
-        """
+def __init__(
+    self,
+    query_endpoint: Optional[str],
+    standard: Optional[str] = "rdf",
+    schema_file: Optional[str] = None,
+    auth: Optional[Tuple[str, str]] = None
+) -> None
 ```
 
-For a practical example of how graph management is used, refer to the main module in [`app/core/main.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/main.py).
+**Parameters:**
 
----
+- `query_endpoint` (Optional[str]): SPARQL endpoint URL for queries (read access)
+- `standard` (Optional[str]): RDF standard to use - one of "rdf", "rdfs", or "owl" (default: "rdf")
+- `schema_file` (Optional[str]): Path to file containing RDF graph schema in turtle format
+- `auth` (Optional[Tuple[str, str]]): Optional authentication credentials as (username, password) tuple. If not provided, the connection will be attempted without authentication. This is useful when users need to connect to a local SPARQL endpoint that requires authentication.
+
+**Environment Variables:**
+
+- `SPARQL_USERNAME`: Username for endpoint authentication (optional)
+- `SPARQL_PASSWORD`: Password for endpoint authentication (optional)
+- `KG_ENDPOINT_URL`: URL of the SPARQL endpoint (defaults to "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG")
+
+**Raises:**
+
+- `ValueError`: If standard is not one of rdf, rdfs, or owl
+- `ValueError`: If no query endpoint is provided
+
+#### Core Methods
+
 ##### Query Execution 🚀
 
 ```python
-def execute_query(self, query: str) -> Dict[str, Any]:
+def query(self, query: str) -> List[csv.DictReader]:
     """
     Execute a SPARQL query against the graph.
     
     Args:
-        query (str): SPARQL query string
+        query (str): SPARQL query string to execute
     
     Returns:
-        Dict[str, Any]: Query results
+        List[csv.DictReader]: Query results as list of dictionaries
     
     Raises:
-        QueryExecutionError: If query execution fails
+        ValueError: If query is invalid or execution fails
     """
 ```
 
 ##### Schema Management 🏗️
 
 ```python
+def load_schema(self) -> None:
+    """
+    Loads graph schema information based on the specified standard (rdf, rdfs, owl).
+    The schema is either loaded from a file (if schema_file was provided) or 
+    extracted from the endpoint.
+    """
+
 @property
-def get_schema(self) -> Dict[str, Any]:
+def get_schema(self) -> str:
     """
     Retrieve the current graph schema.
     
     Returns:
-        Dict[str, Any]: Graph schema information
+        str: Complete graph schema information including namespaces and node types
     """
 ```
 
-##### Graph Operations ⚙️
+##### Property and Value Types 🔍
 
 ```python
-def save(self, path: str = None) -> None:
+def get_prop_and_val_types(self, class_uri: str) -> List[Tuple[str, str]]:
     """
-    Save the current graph state.
+    Retrieves and filters properties and their value types for a specified class URI.
     
     Args:
-        path (str, optional): Path to save the graph
+        class_uri (str): The URI of the class to analyze
+        
+    Returns:
+        List[Tuple[str, str]]: List of (property_uri, value_type) pairs
     """
+```
 
-def load(self, path: str) -> None:
+##### Graph Generation 🌐
+
+```python
+def get_graph_from_classes(self, classes: List[Dict]) -> rdflib.graph.Graph:
     """
-    Load a graph from file.
+    Generates an RDF graph from class definitions.
+    
+    Example triple:
+        ns1:InChIkey ns1:has_npc_pathway ns1:ChemicalTaxonomy .
     
     Args:
-        path (str): Path to the graph file
+        classes (List[Dict]): List of class definitions
+        
+    Returns:
+        rdflib.graph.Graph: Generated RDF graph
     """
 ```
 
-## Query Templates 📄
-
-The system includes predefined SPARQL query templates for common operations.
-
-### Basic Queries
-
-```sparql
-# Class Information Query
-SELECT DISTINCT ?cls ?com ?label
-WHERE {
-    ?cls a rdfs:Class .
-    OPTIONAL { ?cls rdfs:comment ?com }
-    OPTIONAL { ?cls rdfs:label ?label }
-}
-GROUP BY ?cls ?com ?label
-
-# Class Relationships Query
-SELECT ?property (SAMPLE(COALESCE(?type, STR(DATATYPE(?value)), "Untyped")) AS ?valueType)
-WHERE {
-    {
-        SELECT ?instance WHERE {
-            ?instance a <{class_uri}> .
-        } LIMIT 1000
-    }
-    ?instance ?property ?value .
-    OPTIONAL {
-        ?value a ?type .
-    }
-}
-GROUP BY ?property ?type
-LIMIT 300
-```
-
----
-## Graph Utilities 🛠️
-
-### URI Management
+##### Namespace Management 🏷️
 
 ```python
-class URIManager:
+def get_namespaces(self) -> List[Tuple[str, str]]:
     """
-    Manages URI handling and validation.
+    Retrieve namespace definitions.
+    
+    Returns:
+        List[Tuple[str, str]]: List of (prefix, uri) pairs
+        
+    Raises:
+        ValueError: If no namespaces are found
     """
-    
-    @staticmethod
-    def validate_uri(uri: str) -> bool:
-        """
-        Validate a URI string.
-        
-        Args:
-            uri (str): URI to validate
-        
-        Returns:
-            bool: True if valid, False otherwise
-        """
-```
-
-### Query Building
-
-```python
-class QueryBuilder:
-    """
-    Helps construct SPARQL queries programmatically.
-    """
-    
-    def __init__(self):
-        self.prefixes = {}
-        self.where_clauses = []
-        self.limit = None
-    
-    def add_prefix(self, prefix: str, uri: str) -> None:
-        """
-        Add a prefix to the query.
-        
-        Args:
-            prefix (str): Prefix label
-            uri (str): URI for the prefix
-        """
-        self.prefixes[prefix] = uri
-    
-    def add_where_clause(self, clause: str) -> None:
-        """
-        Add a WHERE clause component.
-        
-        Args:
-            clause (str): A condition to add to the WHERE clause
-        """
-        self.where_clauses.append(clause)
-    
-    def set_limit(self, limit: int) -> None:
-        """
-        Set a LIMIT value for the query.
-        
-        Args:
-            limit (int): Maximum number of results to return
-        """
-        self.limit = limit
-    
-    def build(self) -> str:
-        """
-        Build the complete SPARQL query.
-        
-        Returns:
-            str: Formatted SPARQL query
-        """
-        query = ""
-        if self.prefixes:
-            for prefix, uri in self.prefixes.items():
-                query += f"PREFIX {prefix}: <{uri}>\n"
-        query += "SELECT * WHERE {\n"
-        for clause in self.where_clauses:
-            query += f"  {clause}\n"
-        query += "}\n"
-        if self.limit is not None:
-            query += f"LIMIT {self.limit}\n"
-        return query
 ```
 
 ---
@@ -211,13 +137,19 @@ class QueryBuilder:
 ```python
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 
-# Initialize graph
+# Initialize graph without authentication (public endpoint)
 graph = RdfGraph(
-    query_endpoint="https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+    query_endpoint="https://example.org/sparql"
+)
+
+# Initialize graph with authentication (local/private endpoint)
+graph = RdfGraph(
+    query_endpoint="http://localhost:3030/sparql",
+    auth=("username", "password")  # For endpoints requiring authentication
 )
 
 # Execute a simple query
-results = graph.execute_query("""
+results = graph.query("""
     SELECT ?s ?p ?o
     WHERE {
         ?s ?p ?o
@@ -225,82 +157,53 @@ results = graph.execute_query("""
     LIMIT 10
 """)
 
-# Save graph state
-graph.save("graph_backup.pkl")
+# Get schema information
+schema = graph.get_schema
 ```
 
-### Complex Query Example
+### Working with Class Properties
 
 ```python
-# Query for chemical structures with specific properties
-query = """
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX chemical: <http://example.org/chemical/>
+# Get properties for a specific class
+class_uri = "http://example.org/onto#Compound"
+props = graph.get_prop_and_val_types(class_uri)
 
-SELECT ?compound ?mass ?structure
-WHERE {
-    ?compound rdf:type chemical:Compound ;
-             chemical:mass ?mass ;
-             chemical:structure ?structure .
-    FILTER(?mass > 300.0)
-}
-ORDER BY ?mass
-LIMIT 100
-"""
-
-results = graph.execute_query(query)
+# Display properties and their value types
+for prop_uri, value_type in props:
+    print(f"Property: {prop_uri}")
+    print(f"Value type: {value_type}")
 ```
 
 ---
-## Error Handling ⚠️
+## Implementation Details 🔧
 
-```python
-class GraphError(Exception):
-    """Base class for graph-related errors."""
-    pass
+This module is designed to work as part of the larger MetaboT system. It performs the following functions:
 
-class ConnectionError(GraphError):
-    """Raised when unable to connect to the SPARQL endpoint."""
-    pass
+1. **Configuration**
 
-class QueryError(GraphError):
-    """Raised when a SPARQL query fails."""
-    pass
-```
+    -  Automatically connects to the specified SPARQL endpoint
+    - Handles authentication if credentials are provided
+    - Uses environment variables for flexible configuration
 
-### Error Handling Example
 
-```python
-try:
-    results = graph.execute_query(query)
-except QueryError as e:
-    logger.error(f"Query execution failed: {e}")
-    # Handle error appropriately
-except ConnectionError as e:
-    logger.error(f"Graph connection failed: {e}")
-    # Handle connection error
-```
+2. **Query Processing**
 
----
-## Performance ⚡
+    - Works with the SPARQL query generation chain
+    - Executes generated queries against the endpoint
+    - Returns results in a standardized format
 
-1. **Query Optimization**
 
-    - Use appropriate LIMIT clauses
-    - Include specific graph patterns
-    - Consider query complexity
+3. **Schema Management**
 
-2. **Connection Management**
+    - Can load schema from file or extract from endpoint
+    - Manages namespace definitions
+    - Filters system-specific properties
 
-    - Maintain persistent connections
-    - Handle timeouts appropriately
-    - Implement connection pooling for high-load scenarios
+4. **Error Handling**
 
-3. **Data Volume**
+    - Validates endpoint configuration
+    - Handles connection issues gracefully
+    - Provides clear error messages
 
-    - Consider pagination for large result sets
-    - Use streaming for large data transfers
-    - Implement caching where appropriate
 
-For more detailed information about specific graph operations or advanced usage, refer to the respective module documentation.
+For more detailed information about using this module within the MetaboT system, refer to the inline code documentation in [RdfGraphCustom.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py).

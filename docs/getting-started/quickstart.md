@@ -46,11 +46,11 @@ python -m app.core.main -c "What are the SIRIUS structural annotations for Taber
 🧪 MetaboT 🍵 leverages a multi-agent workflow architecture to process queries efficiently:
 
 - **Entry Agent:** Processes the incoming query and routes it to the appropriate system.
+- **Validator Agent:** Immediately verifies that the incoming query is pertinent to the knowledge graph, ensuring its alignment with domain-specific schema.
 - **Supervisor Agent:** Oversees and coordinates all processing steps within the workflow.
 - **ENPKG Agent:** Handles domain-specific data processing related to metabolomics.
-- **SPARQL Agent:** Executes queries against the RDF knowledge graph.
+- **SPARQL Agent:** Generates and executes queries against the RDF knowledge graph.
 - **Interpreter Agent:** Interprets and formats the query results for user readability.
-- **Validator Agent:** Checks consistency and accuracy of the results.
 
 
 This modular design allows 🧪 MetaboT 🍵 to be extended and customized for various research scenarios.
@@ -95,7 +95,7 @@ Make sure that your `KG_ENDPOINT_URL` environment variable is correctly set to p
 
 ### LangSmith Integration
 
-For enhanced tracking and monitoring of workflow runs, we are using [LangSmith](https://www.langchain.com/langsmith). An API key is needed ([free upon registration(]((https://www.langchain.com/langsmith))) and set the .env variable as follow:
+For enhanced tracking and monitoring of workflow runs, we are using [LangSmith](https://docs.smith.langchain.com/). An API key is needed ([free upon registration](https://www.langchain.com/langsmith)) and set the .env variable as follow:
 
 1. Set up LangSmith:
     ```bash
@@ -120,7 +120,7 @@ This ensures that the models used in your workflows are fine-tuned for your spec
 If you encounter issues, consider the following steps:
 
 - **Environment Variables:** Verify that `OPENAI_API_KEY` and `KG_ENDPOINT_URL` are correctly set.
-- **Knowledge Graph Access:** Confirm that the knowledge graph endpoint is reachable and correctly configured in [`app/config/sparql.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/sparql.ini).
+- **Knowledge Graph Access:** Confirm that the knowledge graph endpoint is reachable and correctly configured.
 - **Testing:** Run `python app/core/test_db_connection.py` to check your database connection.
 - **Logs:** Review terminal output for any error messages or warnings during execution.
 
