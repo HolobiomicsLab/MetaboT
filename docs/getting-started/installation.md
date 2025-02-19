@@ -78,58 +78,42 @@ pip install -r requirements.txt
 Create a `.env` file in the [root directory](https://github.com/holobiomicslab/MetaboT) with the following variables:
 
 ```text
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=metabolomics
-DB_USER=your_username
-DB_PASSWORD=your_password
-
 # Optional: API Keys for external services
-OPENAI_API_KEY=your_openai_api_key  # If using OpenAI services
+OPENAI_API_KEY=your_openai_api_key  # If using OpenAI service
+DEEPSEEK_API_KEY=your_deepseek_api_key # If using DeepSeek API service
+OVHCLOUD_API_KEY=your_ovhcloud_api_key # If using the OVHcloud services 
 ```
 
 ---
 
 ## SPARQL Endpoint Configuration 🌐
 
-Edit [`app/config/sparql.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/sparql.ini) to configure your SPARQL endpoint:
-
-```ini
-[sparql]
-endpoint=http://your-sparql-endpoint:8890/sparql
-graph=http://your-graph-uri
-```
+Configure your SPARQL endpoint exclusively by setting the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file.
 
 ---
 
 ## Verify Installation ✅
 
-To verify your installation:
+To verify the installation, execute the following command:
 
 ```bash
-python -m pytest app/core/tests/
+python app/core/tests/installation_test.py
 ```
+
+This command initiates the agent workflow by constructing the RDF graph using the endpoint specified via the KG_ENDPOINT_URL variable in your .env file, instantiating the requisite language models, and executing one of the predefined standard queries. Successful execution confirms the proper configuration and integration of the system's core functionalities, including graph management and SPARQL query generation.
 
 ---
 
 ## Common Issues 🐞
 
-#### Issue: Database Connection Error
-
-If you encounter database connection issues:
-1. Ensure PostgreSQL is running.
-2. Verify database credentials in `.env`.
-3. Run the test connection script:
-   ```bash
-   python app/core/test_db_connection.py
-   ```
-
 #### Issue: SPARQL Endpoint Connection
 
 If SPARQL queries fail:
+
 1. Check if the SPARQL endpoint is accessible.
-2. Verify endpoint configuration in `sparql.ini`.
+
+2. Verify that the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file is correctly set.
+
 3. Ensure proper network access/firewall settings.
 
 ---
@@ -138,13 +122,12 @@ If SPARQL queries fail:
 
 By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
 
-Edit [`app/config/sparql.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/sparql.ini) to configure your SPARQL endpoint:
+Set your SPARQL endpoint by configuring the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file.
 
-```ini
-[sparql]
-endpoint=http://your-sparql-endpoint:8890/sparql
-graph=http://your-graph-uri
-```
+Additionally, to ensure the SPARQL queries generated accurately reflect the schema of your knowledge graph, you must provide detailed information about your knowledge graph’s structure and update the prompt settings in:
+ 
+- <code>app/core/agents/validator/prompt.py</code>
+- The SPARQL generation chain in <code>app/core/agents/sparql/tool_sparql.py</code>
 
 ---
 
@@ -153,7 +136,7 @@ graph=http://your-graph-uri
 If you encounter any issues during installation:
 
 1. Check our [GitHub Issues](https://github.com/holobiomicslab/MetaboT/issues) for similar problems.
-2. Create a new [Issues](https://github.com/holobiomicslab/MetaboT/issues) with detailed information about your setup and the error.
+2. Create a new [issue](https://github.com/holobiomicslab/MetaboT/issues) with detailed information about your setup and the error.
 
 ---
 

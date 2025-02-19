@@ -18,20 +18,16 @@ This guide details all configuration options available in 🧪 MetaboT 🍵, hel
 Located in [`params.ini`](app/config/params.ini), this configuration controls the behavior of different language models used in the system.
 
 ```ini
-[llm]
-id = gpt-4o-2024-08-06
-temperature = 0
-max_retries = 3
-
 [llm_preview]
-id = chatgpt-4o-latest
+id = gpt-4-0125-preview
 temperature = 0
 max_retries = 3
 
 [llm_o]
-id = gpt-4o-2024-08-06
+id = gpt-4o
 temperature = 0
 max_retries = 3
+
 
 [llm_mini]
 id = gpt-4o-mini
@@ -48,41 +44,50 @@ id = o1-2024-12-17
 temperature = 1
 max_retries = 3
 
-[llm_o1_min]
-id = o1-mini-2024-09-12
-temperature = 1
+[deepseek_deepseek-chat]
+id = deepseek-chat
+temperature = 0
 max_retries = 3
+base_url = https://api.deepseek.com
 
-[llm_o1_min_preview]
-id = o1-preview-2024-09-12
-temperature = 1
+[deepseek_deepseek-reasoner]
+id = deepseek-reasoner
+temperature = 0
 max_retries = 3
+base_url = https://api.deepseek.com
+
+[ovh_Meta-Llama-3_1-70B-Instruct]
+id = Meta-Llama-3_1-70B-Instruct
+temperature = 0
+max_retries = 3
+base_url = https://llama-3-1-70b-instruct.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1
 ```
 
 ### Available Sections
 
-- **Main LLM (`[llm]`)**
-  Primary language model for complex queries (GPT-4o 2024.08.06)
+- **Main LLM (`[llm_o]`)**
+  Production-optimized GPT-4o 2024.08.06 used by most agents.
 - **Preview Model (`[llm_preview]`)**
-  Latest model versions with cutting-edge capabilities
-- **Optimized Model (`[llm_o]`)**
-  Production-optimized version of GPT-4o 2024.08.06
+  Latest model versions with cutting-edge capabilities.
 - **Mini Model (`[llm_mini]`)**
-  Lightweight GPT-4o variant for basic tasks
+  Lightweight GPT-4o variant for basic tasks.
 - **O3 Mini (`[llm_o3_mini]`)**
-  Specialized model for experimental tasks (higher creativity)
+  Specialized model for experimental tasks with higher creativity.
 - **O1 Core (`[llm_o1]`)**
-  Advanced model for research and development
-- **O1 Mini (`[llm_o1_min]`)**
-  Compact version of O1 Core for prototyping
-- **O1 Preview (`[llm_o1_min_preview]`)**
-  Early access to upcoming O1 model features
+  Advanced model for research and development.
+
+- **DeepSeek Chat (`[deepseek_deepseek-chat]`)**
+  Conversational model from DeepSeek for interactive queries.
+- **DeepSeek Reasoner (`[deepseek_deepseek-reasoner]`)**
+  Analytical model from DeepSeek for enhanced reasoning.
+- **OVH Meta-Llama (`[ovh_Meta-Llama-3_1-70B-Instruct]`)**
+  Instructive model providing robust language understanding.
 
 Note: 🧪 MetaboT 🍵 supports any OpenAI-compatible API endpoints through custom configurations.
 
 ### Parameters
 
-- `id`: Model identifier (e.g., gpt-4, gpt-3.5-turbo)
+- `id`: Model identifier (e.g., gpt-4o, gpt-3.5-turbo)
 - `temperature`: Randomness in responses (0-1)
 - `max_retries`: Number of retry attempts
 - `model_kwargs`: Additional model parameters (optional)
@@ -91,7 +96,7 @@ Note: 🧪 MetaboT 🍵 supports any OpenAI-compatible API endpoints through cus
 
 ## SPARQL Configuration 🔍
 
-The [`sparql.ini`](app/config/sparql.ini) file contains SPARQL query templates and settings for the knowledge graph interaction.
+The [`sparql.ini`](app/config/sparql.ini) file contains SPARQL query templates and settings essential for interacting with the knowledge graph. These configurations are used by the [`RdfGraph`](app/core/graph_management/RdfGraphCustom.py) class to dynamically retrieve the schema from the knowledge graph when no local schema file is provided.
 
 ### Query Templates
 
@@ -105,12 +110,15 @@ CLS_RDF = SELECT DISTINCT ?cls ?com ?label
             OPTIONAL { ?cls rdfs:label ?label }
         }
         GROUP BY ?cls ?com ?label
+```
+This query retrieves all classes along with their optional comments and labels. The results form the foundation for constructing the dynamic schema.
 
+```
 # Class relationships query
 CLS_REL_RDF = SELECT ?property (SAMPLE(COALESCE(?type, STR(DATATYPE(?value)), "Untyped")) AS ?valueType) 
         WHERE {...}
 ```
-
+This query is executed for each class retrieved by ```CLS_RDF```. It retrieves properties associated with instances of the specified class and determines a representative value type for each property.
 ### Excluded URIs
 
 ```ini
@@ -120,7 +128,7 @@ uris = http://www.w3.org/1999/02/22-rdf-syntax-ns#type,
        http://www.w3.org/2000/01/rdf-schema#Class,
        http://xmlns.com/foaf/0.1/depiction
 ```
-
+The list of excluded URIs defines properties that are filtered out during the schema retrieval process.
 ---
 ## Logging Configuration 📝
 
@@ -192,10 +200,10 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ## Best Practices 📘
 
 ### Language Model Selection
-- Use `llm` or `llm_o` for complex queries requiring high accuracy.
+- Use  `llm_o` for complex queries requiring high accuracy.
 - Use `llm_mini` or `llm_o3_mini` for faster, cost-effective operations.
 - Consider `llm_o3` or `llm_o1`and its variants for complex questions.
-- Use `llm_preview` or `llm_o1_min_preview` to test alternative features.
+
 
 ### Logging Configuration
 - Keep the default INFO level for production.
@@ -247,17 +255,6 @@ To add a new language model configuration:
    max_retries = 3
    ```
 2. Update the model creation code in [`app/core/main.py`](app/core/main.py).
-
-### Custom Query Templates
-
-Add new SPARQL query templates to [`sparql.ini`](app/config/sparql.ini):
-
-```ini
-[sparqlQueries]
-YOUR_QUERY_NAME = SELECT ...
-```
-
-Refer to the respective component documentation for more detailed information.
 
 ---
 ## Default Dataset and Data Conversion 📊
