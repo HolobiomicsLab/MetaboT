@@ -2,8 +2,10 @@ from dotenv import load_dotenv
 import os
 from langsmith import Client
 from langchain_core.messages import BaseMessage, HumanMessage
-from langgraph.graph import StateGraph
+
 from app.core.workflow.langraph_workflow import create_workflow
+from app.core.main import link_kg_database
+from app.core.main import llm_creation
 from langsmith.evaluation import EvaluationResult, run_evaluator
 from langchain.evaluation import EvaluatorType
 from langsmith.schemas import Example, Run
@@ -72,10 +74,14 @@ Score 10: The answer is completely accurate and aligns perfectly with the refere
     custom_evaluators=[eval_chain_new],
 )
 
-    # Create workflow in evaluation mode
-workflow = create_workflow(
-    api_key=os.getenv("OPENAI_API_KEY"),    
-    evaluation=True
+endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+graph = link_kg_database(endpoint_url)
+models = llm_creation()
+# Create workflow in evaluation mode
+app = create_workflow(
+    models=models,
+    evaluation=True,
+    api_key=api_key
 )
 
 def evaluate_result(_input, thread_id: int = 1):
@@ -98,7 +104,7 @@ def evaluate_result(_input, thread_id: int = 1):
     }
     
     # Process the message through the workflow
-    response = workflow.invoke(
+    response = app.invoke(
         message,
         {"configurable": {"thread_id": thread_id}},
     )

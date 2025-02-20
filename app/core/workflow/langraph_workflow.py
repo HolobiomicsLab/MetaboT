@@ -63,20 +63,22 @@ def link_kg_database(endpoint_url: str):
     return graph
 
 def create_workflow(
-    api_key: str,
+    models: Dict,
     session_id: Optional[str] = None,
     endpoint_url: Optional[str] = None,
-    evaluation: bool = False
+    evaluation: bool = False,
+    api_key: Optional[str] = None
 ) -> StateGraph:
     """
     Create a unified workflow that internally manages agents, models, and graphs.
     This function combines the functionality previously split across different files.
 
     Args:
-        api_key (str): OpenAI API key for model creation
+        models (Dict): Dictionary of language models to use
         session_id (Optional[str]): Session ID for memory management
         endpoint_url (Optional[str]): URL for the knowledge graph endpoint
         evaluation (bool): Whether to run in evaluation mode
+        api_key (Optional[str]): OpenAI API key for model creation (if needed)
 
     Returns:
         StateGraph: The compiled workflow
@@ -86,10 +88,6 @@ def create_workflow(
         endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     
     graph = link_kg_database(endpoint_url)
-    
-    # Create models with the provided API key
-    
-    models = llm_creation(api_key=api_key)
     
     # Create agents with the initialized components
     agents = create_all_agents(
