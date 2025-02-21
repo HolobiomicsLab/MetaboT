@@ -370,21 +370,17 @@ def main():
 
     
     
-    username = os.getenv("SPARQL_USERNAME")
-    password = os.getenv("SPARQL_PASSWORD")
-    auth = (username, password) if username and password else None
 
-    graph = link_kg_database(endpoint_url, auth)
+
+   
     models = llm_creation()
-    # agents = create_all_agents(models, graph)
-    # workflow = create_workflow(agents, evaluation = False)
 
     try:
         # Create and process workflow
         workflow = create_workflow(
             models=models,
             endpoint_url=endpoint_url,
-            evaluation=args.evaluation,
+            evaluation=False,
             api_key=args.api_key
         )
         
