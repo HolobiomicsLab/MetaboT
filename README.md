@@ -99,16 +99,20 @@ It should also work on other Unix-based systems. For more details on compatibili
    - Ensure Conda (Anaconda/Miniconda) is installed.  
    - [Conda Installation Docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
 
-2. **API Keys**  
-   Required API keys:  
-   - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys). 
+2. **API Keys**
+   Required API keys:
+   - Get an API key for your chosen language model:
+     - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)
+     - **DeepSeek API Key**: Get it from DeepSeek
+     - **Claude API Key**: Get it from Anthropic
+     - Or other models supported by [LiteLLM](https://docs.litellm.ai/docs/providers)
 
-   > **Disclaimer:** The OpenAI API is a commercial and paid service. Our default model is **gpt-4o**, and its usage will incur costs according to OpenAI's pricing policy. By default, 🧪 MetaboT 🍵 uses gpt-4o.
+   > **Disclaimer:** Most LLM APIs are commercial and paid services. Our default model is **gpt-4o**, and its usage will incur costs according to the provider's pricing policy.
    >
-   > **Data Privacy:** Please note that data submitted to the OpenAI API is subject to OpenAI's privacy policy. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
+   > **Data Privacy:** Please note that data submitted to LLM APIs is subject to their respective privacy policies. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
 
    Optional API keys:
-   - **LangSmith API Key**: This used to see the interactions traces [LangSmith](https://smith.langchain.com/). This is free.
+   - **LangSmith API Key**: This is used to see the interactions traces [LangSmith](https://smith.langchain.com/). This is free.
 
    Create a `.env` file in the root directory with your credentials:
 
