@@ -2,8 +2,11 @@ from dotenv import load_dotenv
 import os
 from langsmith import Client
 from langchain_core.messages import BaseMessage, HumanMessage
-from langgraph.graph import StateGraph
-from app.core.workflow.langraph_workflow import create_workflow
+# from langgraph.graph import StateGraph
+
+from app.core.workflow.langraph_workflow import create_workflow, process_workflow
+
+from app.core.main import llm_creation
 from langsmith.evaluation import EvaluationResult, run_evaluator
 from langchain.evaluation import EvaluatorType
 from langsmith.schemas import Example, Run
@@ -32,7 +35,7 @@ os.environ["LANGCHAIN_ENDPOINT"] = (
 )
 
 # Initialize Langsmith client
-api_key = os.environ.get("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
+api_key = os.getenv("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
 if not api_key:
     raise ValueError("The environment variable LANGCHAIN_API_KEY is not defined")
 
@@ -72,19 +75,23 @@ Score 10: The answer is completely accurate and aligns perfectly with the refere
     custom_evaluators=[eval_chain_new],
 )
 
-    # Create workflow in evaluation mode
-workflow = create_workflow(
-    api_key=os.getenv("OPENAI_API_KEY"),    
-    evaluation=True
+endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+
+models = llm_creation()
+# Create workflow in evaluation mode
+app = create_workflow(
+    models=models,
+    endpoint_url=endpoint_url,
+    evaluation=True,
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 
 def evaluate_result(_input, thread_id: int = 1):
     """
-    Evaluate the result based on input and thread ID.
+    Evaluate the result based on input.
     
     Args:
         _input (dict): Input containing messages to process
-        thread_id (int): Thread identifier for the evaluation
         
     Returns:
         dict: The evaluation result
@@ -97,11 +104,9 @@ def evaluate_result(_input, thread_id: int = 1):
         ]
     }
     
-    # Process the message through the workflow
-    response = workflow.invoke(
-        message,
-        {"configurable": {"thread_id": thread_id}},
-    )
+
+    response = app.invoke(message,
+                          {"configurable": {"thread_id": thread_id}},)
     
     return {"output": response}
 

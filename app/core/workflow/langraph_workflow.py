@@ -1,5 +1,7 @@
 # langchain imports for agent and prompt handling
 import functools
+import os
+
 import operator
 from typing import (
     Annotated,
@@ -10,6 +12,7 @@ from typing import (
     TypedDict,
     Literal,
     Optional,
+    Tuple,
 )
 import pickle
 from pathlib import Path
@@ -27,6 +30,8 @@ from app.core.llm_handler import llm_creation
 
 logger = setup_logger(__name__)
 parent_dir = Path(__file__).resolve().parent.parent.parent
+graph_path = parent_dir / "graphs" / "graph.pkl"
+
 
 class AgentState(TypedDict):
     # The annotation tells the graph that new messages will always
@@ -35,15 +40,51 @@ class AgentState(TypedDict):
     # The 'next' field indicates where to route to next
     next: str
 
-def link_kg_database(endpoint_url: str):
+# def link_kg_database(endpoint_url: str):
+#     """
+#     Checks if an RDF graph is already created, and if not, it initializes and saves a new RDF graph object using a specified endpoint URL.
+
+#     Returns:
+#         RdfGraph: An RDF graph object.
+#     """
+
+#     graph_path = parent_dir / "graphs" / "graph.pkl"
+
+#     # check if the graph is already created if not create it.
+#     try:
+#         with open(graph_path, "rb") as input_file:
+#             graph = pickle.load(input_file)
+#             # logger.info(f"schema: {graph.get_schema}")
+#             return graph
+#     except FileNotFoundError:
+#         pass
+
+#     # Initialize the RdfGraph object with the given endpoint and the standard set to 'rdf'
+#     graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf")
+
+#     with open(graph_path, "wb") as output_file:
+#         pickle.dump(graph, output_file)
+#     # logger.info(f"schema: {graph.get_schema}")
+#     return graph
+def link_kg_database(endpoint_url: str, auth: Optional[Tuple[str, str]] = None):
     """
     Checks if an RDF graph is already created, and if not, it initializes and saves a new RDF graph object using a specified endpoint URL.
+    
+    Args:
+        endpoint_url (str): The URL of the SPARQL endpoint.
+        auth (Optional[Tuple[str, str]]): Optional tuple of (username, password) for authentication.
+            If not provided, will try to use SPARQL_USERNAME and SPARQL_PASSWORD from environment.
 
     Returns:
         RdfGraph: An RDF graph object.
     """
 
-    graph_path = parent_dir / "graphs" / "graph.pkl"
+    # Try to get authentication from environment if not provided
+    if auth is None:
+        username = os.getenv("SPARQL_USERNAME")
+        password = os.getenv("SPARQL_PASSWORD")
+        if username and password:
+            auth = (username, password)
 
     # check if the graph is already created if not create it.
     try:
@@ -55,41 +96,40 @@ def link_kg_database(endpoint_url: str):
         pass
 
     # Initialize the RdfGraph object with the given endpoint and the standard set to 'rdf'
-    graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf")
+    graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf", auth=auth)
 
     with open(graph_path, "wb") as output_file:
         pickle.dump(graph, output_file)
     # logger.info(f"schema: {graph.get_schema}")
     return graph
 
+
 def create_workflow(
-    api_key: str,
+    models: Dict,
     session_id: Optional[str] = None,
     endpoint_url: Optional[str] = None,
-    evaluation: bool = False
+    evaluation=bool,
+    api_key: Optional[str] = None
 ) -> StateGraph:
     """
     Create a unified workflow that internally manages agents, models, and graphs.
     This function combines the functionality previously split across different files.
 
     Args:
-        api_key (str): OpenAI API key for model creation
+        models (Dict): Dictionary of language models to use
         session_id (Optional[str]): Session ID for memory management
         endpoint_url (Optional[str]): URL for the knowledge graph endpoint
         evaluation (bool): Whether to run in evaluation mode
+        api_key (Optional[str]): OpenAI API key for model creation (if needed)
 
     Returns:
         StateGraph: The compiled workflow
     """
     # Initialize the graph
     if endpoint_url is None:
-        endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+        endpoint_url = os.environ.get("KG_ENDPOINT_URL")
     
     graph = link_kg_database(endpoint_url)
-    
-    # Create models with the provided API key
-    
-    models = llm_creation(api_key=api_key)
     
     # Create agents with the initialized components
     agents = create_all_agents(
@@ -161,7 +201,7 @@ def create_workflow(
     workflow.set_entry_point("Entry_Agent")
 
     # Compile workflow based on mode
-    if evaluation:
+    if evaluation == True:
         app = workflow.compile()
 
     else:
