@@ -83,14 +83,37 @@ base_url = https://llama-3-1-70b-instruct.endpoints.kepler.ai.cloud.ovh.net/api/
 - **OVH Meta-Llama (`[ovh_Meta-Llama-3_1-70B-Instruct]`)**
   Instructive model providing robust language understanding.
 
-Note: 🧪 MetaboT 🍵 supports any OpenAI-compatible API endpoints through custom configurations.
+🧪 MetaboT 🍵 supports both OpenAI-compatible API endpoints and various other LLM providers through LiteLLM integration. Models can be configured in two ways:
+
+1. OpenAI-compatible endpoints using sections like `[llm_o]`, `[deepseek_deepseek-chat]`, etc.
+2. Other providers through LiteLLM using sections starting with `[llm_litellm_]`, for example:
+```ini
+[llm_litellm_openai]
+id = gpt-4
+temperature = 0
+
+[llm_litellm_deepseek]
+id = deepseek/deepseek-chat
+
+[llm_litellm_claude]
+id = claude-3-opus-20240229
+
+[llm_litellm_gemini]
+id = gemini/gemini-1.5-pro
+```
+
+For a complete list of supported providers and their model identifiers, see the [LiteLLM Providers Documentation](https://docs.litellm.ai/docs/providers).
+
+You can configure different models for each agent in your workflow. For detailed instructions on agent-specific model configuration, refer to the [Language Model Configuration Guide](../getting-started/installation.md#language-model-configuration).
 
 ### Parameters
 
-- `id`: Model identifier (e.g., gpt-4o, gpt-3.5-turbo)
+- `id`: Model identifier (format depends on provider)
+  - For OpenAI-compatible: e.g., gpt-4o, gpt-3.5-turbo
+  - For LiteLLM: provider/model-name (e.g., deepseek/deepseek-chat)
 - `temperature`: Randomness in responses (0-1)
-- `max_retries`: Number of retry attempts
-- `model_kwargs`: Additional model parameters (optional)
+- `max_retries`: Number of retry attempts (optional)
+- `base_url`: Custom API endpoint URL (optional)
 
 ---
 
@@ -184,11 +207,17 @@ handlers=consoleHandler,fileHandler
 Create a `.env` file in the project root with these variables:
 
 ```bash
-# OpenAI API Configuration
-OPENAI_API_KEY=your_openai_api_key
+# LLM API Configuration
+OPENAI_API_KEY=your_openai_api_key          # If using OpenAI models
+DEEPSEEK_API_KEY=your_deepseek_api_key      # If using DeepSeek models
+CLAUDE_API_KEY=your_claude_api_key          # If using Claude models
+GEMINI_API_KEY=your_gemini_api_key          # If using Gemini models
+OVHCLOUD_API_KEY=your_ovh_api_key           # If using Llama on OVHcloud
 
 # Knowledge Graph Configuration
 KG_ENDPOINT_URL=https://enpkg.commons-lab.org/graphdb/repositories/ENPKG
+SPARQL_USERNAME=your_username               # If endpoint requires authentication
+SPARQL_PASSWORD=your_password               # If endpoint requires authentication
 
 # LangSmith Configuration (Optional)
 LANGCHAIN_API_KEY=your_langsmith_api_key
@@ -213,7 +242,7 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ### SPARQL Optimization
 - Review and update excluded URIs as needed.
 - Monitor query performance.
-- Adjust LIMIT values based on your data size.
+- Adjust the prompt of sparql_generation_select_chain in `app/core/agents/sparql/tool_sparql`.
 
 ### Environment Security
 - Never commit the `.env` file to version control.
@@ -239,22 +268,6 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
     - Validate endpoint accessibility.
     - Check query syntax.
     - Review timeout settings.
-
----
-## Advanced Configuration 🛠️
-
-### Custom Model Integration
-
-To add a new language model configuration:
-
-1. Add a new section to [`params.ini`](app/config/params.ini):
-   ```ini
-   [llm_custom]
-   id = your-model-id
-   temperature = 0
-   max_retries = 3
-   ```
-2. Update the model creation code in [`app/core/main.py`](app/core/main.py).
 
 ---
 ## Default Dataset and Data Conversion 📊

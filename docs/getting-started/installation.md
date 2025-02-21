@@ -11,7 +11,7 @@ Before installing 🧪 MetaboT 🍵, ensure you have the following installed:
 - **pip** (Python package installer) — [Install pip](https://pip.pypa.io/en/stable/installation/)
 - **conda** — [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html)
 - **Git** — [Install Git](https://git-scm.com/downloads)
-- **OpenAI API Key** — [Get your API key](https://platform.openai.com/api-keys)
+- **LLM API Key** — Get an API key for your chosen language model (OpenAI, DeepSeek, or Claude)
 - **WSL** (for Windows users) — [Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 ---
@@ -86,6 +86,74 @@ OVHCLOUD_API_KEY=your_ovhcloud_api_key # If using the OVHcloud services
 
 ---
 
+## Language Model Configuration 🤖
+
+By default, all agents in MetaboT use OpenAI models, but you can configure different models for each agent. The current implementation supports:
+- OpenAI
+- DeepSeek
+- Claude (Anthropic)
+- Llama (via OVHcloud)
+
+### Adding New Models
+
+To add a new model using LiteLLM:
+
+1. Add a new section in `app/config/params.ini`:
+```ini
+[llm_litellm_your_model_name]
+temperature=0.0
+id=your-provider/model-name  # As specified in https://docs.litellm.ai/docs/providers
+max_retries=3
+```
+
+2. Add your provider and API key mapping in `app/core/main.py`:
+```python
+API_KEY_MAPPING = {
+    "deepseek": "DEEPSEEK_API_KEY",
+    "ovh": "OVHCLOUD_API_KEY",
+    "openai": "OPENAI_API_KEY",
+    "huggingface": "HUGGINGFACE_API_KEY",
+    "anthropic": "ANTHROPIC_API_KEY",
+    "gemini": "GEMINI_API_KEY",
+    "your-provider": "YOUR_PROVIDER_API_KEY"  # Add your mapping here
+}
+```
+
+3. Modify the provider detection in `create_litellm_model` function:
+```python
+if model_id.startswith("deepseek"):
+    provider = "deepseek"
+elif model_id.startswith("gpt"):
+    provider = "openai"
+    model_name = f"openai/{model_id}"
+elif model_id.startswith("your-prefix"):  # Add your model prefix detection
+    provider = "your-provider"
+```
+
+The function automatically handles:
+
+- Provider detection based on model ID prefix
+- API key retrieval from environment variables
+- Basic parameters (temperature, max_retries)
+- Optional base URL configuration
+
+### Configuring Models for Different Agents
+
+To use different models for different agents, modify `app/config/langgraph.json`. In the agents section, specify `llm_choice` with the name of your model section from params.ini:
+
+```json
+{
+  "agents": {
+    "sparql_agent": {
+      "llm_choice": "llm_litellm_your_model_name"
+    },
+    "validator_agent": {
+      "llm_choice": "llm_litellm_different_model"
+    }
+  }
+}
+```
+
 ## SPARQL Endpoint Configuration 🌐
 
 Configure your SPARQL endpoint exclusively by setting the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file.
@@ -97,7 +165,7 @@ Configure your SPARQL endpoint exclusively by setting the <code>KG_ENDPOINT_URL<
 To verify the installation, execute the following command:
 
 ```bash
-python app/core/tests/installation_test.py
+python app/tests/installation_test.py
 ```
 
 This command initiates the agent workflow by constructing the RDF graph using the endpoint specified via the KG_ENDPOINT_URL variable in your .env file, instantiating the requisite language models, and executing one of the predefined standard queries. Successful execution confirms the proper configuration and integration of the system's core functionalities, including graph management and SPARQL query generation.
@@ -122,7 +190,12 @@ If SPARQL queries fail:
 
 By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
 
-Set your SPARQL endpoint by configuring the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file.
+Set your SPARQL endpoint by configuring the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file. If you are deploying a local endpoint that requires authentication, add the following variables to your <code>.env</code> file:
+
+```text
+SPARQL_USERNAME=your_username
+SPARQL_PASSWORD=your_password
+```
 
 Additionally, to ensure the SPARQL queries generated accurately reflect the schema of your knowledge graph, you must provide detailed information about your knowledge graph’s structure and update the prompt settings in:
  

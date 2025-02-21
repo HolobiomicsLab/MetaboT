@@ -1,4 +1,4 @@
-# Agents API Reference 🤖
+giyt# Agents API Reference 🤖
 
 This document details the agent system in the application, including the specialized agents and their roles in processing queries.
 
@@ -11,7 +11,7 @@ All agents in the system share a similar architectural pattern and are managed b
 - Creation: Created using `create_openai_tools_agent` function
 - Dynamic Tool Loading: Use dynamic tool loading through the `import_tools` utility
 - Configurable Behavior: Configured with specific prompts that define their roles and behaviors
-- AI-Powered Processing: Utilize OpenAI compatible language models for processing
+- AI-Powered Processing: Utilize large language models as a reasoning engine
 - Encapsulated Execution: Return an `AgentExecutor` that encapsulates both the agent and its tools
 
 **Agent Locations:**
@@ -92,13 +92,6 @@ The Supervisor Agent orchestrates the interaction between all other agents in th
 - Makes routing decisions based on query content
 - Ensures proper processing sequence
 - Manages agent responses and task completion
-
-**Key Features:**
-
-- Intelligent task delegation based on query content
-- Dynamic routing between specialized agents
-- Result aggregation and process completion control
-- Visualization request handling
 
 **Decision Making:**
 
@@ -268,7 +261,7 @@ Create a dedicated folder for your agent within the `app/core/agents/` directory
 - **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.
   > Psst... don't let the complexities of Python imports overcomplicate your flow—trust the process!
 
-- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks. Configure the `MODEL_CHOICE`, default is `llm_o` for *gpt-4o* (per [`app/config/params.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/params.ini)).
+- **Prompt (`prompt.py`)**: Adapt the prompt for your specific context/tasks.
 
 - **Tools (`tool_xxxx.py`)** (optional): Inherit from the LangChain `BaseTool`, defining:
     - `name`, `description`, `args_schema`
@@ -279,7 +272,14 @@ Create a dedicated folder for your agent within the `app/core/agents/` directory
 Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
 
 ### Configuration Updates
-Update `app/config/langgraph.json` to include your agent in the workflow. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json).
+Update `app/config/langgraph.json` to include your agent in the workflow and specify `llm_choice` based on the models defined in `app/config/params.ini`. Available models include:
+
+- OpenAI models: `llm_preview`, `llm_o`, `llm_mini`
+- OVH models: `ovh_Meta-Llama-3_1-70B-Instruct`
+- Deepseek models: `deepseek_deepseek-chat`, `deepseek_deepseek-reasoner`
+- LiteLLM compatible models: `llm_litellm_openai`, `llm_litellm_deepseek`, `llm_litellm_claude`, `llm_litellm_gemini`
+
+Choose the appropriate model based on your agent's requirements for reasoning capabilities and performance. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json). If you need to add a new language model, refer to the [Language Model Configuration](../getting-started/installation/#language-model-configuration) guide.
 
 ### If Your Tool Serves as an Agent
 For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!

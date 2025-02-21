@@ -9,9 +9,18 @@ Welcome to the Quick Start Guide for 🧪 MetaboT 🍵. This guide will help you
 Before you begin, ensure that you have:
 
 - Completed the [Installation Guide](installation.md)
-- Set the necessary environment variables:
-  - `OPENAI_API_KEY` (for language model access)
-  - `KG_ENDPOINT_URL` (for the knowledge graph endpoint)
+
+- Set the necessary environment variables in your `.env` file:
+
+    - API key for your chosen language model:
+         - `OPENAI_API_KEY` if using OpenAI
+         - `DEEPSEEK_API_KEY` if using DeepSeek
+        - `CLAUDE_API_KEY` if using Claude
+
+    -  SPARQL endpoint configuration:
+         - `KG_ENDPOINT_URL` (required)
+        - `SPARQL_USERNAME` and `SPARQL_PASSWORD` (if your endpoint requires authentication)
+    
 - Activated your Python virtual environment
 
 
@@ -81,12 +90,24 @@ python -m app.core.main -c "List the bioassay results at 10µg/mL against T.cruz
 
 🧪 MetaboT 🍵 connects to a knowledge graph to enrich analysis:
 ```python
+import os
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 
 # Connect to the knowledge graph using the defined endpoint
+# If SPARQL_USERNAME and SPARQL_PASSWORD environment variables are set,
+# they will be automatically used for authentication
 graph = RdfGraph(
     query_endpoint="https://enpkg.commons-lab.org/graphdb/repositories/ENPKG",
-    standard="rdf"
+    standard="rdf",
+    auth=None  # Will automatically use environment variables if available
+)
+
+# Or explicitly provide authentication:
+auth = (os.getenv("SPARQL_USERNAME"), os.getenv("SPARQL_PASSWORD"))
+graph = RdfGraph(
+    query_endpoint="your_endpoint_url",
+    standard="rdf",
+    auth=auth
 )
 ```
 Make sure that your `KG_ENDPOINT_URL` environment variable is correctly set to point to your graph database.
@@ -119,9 +140,8 @@ This ensures that the models used in your workflows are fine-tuned for your spec
 
 If you encounter issues, consider the following steps:
 
-- **Environment Variables:** Verify that `OPENAI_API_KEY` and `KG_ENDPOINT_URL` are correctly set.
+- **Environment Variables:** Verify that your chosen LLM API key (`OPENAI_API_KEY`, `DEEPSEEK_API_KEY`, `CLAUDE_API_KEY`, etc.) and `KG_ENDPOINT_URL` are correctly set in your `.env` file.
 - **Knowledge Graph Access:** Confirm that the knowledge graph endpoint is reachable and correctly configured.
-- **Testing:** Run `python app/core/test_db_connection.py` to check your database connection.
 - **Logs:** Review terminal output for any error messages or warnings during execution.
 
 ---
