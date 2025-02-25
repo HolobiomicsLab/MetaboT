@@ -201,6 +201,7 @@ docker-compose run metabot python -m app.core.main -q 1
 ```
 
 This command will start the container, run the application inside Docker, and process the first standard question from [app/data/standard_questions.txt]. You can adjust parameters as needed.
+
 ---
 
 ## Project Structure
