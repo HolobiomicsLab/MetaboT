@@ -180,6 +180,28 @@ python -m app.core.main -c "Your custom question"
 ```
 
 ---
+### Running in Docker
+
+If you prefer to run the application in a containerized environment, Docker support is provided. Make sure Docker and docker-compose are installed on your system.
+
+#### Building the Docker Image
+
+To build the Docker image, run:
+
+```bash
+docker-compose build
+```
+
+#### Running the Application
+
+To launch the application and run the first standard question, execute:
+
+```bash
+docker-compose run metabot python -m app.core.main -q 1
+```
+
+This command will start the container, run the application inside Docker, and process the first standard question from [app/data/standard_questions.txt]. You can adjust parameters as needed.
+---
 
 ## Project Structure
 

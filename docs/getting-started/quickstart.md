@@ -48,6 +48,23 @@ python -m app.core.main -c "What are the SIRIUS structural annotations for Taber
 - Replace the query text in quotes with your desired question.  
 - Ensure that the query is relevant to the metabolomics data available in your configuration.
 
+## Running in Docker 🐳
+
+If you prefer to run 🧪 MetaboT within a Docker container, follow these steps:
+
+1. **Build the Docker Image:**
+  Ensure Docker and docker-compose are installed, then run:
+  ```bash
+  docker-compose build
+  ```
+
+2. **Run the Application in Docker:**
+  To execute the first standard query from [app/data/standard_questions.txt], run:
+  ```bash
+  docker-compose run metabot python -m app.core.main -q 1
+  ```
+  This command starts the container and runs the application accordingly. You can adjust the command as needed.
+
 ---
 
 ## Workflow Overview 🔄
