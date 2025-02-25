@@ -11,12 +11,12 @@ graph TB
     A[User Query] --> B[Entry Agent]
     B --> G[Validator Agent]
     G --> C[Supervisor Agent]
-    C --> D[ENPKG Agent]
-    C --> E[SPARQL Agent]
-    C --> F[Interpreter Agent]
+    C <--> D[ENPKG Agent]
+    C <--> E[SPARQL Agent]
+    C <--> F[Interpreter Agent]
      E  --> H[Knowledge Graph]
     
-    H --> I[Results]
+   
 ```
 
 - **Entry Agent** 🚪

@@ -162,13 +162,15 @@ The application is structured as a Python module with dot notation imports—so 
 
 ### Demo
 
-To launch the application, use Python's `-m` option. The main entry point is in `app.core.main`:
+To launch the application, use Python's `-m` option. The main entry point is in `app.core.main`.
 
+To try one of the [standard questions](app/data/standard_questions.txt), run the following command:
+ 
 ```bash
 cd MetaboT
 python -m app.core.main -q 1
 ```
-
+Here, the number following `-q` specifies the question number from the standard questions.
 Expected output includes runtime metrics and a welcoming prompt. 😎
 
 ### Running with a Custom Question
