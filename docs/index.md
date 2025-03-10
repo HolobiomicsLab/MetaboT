@@ -49,9 +49,9 @@ body_class: md-home
 graph TD
     A[Entry Agent] --> B[Validator Agent]
     B --> C[Supervisor Agent]
-    C --> D[ENPKG Agent]
-    C --> E[SPARQL Agent]
-    C --> F[Interpreter Agent]
+    C <--> D[ENPKG Agent]
+    C <--> E[SPARQL Agent]
+    C <--> F[Interpreter Agent]
    
     E --> G[Knowledge Graph]
     

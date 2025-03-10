@@ -11,12 +11,12 @@ graph TB
     A[User Query] --> B[Entry Agent]
     B --> G[Validator Agent]
     G --> C[Supervisor Agent]
-    C --> D[ENPKG Agent]
-    C --> E[SPARQL Agent]
-    C --> F[Interpreter Agent]
+    C <--> D[ENPKG Agent]
+    C <--> E[SPARQL Agent]
+    C <--> F[Interpreter Agent]
      E  --> H[Knowledge Graph]
     
-    H --> I[Results]
+   
 ```
 
 - **Entry Agent** 🚪
@@ -34,8 +34,8 @@ graph TB
 
 - **ENPKG Agent** 🧪
     - Handles metabolomics-specific processing.
-    - Provides resolutions to teh entities mentioned in the question.
-    - Processes bioassay data.
+    - Provides resolutions to the entities mentioned in the question.
+  
 
 - **SPARQL Agent** 🔎
     - Generates and executes queries against the RDF knowledge graph.
@@ -73,22 +73,6 @@ graph TB
 
 For development updates, please refer to the [`dev`](https://github.com/holobiomicslab/MetaboT/tree/dev) branch.
  
-### Data Analysis Capabilities 📊
-
-- **Chemical Structure Analysis** 🧬
-    - SIRIUS annotation
-    - ISDB annotation support
-    - Structure similarity comparisons
-
-- **Metabolomics Analysis** 🧪
-    - Feature detection and analysis
-    - Ionization mode processing
-    - Retention time analysis
-
-- **Bioassay Integration** 💊
-    - Activity data analysis
-    - Inhibition studies
-    - Concentration-response relationships
 
 ### AI-Powered Processing 🤖
 

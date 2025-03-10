@@ -38,44 +38,6 @@ graph_path = parent_dir / "graphs" / "graph.pkl"
 params_path = parent_dir / "config" / "params.ini"
 
 
-def link_kg_database(endpoint_url: str, auth: Optional[Tuple[str, str]] = None):
-    """
-    Checks if an RDF graph is already created, and if not, it initializes and saves a new RDF graph object using a specified endpoint URL.
-    
-    Args:
-        endpoint_url (str): The URL of the SPARQL endpoint.
-        auth (Optional[Tuple[str, str]]): Optional tuple of (username, password) for authentication.
-            If not provided, will try to use SPARQL_USERNAME and SPARQL_PASSWORD from environment.
-
-    Returns:
-        RdfGraph: An RDF graph object.
-    """
-
-    # Try to get authentication from environment if not provided
-    if auth is None:
-        username = os.getenv("SPARQL_USERNAME")
-        password = os.getenv("SPARQL_PASSWORD")
-        if username and password:
-            auth = (username, password)
-
-    # check if the graph is already created if not create it.
-    try:
-        with open(graph_path, "rb") as input_file:
-            graph = pickle.load(input_file)
-            # logger.info(f"schema: {graph.get_schema}")
-            return graph
-    except FileNotFoundError:
-        pass
-
-    # Initialize the RdfGraph object with the given endpoint and the standard set to 'rdf'
-    graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf", auth=auth)
-
-    with open(graph_path, "wb") as output_file:
-        pickle.dump(graph, output_file)
-    # logger.info(f"schema: {graph.get_schema}")
-    return graph
-
-
 # Mapping of provider/model to environment variable names
 API_KEY_MAPPING = {
     "deepseek": "DEEPSEEK_API_KEY",
@@ -365,14 +327,6 @@ def main():
         or os.environ.get("KG_ENDPOINT_URL")
         or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     )
-
-           
-
-    
-    
-
-
-   
     models = llm_creation()
 
     try:

@@ -99,16 +99,20 @@ It should also work on other Unix-based systems. For more details on compatibili
    - Ensure Conda (Anaconda/Miniconda) is installed.  
    - [Conda Installation Docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
 
-2. **API Keys**  
-   Required API keys:  
-   - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys). 
+2. **API Keys**
+   Required API keys:
+   - Get an API key for your chosen language model:
+     - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)
+     - **DeepSeek API Key**: Get it from DeepSeek
+     - **Claude API Key**: Get it from Anthropic
+     - Or other models supported by [LiteLLM](https://docs.litellm.ai/docs/providers)
 
-   > **Disclaimer:** The OpenAI API is a commercial and paid service. Our default model is **gpt-4o**, and its usage will incur costs according to OpenAI's pricing policy. By default, 🧪 MetaboT 🍵 uses gpt-4o.
+   > **Disclaimer:** Most LLM APIs are commercial and paid services. Our default model is **gpt-4o**, and its usage will incur costs according to the provider's pricing policy.
    >
-   > **Data Privacy:** Please note that data submitted to the OpenAI API is subject to OpenAI's privacy policy. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
+   > **Data Privacy:** Please note that data submitted to LLM APIs is subject to their respective privacy policies. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
 
    Optional API keys:
-   - **LangSmith API Key**: This used to see the interactions traces [LangSmith](https://smith.langchain.com/). This is free.
+   - **LangSmith API Key**: This is used to see the interactions traces [LangSmith](https://smith.langchain.com/). This is free.
 
    Create a `.env` file in the root directory with your credentials:
 
@@ -158,13 +162,15 @@ The application is structured as a Python module with dot notation imports—so 
 
 ### Demo
 
-To launch the application, use Python's `-m` option. The main entry point is in `app.core.main`:
+To launch the application, use Python's `-m` option. The main entry point is in `app.core.main`.
 
+To try one of the [standard questions](app/data/standard_questions.txt), run the following command:
+ 
 ```bash
 cd MetaboT
 python -m app.core.main -q 1
 ```
-
+Here, the number following `-q` specifies the question number from the standard questions.
 Expected output includes runtime metrics and a welcoming prompt. 😎
 
 ### Running with a Custom Question
@@ -172,6 +178,29 @@ Expected output includes runtime metrics and a welcoming prompt. 😎
 ```bash
 python -m app.core.main -c "Your custom question"
 ```
+
+---
+### Running in Docker
+
+If you prefer to run the application in a containerized environment, Docker support is provided. Make sure Docker and docker-compose are installed on your system.
+
+#### Building the Docker Image
+
+To build the Docker image, run:
+
+```bash
+docker-compose build
+```
+
+#### Running the Application
+
+To launch the application and run the first standard question, execute:
+
+```bash
+docker-compose run metabot python -m app.core.main -q 1
+```
+
+This command will start the container, run the application inside Docker, and process the first standard question from [app/data/standard_questions.txt]. You can adjust parameters as needed.
 
 ---
 
