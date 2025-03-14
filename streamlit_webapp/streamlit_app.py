@@ -46,6 +46,7 @@ from app.core.memory.database_manager import tools_database, memory_database
 from langchain.callbacks.manager import tracing_v2_enabled
 from streamlit_webapp.streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
 from app.core.workflow.langraph_workflow import create_workflow
+from app.core.main import llm_creation
 
 # Configuring page
 st.set_page_config(
@@ -326,7 +327,8 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
         st.warning("Initializing the LangGraph... Please wait")
         st.session_state.logger.info("Initializing the LangGraph")
         try:
-            st.session_state.langgraph_app = create_workflow(session_id=st.session_state.session_id, api_key=st.session_state.OPENAI_API_KEY, endpoint_url=st.session_state.endpoint_url)
+            st.session_state.models = llm_creation()
+            st.session_state.langgraph_app = create_workflow(models=st.session_state.models, session_id=st.session_state.session_id, api_key=st.session_state.OPENAI_API_KEY, endpoint_url=st.session_state.endpoint_url, evaluation=False)
             st.session_state.langgraph_app_created = True
             st.session_state.logger.info("LangGraph initialized")
             st.rerun()
