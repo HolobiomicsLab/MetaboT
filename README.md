@@ -196,6 +196,7 @@ export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 ```
 
 This command ensures that Python can locate the `app` directory.
+
 ---
 ### Running in Docker
 
