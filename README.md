@@ -178,7 +178,24 @@ Expected output includes runtime metrics and a welcoming prompt. 😎
 ```bash
 python -m app.core.main -c "Your custom question"
 ```
+### Running via Streamlit
 
+To launch the application through Streamlit, set the required environment variables, install the dependencies, and run the app. In your terminal, execute:
+
+```bash
+export ADMIN_OPENAI_KEY=your_openai_api_key
+export LANGCHAIN_API_KEY=your_langchain_api_key
+pip install -r requirements.txt
+streamlit run streamlit_webapp/streamlit_app.py
+```
+
+If you encounter an error stating that the `app` directory cannot be found (e.g., "ModuleNotFoundError: No module named 'app'"), it means Python is unable to locate the module. To resolve this, add the current directory to your `PYTHONPATH` by running:
+
+```bash
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+```
+
+This command ensures that Python can locate the `app` directory.
 ---
 ### Running in Docker
 
