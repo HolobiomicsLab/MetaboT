@@ -1,21 +1,29 @@
 from __future__ import annotations
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain.callbacks.manager import CallbackManagerForToolRun
-
+import tkinter as tk
+from app.core.memory.database_manager import tools_database
+from app.core.session import setup_logger, create_user_session
+import pandas as pd
+import json
 import os
 import matplotlib
-
+logger = setup_logger(__name__)
 matplotlib.use("Agg")
 
 
 # Define the input schema for the SpectrumPlotter tool.
 class SpectrumPlotInput(BaseModel):
-    usi: str = Field(description="Universal Spectrum Identifier for the spectrum.")
-    precursor_mz: float = Field(description="The precursor m/z value.")
+    input_data: Union[str, Dict[str, Any]] = Field(
+        description="Either a dictionary with USI and precursor_mz or a file path to a CSV file containing these values."
+    )
     precursor_charge: Optional[int] = Field(default=0, description="The precursor charge. Default is 0.")
+    # usi: str = Field(description="Universal Spectrum Identifier for the spectrum.")
+    # precursor_mz: float = Field(description="The precursor m/z value.")
+    # precursor_charge: Optional[int] = Field(default=0, description="The precursor charge. Default is 0.")
 
 
 # Define the SpectrumPlotter tool.
@@ -33,42 +41,138 @@ class SpectrumPlotter(BaseTool):
         A message indicating where the spectrum plot has been saved.
     """
     args_schema = SpectrumPlotInput
-
+    # version 2
     def _run(
             self,
-            usi: str,
-            precursor_mz: float,
+            input_data: Union[str, Dict[str, Any]] = None,
+            usi: Optional[str] = None,
+            precursor_mz: Optional[float] = None,
             precursor_charge: Optional[int] = 0,
             run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> Dict[str, Any]:
-        # Import required libraries for spectrum processing and plotting.
         import matplotlib.pyplot as plt
         import spectrum_utils.plot as sup
         import spectrum_utils.spectrum as sus
 
-        # Retrieve the spectrum using the provided USI.
+        # If input_data is provided, it should be used instead of the other parameters
+        if input_data:
+            if isinstance(input_data, str) and input_data.endswith(".csv"):
+                # Read CSV and extract the first row of required columns
+                df = pd.read_csv(input_data)
+
+                # Check required columns
+                if not {'usi', 'parent_mass'}.issubset(df.columns):
+                    return {"error": "CSV file must contain 'usi' and 'parent_mass' columns."}
+
+                first_row = df.iloc[0]
+                usi = first_row['usi']
+                precursor_mz = first_row['parent_mass']
+            elif isinstance(input_data, dict) and 'usi' in input_data and 'precursor_mz' in input_data:
+                usi = input_data['usi']
+                precursor_mz = input_data['precursor_mz']
+            else:
+                return {
+                    "error": "Invalid input. Provide a dictionary with 'usi' and 'precursor_mz' or a valid CSV file path."}
+
+        if not usi or not precursor_mz:
+            return {"error": "Both 'usi' and 'precursor_mz' are required."}
+        # Retrieve the spectrum using the provided USI and precursor_mz
         spectrum = sus.MsmsSpectrum.from_usi(
-            usi, precursor_mz=precursor_mz, precursor_charge=precursor_charge
-        )
-
-        # Process the spectrum.
-        fragment_tol_mass, fragment_tol_mode = 10, "ppm"
+                usi, precursor_mz=precursor_mz, precursor_charge=precursor_charge
+            )
+        # Process the spectrum
         spectrum = spectrum.set_mz_range(min_mz=100, max_mz=1400)
-        # Additional processing steps (e.g., removing peaks) can be added here if needed.
+        plt.ion()
 
-        # Plot the spectrum.
+        # Plot the spectrum
         fig, ax = plt.subplots(figsize=(12, 6))
         sup.spectrum(spectrum, grid=False, ax=ax)
         ax.spines["right"].set_visible(False)
         ax.spines["top"].set_visible(False)
 
-        # Save the plot to a file.
-        output_path = "spectrum_plot_2.png"
-        plt.savefig(output_path, bbox_inches="tight", dpi=300, transparent=True)
-        plt.show()
-        plt.close()
 
-        # Return a message including the location of the saved plot.
+
+        # Save the plot to a file
+        output_path = "spectrum_plot_6.png"
+        plt.savefig(output_path, bbox_inches="tight", dpi=300, transparent=True)
+
+
+        db_manager = tools_database()
+        output_data = {"output": {"paths": output_path}}
+
+        try:
+            db_manager.put(data=json.dumps(output_data), tool_name="tool_spectrum")
+        except Exception as e:
+            logger.error(f"Error saving to database: {e}")
+
         return {"result": f"Spectrum plot saved to {output_path}"}
 
+    # first version
+    # def _run(
+    #         self,
+    #         usi: str,
+    #         precursor_mz: float,
+    #         precursor_charge: Optional[int] = 0,
+    #         run_manager: Optional[CallbackManagerForToolRun] = None,
+    # ) -> Dict[str, Any]:
+    #     # Import required libraries for spectrum processing and plotting.
+    #     import matplotlib.pyplot as plt
+    #     import spectrum_utils.plot as sup
+    #     import spectrum_utils.spectrum as sus
+    #
+    #     # Retrieve the spectrum using the provided USI.
+    #     spectrum = sus.MsmsSpectrum.from_usi(
+    #         usi, precursor_mz=precursor_mz, precursor_charge=precursor_charge
+    #     )
+    #
+    #     # Process the spectrum.
+    #     fragment_tol_mass, fragment_tol_mode = 10, "ppm"
+    #     spectrum = spectrum.set_mz_range(min_mz=100, max_mz=1400)
+    #     # Additional processing steps (e.g., removing peaks) can be added here if needed.
+    #     plt.ion()
+    #     # Plot the spectrum.
+    #     fig, ax = plt.subplots(figsize=(12, 6))
+    #     sup.spectrum(spectrum, grid=False, ax=ax)
+    #     ax.spines["right"].set_visible(False)
+    #     ax.spines["top"].set_visible(False)
+    #
+    #     plt.show(block=True)
+    #     # Save the plot to a file.
+    #     output_path = "spectrum_plot_2.png"
+    #
+    #     plt.savefig(output_path, bbox_inches="tight", dpi=300, transparent=True)
+    #
+    #     plt.close()
+    #
+    #     db_manager = tools_database()
+    #
+    #     output_data = {
+    #         "output": {
+    #             "paths": output_path
+    #         }
+    #     }
+    #
+    #     try:
+    #         db_manager.put(data=json.dumps(output_data), tool_name="tool_spectrum")
+    #     except Exception as e:
+    #         logger.error(f"Error saving to database: {e}")
+    #
+    #     # Return a message including the location of the saved plot.
+    #     return {"result": f"Spectrum plot saved to {output_path}"}
+    #
 
+input_usi = "mzspec:MSV000087728:VGF155_D05_features_ms2_neg.mgf:scan:6"
+input_precursor_mz = 425.1241760253906
+
+if __name__ == "__main__":
+    plotter = SpectrumPlotter()
+    result = plotter._run( usi='mzspec:MSV000087728:VGF155_D05_features_ms2_neg.mgf:scan:6', precursor_mz=425.1241760253906)
+
+    print(result)
+# input_path="/var/folders/20/4kgcw5656h12ss_nj18mndwm0000gn/T/metabot/2a8b5852a90c4e43998a454da115338b/tmpccevhc87.csv"
+# if __name__ == "__main__":
+#     plotter = SpectrumPlotter()
+#     result = plotter._run(
+#         input_data=input_path
+#     )
+#     print(result)
