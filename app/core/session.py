@@ -19,28 +19,28 @@ def initialize_session_context(session_id):
 
 def create_user_session(session_id=None, user_session_dir=False, input_dir=False):
     """
-    If no session_id is provided, creates a new session_id and all the temporary directory for the kgbot to save generated and input files.
-    If session_id is provided, returns the path to the temporary directory for the kgbot depending on the provided argument.
+    If no session_id is provided, creates a new session_id and all the temporary directory for the metabot to save generated and input files.
+    If session_id is provided, returns the path to the temporary directory for the metabot depending on the provided argument.
 
     Args:
         session_id (str, optional): The session_id to use. Defaults to None.
-        user_session_dir (bool, optional): If True, returns the path to the temporary directory for the kgbot. Defaults to False.
-        input_dir (bool, optional): If True, returns the path to the input files directory for the kgbot. Defaults to False.
+        user_session_dir (bool, optional): If True, returns the path to the temporary directory for the metabot. Defaults to False.
+        input_dir (bool, optional): If True, returns the path to the input files directory for the metabot. Defaults to False.
 
     Returns:
         str: The session_id if no session_id is provided.
-        Path: The path to the temporary directory for the kgbot if user_session_dir is True.
-        Path: The path to the input files directory for the kgbot if input_dir is True.
+        Path: The path to the temporary directory for the metabot if user_session_dir is True.
+        Path: The path to the input files directory for the metabot if input_dir is True.
     """
 
     if session_id is None:
         session_id = str(uuid4().hex)
 
-        # Create a temporary directory for the kgbot
-        kgbot_temp_dir = Path(tempfile.gettempdir()) / "kgbot"
-        kgbot_temp_dir.mkdir(parents=True, exist_ok=True)
+        # Create a temporary directory for the metabot
+        metabot_temp_dir = Path(tempfile.gettempdir()) / "metabot"
+        metabot_temp_dir.mkdir(parents=True, exist_ok=True)
 
-        user_session_dir = kgbot_temp_dir / session_id
+        user_session_dir = metabot_temp_dir / session_id
         user_session_dir.mkdir(parents=True, exist_ok=True)
 
         input_dir = user_session_dir / "input_files"
@@ -50,11 +50,11 @@ def create_user_session(session_id=None, user_session_dir=False, input_dir=False
     
     else:
         if user_session_dir:
-            user_session_dir = Path(tempfile.gettempdir()) / "kgbot" / session_id
+            user_session_dir = Path(tempfile.gettempdir()) / "metabot" / session_id
             return user_session_dir
         
         if input_dir:
-            input_dir = Path(tempfile.gettempdir()) / "kgbot" / session_id / "input_files"
+            input_dir = Path(tempfile.gettempdir()) / "metabot" / session_id / "input_files"
             return input_dir
         
 
@@ -91,7 +91,7 @@ def setup_logger(name):
 
         # Log file path setup
         if session_id:
-            log_file_path = Path(tempfile.gettempdir()) / "kgbot" / session_id / "kgbot.log"
+            log_file_path = Path(tempfile.gettempdir()) / "metabot" / session_id / "metabot.log"
         else:
             parent_dir = Path(__file__).resolve().parent.parent
             log_file_path = parent_dir / "config" / "logs" / "app.log"

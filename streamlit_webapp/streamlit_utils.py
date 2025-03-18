@@ -270,6 +270,12 @@ def plotly_from_interpreter(session_id, tool):
     logging.info("No valid JSON files processed.")
     return None
 
+def get_spectrum_image(session_id, user_session_dir, tool):
+
+    db_manager = tools_database()
+
+    interpreter_output = db_manager.get(tool)
+
 def new_process_langgraph_output(k, v, session_id):
     
     contents = []
@@ -299,8 +305,9 @@ def new_process_langgraph_output(k, v, session_id):
             content = v['messages'][0].content
             fig = plotly_from_interpreter(session_id, "tool_interpreter")
             contents.append({"type": "text", "content": f"Interpreter Agent: {content}. \n\n"})
+            fig_spectra =
             if fig:
                 contents.append({"type": "visualization", "content": fig})
-
+        elif k==""
 
     return contents
