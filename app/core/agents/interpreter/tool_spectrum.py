@@ -5,8 +5,8 @@ from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain.callbacks.manager import CallbackManagerForToolRun
 import tkinter as tk
-from app.core.memory.database_manager import tools_database
-from app.core.session import setup_logger, create_user_session
+from ...memory.database_manager import tools_database
+from ...session import setup_logger, create_user_session
 import pandas as pd
 import json
 import os

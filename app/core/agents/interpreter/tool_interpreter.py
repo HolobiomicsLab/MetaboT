@@ -60,6 +60,8 @@ class Interpreter(BaseTool):
 
         session_dir = create_user_session(self.session_id, user_session_dir=True)
 
+        logger.info(f"session_dir: {session_dir}")
+
         # if os.getenv("CODEBOX_API_KEY"):
         #     codebox_key = os.getenv("CODEBOX_API_KEY")
         #     settings.CODEBOX_API_KEY = codebox_key

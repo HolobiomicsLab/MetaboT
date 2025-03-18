@@ -2,7 +2,7 @@ import os
 
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-from app.core.utils import get_module_prefix, import_tools
+from ...utils import get_module_prefix, import_tools
 
 TEMPLATE = """You are an entity resolution agent for the Sparql_query_runner.
 You have access to the following tools:

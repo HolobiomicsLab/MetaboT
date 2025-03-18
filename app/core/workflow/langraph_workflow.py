@@ -92,6 +92,8 @@ def link_kg_database(endpoint_url: str, auth: Optional[Tuple[str, str]] = None):
             return graph
     except FileNotFoundError:
         pass
+    except ModuleNotFoundError:
+        pass
 
     # Initialize the RdfGraph object with the given endpoint and the standard set to 'rdf'
     graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf", auth=auth)
