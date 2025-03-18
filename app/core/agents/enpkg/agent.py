@@ -2,9 +2,9 @@ import os
 
 from langchain.agents import AgentExecutor, create_openai_tools_agent
 
-from app.core.utils import get_module_prefix, import_tools
+from ...utils import get_module_prefix, import_tools
 
-from app.core.session import setup_logger
+from ...session import setup_logger
 
 from .prompt import CHAT_PROMPT, MODEL_CHOICE
 
@@ -21,9 +21,12 @@ def create_agent(llms, graph, openai_key, llm_instance=None) -> AgentExecutor:
         "openai_key": openai_key,
     }
 
+    
+
     tools = import_tools(directory, module_prefix, **tool_parameters)
 
     try:
+        print("llms",llms)
         model_to_use = llm_instance if llm_instance is not None else llms[MODEL_CHOICE]
         agent = create_openai_tools_agent(model_to_use, tools, CHAT_PROMPT)
         executor = AgentExecutor(agent=agent, tools=tools)

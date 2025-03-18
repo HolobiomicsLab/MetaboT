@@ -4,16 +4,16 @@ from langsmith import Client
 from langchain_core.messages import BaseMessage, HumanMessage
 # from langgraph.graph import StateGraph
 
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
+from .workflow.langraph_workflow import create_workflow, process_workflow
 
-from app.core.main import llm_creation
+from .main import llm_creation
 from langsmith.evaluation import EvaluationResult, run_evaluator
 from langchain.evaluation import EvaluatorType
 from langsmith.schemas import Example, Run
 from langchain.smith import run_on_dataset, RunEvalConfig
 from langchain.evaluation import load_evaluator
 from uuid import uuid4
-from app.core.utils import setup_logger
+from utils import setup_logger
 
 # Load environment variables
 load_dotenv()

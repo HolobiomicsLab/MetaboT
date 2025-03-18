@@ -10,7 +10,7 @@ import tiktoken
 import inspect
 import tempfile
 from uuid import uuid4
-from app.core.session import setup_logger
+from .session import setup_logger
 
 logger = setup_logger(__name__)
 

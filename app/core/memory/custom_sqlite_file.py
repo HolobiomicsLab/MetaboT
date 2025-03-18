@@ -13,7 +13,7 @@ from langchain_core.runnables import RunnableConfig
 from langchain_core.runnables.utils import ConfigurableFieldSpec
 from langgraph.checkpoint.base import BaseCheckpointSaver, Checkpoint
 
-from app.core.session import setup_logger
+from ..session import setup_logger
 
 logger = setup_logger(__name__)
 

@@ -1,5 +1,5 @@
 import pytest
-from app.core import utils
+from .. import utils
 
 def test_utils_module_exists():
     """

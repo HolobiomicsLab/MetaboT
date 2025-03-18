@@ -1,7 +1,7 @@
 import os
 from typing import Any, Dict, Optional
 from langchain_community.chat_models import ChatOpenAI
-from app.core.utils import setup_logger
+from utils import setup_logger
 import configparser
 from pathlib import Path
 

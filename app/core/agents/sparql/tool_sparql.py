@@ -15,10 +15,10 @@ from langchain.tools import BaseTool
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 
-from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.utils import token_counter
-from app.core.session import setup_logger, create_user_session
-from app.core.memory.database_manager import tools_database
+from ...graph_management.RdfGraphCustom import RdfGraph
+from ...utils import token_counter
+from ...session import setup_logger, create_user_session
+from ...memory.database_manager import tools_database
 
 from typing import Optional
 

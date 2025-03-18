@@ -9,7 +9,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 from typing import Optional
 
-from app.core.session import setup_logger
+from ...session import setup_logger
 
 from pathlib import Path
 logger = setup_logger(__name__)

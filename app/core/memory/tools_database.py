@@ -1,6 +1,6 @@
 import sqlite3
 from pathlib import Path
-from app.core.session import setup_logger, get_session_id
+from ..session import setup_logger, get_session_id
 from abc import ABC, abstractmethod
 import os
 import sys

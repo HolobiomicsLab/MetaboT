@@ -1,11 +1,11 @@
 {
     "agents": [
-        {"name": "Entry_Agent", "path": "app.core.agents.entry.agent", "llm_choice": "llm_o"},
-        {"name": "ENPKG_agent", "path": "app.core.agents.enpkg.agent", "llm_choice": "llm_o"},
-        {"name": "Sparql_query_runner", "path": "app.core.agents.sparql.agent", "llm_choice": "llm_o"},
-        {"name": "Interpreter_agent", "path": "app.core.agents.interpreter.agent", "llm_choice": "llm_o"},
-        {"name": "supervisor", "path": "app.core.agents.supervisor.agent", "llm_choice": "llm_o"},
-        {"name": "Validator", "path": "app.core.agents.validator.agent", "llm_choice": "llm_o"}
+        {"name": "Entry_Agent", "path": "..agents.entry.agent", "llm_choice": "llm_o"},
+        {"name": "ENPKG_agent", "path": "..agents.enpkg.agent", "llm_choice": "llm_o"},
+        {"name": "Sparql_query_runner", "path": "..agents.sparql.agent", "llm_choice": "llm_o"},
+        {"name": "Interpreter_agent", "path": "..agents.interpreter.agent", "llm_choice": "llm_o"},
+        {"name": "supervisor", "path": "..agents.supervisor.agent", "llm_choice": "llm_o"},
+        {"name": "Validator", "path": "..agents.validator.agent", "llm_choice": "llm_o"}
     ],
     "edges": [
         {"source": "ENPKG_agent", "target": "supervisor"},

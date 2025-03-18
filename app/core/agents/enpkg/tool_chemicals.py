@@ -24,7 +24,7 @@ from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
 
-from app.core.session import setup_logger
+from ...session import setup_logger
 
 import os
 

@@ -4,8 +4,6 @@ from typing import Any, Dict, Optional
 from dotenv import load_dotenv
 from langsmith import Client
 from pathlib import Path
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-from app.core.utils import setup_logger
 import pickle
 import configparser
 
@@ -24,13 +22,11 @@ load_dotenv()
 import os
 
 from langsmith import Client
-from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.agents.agents_factory import create_all_agents
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-from app.core.utils import setup_logger, load_config
+from .graph_management.RdfGraphCustom import RdfGraph
+from .agents.agents_factory import create_all_agents
+from .workflow.langraph_workflow import create_workflow, process_workflow
+from .utils import setup_logger, load_config
 
-import requests
-import certifi
 logger = setup_logger(__name__)
 
 parent_dir = Path(__file__).resolve().parent.parent

@@ -18,15 +18,13 @@ import pickle
 from pathlib import Path
 
 from langchain.schema import HumanMessage
-from langchain.agents import AgentExecutor
 from langchain_core.messages import BaseMessage, HumanMessage
 from langgraph.graph import StateGraph
 
-from app.core.memory.database_manager import memory_database, tools_database
-from app.core.utils import load_config, setup_logger
-from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.agents.agents_factory import create_all_agents
-from app.core.llm_handler import llm_creation
+from ..memory.database_manager import memory_database, tools_database
+from ..utils import load_config, setup_logger
+from ..graph_management.RdfGraphCustom import RdfGraph
+from ..agents.agents_factory import create_all_agents
 
 logger = setup_logger(__name__)
 parent_dir = Path(__file__).resolve().parent.parent.parent

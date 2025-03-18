@@ -2,8 +2,8 @@ import os
 
 from langchain.agents import AgentExecutor, create_openai_tools_agent
 
-from app.core.utils import get_module_prefix, import_tools
-from app.core.session import setup_logger
+from ...utils import get_module_prefix, import_tools
+from ...session import setup_logger
 
 from .prompt import CHAT_PROMPT, MODEL_CHOICE
 

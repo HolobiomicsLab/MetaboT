@@ -4,8 +4,8 @@ import sys
 import inspect
 from uuid import uuid4
 
-from app.core.utils import load_config
-from app.core.session import setup_logger, create_user_session
+from ..utils import load_config
+from ..session import setup_logger, create_user_session
 
 
 logger = setup_logger(__name__)
@@ -53,7 +53,7 @@ def create_all_agents(llms, graph, openai_key=None, session_id=None):
 
         try:
             # Import the agent creation module dynamically
-            module = importlib.import_module(module_path)
+            module = importlib.import_module(module_path, package="MetaboT.app.core.agents")
             if hasattr(module, "create_agent"):
                 # Inspect the create_agent function to determine parameter count
                 func_signature = inspect.signature(module.create_agent)

@@ -5,8 +5,8 @@ from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from .prompt import MODEL_CHOICE, PROMPT
 
-from app.core.utils import load_config
-from app.core.session import setup_logger
+from ...utils import load_config
+from ...session import setup_logger
 
 logger = setup_logger(__name__)
 
