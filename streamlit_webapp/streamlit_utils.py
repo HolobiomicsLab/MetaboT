@@ -270,11 +270,27 @@ def plotly_from_interpreter(session_id, tool):
     logging.info("No valid JSON files processed.")
     return None
 
-def get_spectrum_image(session_id, user_session_dir, tool):
+def get_spectrum_image(tool):
 
     db_manager = tools_database()
 
     interpreter_output = db_manager.get(tool)
+
+    output_json = json.loads(interpreter_output)
+    filepaths = output_json['output']['paths']
+    logger.info(f"File paths extracted from the database: {filepaths}")
+
+    return filepaths
+
+def check_tools_interpreter(tool):
+    db_manager = tools_database()
+
+    content = db_manager.get(tool)
+
+    if content is None:
+        return False
+    else:
+        return True
 
 def new_process_langgraph_output(k, v, session_id):
     
@@ -303,11 +319,19 @@ def new_process_langgraph_output(k, v, session_id):
             contents.append({"type": "text", "content": f"Sparql Query Runner: {content}. \n\n"})
         elif k == "Interpreter_agent":
             content = v['messages'][0].content
-            fig = plotly_from_interpreter(session_id, "tool_interpreter")
             contents.append({"type": "text", "content": f"Interpreter Agent: {content}. \n\n"})
-            fig_spectra =
-            if fig:
-                contents.append({"type": "visualization", "content": fig})
-        elif k==""
+
+            has_interpreter_content = check_tools_interpreter("tool_interpreter")
+            if has_interpreter_content:
+                fig = plotly_from_interpreter(tool="tool_interpreter")
+                if fig is not None:
+                    contents.append({"type": "visualization", "content": fig})
+
+            has_spectra_content = check_tools_interpreter("tool_spectrum")
+            if has_spectra_content:
+                fig_spectra = get_spectrum_image("tool_spectrum")
+                if fig_spectra is not None:
+                    contents.append({"type": "spectra", "content": fig_spectra})
+
 
     return contents
