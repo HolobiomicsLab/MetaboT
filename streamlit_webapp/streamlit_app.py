@@ -446,7 +446,8 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
                                         elif content_dict["type"] == "spectra":
                                             spec = content_dict["content"]
                                             try:
-                                                st.image(spec)
+                                                st.markdown(f'<a href="{spec}" target="_blank">Link to metabolomics-usi</a>', unsafe_allow_html=True)
+
                                             except Exception as e:
                                                 st.error(f"An error occurred while displaying the spectra: {e}. Please check the")
                                             spec_index = len(st.session_state.spectra)
@@ -480,9 +481,10 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
                                     elif content_dict["type"] == "spectra":
                                         spec = content_dict["content"]
                                         try:
-                                            st.image(spec)
+                                            st.write(f"[Link to metabolomics-usi]({spec})", unsafe_allow_html=True)
+                                            st.link_button(label="Link to metabolomics-usi", url=spec)
                                         except Exception as e:
-                                            st.error(f"An error occurred while displaying the spectra: {e}. Please check the")
+                                            st.error(f"An error occurred while displaying the spectra: {e}. Please check the log file for more information.")
                                         spec_index = len(st.session_state.spectra)
                                         st.session_state.spectra.append(spec)
                         st.session_state.messages.append({"role": "assistant", "content": output_history, "image": fig_index, "spectra": spec_index, "url": "", "error":None})
