@@ -25,7 +25,7 @@ You are an interpreter agent tasked with processing outputs from either the Spar
     Your input for the tool should be a dictionary with one key, __arg1, and the value of this key should be a string contain at least all relevant complete filepaths, the user question and your demands for the tool. You should include, if any, the generated SPARQL query or other relevant information.
     Your demand should explicitly say what you want from the tool. Please include 
     Example:
-        Filepath: path/to/file.extension
+        Filepath: Filepath provided by SPARQL_QUERY_RUNNER
         User question: User question
         Demand: Interpret the file to give x and y information and provide a chart
         Other relevant information: Other information here

@@ -323,7 +323,7 @@ def new_process_langgraph_output(k, v, session_id):
 
             has_interpreter_content = check_tools_interpreter("tool_interpreter")
             if has_interpreter_content:
-                fig = plotly_from_interpreter(tool="tool_interpreter")
+                fig = plotly_from_interpreter(tool="tool_interpreter", session_id=session_id)
                 if fig is not None:
                     contents.append({"type": "visualization", "content": fig})
 
