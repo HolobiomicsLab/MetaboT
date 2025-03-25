@@ -26,7 +26,7 @@ Before you begin, ensure that you have:
 
 ## Running a Standard Query 🔍
 
-🧪 MetaboT 🍵 includes several predefined queries that demonstrate its capabilities. For example, to run the first standard query (which counts features with matching SIRIUS/CSI:FingerID and ISDB annotations), execute:
+🧪 MetaboT 🍵 includes several predefined queries that demonstrate its capabilities. Those questions could be found [here](https://github.com/HolobiomicsLab/MetaboT/blob/dev_madina/app/data/standard_questions.txt). For example, to run the first standard query (which counts features with matching SIRIUS/CSI:FingerID and ISDB annotations), execute:
 
 ```bash
 python -m app.core.main -q 1
@@ -59,7 +59,7 @@ If you prefer to run 🧪 MetaboT within a Docker container, follow these steps:
   ```
 
 2. **Run the Application in Docker:**
-  To execute the first standard query from [app/data/standard_questions.txt], run:
+  To execute the first standard query, run:
   ```bash
   docker-compose run metabot python -m app.core.main -q 1
   ```
@@ -74,7 +74,7 @@ If you prefer to run 🧪 MetaboT within a Docker container, follow these steps:
 - **Entry Agent:** Processes the incoming query and routes it to the appropriate system.
 - **Validator Agent:** Immediately verifies that the incoming query is pertinent to the knowledge graph, ensuring its alignment with domain-specific schema.
 - **Supervisor Agent:** Oversees and coordinates all processing steps within the workflow.
-- **ENPKG Agent:** Handles domain-specific data processing related to metabolomics.
+- **KG Agent:** Handles domain-specific data processing related to metabolomics.
 - **SPARQL Agent:** Generates and executes queries against the RDF knowledge graph.
 - **Interpreter Agent:** Interprets and formats the query results for user readability.
 

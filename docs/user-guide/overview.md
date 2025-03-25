@@ -68,7 +68,6 @@ graph TB
 - **Standard Queries**: Pre-defined queries for common analyses.
 - **Custom Queries**: User-defined natural language queries.
 - **Knowledge Graph Integration**: Access and analyze data from a comprehensive knowledge graph.
-- **Advanced Data Processing**: Perform complex data analysis tasks with ease.
 - **Visualization Tools**: Generate visualizations to better understand your data.
 
 For development updates, please refer to the [`dev`](https://github.com/holobiomicslab/MetaboT/tree/dev) branch.

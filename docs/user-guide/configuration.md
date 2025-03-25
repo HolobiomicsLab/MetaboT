@@ -83,7 +83,7 @@ base_url = https://llama-3-1-70b-instruct.endpoints.kepler.ai.cloud.ovh.net/api/
 - **OVH Meta-Llama (`[ovh_Meta-Llama-3_1-70B-Instruct]`)**
   Instructive model providing robust language understanding.
 
-🧪 MetaboT 🍵 supports both OpenAI-compatible API endpoints and various other LLM providers through LiteLLM integration. Models can be configured in two ways:
+🧪 MetaboT 🍵 supports both OpenAI-compatible API endpoints and various other LLM providers through [LiteLLM](https://github.com/BerriAI/litellm) integration. Models can be configured in two ways:
 
 1. OpenAI-compatible endpoints using sections like `[llm_o]`, `[deepseek_deepseek-chat]`, etc.
 2. Other providers through LiteLLM using sections starting with `[llm_litellm_]`, for example:
@@ -230,7 +230,7 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 
 ### Language Model Selection
 - Use  `llm_o` for complex queries requiring high accuracy.
-- Use `llm_mini` or `llm_o3_mini` for faster, cost-effective operations.
+- Use  `llm_o3_mini` for faster, cost-effective operations.
 - Consider `llm_o3` or `llm_o1`and its variants for complex questions.
 
 

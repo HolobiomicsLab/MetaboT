@@ -268,18 +268,6 @@ Creates or returns a singleton instance of the memory database manager.
   - `DATABASE_URL`: Database connection string (used for cloud deployment)
   - `MEMORY_DATABASE_MANAGER_CLASS`: Custom manager class path
 
-**Example:**
-```python
-from app.core.memory.database_manager import memory_database, tools_database
-
-# Initialize databases (automatically creates local or cloud databases)
-tools_db = tools_database()  # Returns SqliteToolsDatabaseManager by default
-memory_db = memory_database()  # Returns SqliteCheckpointerSaver by default
-
-# Create workflow with memory
-workflow = create_workflow(models, evaluation=False)
-app = workflow.compile(checkpointer=memory_db)
-```
 
 ---
 ## Usage Examples 📘

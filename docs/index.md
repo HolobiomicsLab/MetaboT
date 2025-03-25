@@ -96,6 +96,7 @@ If you use 🧪 MetaboT 🍵 in your research, please cite:
 - Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France
 - School of Pharmaceutical Sciences, University of Geneva, Switzerland
 - Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland
+- University of Antwerp, Antwerp, Belgium
 
 <script>
 document.body.classList.add("md-home");
