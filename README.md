@@ -170,7 +170,7 @@ To try one of the [standard questions](app/data/standard_questions.txt), run the
 cd MetaboT
 python -m app.core.main -q 1
 ```
-Here, the number following `-q` specifies the question number from the standard questions.
+Here, the number following `-q` specifies the question number from the standard questions which can be viewed in `app/data/standard_questions.txt`.
 Expected output includes runtime metrics and a welcoming prompt. 😎
 
 ### Running with a Custom Question
@@ -252,7 +252,8 @@ This command will start the container, run the application inside Docker, and pr
 │   │   │   ├── interpreter
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_interpreter.py
+│   │   │   │   ├── tool_interpreter.py
+│   │   │   │   └── tool_spectrum.py  
 │   │   │   ├── sparql
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
