@@ -147,7 +147,31 @@ It should also work on other Unix-based systems. For more details on compatibili
    conda env create -f environment.yml
    conda activate MetaboT
    ```
-   > Pro-tip: If you hit any issues with psycopg2, the `environment.yml` uses `psycopg2-binary` for maximum compatibility.
+
+   For Windows (using WSL):
+
+    Install WSL if you haven't already:
+      ```bash
+      wsl --install
+      ```
+    Open WSL and install the required packages:
+      ```bash
+      sudo apt-get update
+      sudo apt-get install -y python3-dev build-essential
+      ```
+    Install Miniconda in WSL:
+      ```bash
+      wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+      bash Miniconda3-latest-Linux-x86_64.sh
+      source ~/.bashrc
+      ```
+   Create and activate the conda environment:
+      ```bash
+      conda env create -f environment.yml
+      conda activate MetaboT
+      
+
+ > Pro-tip: If you hit any issues with psycopg2, the `environment.yml` uses `psycopg2-binary` for maximum compatibility.
 
 ---
 
