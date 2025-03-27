@@ -16,7 +16,7 @@ import spectrum_utils.plot as sup
 import spectrum_utils.spectrum as sus
 
 matplotlib.use("Agg")
-from app.core.session import setup_logger, create_user_session
+from ...session import setup_logger, create_user_session
 logger = setup_logger(__name__)
 
 # Define the input schema for the SpectrumPlotter tool.

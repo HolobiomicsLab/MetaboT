@@ -29,7 +29,7 @@ from .utils import setup_logger, load_config
 
 import requests
 import certifi
-from app.core.questions import standard_questions
+from .questions import standard_questions
 logger = setup_logger(__name__)
 
 parent_dir = Path(__file__).resolve().parent.parent
