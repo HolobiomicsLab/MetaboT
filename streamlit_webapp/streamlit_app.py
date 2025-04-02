@@ -46,6 +46,7 @@ from app.core.memory.database_manager import tools_database, memory_database
 from langchain.callbacks.manager import tracing_v2_enabled
 from streamlit_webapp.streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
 from app.core.workflow.langraph_workflow import create_workflow
+from app.core.main import llm_creation
 
 # Configuring page
 st.set_page_config(
@@ -130,6 +131,9 @@ if "prompt" not in st.session_state:
 
 if "memory" not in st.session_state:
     st.session_state.memory = memory_database()
+
+if "spectra" not in st.session_state:
+    st.session_state.spectra = []
 
 #Header configuration
 st.title("MetaboT - An AI-system for Metabolomics Data Exploration")
@@ -326,7 +330,8 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
         st.warning("Initializing the LangGraph... Please wait")
         st.session_state.logger.info("Initializing the LangGraph")
         try:
-            st.session_state.langgraph_app = create_workflow(session_id=st.session_state.session_id, api_key=st.session_state.OPENAI_API_KEY, endpoint_url=st.session_state.endpoint_url)
+            st.session_state.models = llm_creation()
+            st.session_state.langgraph_app = create_workflow(models=st.session_state.models, session_id=st.session_state.session_id, api_key=st.session_state.OPENAI_API_KEY, endpoint_url=st.session_state.endpoint_url, evaluation=False)
             st.session_state.langgraph_app_created = True
             st.session_state.logger.info("LangGraph initialized")
             st.rerun()
@@ -387,6 +392,10 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
                     fig = st.session_state.figures[message["image"]]
                     st.plotly_chart(fig)
 
+                if isinstance(message["spectra"], int):
+                    spec = st.session_state.spectra[message["spectra"]]
+                    st.image(spec)
+
                 if isinstance(message["error"], str):
                     st.error(message["error"])
 
@@ -396,7 +405,7 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
             if st.session_state["preselected_question"] != None:
                 prompt = st.session_state["preselected_question"]
             st.session_state.prompt = prompt
-            st.session_state.messages.append({"role": "user", "content": st.session_state.prompt, "image": "", "url": "", "error": None})
+            st.session_state.messages.append({"role": "user", "content": st.session_state.prompt, "image": "", "spectra": "", "url": "", "error": None})
             st.session_state.logger.info(f"User question: {prompt}")
             st.rerun()
 
@@ -410,6 +419,7 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
                 output_history = ""
                 fig = None
                 fig_index = ""
+                spec_index = ""
                 error_message = None
 
                 try:
@@ -433,12 +443,20 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
                                             # Store the figure in the session state and save the index
                                             fig_index = len(st.session_state.figures)
                                             st.session_state.figures.append(fig)
+                                        elif content_dict["type"] == "spectra":
+                                            spec = content_dict["content"]
+                                            try:
+                                                st.markdown(f'<a href="{spec}" target="_blank">Link to metabolomics-usi</a>', unsafe_allow_html=True)
 
+                                            except Exception as e:
+                                                st.error(f"An error occurred while displaying the spectra: {e}. Please check the")
+                                            spec_index = len(st.session_state.spectra)
+                                            st.session_state.spectra.append(spec)
                             url = cb.get_run_url()
                             url_message = f"View complete log in [LangSmith]({url})"
                             st.session_state.logger.info(url_message)
                             st.write("\n" + url_message, unsafe_allow_html=True)
-                            st.session_state.messages.append({"role": "assistant", "content": output_history, "image": fig_index, "url": url_message, "error": None})
+                            st.session_state.messages.append({"role": "assistant", "content": output_history, "image": fig_index, "spectra": spec_index, "url": url_message, "error": None})
                             time.sleep(0.5)
 
                     else:
@@ -460,15 +478,23 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
                                         # Store the figure in the session state and save the index
                                         fig_index = len(st.session_state.figures)
                                         st.session_state.figures.append(fig)
-
-                        st.session_state.messages.append({"role": "assistant", "content": output_history, "image": fig_index, "url": "", "error":None})
+                                    elif content_dict["type"] == "spectra":
+                                        spec = content_dict["content"]
+                                        try:
+                                            st.write(f"[Link to metabolomics-usi]({spec})", unsafe_allow_html=True)
+                                            st.link_button(label="Link to metabolomics-usi", url=spec)
+                                        except Exception as e:
+                                            st.error(f"An error occurred while displaying the spectra: {e}. Please check the log file for more information.")
+                                        spec_index = len(st.session_state.spectra)
+                                        st.session_state.spectra.append(spec)
+                        st.session_state.messages.append({"role": "assistant", "content": output_history, "image": fig_index, "spectra": spec_index, "url": "", "error":None})
                         time.sleep(0.5)
 
                 except Exception as e:
                     error_message = f"An error occurred while processing your request: {e}. Please check more information in the log file, try again later or contact us for further investigation."
                     st.error(error_message)
                     st.session_state.logger.error(error_message)
-                    st.session_state.messages.append({"role": "assistant", "content": output_history, "image": fig_index, "url": "", "error": error_message})
+                    st.session_state.messages.append({"role": "assistant", "content": output_history, "image": fig_index, "url": "", "spectra": spec_index, "error": error_message})
 
                 finally:
                     st.session_state.is_processing = False

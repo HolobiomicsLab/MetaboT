@@ -70,8 +70,10 @@ class SqliteToolsDatabaseManager(ToolsDatabaseManager):
         agents_folder = Path(__file__).resolve().parent.parent / "agents"
         tool_names = []
 
+
         for root, dirs, files in os.walk(agents_folder):
             for filename in files:
+
                 if filename.startswith("tool_") and filename.endswith(".py"):
                     tool_names.append(filename[:-3])  # Remove ".py" from the filename
 

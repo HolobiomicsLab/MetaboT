@@ -1,4 +1,4 @@
-giyt# Agents API Reference 🤖
+# Agents API Reference 🤖
 
 This document details the agent system in the application, including the specialized agents and their roles in processing queries.
 
@@ -116,14 +116,14 @@ The ENPKG Agent specializes in resolving and standardizing entities mentioned in
 
 **Tools:**
 
-- CHEMICAL_RESOLVER: Maps chemical names to standardized IRIs
+- CHEMICAL_RESOLVER: Maps chemical names to NPC Class URIs
 - TAXON_RESOLVER: Resolves taxonomic names to Wikidata IRIs
 - TARGET_RESOLVER: Maps target names to ChEMBLTarget IRIs
 - SMILE_CONVERTER: Converts SMILE structures to InChIKey notation
 
 **Entity Types Handled:**
 
-- Natural product compounds (with chemical class IRIs)
+- Natural product compounds (with chemical class identifiers)
 - Taxonomic names (with Wikidata IRIs)
 - Molecular targets (with ChEMBL IRIs)
 - Chemical structures (in SMILE notation)
@@ -157,10 +157,8 @@ The SPARQL Agent handles the generation and execution of database queries.
 
 - Automatic query improvement when no results are found
 - Token management for large result sets
-- Result formatting to CSV for further processing
 - Results are automatically saved as temporary CSV files in the user's session directory
 - Local CSV storage enables users to perform additional analysis or processing on the results
-- Temporary files are organized by session for easy access and management
 
 ---
 
@@ -175,6 +173,7 @@ The Interpreter Agent processes and formats query results for human understandin
 - Generates visualizations
 - Provides clear, formatted answers
 
+
 **Input Processing:**
 - Handles SPARQL query results
 - Processes user-submitted files
@@ -183,6 +182,7 @@ The Interpreter Agent processes and formats query results for human understandin
 **Tools:**
 
 - INTERPRETER_TOOL: Main tool for data interpretation and visualization
+- SPECTRUM_PLOTTER: Provides the url with a plot of a spectrum given its USI
 
 **Output Types:**
 
@@ -190,6 +190,7 @@ The Interpreter Agent processes and formats query results for human understandin
 - Generated visualizations
 - Formatted data summaries
 - File path references for downloads
+- URL which connects to the Metabolomics Spectrum Resolver tool
 
 ---
 

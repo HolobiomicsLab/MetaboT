@@ -34,7 +34,7 @@ PROMPT = """
     - Generate the final answer based on the SPARQL output.
     - Provide the final answer and the dictionary containing question, generated_sparql_query, and file_path to the supervisor.  
     Overall, make sure that SPARQL_QUERY_RUNNER gets the right input: the dictionary containing the question and entities provided by ENPKG_agent.
-    
+    Do not provide the urls with the visualization of the spectra, this should be handled by other agent.
 """
 
 CHAT_PROMPT = ChatPromptTemplate.from_messages(

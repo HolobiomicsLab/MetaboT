@@ -45,3 +45,4 @@ dependencies:
       - numpy==1.26.0
       - httpx==0.27.2
       - scikit-learn==1.5.1
+      - spectrum_utils
