@@ -258,15 +258,27 @@ with st.sidebar:
                     st.session_state.logger.error("Contributor key not valid. Please check the key provided.")
                     
     if st.session_state.langgraph_app_created == True:
+        @st.dialog("Help to MetaboT")
+        def help_dialog():
+            st.write(help)
+            if st.button("Close"):
+                st.rerun()
 
-        ins_modal=Modal("Help to MetaboT", key="help")
-        open_ins_modal = st.button("Help", use_container_width=True, disabled=st.session_state.is_processing)
-        if open_ins_modal:
-            ins_modal.open()
+        @st.dialog("Clear conversation data")
+        def clear_dialog():
+            st.write("Clearing the chat history will delete all conversation history generated during the interaction with the MetaboT and restart the app. Please make sure you finished all questions on this topic before clearing the chat history.")
+            if st.button("I understood."):
+                st.session_state.messages = []
+                st.session_state.thread_id = str(st.session_state.session_id)+str(uuid4().hex[:4])
+                initialize_thread_id(st.session_state.thread_id)
+                st.session_state.langgraph_app_created = False
+                st.session_state.logger.info("Chat history cleared. App restarted.")
 
-        if ins_modal.is_open():
-            with ins_modal.container():
-                st.write(help)
+                st.rerun()
+
+        open_help_dialog = st.button("Help", use_container_width=True, disabled=st.session_state.is_processing)
+        if open_help_dialog:
+            help_dialog()
 
         download = st.download_button(
             label="Download files",
@@ -277,23 +289,9 @@ with st.sidebar:
             disabled=st.session_state.is_processing
         )
 
-        clear_modal = Modal("Clear conversation data", key="clear")
-        open_modal = st.button("Clear conversation data", use_container_width=True, disabled=st.session_state.is_processing)
-        if open_modal:
-            clear_modal.open()
-
-        if clear_modal.is_open():
-            with clear_modal.container():
-                st.write("Clearing the chat history will delete all conversation history generated during the interaction with the MetaboT and restart the app. Please make sure you finished all questions on this topic before clearing the chat history.")
-                clear = st.button("I understood.")
-                if clear:
-                    st.session_state.messages = []
-                    st.session_state.thread_id = str(st.session_state.session_id)+str(uuid4().hex[:4])
-                    initialize_thread_id(st.session_state.thread_id)
-                    st.session_state.langgraph_app_created = False
-                    clear_modal.close()
-                    st.session_state.logger.info("Chat history cleared. App restarted.")
-                    st.rerun()
+        open_clear_dialog = st.button("Clear conversation data", use_container_width=True, disabled=st.session_state.is_processing)
+        if open_clear_dialog:
+            clear_dialog()
 
     # Defining ENKPG as the Standard endpoint. Using session_state to control either
     if st.session_state.set_standard_endpoint == True:
