@@ -18,6 +18,9 @@ class PostgresToolsDatabaseManager(ToolsDatabaseManager):
         self.conn = None
         self.connect_db()
 
+    def initialize_db(self):
+        self.connect_db()
+
     def connect_db(self):
         try:
             if self.conn is None or self.conn.closed != 0:
