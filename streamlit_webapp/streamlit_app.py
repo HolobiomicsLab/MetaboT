@@ -40,7 +40,6 @@ import time
 from openai import OpenAI
 from langchain_core.messages import HumanMessage
 from langsmith import Client
-from streamlit_modal import Modal
 import streamlit.components.v1 as components
 from app.core.memory.database_manager import tools_database, memory_database
 from langchain.callbacks.manager import tracing_v2_enabled
