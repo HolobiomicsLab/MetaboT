@@ -1,3 +1,4 @@
+codebox=0.1.20
 codeinterpreterapi==0.0.14
 faiss-cpu==1.8.0
 kaleido==0.2.1

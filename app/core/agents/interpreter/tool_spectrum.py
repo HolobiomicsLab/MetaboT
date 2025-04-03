@@ -4,16 +4,11 @@ from typing import Any, Dict, Optional, Union
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain.callbacks.manager import CallbackManagerForToolRun
-import tkinter as tk
 from app.core.memory.database_manager import tools_database
 import pandas as pd
 import json
 import os
 import matplotlib
-import requests
-import matplotlib.pyplot as plt
-import spectrum_utils.plot as sup
-import spectrum_utils.spectrum as sus
 
 matplotlib.use("Agg")
 from app.core.session import setup_logger, create_user_session
