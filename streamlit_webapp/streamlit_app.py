@@ -1,13 +1,9 @@
 # Setting up Session for streamlit app
 # It's ugly but it has to be done in the very beginning of the script
-
 import streamlit as st
 import os
 from uuid import uuid4
-import sys
-sys.path.insert(0, '/Users/yzhouchen001/Desktop/research/kgbot_webapp')
-# print(sys.path)
-from app import core
+
 from app.core.session import create_user_session, initialize_session_context, initialize_thread_id, setup_logger
 
 if "session_id" not in st.session_state:
@@ -30,17 +26,13 @@ if "logger" not in st.session_state:
     st.session_state.logger = logger
 
 # Following normal code execution    
-    
 import os
-import tempfile
 from pathlib import Path
-import logging.config
 import logging
 import time
 from openai import OpenAI
 from langchain_core.messages import HumanMessage
 from langsmith import Client
-import streamlit.components.v1 as components
 from app.core.memory.database_manager import tools_database, memory_database
 from langchain.callbacks.manager import tracing_v2_enabled
 from streamlit_webapp.streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
