@@ -2,7 +2,6 @@ from __future__ import annotations
 
 
 from codeinterpreterapi import CodeInterpreterSession, File, settings
-
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool
 
@@ -59,10 +58,6 @@ class Interpreter(BaseTool):
         logger.info(f"File paths: {file_paths}")
 
         session_dir = create_user_session(self.session_id, user_session_dir=True)
-
-        # if os.getenv("CODEBOX_API_KEY"):
-        #     codebox_key = os.getenv("CODEBOX_API_KEY")
-        #     settings.CODEBOX_API_KEY = codebox_key
 
         settings.OPENAI_API_KEY = self.openai_key
         settings.MODEL = "gpt-3.5-turbo"
