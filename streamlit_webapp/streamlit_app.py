@@ -134,6 +134,7 @@ if "memory" not in st.session_state:
 if "spectra" not in st.session_state:
     st.session_state.spectra = []
 
+
 #Header configuration
 st.title("MetaboT - An AI-system for Metabolomics Data Exploration")
 subheader_markdown = """
@@ -305,7 +306,7 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("Holobiomics Lab - CNRS, Université Côte d'Azur, Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur")
     holobiomics_logo_path = str(Path(__file__).parent / "misc" / "HolobiomicsLab_graphics_v1_logos_small.png")
-    st.image(holobiomics_logo_path, use_column_width=True)
+    st.image(holobiomics_logo_path, use_container_width=True)
 
 if st.session_state.openai_key_success == False and st.session_state.endpoint_url_success == False:
     st.warning("You haven't provided a valid OpenAI API key and validated the connection to the endpoint. You need to provide a valid OpenAI API Key and connect to an Endpoint server. If you already tried to connect to an endpoint and it was unsucessful, there might be a connection problem. Please investigate further or come back later")
