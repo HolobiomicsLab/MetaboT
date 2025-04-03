@@ -1,5 +1,4 @@
-codebox==0.2.0
-codeboxapi
+codeboxapi>=0.0.19,<0.2.0
 codeinterpreterapi==0.0.14
 faiss-cpu==1.8.0
 kaleido==0.2.1
