@@ -138,12 +138,6 @@ st.markdown("---")
 # Sidebar Configuration for User Inputs
 with st.sidebar:
 
-    st.markdown("---")
-    st.subheader("Please read:")
-    st.markdown("Link one")
-    st.markdown("Link two")
-    st.markdown("---")
-
     # OpenAI API Key Input and Validation
     with st.expander("Set a OpenAI API Key", expanded=st.session_state.openai_key_expander):
         with st.form(key='api_key_form'):
