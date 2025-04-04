@@ -147,12 +147,42 @@ It should also work on other Unix-based systems. For more details on compatibili
    # Update system dependencies first
    sudo apt-get update
    sudo apt-get install -y python3-dev build-essential
-
+  
    # Then create and activate the conda environment
    conda env create -f environment.yml
    conda activate MetaboT
    ```
-   > Pro-tip: If you hit any issues with psycopg2, the `environment.yml` uses `psycopg2-binary` for maximum compatibility.
+
+    For Windows (using WSL):
+
+   Install WSL if you haven't already:
+
+      ```bash
+      wsl --install
+      ```
+      
+   Open WSL and install the required packages:
+
+      ```bash
+      sudo apt-get update
+      sudo apt-get install -y python3-dev build-essential
+      ```
+      
+   Install Miniconda in WSL:
+
+      ```bash
+      wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+      bash Miniconda3-latest-Linux-x86_64.sh
+      source ~/.bashrc
+      ```
+      
+   Create and activate the conda environment:
+      ```bash
+      conda env create -f environment.yml
+      conda activate MetaboT
+      ``` 
+     
+ > Pro-tip: If you hit any issues with psycopg2, the `environment.yml` uses `psycopg2-binary` for maximum compatibility.
 
 ---
 
@@ -170,7 +200,7 @@ To try one of the [standard questions](app/data/standard_questions.txt), run the
 cd MetaboT
 python -m app.core.main -q 1
 ```
-Here, the number following `-q` specifies the question number from the standard questions.
+Here, the number following `-q` specifies the question number from the standard questions which can be viewed in `app/data/standard_questions.txt`.
 Expected output includes runtime metrics and a welcoming prompt. 😎
 
 ### Running with a Custom Question
@@ -252,7 +282,8 @@ This command will start the container, run the application inside Docker, and pr
 │   │   │   ├── interpreter
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_interpreter.py
+│   │   │   │   ├── tool_interpreter.py
+│   │   │   │   └── tool_spectrum.py  
 │   │   │   ├── sparql
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py

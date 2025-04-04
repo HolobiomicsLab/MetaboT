@@ -23,9 +23,9 @@ use_client = false
 #drop_params = true   # IMPORTANT!!!!! FOR ANTHROPIC/CLAUD MODELS TO SET TO true
 
 [config]
-model = "gpt-4o"
-fallback_models = ["gpt-4o-mini"]  # Define a fallback model
-model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tasks
+model = "o3-mini"
+fallback_models = ["gpt-4o"]  # Define a fallback model
+model_weak = "gpt-4o" # optional, a weaker model to use for some easier tasks
 
 #model = "huggingface/deepseek-ai/DeepSeek-R1"
 #fallback_models = ["huggingface/deepseek-ai/DeepSeek-R1-Distill-Llama-70B"]
@@ -52,7 +52,7 @@ model_weak = "gpt-4o-mini" # optional, a weaker model to use for some easier tas
 custom_model_max_tokens= 128000
 max_description_tokens = 8000
 max_commits_tokens = 16000
-max_model_tokens = 100000 # Limits the maximum number of tokens that can be used by any model, regardless of the model's default capabilities.
+max_model_tokens = 120000 # Limits the maximum number of tokens that can be used by any model, regardless of the model's default capabilities.
 
 # CLI
 git_provider="github"
@@ -71,11 +71,11 @@ skip_keys = []
 
 
 # patch extension logic
-patch_extension_skip_types =[".md",".txt"]
+patch_extension_skip_types =[".md",".txt",".ttl", ".pkl"]
 allow_dynamic_context=true
-max_extra_lines_before_dynamic_context = 8 # will try to include up to 10 extra lines before the hunk in the patch, until we reach an enclosing function or class
-patch_extra_lines_before = 3 # Number of extra lines (+3 default ones) to include before each hunk in the patch
-patch_extra_lines_after = 1 # Number of extra lines (+3 default ones) to include after each hunk in the patch
+max_extra_lines_before_dynamic_context = 15 # will try to include up to 10 extra lines before the hunk in the patch, until we reach an enclosing function or class
+patch_extra_lines_before = 5 # Number of extra lines (+3 default ones) to include before each hunk in the patch
+patch_extra_lines_after = 3 # Number of extra lines (+3 default ones) to include after each hunk in the patch
 secret_provider=""
 cli_mode=false
 ai_disclaimer_title=""  # Pro feature, title for a collapsible disclaimer to AI outputs
@@ -110,7 +110,7 @@ require_security_review=true
 require_ticket_analysis_review=true
 # general options
 persistent_comment=true
-extra_instructions = ""
+extra_instructions = "Ensure Google DocString format is used for key functions/classes"
 final_update_message = true
 # review labels
 enable_review_labels_security=true
@@ -155,7 +155,7 @@ include_generated_by_header=true
 enable_help_text=false
 
 [pr_code_suggestions] # /improve #
-max_context_tokens=32000
+max_context_tokens=64000
 #
 commitable_code_suggestions = false
 dual_publishing_score_threshold=-1 # -1 to disable, [0-10] to set the threshold (>=) for publishing a code suggestion both in a table and as commitable

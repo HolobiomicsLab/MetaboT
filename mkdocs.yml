@@ -169,7 +169,7 @@ nav:
     - Graph Management: api-reference/graph-management.md
   - Examples:
     - Basic Usage: examples/basic-usage.md
-    - Advanced Examples: examples/advanced-examples.md
+    
   - Contributing: contributing.md
 
 # Additional settings
