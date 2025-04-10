@@ -35,9 +35,18 @@ from langchain_core.messages import HumanMessage
 from langsmith import Client
 from app.core.memory.database_manager import tools_database, memory_database
 from langchain.callbacks.manager import tracing_v2_enabled
-from streamlit_webapp.streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
+from streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
 from app.core.workflow.langraph_workflow import create_workflow
 from app.core.main import llm_creation
+
+
+def add_videos_to_content():
+    st.markdown("---")
+    st.subheader("Illustrative videos")
+    st.markdown("Here are some illustrative videos to help you understand how to use MetaboT.")
+    st.video("https://youtu.be/R6OiFt9ryxY")
+    st.markdown("---")
+    st.video("https://youtu.be/LpywYlHBWpw")
 
 # Configuring page
 st.set_page_config(
@@ -298,16 +307,19 @@ if st.session_state.openai_key_success == False and st.session_state.endpoint_ur
     st.warning("You haven't provided a valid OpenAI API key and validated the connection to the endpoint. You need to provide a valid OpenAI API Key and connect to an Endpoint server. If you already tried to connect to an endpoint and it was unsucessful, there might be a connection problem. Please investigate further or come back later")
     with st.expander("", expanded=True):
         st.write(splash_text)
+    add_videos_to_content()
 
 if st.session_state.openai_key_success == False and st.session_state.endpoint_url_success == True:
     st.warning("You haven't provided a valid OpenAI API key. A valid OpenAI Key is needed to use the MetaboT. ")
     with st.expander("", expanded=True):
         st.write(splash_text)
+    add_videos_to_content()
 
 if st.session_state.openai_key_success == True and st.session_state.endpoint_url_success == False:
     st.warning("You're currently not connected to the endpoint. This can be due to error in the URL endpoint or the endpoint server not connecting. Please investigate further or come back later")
     with st.expander("", expanded=True):
         st.write(splash_text)
+    add_videos_to_content()
 
 if st.session_state.openai_key_success == True and st.session_state.endpoint_url_success == True:
     if st.session_state.langgraph_app_created == False:
