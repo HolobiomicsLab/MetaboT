@@ -14,10 +14,12 @@ from app.core.session import setup_logger
 
 logger = setup_logger(__name__)
 
+
 def load_config():
     config_path = Path(__file__).resolve().parent.parent / "config" / "langgraph.json"
     with open(config_path, "r") as file:
         return json.load(file)
+
 
 def import_tools(directory: str, module_prefix: str, **kwargs) -> List:
     """
@@ -62,6 +64,7 @@ def import_tools(directory: str, module_prefix: str, **kwargs) -> List:
             logger.error(f"Failed to import {module_name}: {e}")
     return tools
 
+
 def find_tool_in_module(module, **kwargs) -> Optional[Type[BaseTool]]:
     """
     Searches a given module for any class that is a subclass of BaseTool, but not BaseTool itself,
@@ -94,6 +97,7 @@ def find_tool_in_module(module, **kwargs) -> Optional[Type[BaseTool]]:
 
     return None
 
+
 def get_module_prefix(name):
     """
     Extracts the module prefix based on the current file's __name__,
@@ -113,3 +117,23 @@ def token_counter(text: str) -> int:
     # TODO [Franck]: the model name should be a config param
     tokens = tokenizer.encode(text)
     return len(tokens)
+
+
+class IntRange:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.range = range(start, end + 1)
+
+    def __contains__(self, item):
+        return item in self.range
+
+    def __iter__(self):
+        # for help display
+        return iter([f"[{self.start}, {self.end}]"])
+
+    def __str__(self):
+        return f"[{self.start}, {self.end}]"
+
+    def __repr__(self):
+        return self.__str__()

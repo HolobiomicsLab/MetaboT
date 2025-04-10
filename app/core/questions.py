@@ -68,6 +68,6 @@ standard_questions = [
         "What are the chemical compounds with mass greater than 800 Da detected in LCMS features of Craterispermum laurinum? Provide the InChIKeys and molecular masses of the top 10 compounds.",
         "List the chemical compounds from Tabernaemontana coffeoides that have both ISDB and SIRIUS structural annotations matching a retention time of less than 5 minutes. Provide the InChIKey2Ds of compounds.",
         "Which chemical compounds are detected in positive ionization mode from Tabernaemontana coffeoides plant extract? Provide the InChIKey2Ds of compounds.",
-        "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds."
+        "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds.",
         "What are the InChIKey2Ds of chemical entities annotated by ISDB in the lab extracts of Desmodium heterophyllum?",
     ]

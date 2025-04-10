@@ -1,36 +1,18 @@
 import os
 import argparse
-from typing import Any, Dict, Optional
+from typing import Optional
 from dotenv import load_dotenv
 from langsmith import Client
 from pathlib import Path
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-from app.core.utils import setup_logger
-import pickle
+from app.core.utils import IntRange, setup_logger
 import configparser
+from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
+from app.core.questions import standard_questions
+
 
 # Load environment variables
 load_dotenv()
-
-from typing import Any, Optional, Tuple
-import functools
-import argparse
-
-from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
-from dotenv import load_dotenv
-load_dotenv()
-
-
-import os
-
-from langsmith import Client
-from app.core.graph_management.RdfGraphCustom import RdfGraph
-from app.core.agents.agents_factory import create_all_agents
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-from app.core.utils import setup_logger, load_config
-from app.core.questions import standard_questions
-import requests
-import certifi
 logger = setup_logger(__name__)
 
 parent_dir = Path(__file__).resolve().parent.parent
@@ -48,27 +30,29 @@ API_KEY_MAPPING = {
     "gemini": "GEMINI_API_KEY"
 }
 
+
 def get_api_key(provider: str) -> Optional[str]:
     """
     Get API key for specified provider from environment variables.
-    
+
     Args:
         provider: Provider name matching a key in API_KEY_MAPPING
-        
+
     Returns:
         API key if found, None otherwise
     """
     env_var = API_KEY_MAPPING.get(provider)
     return os.getenv(env_var) if env_var else None
 
+
 def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM:
     """
     Create a ChatLiteLLM instance based on the model id and configuration.
     Only uses parameters that are explicitly specified in the configuration.
-    
+
     Args:
         config (configparser.SectionProxy): The configuration section
-        
+
     Returns:
         ChatLiteLLM: Configured ChatLiteLLM instance
     """
@@ -76,16 +60,14 @@ def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM:
         raise ValueError("Model id is required in configuration")
 
     model_id = config["id"]
-    
 
     model_name = model_id
-    
 
     if model_id.startswith("deepseek"):
         provider = "deepseek"
     elif model_id.startswith("gpt"):
         provider = "openai"
-        model_name = f"openai/{model_id}"  
+        model_name = f"openai/{model_id}"
     elif model_id.startswith("huggingface"):
         provider = "huggingface"
     elif model_id.startswith("claude"):
@@ -93,7 +75,6 @@ def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM:
     elif model_id.startswith("gemini"):
         provider = "gemini"
 
-    
     api_key = get_api_key(provider)
 
     model_params = {
@@ -103,12 +84,12 @@ def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM:
         "max_retries": int(config.get("max_retries", 3))
     }
 
-    
     for param in ["base_url", "api_base"]:
         if param in config:
             model_params[param] = config[param]
 
     return ChatLiteLLM(**model_params)
+
 
 def llm_creation(api_key=None, params_file=None):
     """
@@ -130,9 +111,6 @@ def llm_creation(api_key=None, params_file=None):
 
     models = {}
 
-    # Get the OpenAI API key from the configuration file or the environment variables if none is passed.
-    openai_api_key = api_key if api_key else os.getenv("OPENAI_API_KEY")
-
     for section in config.sections():
         if section.startswith("llm_litellm"):
             models[section] = create_litellm_model(config[section])
@@ -142,17 +120,14 @@ def llm_creation(api_key=None, params_file=None):
         model_id = config[section]["id"]
         max_retries = config[section]["max_retries"]
 
-        
         provider = "openai"
         if section.startswith("deepseek"):
             provider = "deepseek"
         elif section.startswith("ovh"):
             provider = "ovh"
 
-       
         api_key = get_api_key(provider)
-        
-      
+
         model_params = {
             "temperature": float(temperature),
             "model": model_id,
@@ -160,7 +135,6 @@ def llm_creation(api_key=None, params_file=None):
             "verbose": True
         }
 
-       
         if "base_url" in config[section]:
             base_url = config[section]["base_url"]
             if provider == "deepseek":
@@ -171,18 +145,17 @@ def llm_creation(api_key=None, params_file=None):
                 model_params["api_key"] = api_key
         else:
             model_params["openai_api_key"] = api_key
-            
+
         llm = ChatOpenAI(**model_params)
         models[section] = llm
 
     return models
 
-logger = setup_logger(__name__)
 
 def langsmith_setup() -> Optional[Client]:
     """
     Set up the LangSmith environment and client if an API key is present.
-    
+
     Returns:
         Optional[Client]: LangSmith client if setup successful, None otherwise
     """
@@ -220,13 +193,14 @@ def langsmith_setup() -> Optional[Client]:
         logger.error(f"Failed to initialize Langchain client: {e}")
         return None
 
+
 def main():
     """Main function to run the workflow."""
     # Define command line arguments
 
     parser = argparse.ArgumentParser(description="Process a workflow with a predefined question number.")
-    parser.add_argument('-q', '--question', type=int, choices=range(1, (len(standard_questions))),
-                        help=f"Choose a standard question number from 1 to {len(standard_questions)}.")
+    parser.add_argument('-q', '--question', type=int, choices=IntRange(1, len(standard_questions)),
+                        help=f"Choose a standard question number from 1 to {len(standard_questions)+1}.")
     parser.add_argument('-c', '--custom', type=str,
                         help="Provide a custom question.")
     parser.add_argument('-e', '--evaluation', action='store_true',
@@ -237,7 +211,7 @@ def main():
                         help="Knowledge graph endpoint URL (optional)")
 
     args = parser.parse_args()
-    
+
     if args.question:
         question = standard_questions[args.question - 1]
     elif args.custom:
@@ -265,12 +239,13 @@ def main():
             evaluation=False,
             api_key=args.api_key
         )
-        
+
         process_workflow(workflow, question)
-        
+
     except Exception as e:
         logger.error(f"Error processing workflow: {e}")
         raise
+
 
 if __name__ == "__main__":
     main()
