@@ -130,8 +130,8 @@ It should also work on other Unix-based systems. For more details on compatibili
 
    ```bash
    git clone https://github.com/holobiomicslab/MetaboT.git
-   git checkout dev
    cd MetaboT
+   git checkout dev
    ```
 
 2. **Create and Activate the Conda Environment**  
@@ -139,7 +139,7 @@ It should also work on other Unix-based systems. For more details on compatibili
    For macOS:
    ```bash
    conda env create -f environment.yml
-   conda activate MetaboT
+   conda activate metaboT
    ```
 
    For Linux:
