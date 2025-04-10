@@ -200,7 +200,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Process a workflow with a predefined question number.")
     parser.add_argument('-q', '--question', type=int, choices=IntRange(1, len(standard_questions)),
-                        help=f"Choose a standard question number from 1 to {len(standard_questions)+1}.")
+                        help=f"Choose a standard question number from 1 to {len(standard_questions)}.")
     parser.add_argument('-c', '--custom', type=str,
                         help="Provide a custom question.")
     parser.add_argument('-e', '--evaluation', action='store_true',
