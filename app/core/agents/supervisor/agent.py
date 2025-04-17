@@ -13,10 +13,10 @@ logger = setup_logger(__name__)
 config = load_config()
 
 
-def create_agent(llms, graph) -> AgentExecutor:
+def create_agent(llms, graph, llm_instance=None) -> AgentExecutor:
     """Configure and return a supervisor agent with decision-making logic for task routing."""
 
-    llm = llms[MODEL_CHOICE]
+    llm = llm_instance if llm_instance is not None else llms[MODEL_CHOICE]
     members = config["supervisor"]["members"]
     options = ["FINISH"] + members
 

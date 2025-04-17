@@ -99,16 +99,20 @@ It should also work on other Unix-based systems. For more details on compatibili
    - Ensure Conda (Anaconda/Miniconda) is installed.  
    - [Conda Installation Docs](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
 
-2. **API Keys**  
-   Required API keys:  
-   - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys). 
+2. **API Keys**
+   Required API keys:
+   - Get an API key for your chosen language model:
+     - **OpenAI API Key**: Get it from [OpenAI Platform](https://platform.openai.com/api-keys)
+     - **DeepSeek API Key**: Get it from DeepSeek
+     - **Claude API Key**: Get it from Anthropic
+     - Or other models supported by [LiteLLM](https://docs.litellm.ai/docs/providers)
 
-   > **Disclaimer:** The OpenAI API is a commercial and paid service. Our default model is **gpt-4o**, and its usage will incur costs according to OpenAI's pricing policy. By default, 🧪 MetaboT 🍵 uses gpt-4o.
+   > **Disclaimer:** Most LLM APIs are commercial and paid services. Our default model is **gpt-4o**, and its usage will incur costs according to the provider's pricing policy.
    >
-   > **Data Privacy:** Please note that data submitted to the OpenAI API is subject to OpenAI's privacy policy. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
+   > **Data Privacy:** Please note that data submitted to LLM APIs is subject to their respective privacy policies. Avoid sending sensitive or confidential information, as data may be logged for quality assurance and research purposes.
 
    Optional API keys:
-   - **LangSmith API Key**: This used to see the interactions traces [LangSmith](https://smith.langchain.com/). This is free.
+   - **LangSmith API Key**: This is used to see the interactions traces [LangSmith](https://smith.langchain.com/). This is free.
 
    Create a `.env` file in the root directory with your credentials:
 
@@ -118,6 +122,7 @@ It should also work on other Unix-based systems. For more details on compatibili
    LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
    LANGCHAIN_PROJECT=metabot_project 
    ```
+   **Note:** The system can also be used with other LLM models, namely: Meta-Llama-3_1-70B-Instruct and deepseek-reasoner. For Meta-Llama-3_1-70B-Instruct (which runs on OVH Cloud – see [OVH Cloud](https://www.ovh.com/)), add the API key OVHCLOUD_API_KEY to your `.env` file; for deepseek-reasoner, add DEEPSEEK_API_KEY. Currently, all agents use the OpenAI model gpt-4o (including the SPARQL generation chain). Furthermore, if the initial query yields no results, a SPARQL improvement chain using the OpenAI o3-mini model is activated.
 
 ### Installation Steps
 
@@ -125,8 +130,8 @@ It should also work on other Unix-based systems. For more details on compatibili
 
    ```bash
    git clone https://github.com/holobiomicslab/MetaboT.git
-   git checkout dev
    cd MetaboT
+   git checkout dev
    ```
 
 2. **Create and Activate the Conda Environment**  
@@ -134,7 +139,7 @@ It should also work on other Unix-based systems. For more details on compatibili
    For macOS:
    ```bash
    conda env create -f environment.yml
-   conda activate MetaboT
+   conda activate metaboT
    ```
 
    For Linux:
@@ -142,35 +147,41 @@ It should also work on other Unix-based systems. For more details on compatibili
    # Update system dependencies first
    sudo apt-get update
    sudo apt-get install -y python3-dev build-essential
-
+  
    # Then create and activate the conda environment
    conda env create -f environment.yml
    conda activate MetaboT
    ```
 
-   For Windows (using WSL):
+    For Windows (using WSL):
 
-    Install WSL if you haven't already:
+   Install WSL if you haven't already:
+
       ```bash
       wsl --install
       ```
-    Open WSL and install the required packages:
+      
+   Open WSL and install the required packages:
+
       ```bash
       sudo apt-get update
       sudo apt-get install -y python3-dev build-essential
       ```
-    Install Miniconda in WSL:
+      
+   Install Miniconda in WSL:
+
       ```bash
       wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
       bash Miniconda3-latest-Linux-x86_64.sh
       source ~/.bashrc
       ```
+      
    Create and activate the conda environment:
       ```bash
       conda env create -f environment.yml
       conda activate MetaboT
-      
-
+      ``` 
+     
  > Pro-tip: If you hit any issues with psycopg2, the `environment.yml` uses `psycopg2-binary` for maximum compatibility.
 
 ---
@@ -181,13 +192,15 @@ The application is structured as a Python module with dot notation imports—so 
 
 ### Demo
 
-To launch the application, use Python's `-m` option. The main entry point is in `app.core.main`:
+To launch the application, use Python's `-m` option. The main entry point is in `app.core.main`.
 
+To try one of the [standard questions](app/data/standard_questions.txt), run the following command:
+ 
 ```bash
 cd MetaboT
 python -m app.core.main -q 1
 ```
-
+Here, the number following `-q` specifies the question number from the standard questions which can be viewed in `app/data/standard_questions.txt`.
 Expected output includes runtime metrics and a welcoming prompt. 😎
 
 ### Running with a Custom Question
@@ -195,6 +208,47 @@ Expected output includes runtime metrics and a welcoming prompt. 😎
 ```bash
 python -m app.core.main -c "Your custom question"
 ```
+### Running via Streamlit
+
+To launch the application through Streamlit, set the required environment variables, install the dependencies, and run the app. In your terminal, execute:
+
+```bash
+export ADMIN_OPENAI_KEY=your_openai_api_key
+export LANGCHAIN_API_KEY=your_langchain_api_key
+pip install -r requirements.txt
+streamlit run streamlit_webapp/streamlit_app.py
+```
+
+If you encounter an error stating that the `app` directory cannot be found (e.g., "ModuleNotFoundError: No module named 'app'"), it means Python is unable to locate the module. To resolve this, add the current directory to your `PYTHONPATH` by running:
+
+```bash
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+```
+
+This command ensures that Python can locate the `app` directory.
+
+---
+### Running in Docker
+
+If you prefer to run the application in a containerized environment, Docker support is provided. Make sure Docker and docker-compose are installed on your system.
+
+#### Building the Docker Image
+
+To build the Docker image, run:
+
+```bash
+docker-compose build
+```
+
+#### Running the Application
+
+To launch the application and run the first standard question, execute:
+
+```bash
+docker-compose run metabot python -m app.core.main -q 1
+```
+
+This command will start the container, run the application inside Docker, and process the first standard question from [app/data/standard_questions.txt]. You can adjust parameters as needed.
 
 ---
 
@@ -228,7 +282,8 @@ python -m app.core.main -c "Your custom question"
 │   │   │   ├── interpreter
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
-│   │   │   │   └── tool_interpreter.py
+│   │   │   │   ├── tool_interpreter.py
+│   │   │   │   └── tool_spectrum.py  
 │   │   │   ├── sparql
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py

@@ -48,7 +48,7 @@ class OutputMerger(BaseTool):
         self.session_id = session_id
 
     def _run(
-            self, file_path_1: str, file_path_2: str, run_manager: Optional[CallbackManagerForToolRun] = None
+        self, file_path_1: str, file_path_2: str = "", run_manager: Optional[CallbackManagerForToolRun] = None
     ) -> str:
         df1 = pd.read_csv(file_path_1)
         df2 = pd.read_csv(file_path_2)

@@ -1,0 +1,8 @@
+version: "3.11.2"
+services:
+  metabot:
+    container_name: metabot_container
+    build: .
+    volumes:
+      - .:/app
+    command: python app/core/main.py

@@ -9,56 +9,76 @@ The main module ([`app.core.main`](https://github.com/HolobiomicsLab/MetaboT/blo
 
 ### Functions
 
-#### `link_kg_database` 🔗
+#### `get_api_key` 🔑
 
 ```python
-def link_kg_database(endpoint_url: str) -> RdfGraph
+def get_api_key(provider: str) -> Optional[str]
 ```
 
-Initializes or loads an RDF graph connection to the knowledge graph.
+Get API key for specified provider from environment variables.
 
 **Parameters:**
-- `endpoint_url` (str): The URL of the SPARQL endpoint
+- `provider` (str): Provider name matching a key in API_KEY_MAPPING
 
 **Returns:**
-- `RdfGraph`: An initialized RDF graph object
+- Optional[str]: API key if found, None otherwise
 
-**Example:**
+#### `create_litellm_model` 🤖
+
 ```python
-graph = link_kg_database("https://enpkg.commons-lab.org/graphdb/repositories/ENPKG")
+def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM
 ```
+
+Create a ChatLiteLLM instance based on the model id and configuration from app/config/params.ini file. The configuration includes model parameters such as temperature, max_retries, and optional base_url/api_base settings.
+
+**Parameters:**
+- `config` (configparser.SectionProxy): The configuration section from params.ini that contains model settings:
+
+  - Required: "id" - model identifier (e.g., "gpt-4", "deepseek/...")
+  - Optional: "temperature", "max_retries", "base_url", "api_base"
+
+**Returns:**
+- `ChatLiteLLM`: Configured ChatLiteLLM instance
 
 #### `llm_creation` 🤖
 
 ```python
-def llm_creation(api_key: Optional[str] = None) -> Dict[str, ChatOpenAI]
+def llm_creation(api_key: Optional[str] = None, params_file: Optional[str] = None) -> Dict[str, Union[ChatOpenAI, ChatLiteLLM]]
 ```
 
 Creates and configures language model instances based on the configuration file.
 
 **Parameters:**
+
 - `api_key` (Optional[str]): OpenAI API key (optional, can be set via environment variable)
+- `params_file` (Optional[str]): Path to an alternate configuration file
 
 **Returns:**
-- `Dict[str, ChatOpenAI]`: Dictionary of initialized language models
+- Dictionary of initialized language models
 
 **Example:**
 ```python
 models = llm_creation()
-llm = models['llm']  # Get the default model
+# With custom config file
+models = llm_creation(params_file="custom_params.ini")
 ```
 
 #### `langsmith_setup` 🛠️
 
 ```python
-def langsmith_setup() -> None
+def langsmith_setup() -> Optional[Client]
 ```
 
-Configures LangSmith integration for workflow tracking and monitoring.
+Configures LangSmith integration for workflow tracking and monitoring. If the environment variable LANGCHAIN_API_KEY (or LANGSMITH_API_KEY) is provided, the function enables tracing and configures the default project and endpoint. Otherwise, it disables tracing.
+
+**Returns:**
+- Optional[Client]: LangSmith client if setup successful, None otherwise
+
+For advanced configuration details, see [Advanced Configuration](docs/getting-started/quickstart#advanced-configuration).
 
 **Example:**
 ```python
-langsmith_setup()  # Sets up LangSmith environment
+client = langsmith_setup()  # Configures LangSmith integration if API key is provided
 ```
 
 ---
@@ -96,14 +116,17 @@ The workflow module ([`app.core.workflow.langraph_workflow`](https://github.com/
 #### `create_workflow` 🏗️
 
 ```python
-def create_workflow(agents: Dict, evaluation: bool = False) -> Any
+def create_workflow(models: Dict[str, Union[ChatOpenAI, ChatLiteLLM]], endpoint_url: str, evaluation: bool = False, api_key: Optional[str] = None) -> Any
 ```
 
-Creates a new workflow instance with the specified agents.
+Creates a new workflow instance with the specified configuration.
 
 **Parameters:**
-- `agents` (Dict): Dictionary of agent instances
+
+- `models` (Dict[str, Union[ChatOpenAI, ChatLiteLLM]]): Dictionary of language model instances
+- `endpoint_url` (str): The URL of the SPARQL endpoint
 - `evaluation` (bool): Whether to run in evaluation mode
+- `api_key` (Optional[str]): OpenAI API key (optional)
 
 **Returns:**
 - Workflow instance
@@ -117,6 +140,7 @@ def process_workflow(workflow: Any, question: str) -> Any
 Processes a query through the workflow.
 
 **Parameters:**
+
 - `workflow`: The workflow instance
 - `question` (str): The query to process
 
@@ -139,6 +163,7 @@ def create_all_agents(models: Dict[str, ChatOpenAI], graph: RdfGraph) -> Dict
 Creates all required agents for the workflow.
 
 **Parameters:**
+
 - `models`: Dictionary of language models
 - `graph`: RDF graph instance
 
@@ -161,9 +186,11 @@ def setup_logger(name: str) -> logging.Logger
 Configures a logger instance.
 
 **Parameters:**
+
 - `name` (str): Logger name
 
 **Returns:**
+
 - Configured logger instance
 
 #### `load_config` 📂
@@ -175,29 +202,72 @@ def load_config(config_path: str) -> configparser.ConfigParser
 Loads a configuration file.
 
 **Parameters:**
+
 - `config_path` (str): Path to configuration file
 
 **Returns:**
+
 - Parsed configuration object
 
 ---
-## Error Handling 🚨
+## Database Management 💾
 
-🧪 MetaboT 🍵 provides several error types for handling specific scenarios:
+The database management module provides two specialized databases for saving the outputs of tools and agents, as well as managing workflow state. These databases are created automatically based on the deployment environment:
+
+- When running locally: Databases are created as local files in the project directory
+- When deployed in the cloud: Databases are created in the cloud environment
+
+### Tools Database 🔧
+
+The tools database ([`app.core.memory.tools_database`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/memory/tools_database.py)) manages data associated with agent tools.
 
 ```python
-class MetaboTError(Exception):
-    """Base error for MetaboT operations."""
-    pass
-
-class GraphConnectionError(MetaboTError):
-    """Raised when unable to connect to the knowledge graph."""
-    pass
-
-class QueryExecutionError(MetaboTError):
-    """Raised when a query fails to execute."""
-    pass
+def tools_database() -> ToolsDatabaseManager
 ```
+
+Creates or returns a singleton instance of the tools database manager.
+
+**Features:**
+
+- Automatically discovers and tracks tool usage
+- Maintains interaction history
+- Stores tool-specific data
+- Supports both SQLite (default) and custom database backends
+- Auto-creates database based on environment (local/cloud)
+
+**Configuration:**
+
+- Default: Creates local `tools_database.db` file when running locally
+- Custom: Set via environment variables:
+
+    - `DATABASE_URL`: Database connection string (used for cloud deployment)
+    - `TOOLS_DATABASE_MANAGER_CLASS`: Custom manager class path
+
+### Memory Database 💭
+
+The memory database ([`app.core.memory.custom_sqlite_file`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/memory/custom_sqlite_file.py)) manages workflow state and checkpoints.
+
+```python
+def memory_database() -> SqliteCheckpointerSaver
+```
+
+Creates or returns a singleton instance of the memory database manager.
+
+**Features:**
+
+- Saves workflow state checkpoints
+- Supports multi-threading (essential for Streamlit)
+- Automatic cleanup on restart
+- Thread-safe operations
+- Auto-creates database based on environment (local/cloud)
+
+**Configuration:**
+
+- Default: Creates local `langgraph_checkpoint.db` file when running locally
+- Custom: Set via environment variables:
+  - `DATABASE_URL`: Database connection string (used for cloud deployment)
+  - `MEMORY_DATABASE_MANAGER_CLASS`: Custom manager class path
+
 
 ---
 ## Usage Examples 📘
@@ -207,34 +277,16 @@ class QueryExecutionError(MetaboTError):
 ```python
 from app.core.main import link_kg_database, llm_creation
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-from app.core.agents.agents_factory import create_all_agents
 
 # Initialize components
-graph = link_kg_database("your_endpoint_url")
+endpoint_url = "your_endpoint_url"
 models = llm_creation()
-agents = create_all_agents(models, graph)
 
 # Create and run workflow
-workflow = create_workflow(agents)
-results = process_workflow(workflow, "Your query here")
+workflow = create_workflow(
+    models=models,
+    endpoint_url=endpoint_url,
+    evaluation=False
+)
+process_workflow(workflow, "Your query here")
 ```
-
-### Custom Agent Integration
-
-```python
-from app.core.agents.base import BaseAgent
-
-class CustomAgent(BaseAgent):
-    def __init__(self, model, graph):
-        super().__init__(model, graph)
-        
-    def process(self, input_data):
-        # Custom processing logic
-        pass
-
-# Add to workflow
-agents['custom'] = CustomAgent(models['llm'], graph)
-workflow = create_workflow(agents)
-```
-
-For more detailed information about specific components, refer to the respective module documentation.

@@ -9,19 +9,23 @@
 ```mermaid
 graph TB
     A[User Query] --> B[Entry Agent]
-    B --> C[Supervisor Agent]
-    C --> D[ENPKG Agent]
-    C --> E[SPARQL Agent]
-    C --> F[Interpreter Agent]
-    C --> G[Validator Agent]
-    D & E & F & G --> H[Knowledge Graph]
-    H --> I[Results]
+    B --> G[Validator Agent]
+    G --> C[Supervisor Agent]
+    C <--> D[ENPKG Agent]
+    C <--> E[SPARQL Agent]
+    C <--> F[Interpreter Agent]
+     E  --> H[Knowledge Graph]
+    
+   
 ```
 
 - **Entry Agent** 🚪
-    - Processes initial user queries.
-    - Performs query validation and preprocessing.
-    - Routes queries to appropriate processing paths.
+    - Accepts user queries and input files (if provided) and performs initial processing.
+
+- **Validator Agent** ✅
+    - Validates user questions for knowledge graph.
+    - Verifies plant names using the database.
+    - Checks question content against the knowledge graph schema.
 
 - **Supervisor Agent** 🎛️
     - Orchestrates the workflow between agents.
@@ -30,23 +34,19 @@ graph TB
 
 - **ENPKG Agent** 🧪
     - Handles metabolomics-specific processing.
-    - Manages chemical structure analysis.
-    - Processes bioassay data.
+    - Provides resolutions to the entities mentioned in the question.
+  
 
 - **SPARQL Agent** 🔎
-    - Executes queries against the RDF knowledge graph
-    - Optimizes query performance
-    - Handles complex graph traversals
+    - Generates and executes queries against the RDF knowledge graph.
+    - Optimizes query performance.
+    - Handles complex graph traversals.
 
 - **Interpreter Agent** 📢
-    - Processes and formats query results
-    - Generates human-readable outputs
-    - Handles data visualization requests
+    - Processes and formats query results.
+    - Generates human-readable outputs.
+    - Handles data visualization requests.
 
-- **Validator Agent** ✅
-    - Ensures data quality and consistency
-    - Validates query results
-    - Performs error checking
 
 ### Knowledge Graph Integration 🔗
 
@@ -65,30 +65,13 @@ graph TB
 
 🧪 MetaboT 🍵 supports various types of queries:
 
-- **Standard Queries**: Pre-defined queries for common analyses
+- **Standard Queries**: Pre-defined queries for common analyses.
 - **Custom Queries**: User-defined natural language queries.
 - **Knowledge Graph Integration**: Access and analyze data from a comprehensive knowledge graph.
-- **Advanced Data Processing**: Perform complex data analysis tasks with ease.
 - **Visualization Tools**: Generate visualizations to better understand your data.
 
 For development updates, please refer to the [`dev`](https://github.com/holobiomicslab/MetaboT/tree/dev) branch.
  
-### Data Analysis Capabilities 📊
-
-- **Chemical Structure Analysis** 🧬
-    - SIRIUS annotation
-    - ISDB annotation support
-    - Structure similarity comparisons
-
-- **Metabolomics Analysis** 🧪
-    - Feature detection and analysis
-    - Ionization mode processing
-    - Retention time analysis
-
-- **Bioassay Integration** 💊
-    - Activity data analysis
-    - Inhibition studies
-    - Concentration-response relationships
 
 ### AI-Powered Processing 🤖
 
@@ -112,52 +95,34 @@ For development updates, please refer to the [`dev`](https://github.com/holobiom
 sequenceDiagram
     participant User
     participant Entry
-    participant ENPKG
-    participant SPARQL
-    participant Graph
-
-    User->>Entry: Submit feature query
-    Entry->>ENPKG: Process feature request
-    ENPKG->>SPARQL: Generate SPARQL query
-    SPARQL->>Graph: Execute query
-    Graph-->>SPARQL: Return results
-    SPARQL-->>ENPKG: Process results
-    ENPKG-->>Entry: Format output
-    Entry-->>User: Present results
-```
-
-### Chemical Structure Analysis 🧪
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Entry
-    participant SPARQL
     participant Validator
+    participant Supervisor
+    participant ENPKG
+    participant SPARQL 
     participant Graph
-
-    User->>Entry: Submit structure query
-    Entry->>SPARQL: Generate query
-    SPARQL->>Graph: Execute query
-    Graph-->>SPARQL: Return structures
-    SPARQL->>Validator: Validate results
-    Validator-->>Entry: Confirm validity
-    Entry-->>User: Present structures
+    participant Interpreter
+   
+    User->>Entry: Submit feature query
+    Entry->>Validator: Preprocess the query
+    Validator->>Supervisor: Validate the question
+    Supervisor->>ENPKG:Select the next agent 
+    Supervisor->>SPARQL: Provide the question and resolved entities
+    Supervisor->>Interpreter: Provide the results
+    SPARQL->>Graph: Generate and execute SPARQL query 
+    ENPKG-->>Supervisor: Provide resolved entities
+    SPARQL-->>Supervisor: Provide the results
+    Interpreter-->>Supervisor: Provide the interpreted results
+    Supervisor-->>User: Present final results
 ```
+
 
 ## Performances  ⚡️
 
 ### Query Optimization 🔧
 
-- Use specific queries when possible
+- Use highly targeted, knowledge-graph-centric queries that are clearly formatted
 - Leverage standard queries for common operations
 - Consider query complexity and data volume
-
-### Resource Management 🗄️
-
-- Monitor memory usage during large queries
-- Consider batch processing for extensive analyses
-- Utilize caching when appropriate
 
 ## Best Practices 👍
 
