@@ -439,7 +439,7 @@ Your contributions make 🧪 MetaboT 🍵 awesome! Thank you for being part of o
 
 ## License
 
-🧪 MetaboT 🍵 is open source and released under the [MIT License](LICENSE). This license allows you to freely use, modify, and distribute the software, provided that you include the original copyright notice and license terms.
+🧪 MetaboT 🍵 is open source and released under the [Apache License 2.0](LICENSE.txt). This license allows you to freely use, modify, and distribute the software, provided that you include the original copyright notice and license terms.
 
 ---
 
