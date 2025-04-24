@@ -62,6 +62,10 @@ help_path = Path(__file__).parent / "misc" / "help.txt"
 with help_path.open("r") as file:
     help = file.read()
 
+question_instructions_path = Path(__file__).parent / "misc" / "question_instructions.txt"
+with question_instructions_path.open("r") as file:
+    question_instructions = file.read()
+
 # Splash text
 splashtext_path = Path(__file__).parent / "misc" / "splash_text.txt"
 with splashtext_path.open("r") as file:
@@ -251,6 +255,16 @@ with st.sidebar:
                 else:
                     st.error("The provided key was not found. Please make sure the key provided is correct.")
                     st.session_state.logger.error("Contributor key not valid. Please check the key provided.")
+    
+    @st.dialog("Question Instructions")
+    def question_instructions_dialog():
+        st.write(question_instructions)
+        if st.button("Close"):
+            st.rerun()
+
+    open_question_instructions_dialog = st.button("Question Instructions", use_container_width=True, disabled=st.session_state.is_processing)
+    if open_question_instructions_dialog:
+        question_instructions_dialog()
                     
     if st.session_state.langgraph_app_created == True:
         @st.dialog("Help to MetaboT")
