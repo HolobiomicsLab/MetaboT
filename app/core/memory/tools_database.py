@@ -108,16 +108,64 @@ class SqliteToolsDatabaseManager(ToolsDatabaseManager):
 
     def get(self, filename):
         """
-        Select the most recent data for the given filename (tool).
+        Select the data for the specified tool (filename).
+        It first checks the most recent interaction. If the data for the tool
+        is NULL in that interaction, it retrieves the data from the
+        immediately preceding interaction.
+        Returns the data value (str/bytes) or None.
         """
+
         with self.conn as conn:
             cursor = conn.cursor()
-            cursor.execute(f"""
-                SELECT {filename}_data FROM metadata
-                ORDER BY interaction DESC
-                LIMIT 1
-            """)
-            result = cursor.fetchone()
-            logger.info(f"Data for {filename} retrieved.")
-            return result[0] if result else None
-        
+            try:
+                # Select the specific tool's data column and the interaction ID
+                # Order by interaction descending and limit to the latest 2
+                cursor.execute(f"""
+                    SELECT interaction, {filename}_data
+                    FROM metadata
+                    ORDER BY interaction DESC
+                    LIMIT 2
+                """)
+
+                # Fetch up to two rows. results will be like:
+                # [(latest_interaction_id, latest_data), (prev_interaction_id, prev_data)]
+                # or [(latest_interaction_id, latest_data)]
+                # or []
+                results = cursor.fetchall()
+
+                if not results:
+                    # Case 0: No interactions found at all
+                    logger.info(f"No interactions found for tool '{filename}'.")
+                    return None
+
+                # Extract data from the latest interaction (first row in results)
+                latest_interaction_id = results[0][0]
+                latest_data = results[0][1] # Data is the second element (index 1)
+
+                if latest_data is not None:
+                    # Case 1: Data exists in the most recent interaction
+                    logger.info(f"Data found for tool '{filename}' in latest interaction ({latest_interaction_id}).")
+                    return latest_data
+                else:
+                    # Case 2: Data is NULL in the most recent interaction. Check previous.
+                    logger.info(f"Data for tool '{filename}' is NULL in latest interaction ({latest_interaction_id}). Checking previous.")
+                    if len(results) > 1:
+                        # A second row (previous interaction) exists
+                        prev_interaction_id = results[1][0]
+                        previous_data = results[1][1]
+                        logger.info(f"Returning data for tool '{filename}' from previous interaction ({prev_interaction_id}).")
+                        # Return data from previous interaction (could be a value or None)
+                        return previous_data
+                    else:
+                        # Case 3: Only one interaction exists, and its data was NULL.
+                        logger.info(f"No previous interaction found or data is NULL for tool '{filename}'.")
+                        return None
+
+            except sqlite3.Error as e:
+                 logger.error(f"Database error retrieving data for tool '{filename}': {e}")
+                 return None
+            except IndexError as e:
+                 # Should be unlikely with LIMIT 2 and checks, but good practice
+                 logger.error(f"Index error processing results for tool '{filename}' (Results: {results}): {e}")
+                 return None
+
