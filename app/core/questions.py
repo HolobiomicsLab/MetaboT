@@ -70,4 +70,6 @@ standard_questions = [
         "Which chemical compounds are detected in positive ionization mode from Tabernaemontana coffeoides plant extract? Provide the InChIKey2Ds of compounds.",
         "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds.",
         "What are the InChIKey2Ds of chemical entities annotated by ISDB in the lab extracts of Desmodium heterophyllum?",
+        "What are the parent masses and USIs for features in the LC-MS analysis of the plant Rumex nepalensis in positive ion mode? Retrieve the first USI to the corresponding MS/MS spectra and parent mass. Provide the visualization of the corresponding mass spectra.",
+
     ]
