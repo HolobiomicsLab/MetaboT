@@ -2,17 +2,18 @@
 
 This demo showcases the capabilities of the MetaboT on the [ENPKG 1,600 plant extracts dataset](https://doi.org/10.26434/chemrxiv-2023-sljbt).
 
-The MetaboT is designed to retrieve, process, and interpret information stored in the ENPKG Knowledge Graph, as well as from user provided input files (experimental). 
+The MetaboT is designed to retrieve, process, and interpret information stored in the ENPKG Knowledge Graph.
 
 To use the MetaboT, a valid OpenAI API Key needs to be provided. For obtaining one, see [https://platform.openai.com/docs/quickstart/account-setup](https://platform.openai.com/docs/quickstart/account-setup).
 
 Below are some recommendations and guidelines for using the MetaboT:
 
-- **Cost**: When asking a question to the MetaboT, the AI-system performs API calls to OpenAI models that are billed on the account associated with the key. The cost varies depending on the question and is usually in the range of 0.05-0.2 euros/usd.
+- **Cost**: When asking a question to the MetaboT, the AI-system performs API calls to OpenAI models that are billed on the account associated with the key. The cost varies depending on the question and is usually in the range of 0.04-0.1 usd.
 - **OpenAI Key**: Do not share/expose your OpenAI key ! 
 - **Testing**: Feel free to test the capabilities of the MetaboT with one of our preselected questions or ask your own questions.
-- **Asking Questions**: When asking something, please write in a direct and succinct way what your question is.
+- **Asking Questions**: When asking something, please write in a direct and succinct way what your question is. For guidance on creating effective questions, refer to the Question Instructions.
 - **Interactivity**: The bot is designed to handle and retrieve more information based on your previous questions, allowing more interactivity and follow-up conversations. If you have any questions about the answer you received from MetaboT, you can simply ask for a better explanation or to retrieve more related information from the endpoint.
+- **Visualizations**: For follow-up questions requesting visualization of data, please note that visualizations will only be provided if you request them as your next question after receiving the data. If you ask other questions in between and then later ask for a visualization, the system may not be able to process your visualization request based on the previous context.
 - **Chat History**: The capability to follow up on previous questions is enabled by the chat history. Once the chat history is erased, the MetaboT won't remember previous interactions.
 - **Handling Data**: We encourage you to keep the chat history only if it is pertinent to the conversation. If you want to change the subject or retrieve information that is unrelated to the current topic of the conversation, we advise you to download the log and files generated and clear the chat history.
     - For example, if I started my interaction with the preselected question "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?", it is recommended to download the data and clean the conversation history before asking "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decreasing count of features as aspidosperma-type alkaloids? Group by extract."
