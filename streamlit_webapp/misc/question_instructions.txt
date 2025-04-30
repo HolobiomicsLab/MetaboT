@@ -1,0 +1,31 @@
+#### Instructions for Questions
+
+Below are some friendly tips and guidelines to help you craft nice questions for our app. These questions focus exclusively on the content available in the Experimental Natural Products Knowledge Graph (ENPKG), ensuring that the queries are within the scope of the data stored in the system.
+
+Quick Tips for Creating Effective Questions
+
+
+- **Keep It Focused on ENPKG Data**
+
+    - Ask about plant extracts, LC–MS features, spectral annotations (e.g., SIRIUS, ISDB, CANOPUS), bioassay results, and other chemical properties.
+    - Avoid questions that require information outside the graph such as detailed evolutionary histories or ecosystem diversity.
+
+- **Be Clear and Specific**
+
+    - Use precise language to define filters or criteria (e.g., ionization mode, probability thresholds, retention time windows).
+    - Break complex queries into clear parts so that each filter or grouping is understandable.
+
+- **Use Simple Structure**
+
+    - Start with broad questions (like counts or listings) and then add more specific filters as needed.
+    - If the app doesn’t return the desired result, try rephrasing or simplifying your question.
+
+- **Examples of Successful Questions**
+
+    - “Retrieve the retention times and parent masses of LCMS features annotated as Terpenoids by CANOPUS in Tabernaemontana coffeoides.”
+    - “What are the Wikidata IDs of chemical entities that have ChEMBL activity against Trypanosoma cruzi target?”
+
+- **Paraphrase When Needed**
+
+    - If your question doesn’t yield a clear answer, rephrase it by either simplifying the filters or changing the wording slightly.
+    - For instance, if a question with many criteria returns no results, try removing or adjusting one of the filters to see if a broader query works.
