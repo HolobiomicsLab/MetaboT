@@ -68,7 +68,7 @@ This work was supported by the French government through the France 2030 investm
 
 ## Prepare Your Mass Spectrometry Data
 
-To use 🧪 MetaboT 🍵, your mass spectrometry processing and annotation results must first be represented as a knowledge graph, with the corresponding endpoint deployed. You can utilize the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800) for this purpose. See the [ENPK repository](https://github.com/enpkg)
+To use 🧪 MetaboT 🍵, your mass spectrometry processing and annotation results must first be represented as a knowledge graph, with the corresponding endpoint deployed. You can utilize the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800) for this purpose. See the [ENPKG repository](https://github.com/enpkg)
 
 By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint for the ENPKG knowledge graph, which hosts an open and reusable annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. For further details, please refer to the [associated publication](https://doi.org/10.1093/gigascience/giac124).
 
