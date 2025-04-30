@@ -215,6 +215,6 @@ If you encounter any issues during installation:
 
 **Next Steps**
 
-- Follow the [Quick Start Guide](../quickstart.md) to begin using 🧪 MetaboT 🍵.
+- Follow the [Quick Start Guide](quickstart.md) to begin using 🧪 MetaboT 🍵.
 - Review the [Configuration Guide](../../user-guide/configuration.md) for detailed setup options.
 - Check out [Example Usage](../../examples/basic-usage.md) for practical applications.
