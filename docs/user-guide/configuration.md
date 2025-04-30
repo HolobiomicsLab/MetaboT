@@ -5,7 +5,7 @@ This guide details all configuration options available in 🧪 MetaboT 🍵, hel
 ---
 ## Configuration Overview 📁
 
-🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](/app/config/) directory:
+🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/) directory:
 
 - **[`params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini)**: Language model configurations
 - **[`sparql.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/sparql.ini)**: SPARQL query templates and settings
