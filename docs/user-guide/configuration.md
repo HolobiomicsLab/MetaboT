@@ -5,11 +5,11 @@ This guide details all configuration options available in 🧪 MetaboT 🍵, hel
 ---
 ## Configuration Overview 📁
 
-🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](app/config/) directory:
+🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](/app/config/) directory:
 
-- **[`params.ini`](app/config/params.ini)**: Language model configurations
-- **[`sparql.ini`](app/config/sparql.ini)**: SPARQL query templates and settings
-- **[`logging.ini`](app/config/logging.ini)**: Logging configuration
+- **[`params.ini`](/app/config/params.ini)**: Language model configurations
+- **[`sparql.ini`](/app/config/sparql.ini)**: SPARQL query templates and settings
+- **[`logging.ini`](/app/config/logging.ini)**: Logging configuration
 - **.env**: Environment variables (created by user)
 
 ---
