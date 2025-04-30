@@ -74,7 +74,7 @@ Configures LangSmith integration for workflow tracking and monitoring. If the en
 **Returns:**
 - Optional[Client]: LangSmith client if setup successful, None otherwise
 
-For advanced configuration details, see [Advanced Configuration](docs/getting-started/quickstart#advanced-configuration).
+For advanced configuration details, see [Advanced Configuration](getting-started/quickstart.md#advanced-configuration).
 
 **Example:**
 ```python
