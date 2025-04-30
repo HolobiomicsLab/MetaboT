@@ -7,15 +7,15 @@ This guide details all configuration options available in 🧪 MetaboT 🍵, hel
 
 🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](/app/config/) directory:
 
-- **[`params.ini`](/app/config/params.ini)**: Language model configurations
-- **[`sparql.ini`](/app/config/sparql.ini)**: SPARQL query templates and settings
-- **[`logging.ini`](/app/config/logging.ini)**: Logging configuration
+- **[`params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini)**: Language model configurations
+- **[`sparql.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/sparql.ini)**: SPARQL query templates and settings
+- **[`logging.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/logging.ini)**: Logging configuration
 - **.env**: Environment variables (created by user)
 
 ---
 ## LLMs Configuration 🤖
 
-Located in [`params.ini`](/app/config/params.ini), this configuration controls the behavior of different language models used in the system.
+Located in [`params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini), this configuration controls the behavior of different language models used in the system.
 
 ```ini
 [llm_preview]
@@ -155,7 +155,7 @@ The list of excluded URIs defines properties that are filtered out during the sc
 ---
 ## Logging Configuration 📝
 
-The [`logging.ini`](/app/config/logging.ini) file controls the logging behavior of 🧪 MetaboT 🍵.
+The [`logging.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/logging.ini) file controls the logging behavior of 🧪 MetaboT 🍵.
 
 ### Logger Settings
 
