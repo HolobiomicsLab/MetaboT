@@ -119,7 +119,7 @@ You can configure different models for each agent in your workflow. For detailed
 
 ## SPARQL Configuration 🔍
 
-The [`sparql.ini`](app/config/sparql.ini) file contains SPARQL query templates and settings essential for interacting with the knowledge graph. These configurations are used by the [`RdfGraph`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py) class to dynamically retrieve the schema from the knowledge graph when no local schema file is provided.
+The [`sparql.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/app/config/sparql.ini) file contains SPARQL query templates and settings essential for interacting with the knowledge graph. These configurations are used by the [`RdfGraph`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py) class to dynamically retrieve the schema from the knowledge graph when no local schema file is provided.
 
 ### Query Templates
 
