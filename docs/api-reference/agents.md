@@ -280,7 +280,7 @@ Update `app/config/langgraph.json` to include your agent in the workflow and spe
 - Deepseek models: `deepseek_deepseek-chat`, `deepseek_deepseek-reasoner`
 - LiteLLM compatible models: `llm_litellm_openai`, `llm_litellm_deepseek`, `llm_litellm_claude`, `llm_litellm_gemini`
 
-Choose the appropriate model based on your agent's requirements for reasoning capabilities and performance. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json). If you need to add a new language model, refer to the [Language Model Configuration](../getting-started/installation/#language-model-configuration) guide.
+Choose the appropriate model based on your agent's requirements for reasoning capabilities and performance. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json). If you need to add a new language model, refer to the [Language Model Configuration](../getting-started/installation.md#language-model-configuration) guide.
 
 ### If Your Tool Serves as an Agent
 For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!
