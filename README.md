@@ -294,33 +294,45 @@ This command will start the container, run the application inside Docker, and pr
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
 │   │   │   │   └── tool_validator.py
-│   │   │   ├── supervisor
-│   │   │   │   ├── agent.py
-│   │   │   │   └── prompt.py
-│   │   │   └── toy_example
+│   │   │   └── supervisor
 │   │   │       ├── agent.py
-│   │   │       ├── prompt.py
-│   │   │       └── tool_say_hello.py
+│   │   │       └── prompt.py
 │   │   ├── graph_management
 │   │   │   └── RdfGraphCustom.py
 │   │   ├── main.py
 │   │   ├── memory
-│   │   │   └── custom_sqlite_file.py
+│   │   │   ├── custom_sqlite_file.py
+│   │   │   ├── database_manager.py
+│   │   │   ├── test_db_connection.py
+│   │   │   └── tools_database.py
 │   │   ├── utils.py
 │   │   └── workflow
-│   │       └── langraph_workflow.py
+│   │   │    └── langraph_workflow.py
+│   │   ├── tests
+│   │   │    ├── evaluation.py
+│   │   │    └── test_utils.py
 │   ├── data
-│   │   └── submitted_plants.csv
-│   │   └── npc_class.csv
+│   │   ├── submitted_plants.csv
+│   │   ├── npc_class.csv
+│   │   └── evaluation_dataset.csv
 │   ├── graphs
 │   │   ├── graph.pkl
 │   │   └── schema.ttl
-│   ├── notebooks
-│   ├── ressources
-│   └── tests
+│   └── notebooks
+├── docs
+│    ├── api-reference
+│    ├── assets
+│    ├── examples
+│    ├── getting-started
+│    ├── user-guide
+│    ├── contributing.md
+│    └── index.md
+├── streamlit_webapp
+│   ├── streamlit_app.py
+│   └── streamlit_utils.py
 ├── environment.yml
-├── environment_alternative.yml
-└── langgraph_checkpoint.db
+├── mkdocs.yml
+└── requirements.txt
 ```
 
 ---
