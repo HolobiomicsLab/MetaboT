@@ -58,7 +58,7 @@ jobs:
           fi
         
       - name: Deploy to GitHub Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -69,15 +69,11 @@ jobs:
           commit_message: 'docs: update documentation'
           
       - name: Check deployment
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_dispatch'
         run: |
-          # Wait for GitHub Pages to deploy
           sleep 30
-          
-          # Check if the site is accessible
           SITE_URL="https://holobiomicslab.github.io/MetaboT/"
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 $SITE_URL)
-
           if [ $HTTP_STATUS -eq 200 ]; then
             echo "Documentation deployed successfully at $SITE_URL"
           else
