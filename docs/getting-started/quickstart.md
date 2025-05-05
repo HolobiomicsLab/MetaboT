@@ -2,9 +2,13 @@
 
 Welcome to the Quick Start Guide for 🧪 MetaboT 🍵. This guide will help you quickly run and test the application.
 
+👉 **Explore the MetaboT Web App Demo**: [https://metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr).
+
+**Try Without Installation**: The demo instance at https://metabot.holobiomicslab.cnrs.fr provides access to an open [dataset of 1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124). You can explore metabolomics data and ask questions about the dataset directly through the web interface without any local setup!
+
 ---
 
-## Prerequisites ✅
+## Prerequisites ✅ (For Local Installation)
 
 Before you begin, ensure that you have:
 
