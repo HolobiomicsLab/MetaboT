@@ -18,6 +18,8 @@ body_class: md-home
 
 > Take a break, brew a cup of tea 🍵, and let 🧪 MetaboT 🍵 dig into your mass spec data! While you enjoy your favorite brew, our AI system will be busy infusing your data with meaning. Sip, smile, and watch the insights steep into brilliance! ✨
 
+👉 **Try the MetaboT Web App**: [https://metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr)
+
 ## Key Features ✨
 
 - **AI-Powered Analysis** :robot:: Utilizes LangChain and various AI agents for intelligent data processing.
@@ -69,7 +71,7 @@ We welcome contributions! Please see our [Contributing Guide](contributing.md) f
 
 ## License 📜
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Apache License - see the [LICENSE](https://github.com/HolobiomicsLab/MetaboT/blob/main/LICENSE.txt) file for details.
 
 ## Citation 🔖
 
