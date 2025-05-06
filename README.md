@@ -46,21 +46,29 @@ mkdocs build
 ---
 
 ## Citation, Institutions & Funding Support
-
 If you use or reference 🧪 MetaboT 🍵 in your research, please cite it as follows:
 
-**🧪 MetaboT 🍵: A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining**  
-*Madina Bekbergenova, et al. DOI.*
-
-[![DOI](https://img.shields.io/badge/DOI-00.0000/arXiv.000.00000-green?color=FF8000?color=009922)]()
+**🧪 MetaboT 🍵: An LLM-based Multi-Agent Framework for Interactive Analysis of Mass Spectrometry Metabolomics Knowledge**  
+*Madina Bekbergenova, Lucas Pradi, Benjamin Navet, Emma Tysinger, Matthieu Feraud, Yousouf Taghzouti, Martin Legrand, Tao Jiang, Louis-Félix Nothias, Franck Michel, Yan Zhou Chen, Soha Hassoun, Olivier Kirchhoffer, Jean-Luc Wolfender, Florence Mehl, Marco Pagni, Wout Bittremieux, Fabien Gandon. PREPRINT (Version 1) available at Research Square*
+[![DOI](https://img.shields.io/badge/DOI-10.21203/rs.3.rs--6591884/v1-green?color=FF8000)](https://doi.org/10.21203/rs.3.rs-6591884/v1)
 
 **Institutions:**
-- Université Côte d'Azur, CNRS, ICN, Nice, France. [See HolobiomicsLab website](https://holobiomicslab.eu) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/holobiomicslab) organization.
-- INRIA, Université Côte d'Azur, CNRS, I3S, France. [See WIMMICS website](https://team.inria.fr/wimmics/) and [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Wimmics) organization.
-- [Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Nice, France](https://3ia.univ-cotedazur.eu/).
-- School of Pharmaceutical Sciences, University of Geneva, Switzerland.
-- Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland.
+- Université Côte d'Azur, CNRS, ICN, Nice, France
+- Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Sophia-Antipolis, France
+- Department of Computer Science, University of Antwerp, Antwerp, Belgium
+- Department of Electrical Engineering and Computer Science, MIT, Cambridge, MA, USA
+- :probabl., Paris, France
+- INRIA, Université Côte d'Azur, CNRS, I3S, France
+- Department of Computer Science, Tufts University, Medford, MA 02155, USA
+- Department of Chemical and Biological Engineering, Tufts University, Medford, MA 02155, USA
+- Institute of Pharmaceutical Sciences of Western Switzerland, University of Geneva, Centre Médical Universitaire, Geneva, Switzerland
+- School of Pharmaceutical Sciences, University of Geneva, Centre Médical Universitaire, Geneva, Switzerland
+- Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland
 
+**Lab Websites:**
+- [HolobiomicsLab](https://holobiomicslab.eu) [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/holobiomicslab)
+- [WIMMICS](https://team.inria.fr/wimmics/) [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Wimmics)
+- [3iA Côte d'Azur](https://3ia.univ-cotedazur.eu/)
 **Funding Support:**  
 This work was supported by the French government through the France 2030 investment plan managed by the National Research Agency (ANR), as part of the Initiative of Excellence Université Côte d'Azur (*ANR-15-IDEX-01*) and served as an early prototype for the [MetaboLinkAI](https://www.metabolinkai.net) project (*ANR-24-CE93-0012-01*). This work also benefited from project [*189921*](https://data.snf.ch/grants/grant/189921) funded by the Swiss National Foundation (SNF).
 
