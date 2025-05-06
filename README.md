@@ -49,7 +49,7 @@ mkdocs build
 If you use or reference 🧪 MetaboT 🍵 in your research, please cite it as follows:
 
 **🧪 MetaboT 🍵: An LLM-based Multi-Agent Framework for Interactive Analysis of Mass Spectrometry Metabolomics Knowledge**  
-*Madina Bekbergenova, Lucas Pradi, Benjamin Navet, Emma Tysinger, Matthieu Feraud, Yousouf Taghzouti, Martin Legrand, Tao Jiang, Louis-Félix Nothias, Franck Michel, Yan Zhou Chen, Soha Hassoun, Olivier Kirchhoffer, Jean-Luc Wolfender, Florence Mehl, Marco Pagni, Wout Bittremieux, Fabien Gandon. PREPRINT (Version 1) available at Research Square*
+*Madina Bekbergenova, Lucas Pradi, Benjamin Navet, Emma Tysinger, Matthieu Feraud, Yousouf Taghzouti, Martin Legrand, Tao Jiang, Franck Michel, Yan Zhou Chen, Soha Hassoun, Olivier Kirchhoffer, Jean-Luc Wolfender, Florence Mehl, Marco Pagni, Wout Bittremieux, Fabien Gandon, Louis-Félix Nothias. PREPRINT (Version 1) available at Research Square*
 [![DOI](https://img.shields.io/badge/DOI-10.21203/rs.3.rs--6591884/v1-green?color=FF8000)](https://doi.org/10.21203/rs.3.rs-6591884/v1)
 
 **Institutions:**
