@@ -16,12 +16,12 @@ Before installing 🧪 MetaboT 🍵, ensure you have the following installed:
 
 ---
 
-## **Clone the Repository** 📥
+## **Clone the Repository** and switch to the [`dev` branch](https://github.com/holobiomicslab/MetaboT/tree/dev):📥
 
 ```bash
 git clone https://github.com/holobiomicslab/MetaboT.git
-git checkout [dev](https://github.com/holobiomicslab/MetaboT/tree/dev)
-cd MetaboT
+git checkout dev
+cd Metabot
 ```
 
 ## **Create and Activate the Conda Environment** ⚙️
@@ -29,7 +29,7 @@ cd MetaboT
    **For macOS:**
    ```bash
    conda env create -f environment.yml
-   conda activate MetaboT
+   conda activate metabot
    ```
 
    **For Linux:**
@@ -37,7 +37,7 @@ cd MetaboT
    sudo apt-get update
    sudo apt-get install -y python3-dev build-essential
    conda env create -f environment.yml
-   conda activate MetaboT
+   conda activate metabot
    ```
 
    **For Windows (using WSL):**
@@ -60,7 +60,7 @@ cd MetaboT
    4. Create and activate the conda environment:
       ```bash
       conda env create -f environment.yml
-      conda activate MetaboT
+      conda activate metabot
       ```
 
 ---
@@ -143,14 +143,18 @@ To use different models for different agents, modify `app/config/langgraph.json`
 
 ```json
 {
-  "agents": {
-    "sparql_agent": {
+  "agents": [
+    {
+      "name": "Entry_Agent",
+      "path": "app.core.agents.entry.agent",
       "llm_choice": "llm_litellm_your_model_name"
     },
-    "validator_agent": {
+    {
+      "name": "Validator",
+      "path": "app.core.agents.validator.agent",
       "llm_choice": "llm_litellm_different_model"
     }
-  }
+  ]
 }
 ```
 
@@ -188,7 +192,7 @@ If SPARQL queries fail:
 
 ## Mass Spectrometry Data 🔬
 
-By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
+By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of [**1,600 plant extracts**](https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giac124/6980761?login=false). This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
 
 Set your SPARQL endpoint by configuring the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file. If you are deploying a local endpoint that requires authentication, add the following variables to your <code>.env</code> file:
 
