@@ -146,7 +146,7 @@ It should also work on other Unix-based systems. For more details on compatibili
    For macOS:
    ```bash
    conda env create -f environment.yml
-   conda activate metaboT
+   conda activate metabot
    ```
 
    For Linux:
@@ -157,7 +157,7 @@ It should also work on other Unix-based systems. For more details on compatibili
   
    # Then create and activate the conda environment
    conda env create -f environment.yml
-   conda activate MetaboT
+   conda activate metabot
    ```
 
     For Windows (using WSL):
