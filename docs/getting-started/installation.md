@@ -21,7 +21,7 @@ Before installing 🧪 MetaboT 🍵, ensure you have the following installed:
 ```bash
 git clone https://github.com/holobiomicslab/MetaboT.git
 git checkout dev
-cd Metabot
+cd MetaboT
 ```
 
 ## **Create and Activate the Conda Environment** ⚙️
