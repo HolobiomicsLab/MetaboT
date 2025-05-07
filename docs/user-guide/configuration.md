@@ -272,7 +272,7 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ---
 ## Default Dataset and Data Conversion 📊
 
-**Note:**  By default, 🧪 MetaboT 🍵 connects to the public [ENPKG endpoint](https://doi.org/10.1021/acscentsci.3c00800) which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the [ENPKG tool](https://github.com/enpkg). 
+**Note:**  By default, 🧪 MetaboT 🍵 connects to the public [ENPKG endpoint](https://doi.org/10.1021/acscentsci.3c00800) which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the [ENPKG tool]([https://github.com/enpkg](https://github.com/enpkg/enpkg_graph_builder)). 
 
 
 - Update the `KG_ENDPOINT_URL` in your **.env** file to point to your custom knowledge graph endpoint.
