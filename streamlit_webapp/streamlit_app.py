@@ -143,20 +143,47 @@ if "spectra" not in st.session_state:
 #Header configuration
 st.title("MetaboT - An AI-system for Metabolomics Data Exploration")
 subheader_markdown = """
-Prototype for the [ENPKG 1,600 plant extract dataset](https://doi.org/10.1021/acscentsci.3c00800)
+Demo for the [ENPKG 1,600 plant extract dataset](https://doi.org/10.1021/acscentsci.3c00800)
 """
 st.markdown(subheader_markdown)
 st.markdown("---")
 
 # Sidebar Configuration for User Inputs
 with st.sidebar:
+    # --- Terms Dialog ---
+    @st.dialog("📄 Terms and Conditions")
+    def terms_and_conditions_dialog():
+        st.markdown("""
+        #### Terms of Use
 
+        - We **record** and **analyze** all user interactions via [LangSmith](https://www.langchain.com/langsmith) to better understand usage patterns and improve the app experience.
+        - If you provide your own **LangSmith API key**, your conversations remain private from us.
+        - If you're using **OpenAI models**:
+            - OpenAI may store and process your data as per their 
+              [Privacy Policy](https://openai.com/policies/privacy-policy) and 
+              [Terms of Service](https://openai.com/policies/terms-of-use).
+
+       We use interaction data solely to analyze user questions, identify common patterns, and enhance the functionality of the app.
+
+        
+        """)
+        if st.button("✅ I Agree to the Terms", use_container_width=True):
+            st.session_state.terms_accepted = True
+            st.success("Thanks! You have accepted the Terms.")
+            st.rerun()
+
+
+    # --- Button to open the Terms dialog ---
+    st.markdown("## 📘 Please read the Terms and Conditions.")
+    open_terms_dialog = st.button("📘 Terms and Conditions", use_container_width=True)
+    if open_terms_dialog:
+        terms_and_conditions_dialog()
     # OpenAI API Key Input and Validation
     with st.expander("Set a OpenAI API Key", expanded=st.session_state.openai_key_expander):
         with st.form(key='api_key_form'):
             st.title('🧠 OpenAI API Key Configuration')
-            st.markdown('Enter your OpenAI API Key ([see here for obtaining a key](https://platform.openai.com/account/api-keys)).')
-            # User input for the OpenAI API key
+            st.markdown('Enter your OpenAI API Key ([How to get one](https://platform.openai.com/account/api-keys)):')
+
             user_provided_key = st.text_input('OpenAI API Key:', type='password')
             validate_key_button = st.form_submit_button("Validate API Key")
 
