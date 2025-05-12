@@ -67,7 +67,7 @@ If you use or reference 🧪 MetaboT 🍵 in your research, please cite it as fo
 - [HolobiomicsLab](https://holobiomicslab.eu) [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/holobiomicslab)
 - [WIMMICS](https://team.inria.fr/wimmics/) [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Wimmics)
 - [3iA Côte d'Azur](https://3ia.univ-cotedazur.eu/)
-  
+
 **Funding Support:**  
 This work was supported by the French government through the France 2030 investment plan managed by the National Research Agency (ANR), as part of the Initiative of Excellence Université Côte d'Azur (*ANR-15-IDEX-01*) and served as an early prototype for the [MetaboLinkAI](https://www.metabolinkai.net) project (*ANR-24-CE93-0012-01*). This work also benefited from project [*189921*](https://data.snf.ch/grants/grant/189921) funded by the Swiss National Foundation (SNF).
 
