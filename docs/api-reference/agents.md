@@ -8,12 +8,64 @@ All agents in the system share a similar architectural pattern and are managed b
 
 **Core Components:**
 
-- Creation: Created using `create_openai_tools_agent` function
-- Dynamic Tool Loading: Use dynamic tool loading through the `import_tools` utility
-- Configurable Behavior: Configured with specific prompts that define their roles and behaviors
-- AI-Powered Processing: Utilize large language models as a reasoning engine
-- Encapsulated Execution: Return an `AgentExecutor` that encapsulates both the agent and its tools
+- **Dynamic Agent Creation**: Loads agent modules based on configuration settings
+- **Flexible Parameter Handling**: Uses introspection to pass only required parameters to each agent
+- **LLM Selection**: Supports configuration-based and agent-specific LLM selection
+- **Session Management**: Maintains consistent session IDs across the agent ecosystem
+- **Error Handling**: Provides robust logging and exception handling
 
+### Core Factory Function
+
+The `create_all_agents` function serves as the entry point for initializing the entire agent ecosystem:
+
+```python
+def create_all_agents(llms, graph, openai_key=None, session_id=None):
+    """
+    Dynamically create and initialize all agent modules as specified in the configuration.
+    
+    Parameters:
+        llms (dict): A dictionary mapping LLM keys to their instances.
+        graph: The graph instance used by the agents.
+        openai_key (str, optional): The OpenAI API key to be used by agents.
+        session_id (str, optional): A unique session identifier.
+        
+    Returns:
+        dict: A dictionary mapping agent names to their created executor instances.
+    """
+```
+## Individual Agent Architecture
+
+Each agent in the system follows a consistent structural pattern while maintaining specialized functionality.
+
+### Common Agent Components
+
+- **Creation Function**: Each agent implements a `create_agent` function that returns an `AgentExecutor`
+- **Tool Management**: Dynamically loads tools from its directory using the `import_tools` utility
+- **Role-Specific Prompts**: Defines behavior through customized prompts
+- **LLM Integration**: Utilizes language models as reasoning engines
+- **Logging**: Implements consistent logging for monitoring and debugging
+
+### Standard Agent Structure
+
+```python
+def create_agent(llms, graph, openai_key, llm_instance=None) -> AgentExecutor:
+    """
+    Creates and configures an agent with its specialized tools.
+    
+    Parameters:
+        llms (dict): Available language models.
+        graph: The knowledge graph instance.
+        openai_key (str): API key for OpenAI services.
+        llm_instance: Optional specific LLM instance to use.
+        
+    Returns:
+        AgentExecutor: A configured agent executor instance.
+    """
+    # Load tools dynamically from the agent's directory
+    # Configure the agent with appropriate prompts
+    # Return an AgentExecutor instance
+```
+    
 **Agent Locations:**
 
 - **ENPKG Agent**: [`app/core/agents/enpkg/agent.py`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/enpkg/agent.py)
@@ -256,7 +308,7 @@ class AgentState(TypedDict):
 ## Agent Setup Guidelines 🧑‍💻
 
 ### Agent Directory Creation
-Create a dedicated folder for your agent within the `app/core/agents/` directory. See [here](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents).
+Create a dedicated folder for your agent within the [`app/core/agents/`](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents) directory.
 
 ### Standard File Structure
 - **Agent (`agent.py`)**: Copy from an existing agent unless your tool requires private class property access. Refer to "If Your Tool Serves as an Agent" for special cases.
@@ -273,14 +325,14 @@ Create a dedicated folder for your agent within the `app/core/agents/` directory
 Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/supervisor/prompt.py)) to detect and select your agent. Our AI PR-Agent 🤖 is triggered automatically through issues and pull requests, so you'll be in good hands!
 
 ### Configuration Updates
-Update `app/config/langgraph.json` to include your agent in the workflow and specify `llm_choice` based on the models defined in `app/config/params.ini`. Available models include:
+Update [`app/config/langgraph.json`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/langgraph.json) to include your agent in the workflow and specify `llm_choice` based on the models defined in [`app/config/params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini). Available models include:
 
 - OpenAI models: `llm_preview`, `llm_o`, `llm_mini`
 - OVH models: `ovh_Meta-Llama-3_1-70B-Instruct`
 - Deepseek models: `deepseek_deepseek-chat`, `deepseek_deepseek-reasoner`
 - LiteLLM compatible models: `llm_litellm_openai`, `llm_litellm_deepseek`, `llm_litellm_claude`, `llm_litellm_gemini`
 
-Choose the appropriate model based on your agent's requirements for reasoning capabilities and performance. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json). If you need to add a new language model, refer to the [Language Model Configuration](../getting-started/installation/#language-model-configuration) guide.
+Choose the appropriate model based on your agent's requirements for reasoning capabilities and performance. For reference, see [langgraph.json](https://github.com/holobiomicslab/MetaboT/tree/main/app/config/langgraph.json). If you need to add a new language model, refer to the [Language Model Configuration](../getting-started/installation.md#language-model-configuration) guide.
 
 ### If Your Tool Serves as an Agent
 For LLM-interaction, make sure additional class properties are set in `agent.py` (refer to [tool_sparql.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py) and [agent.py](https://github.com/holobiomicslab/MetaboT/blob/main/app/core/agents/sparql/agent.py)). Keep it snazzy and smart!

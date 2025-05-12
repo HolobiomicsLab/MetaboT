@@ -1,14 +1,16 @@
-#### Welcome to the MetaboT Demo Web-app
+#### Welcome to the MetaboT Web-app
 
-This demo showcases the capabilities of the MetaboT on the [ENPKG 1,600 plant extracts dataset](https://doi.org/10.26434/chemrxiv-2023-sljbt).
+This demo showcases the capabilities of the MetaboT on the [1,600 plant extracts dataset](https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giac124/6980761?login=false).
 
-The MetaboT is designed to retrieve, process, and interpret information stored in the ENPKG Knowledge Graph.
+The MetaboT is designed to retrieve, process, and interpret information stored in the [ENPKG Knowledge Graph](https://pubs.acs.org/doi/10.1021/acscentsci.3c00800).
+
+**Before you start, please read the Terms and Conditions.**
 
 To use the MetaboT, a valid OpenAI API Key needs to be provided. For obtaining one, see [https://platform.openai.com/docs/quickstart/account-setup](https://platform.openai.com/docs/quickstart/account-setup).
 
 Below are some recommendations and guidelines for using the MetaboT:
 
-- **Cost**: When asking a question to the MetaboT, the AI-system performs API calls to OpenAI models that are billed on the account associated with the key. The cost varies depending on the question and is usually in the range of 0.04-0.1 usd.
+- **Cost**: When asking a question to the MetaboT, the AI-system performs API calls to OpenAI models that are billed on the account associated with the key. The cost varies depending on the question and is usually in the range of $0.04-0.1.
 - **OpenAI Key**: Do not share/expose your OpenAI key ! 
 - **Testing**: Feel free to test the capabilities of the MetaboT with one of our preselected questions or ask your own questions.
 - **Asking Questions**: When asking something, please write in a direct and succinct way what your question is. For guidance on creating effective questions, refer to the Question Instructions.
@@ -18,13 +20,33 @@ Below are some recommendations and guidelines for using the MetaboT:
 - **Handling Data**: We encourage you to keep the chat history only if it is pertinent to the conversation. If you want to change the subject or retrieve information that is unrelated to the current topic of the conversation, we advise you to download the log and files generated and clear the chat history.
     - For example, if I started my interaction with the preselected question "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey of the annotations?", it is recommended to download the data and clean the conversation history before asking "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decreasing count of features as aspidosperma-type alkaloids? Group by extract."
 
-- **Disclaimer**: We are committed to protecting your privacy. This web app does not record or store any interactions locally. However, please be aware that interactions are processed by OpenAI's servers to generate responses. OpenAI may store and use this data in accordance with their privacy policy and terms of service. By using this web app, you consent to the processing of your interactions by OpenAI. For more information, please review [OpenAI's Privacy Policy](https://www.openai.com/privacy) and [Terms of Service](https://www.openai.com/terms).
+- **Running Locally**: If you want to run MetaboT locally on your own machine or server, please visit our [documentation](https://holobiomicslab.github.io/MetaboT/getting-started/installation/) for detailed installation and setup instructions.
 
-Please note that as the project is a prototype and still under development, the Metabot AI-system requires an OpenAI API key to function properly. We kindly ask you to provide your own API key or to use a contributor key to unlock the features and capabilities offered with the agent. Thank you for your cooperation and understanding.
+- **Documentation**: For comprehensive information about MetaboT's features, architecture, and API, refer to our [official documentation](https://holobiomicslab.github.io/MetaboT/).
 
 If you have any comments or suggestions on the website or the MetaboT, please feel free to reach out.
 
-The full code will be available soon at [https://github.com/holobiomicslab/metabot](https://github.com/holobiomicslab/metabot).
+The full code is available at [https://github.com/holobiomicslab/metabot](https://github.com/holobiomicslab/metabot).
 
+### Citation
+
+If you use 🧪 MetaboT 🍵 in your research, please cite as follows:
+
+**🧪 MetaboT 🍵: An LLM-based Multi-Agent Framework for Interactive Analysis of Mass Spectrometry Metabolomics Knowledge**
+
+*Madina Bekbergenova, Lucas Pradi, Benjamin Navet, Emma Tysinger, Matthieu Feraud, Yousouf Taghzouti, Martin Legrand, Tao Jiang, Franck Michel, Yan Zhou Chen, Soha Hassoun, Olivier Kirchhoffer, Jean-Luc Wolfender, Florence Mehl, Marco Pagni, Wout Bittremieux, Fabien Gandon, Louis-Félix Nothias. PREPRINT (Version 1) available at Research Square
+[![DOI](https://img.shields.io/badge/DOI-10.21203/rs.3.rs--6591884/v1-green?color=FF8000)](https://doi.org/10.21203/rs.3.rs-6591884/v1)*
+
+**Institutions:**
+- Université Côte d'Azur, CNRS, ICN, Nice, France
+- Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Sophia-Antipolis, France
+- Department of Computer Science, University of Antwerp, Antwerp, Belgium
+- Department of Electrical Engineering and Computer Science, MIT, Cambridge, MA, USA
+- INRIA, Université Côte d'Azur, CNRS, I3S, France
+- Department of Computer Science, Tufts University, Medford, MA 02155, USA
+- Department of Chemical and Biological Engineering, Tufts University, Medford, MA 02155, USA
+- Institute of Pharmaceutical Sciences of Western Switzerland, University of Geneva, Centre Médical Universitaire, Geneva, Switzerland
+- School of Pharmaceutical Sciences, University of Geneva, Centre Médical Universitaire, Geneva, Switzerland
+- Swiss Institute of Bioinformatics (SIB), Lausanne, Switzerland
 
 

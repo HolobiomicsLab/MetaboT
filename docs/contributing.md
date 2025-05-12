@@ -59,10 +59,11 @@ Update the documentation to reflect your changes. This includes:
 
 - Docstrings in the code.
 - Relevant Markdown files in the [docs/ directory](https://github.com/holobiomicslab/MetaboT/tree/main/docs), including:
-  - [API Reference](https://github.com/holobiomicslab/MetaboT/tree/main/docs/api-reference)
-  - [User Guide](https://github.com/holobiomicslab/MetaboT/tree/main/docs/user-guide)
-  - [Examples](https://github.com/holobiomicslab/MetaboT/tree/main/docs/examples)
-  - [Getting Started](https://github.com/holobiomicslab/MetaboT/tree/main/docs/getting-started)
+
+    - [API Reference](https://github.com/holobiomicslab/MetaboT/tree/main/docs/api-reference)
+      - [User Guide](https://github.com/holobiomicslab/MetaboT/tree/main/docs/user-guide)
+      - [Examples](https://github.com/holobiomicslab/MetaboT/tree/main/docs/examples)
+      - [Getting Started](https://github.com/holobiomicslab/MetaboT/tree/main/docs/getting-started)
 
 ---
 

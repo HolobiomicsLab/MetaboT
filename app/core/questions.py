@@ -1,6 +1,6 @@
 standard_questions = [
         "How many features (pos ionization and neg ionization modes) have the same SIRIUS/CSI:FingerID and ISDB annotation by comparing the InCHIKey2D of the annotations?",
-        "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decresing count of features as aspidosperma-type alkaloids? Group by extract.",
+        "Which extracts have features (pos ionization mode) annotated as the class, aspidosperma-type alkaloids, by CANOPUS with a probability score above 0.5, ordered by the decreasing count of features as aspidosperma-type alkaloids? Group by extract.",
         "Provide the wikidata ids of the chemical entities annotated by SIRIUS for Tabernaemontana coffeoides seeds extract taxon obtained in positive mode which are also reported in the Tabernaemontana genus in Wikidata.",
         "What are the Wikidata IDs of chemical entities that have ChEMBL activity against Trypanosoma cruzi target?",
         "Filter the pos ionization mode features of the Melochia umbellata taxon annotated as [M+H]+ by SIRIUS to keep the ones for which a feature in neg ionization mode is detected with the same retention time (+/- 3 seconds) and a mass corresponding to the [M-H]- SIRIUS adduct (+/- 5ppm). Provide the features and retention time.",
@@ -70,4 +70,6 @@ standard_questions = [
         "Which chemical compounds are detected in positive ionization mode from Tabernaemontana coffeoides plant extract? Provide the InChIKey2Ds of compounds.",
         "What are the chemical compounds annotated by ISDB in extracts of Desmodium heterophyllum? Provide the InChIKeys  and corresponding Wikidata IDs of 10 compounds.",
         "What are the InChIKey2Ds of chemical entities annotated by ISDB in the lab extracts of Desmodium heterophyllum?",
+        "What are the parent masses and USIs for features in the LC-MS analysis of the plant Rumex nepalensis in positive ion mode? Retrieve the first USI to the corresponding MS/MS spectra and parent mass. Provide the visualization of the corresponding mass spectra.",
+
     ]

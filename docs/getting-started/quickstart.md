@@ -2,9 +2,13 @@
 
 Welcome to the Quick Start Guide for 🧪 MetaboT 🍵. This guide will help you quickly run and test the application.
 
+👉 **Try the MetaboT Web App Demo**: [https://metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr) — no installation needed!  
+
+The demo provides access to an open [dataset of 1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124). You can explore metabolomics data and ask questions about the dataset directly through the web interface.
+
 ---
 
-## Prerequisites ✅
+## Prerequisites ✅ (For Local Installation)
 
 Before you begin, ensure that you have:
 
@@ -74,7 +78,7 @@ If you prefer to run 🧪 MetaboT within a Docker container, follow these steps:
 - **Entry Agent:** Processes the incoming query and routes it to the appropriate system.
 - **Validator Agent:** Immediately verifies that the incoming query is pertinent to the knowledge graph, ensuring its alignment with domain-specific schema.
 - **Supervisor Agent:** Oversees and coordinates all processing steps within the workflow.
-- **KG Agent:** Handles domain-specific data processing related to metabolomics.
+- **ENPKG Agent:** Handles domain-specific data processing related to metabolomics.
 - **SPARQL Agent:** Generates and executes queries against the RDF knowledge graph.
 - **Interpreter Agent:** Interprets and formats the query results for user readability.
 
