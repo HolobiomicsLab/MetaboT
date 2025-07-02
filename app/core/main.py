@@ -126,7 +126,8 @@ def llm_creation(api_key=None, params_file=None):
         elif section.startswith("ovh"):
             provider = "ovh"
 
-        api_key = get_api_key(provider)
+        if api_key is None:
+            api_key = get_api_key(provider)
 
         model_params = {
             "temperature": float(temperature),
