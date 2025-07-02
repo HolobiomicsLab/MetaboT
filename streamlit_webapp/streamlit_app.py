@@ -72,7 +72,8 @@ with splashtext_path.open("r") as file:
     splash_text = file.read()
 
 # Get the variables set as the environmental variables in Heroku Keys
-contributor_key = os.environ.get("CONTRIBUTOR_KEY") or os.environ.get("CONTRIBUTOR_KEY_RFMF")
+contributor_key = os.environ.get("CONTRIBUTOR_KEY")
+contributor_key_rfmf = os.environ.get("CONTRIBUTOR_KEY_RFMF")
 contributor_openai_key = os.environ.get("CONTRIBUTOR_OPENAI_KEY")
 contributor_langsmith_key = os.environ.get("LANGCHAIN_API_KEY")
 
@@ -238,7 +239,7 @@ with st.sidebar:
             validate_contributor_key_button = st.form_submit_button("Validate key")
 
             if validate_contributor_key_button:
-                if user_contributor_key == contributor_key:
+                if user_contributor_key == contributor_key or user_contributor_key == contributor_key_rfmf:
                     st.session_state.logger.info("Contributor key validated")
                     st.session_state.openai_key_success = True
                     st.session_state.contributor_key = True
@@ -252,6 +253,7 @@ with st.sidebar:
                     os.environ["LANGCHAIN_API_KEY"] = contributor_langsmith_key
                     client_langsmith = Client()
                     st.session_state.langsmith_allowed = True
+                    st.rerun()
                 else:
                     st.error("The provided key was not found. Please make sure the key provided is correct.")
                     st.session_state.logger.error("Contributor key not valid. Please check the key provided.")
