@@ -9,6 +9,7 @@ from app.core.utils import IntRange, setup_logger
 import configparser
 from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
 from app.core.questions import standard_questions
+from langfuse import get_client
 
 
 # Load environment variables
@@ -27,7 +28,7 @@ API_KEY_MAPPING = {
     "openai": "OPENAI_API_KEY",
     "huggingface": "HUGGINGFACE_API_KEY",
     "anthropic": "ANTHROPIC_API_KEY",
-    "gemini": "GEMINI_API_KEY"
+    "gemini": "GEMINI_API_KEY",
 }
 
 
@@ -81,7 +82,7 @@ def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM:
         "model": model_name,
         "api_key": api_key,
         "temperature": float(config.get("temperature", 0.0)),
-        "max_retries": int(config.get("max_retries", 3))
+        "max_retries": int(config.get("max_retries", 3)),
     }
 
     for param in ["base_url", "api_base"]:
@@ -133,7 +134,7 @@ def llm_creation(api_key=None, params_file=None):
             "temperature": float(temperature),
             "model": model_id,
             "max_retries": int(max_retries),
-            "verbose": True
+            "verbose": True,
         }
 
         if "base_url" in config[section]:
@@ -195,21 +196,50 @@ def langsmith_setup() -> Optional[Client]:
         return None
 
 
+def langfuse_setup() -> bool:
+    try:
+        langfuse = get_client()
+
+        # Verify connection
+        if langfuse.auth_check():
+            logger.info("Langfuse client is authenticated and ready!")
+            return True
+        else:
+            logger.warning(
+                "Langfuse Authentication failed. Please check your credentials and host."
+            )
+            return False
+    except Exception as e:
+        logger.error(f"Error setting up Langfuse: {e}")
+        return False
+
+
 def main():
     """Main function to run the workflow."""
     # Define command line arguments
 
-    parser = argparse.ArgumentParser(description="Process a workflow with a predefined question number.")
-    parser.add_argument('-q', '--question', type=int, choices=IntRange(1, len(standard_questions)),
-                        help=f"Choose a standard question number from 1 to {len(standard_questions)}.")
-    parser.add_argument('-c', '--custom', type=str,
-                        help="Provide a custom question.")
-    parser.add_argument('-e', '--evaluation', action='store_true',
-                        help="Enable evaluation mode")
-    parser.add_argument('--api-key', type=str,
-                        help="OpenAI API key (optional, defaults to environment variable)")
-    parser.add_argument('--endpoint', type=str,
-                        help="Knowledge graph endpoint URL (optional)")
+    parser = argparse.ArgumentParser(
+        description="Process a workflow with a predefined question number."
+    )
+    parser.add_argument(
+        "-q",
+        "--question",
+        type=int,
+        choices=IntRange(1, len(standard_questions)),
+        help=f"Choose a standard question number from 1 to {len(standard_questions)}.",
+    )
+    parser.add_argument("-c", "--custom", type=str, help="Provide a custom question.")
+    parser.add_argument(
+        "-e", "--evaluation", action="store_true", help="Enable evaluation mode"
+    )
+    parser.add_argument(
+        "--api-key",
+        type=str,
+        help="OpenAI API key (optional, defaults to environment variable)",
+    )
+    parser.add_argument(
+        "--endpoint", type=str, help="Knowledge graph endpoint URL (optional)"
+    )
 
     args = parser.parse_args()
 
@@ -218,11 +248,16 @@ def main():
     elif args.custom:
         question = args.custom
     else:
-        print("You must provide either a standard question number or a custom question.")
+        print(
+            "You must provide either a standard question number or a custom question."
+        )
         return
 
     # Initialize LangSmith if available
-    langsmith_client = langsmith_setup()
+    # langsmith_client = langsmith_setup()
+
+    # Initialise LangFuse if available
+    is_langfuse_setup = langfuse_setup()
 
     # Get endpoint URL from arguments or environment
     endpoint_url = (
@@ -238,10 +273,11 @@ def main():
             models=models,
             endpoint_url=endpoint_url,
             evaluation=False,
-            api_key=args.api_key
+            api_key=args.api_key,
+            is_langfuse_setup=is_langfuse_setup,
         )
 
-        process_workflow(workflow, question)
+        process_workflow(workflow, question, is_langfuse_setup=is_langfuse_setup)
 
     except Exception as e:
         logger.error(f"Error processing workflow: {e}")

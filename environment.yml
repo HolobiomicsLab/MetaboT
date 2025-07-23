@@ -46,3 +46,4 @@ dependencies:
       - httpx==0.27.2
       - scikit-learn==1.5.1
       - spectrum_utils
+      - langfuse==3.2.1

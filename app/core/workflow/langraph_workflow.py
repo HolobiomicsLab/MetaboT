@@ -16,17 +16,14 @@ from typing import (
 )
 import pickle
 from pathlib import Path
-
-from langchain.schema import HumanMessage
-from langchain.agents import AgentExecutor
 from langchain_core.messages import BaseMessage, HumanMessage
 from langgraph.graph import StateGraph
-
 from app.core.memory.database_manager import memory_database, tools_database
 from app.core.utils import load_config, setup_logger
 from app.core.graph_management.RdfGraphCustom import RdfGraph
 from app.core.agents.agents_factory import create_all_agents
-from app.core.llm_handler import llm_creation
+from langfuse.langchain import CallbackHandler
+
 
 logger = setup_logger(__name__)
 parent_dir = Path(__file__).resolve().parent.parent.parent
@@ -39,6 +36,7 @@ class AgentState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], operator.add]
     # The 'next' field indicates where to route to next
     next: str
+
 
 # def link_kg_database(endpoint_url: str):
 #     """
@@ -62,6 +60,7 @@ class AgentState(TypedDict):
 #     # Initialize the RdfGraph object with the given endpoint and the standard set to 'rdf'
 #     graph = RdfGraph(query_endpoint=endpoint_url, standard="rdf")
 
+
 #     with open(graph_path, "wb") as output_file:
 #         pickle.dump(graph, output_file)
 #     # logger.info(f"schema: {graph.get_schema}")
@@ -69,7 +68,7 @@ class AgentState(TypedDict):
 def link_kg_database(endpoint_url: str, auth: Optional[Tuple[str, str]] = None):
     """
     Checks if an RDF graph is already created, and if not, it initializes and saves a new RDF graph object using a specified endpoint URL.
-    
+
     Args:
         endpoint_url (str): The URL of the SPARQL endpoint.
         auth (Optional[Tuple[str, str]]): Optional tuple of (username, password) for authentication.
@@ -109,7 +108,7 @@ def create_workflow(
     session_id: Optional[str] = None,
     endpoint_url: Optional[str] = None,
     evaluation=bool,
-    api_key: Optional[str] = None
+    api_key: Optional[str] = None,
 ) -> StateGraph:
     """
     Create a unified workflow that internally manages agents, models, and graphs.
@@ -128,15 +127,12 @@ def create_workflow(
     # Initialize the graph
     if endpoint_url is None:
         endpoint_url = os.environ.get("KG_ENDPOINT_URL")
-    
+
     graph = link_kg_database(endpoint_url)
-    
+
     # Create agents with the initialized components
     agents = create_all_agents(
-        llms=models,
-        graph=graph,
-        openai_key=api_key,
-        session_id=session_id
+        llms=models, graph=graph, openai_key=api_key, session_id=session_id
     )
 
     # Initialize workflow
@@ -190,7 +186,6 @@ def create_workflow(
                 },
             )
 
-
     try:
         db_manager = tools_database()
         db_manager.initialize_db()
@@ -210,10 +205,12 @@ def create_workflow(
 
     return app
 
+
 def agent_node(state, agent, name: str) -> Dict[str, Any]:
     """Execute an agent node in the workflow."""
     result = agent.invoke(state)
     return {"messages": [HumanMessage(content=result["output"], name=name)]}
+
 
 def router(state) -> Literal["supervisor", "__end__"]:
     """Route messages based on validation results."""
@@ -224,6 +221,7 @@ def router(state) -> Literal["supervisor", "__end__"]:
         return "supervisor"
     return "__end__"
 
+
 def router_entry(state) -> Literal["supervisor", "Validator"]:
     """Route entry messages to appropriate handlers."""
     messages = state["messages"]
@@ -233,22 +231,34 @@ def router_entry(state) -> Literal["supervisor", "Validator"]:
         return "supervisor"
     return "Validator"
 
-def process_workflow(app: StateGraph, question: str, thread_id: int = 1) -> NoReturn:
+
+def process_workflow(
+    app: StateGraph, question: str, thread_id: int = 1, is_langfuse_setup: bool = False
+) -> NoReturn:
     """Process a workflow with the given question."""
     try:
-        for s in app.stream(
-            {
-                "messages": [
-                    HumanMessage(content=question)
-                ]
-            },
-            {
-                "configurable": {"thread_id": thread_id}
-            },
-        ):
-            if "__end__" not in s:
-                logger.info(s)
-                logger.info("----")
+        if not is_langfuse_setup:
+            for s in app.stream(
+                {"messages": [HumanMessage(content=question)]},
+                {"configurable": {"thread_id": thread_id}},
+            ):
+                if "__end__" not in s:
+                    logger.info(s)
+                    logger.info("----")
+        else:
+            langfuse_handler = CallbackHandler()
+            for s in app.stream(
+                {"messages": [HumanMessage(content=question)]},
+                {
+                    "configurable": {
+                        "thread_id": thread_id,
+                        "callbacks": [langfuse_handler],
+                    },
+                },
+            ):
+                if "__end__" not in s:
+                    logger.info(s)
+                    logger.info("----")
+
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-
