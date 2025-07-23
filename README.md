@@ -1,8 +1,7 @@
 ![Hero Background](docs/assets/images/hero-bg.png)
 ![MetaboT Logo](assets/logo.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-g.svg)]()
-[![Arxiv](https://img.shields.io/badge/arXiv-2502.09604-B21A1B)]()
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-FFD21E?logo=huggingface&logoColor=000)]()
 [![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?logo=YouTube&logoColor=white)](https://www.youtube.com/@holobiomicslab)
 [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://x.com/Holobiomicslab)
@@ -57,7 +56,6 @@ If you use or reference 🧪 MetaboT 🍵 in your research, please cite it as fo
 - Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur, Sophia-Antipolis, France
 - Department of Computer Science, University of Antwerp, Antwerp, Belgium
 - Department of Electrical Engineering and Computer Science, MIT, Cambridge, MA, USA
-- :probabl., Paris, France
 - INRIA, Université Côte d'Azur, CNRS, I3S, France
 - Department of Computer Science, Tufts University, Medford, MA 02155, USA
 - Department of Chemical and Biological Engineering, Tufts University, Medford, MA 02155, USA
@@ -69,6 +67,7 @@ If you use or reference 🧪 MetaboT 🍵 in your research, please cite it as fo
 - [HolobiomicsLab](https://holobiomicslab.eu) [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/holobiomicslab)
 - [WIMMICS](https://team.inria.fr/wimmics/) [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/Wimmics)
 - [3iA Côte d'Azur](https://3ia.univ-cotedazur.eu/)
+
 **Funding Support:**  
 This work was supported by the French government through the France 2030 investment plan managed by the National Research Agency (ANR), as part of the Initiative of Excellence Université Côte d'Azur (*ANR-15-IDEX-01*) and served as an early prototype for the [MetaboLinkAI](https://www.metabolinkai.net) project (*ANR-24-CE93-0012-01*). This work also benefited from project [*189921*](https://data.snf.ch/grants/grant/189921) funded by the Swiss National Foundation (SNF).
 
@@ -76,7 +75,7 @@ This work was supported by the French government through the France 2030 investm
 
 ## Prepare Your Mass Spectrometry Data
 
-To use 🧪 MetaboT 🍵, your mass spectrometry processing and annotation results must first be represented as a knowledge graph, with the corresponding endpoint deployed. You can utilize the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800) for this purpose. See the [ENPK repository](https://github.com/enpkg)
+To use 🧪 MetaboT 🍵, your mass spectrometry processing and annotation results must first be represented as a knowledge graph, with the corresponding endpoint deployed. You can utilize the [Experimental Natural Products Knowledge Graph library](https://doi.org/10.1021/acscentsci.3c00800) for this purpose. See the [ENPKG repository](https://github.com/enpkg)
 
 By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint for the ENPKG knowledge graph, which hosts an open and reusable annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. For further details, please refer to the [associated publication](https://doi.org/10.1093/gigascience/giac124).
 
@@ -147,7 +146,7 @@ It should also work on other Unix-based systems. For more details on compatibili
    For macOS:
    ```bash
    conda env create -f environment.yml
-   conda activate metaboT
+   conda activate metabot
    ```
 
    For Linux:
@@ -158,7 +157,7 @@ It should also work on other Unix-based systems. For more details on compatibili
   
    # Then create and activate the conda environment
    conda env create -f environment.yml
-   conda activate MetaboT
+   conda activate metabot
    ```
 
     For Windows (using WSL):
@@ -302,33 +301,45 @@ This command will start the container, run the application inside Docker, and pr
 │   │   │   │   ├── agent.py
 │   │   │   │   ├── prompt.py
 │   │   │   │   └── tool_validator.py
-│   │   │   ├── supervisor
-│   │   │   │   ├── agent.py
-│   │   │   │   └── prompt.py
-│   │   │   └── toy_example
+│   │   │   └── supervisor
 │   │   │       ├── agent.py
-│   │   │       ├── prompt.py
-│   │   │       └── tool_say_hello.py
+│   │   │       └── prompt.py
 │   │   ├── graph_management
 │   │   │   └── RdfGraphCustom.py
 │   │   ├── main.py
 │   │   ├── memory
-│   │   │   └── custom_sqlite_file.py
+│   │   │   ├── custom_sqlite_file.py
+│   │   │   ├── database_manager.py
+│   │   │   ├── test_db_connection.py
+│   │   │   └── tools_database.py
 │   │   ├── utils.py
 │   │   └── workflow
-│   │       └── langraph_workflow.py
+│   │   │    └── langraph_workflow.py
+│   │   ├── tests
+│   │   │    ├── evaluation.py
+│   │   │    └── test_utils.py
 │   ├── data
-│   │   └── submitted_plants.csv
-│   │   └── npc_class.csv
+│   │   ├── submitted_plants.csv
+│   │   ├── npc_class.csv
+│   │   └── evaluation_dataset.csv
 │   ├── graphs
 │   │   ├── graph.pkl
 │   │   └── schema.ttl
-│   ├── notebooks
-│   ├── ressources
-│   └── tests
+│   └── notebooks
+├── docs
+│    ├── api-reference
+│    ├── assets
+│    ├── examples
+│    ├── getting-started
+│    ├── user-guide
+│    ├── contributing.md
+│    └── index.md
+├── streamlit_webapp
+│   ├── streamlit_app.py
+│   └── streamlit_utils.py
 ├── environment.yml
-├── environment_alternative.yml
-└── langgraph_checkpoint.db
+├── mkdocs.yml
+└── requirements.txt
 ```
 
 ---

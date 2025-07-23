@@ -29,7 +29,7 @@ Get API key for specified provider from environment variables.
 def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM
 ```
 
-Create a ChatLiteLLM instance based on the model id and configuration from app/config/params.ini file. The configuration includes model parameters such as temperature, max_retries, and optional base_url/api_base settings.
+Create a ChatLiteLLM instance based on the model id and configuration from [app/config/params.ini](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini) file. The configuration includes model parameters such as temperature, max_retries, and optional base_url/api_base settings.
 
 **Parameters:**
 - `config` (configparser.SectionProxy): The configuration section from params.ini that contains model settings:
@@ -74,7 +74,7 @@ Configures LangSmith integration for workflow tracking and monitoring. If the en
 **Returns:**
 - Optional[Client]: LangSmith client if setup successful, None otherwise
 
-For advanced configuration details, see [Advanced Configuration](docs/getting-started/quickstart#advanced-configuration).
+For advanced configuration details, see [Advanced Configuration](../getting-started/quickstart.md#advanced-configuration).
 
 **Example:**
 ```python

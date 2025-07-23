@@ -5,17 +5,17 @@ This guide details all configuration options available in 🧪 MetaboT 🍵, hel
 ---
 ## Configuration Overview 📁
 
-🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](app/config/) directory:
+🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/) directory:
 
-- **[`params.ini`](app/config/params.ini)**: Language model configurations
-- **[`sparql.ini`](app/config/sparql.ini)**: SPARQL query templates and settings
-- **[`logging.ini`](app/config/logging.ini)**: Logging configuration
+- **[`params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini)**: Language model configurations
+- **[`sparql.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/sparql.ini)**: SPARQL query templates and settings
+- **[`logging.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/logging.ini)**: Logging configuration
 - **.env**: Environment variables (created by user)
 
 ---
 ## LLMs Configuration 🤖
 
-Located in [`params.ini`](app/config/params.ini), this configuration controls the behavior of different language models used in the system.
+Located in [`params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini), this configuration controls the behavior of different language models used in the system.
 
 ```ini
 [llm_preview]
@@ -119,7 +119,7 @@ You can configure different models for each agent in your workflow. For detailed
 
 ## SPARQL Configuration 🔍
 
-The [`sparql.ini`](app/config/sparql.ini) file contains SPARQL query templates and settings essential for interacting with the knowledge graph. These configurations are used by the [`RdfGraph`](app/core/graph_management/RdfGraphCustom.py) class to dynamically retrieve the schema from the knowledge graph when no local schema file is provided.
+The [`sparql.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/app/config/sparql.ini) file contains SPARQL query templates and settings essential for interacting with the knowledge graph. These configurations are used by the [`RdfGraph`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py) class to dynamically retrieve the schema from the knowledge graph when no local schema file is provided.
 
 ### Query Templates
 
@@ -155,7 +155,7 @@ The list of excluded URIs defines properties that are filtered out during the sc
 ---
 ## Logging Configuration 📝
 
-The [`logging.ini`](app/config/logging.ini) file controls the logging behavior of 🧪 MetaboT 🍵.
+The [`logging.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/logging.ini) file controls the logging behavior of 🧪 MetaboT 🍵.
 
 ### Logger Settings
 
@@ -242,7 +242,7 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ### SPARQL Optimization
 - Review and update excluded URIs as needed.
 - Monitor query performance.
-- Adjust the prompt of sparql_generation_select_chain in `app/core/agents/sparql/tool_sparql`.
+- Adjust the prompt of sparql_generation_select_chain in [`app/core/agents/sparql/tool_sparql`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py).
 
 ### Environment Security
 - Never commit the `.env` file to version control.
@@ -272,7 +272,7 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ---
 ## Default Dataset and Data Conversion 📊
 
-**Note:**  By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
+**Note:**  By default, 🧪 MetaboT 🍵 connects to the public [ENPKG endpoint](https://doi.org/10.1021/acscentsci.3c00800) which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the [ENPKG tool]([https://github.com/enpkg](https://github.com/enpkg/enpkg_graph_builder)). 
 
 
 - Update the `KG_ENDPOINT_URL` in your **.env** file to point to your custom knowledge graph endpoint.
