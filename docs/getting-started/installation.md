@@ -89,14 +89,41 @@ OVHCLOUD_API_KEY=your_ovhcloud_api_key # If using the OVHcloud services
 ## Language Model Configuration 🤖
 
 By default, all agents in MetaboT use OpenAI models, but you can configure different models for each agent. The current implementation supports:
+
 - OpenAI
 - DeepSeek
 - Claude (Anthropic)
 - Llama (via OVHcloud)
+- Mistral AI
+
+### Free Model Options
+
+You can try some free models for the agents, such as **Mistral AI**. To use Mistral AI:
+
+1. **Get your API key**: 
+
+      - Visit [Mistral AI Platform](https://console.mistral.ai/)
+      - Create an account or sign in
+      - Navigate to the API Keys section
+      - Generate a new API key
+      - For detailed API documentation, visit [Mistral AI API Docs](https://docs.mistral.ai/api/)
+
+2. **Add to your .env file**:
+   ```text
+   MISTRAL_API_KEY=your_mistral_api_key_here
+   ```
+
+3. **Configure in params.ini**:
+   ```ini
+   [llm_litellm_mistral]
+   temperature=0.0
+   id=mistral/mistral-small
+   ```
+
 
 ### Adding New Models
 
-To add a new model using LiteLLM:
+To add a new model using LiteLLM, you can use any provider supported by LiteLLM. Check the [LiteLLM providers documentation](https://docs.litellm.ai/docs/providers) for the complete list of supported providers.
 
 1. Add a new section in `app/config/params.ini`:
 ```ini
@@ -119,7 +146,12 @@ API_KEY_MAPPING = {
 }
 ```
 
-3. Modify the provider detection in `create_litellm_model` function:
+3. **Don't forget to add your API key to the .env file**:
+   ```text
+   YOUR_PROVIDER_API_KEY=your_api_key_here
+   ```
+
+4. Modify the provider detection in `create_litellm_model` function:
 ```python
 if model_id.startswith("deepseek"):
     provider = "deepseek"
@@ -157,6 +189,8 @@ To use different models for different agents, modify `app/config/langgraph.json`
   ]
 }
 ```
+
+**Note**: Currently, the LiteLLM option is not available for the Supervisor agent because it requires a specific router implementation. The Supervisor agent will continue to use the default model configuration.
 
 ## SPARQL Endpoint Configuration 🌐
 
