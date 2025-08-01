@@ -72,7 +72,10 @@ with splashtext_path.open("r") as file:
     splash_text = file.read()
 
 # Get the variables set as the environmental variables in Heroku Keys
-contributor_key = os.environ.get("CONTRIBUTOR_KEY") or os.environ.get("CONTRIBUTOR_KEY_RFMF")
+
+contributor_key = os.environ.get("CONTRIBUTOR_KEY")
+contributor_key_rfmf = os.environ.get("CONTRIBUTOR_KEY_RFMF")
+
 contributor_openai_key = os.environ.get("CONTRIBUTOR_OPENAI_KEY")
 contributor_langsmith_key = os.environ.get("LANGCHAIN_API_KEY")
 
@@ -265,7 +268,7 @@ with st.sidebar:
             validate_contributor_key_button = st.form_submit_button("Validate key")
 
             if validate_contributor_key_button:
-                if user_contributor_key == contributor_key:
+                if user_contributor_key == contributor_key or user_contributor_key == contributor_key_rfmf:
                     st.session_state.logger.info("Contributor key validated")
                     st.session_state.openai_key_success = True
                     st.session_state.contributor_key = True
@@ -368,7 +371,9 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
         st.warning("Initializing the LangGraph... Please wait")
         st.session_state.logger.info("Initializing the LangGraph")
         try:
-            st.session_state.models = llm_creation(api_key=st.session_state["OPENAI_API_KEY"])
+
+            st.session_state.models = llm_creation(api_key=st.session_state.OPENAI_API_KEY)
+
             st.session_state.langgraph_app = create_workflow(models=st.session_state.models, session_id=st.session_state.session_id, api_key=st.session_state.OPENAI_API_KEY, endpoint_url=st.session_state.endpoint_url, evaluation=False)
             st.session_state.langgraph_app_created = True
             st.session_state.logger.info("LangGraph initialized")
