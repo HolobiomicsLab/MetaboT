@@ -27,7 +27,8 @@ API_KEY_MAPPING = {
     "openai": "OPENAI_API_KEY",
     "huggingface": "HUGGINGFACE_API_KEY",
     "anthropic": "ANTHROPIC_API_KEY",
-    "gemini": "GEMINI_API_KEY"
+    "gemini": "GEMINI_API_KEY",
+    "mistral": "MISTRAL_API_KEY"
 }
 
 
@@ -74,6 +75,8 @@ def create_litellm_model(config: configparser.SectionProxy) -> ChatLiteLLM:
         provider = "anthropic"
     elif model_id.startswith("gemini"):
         provider = "gemini"
+    elif model_id.startswith("mistral"):
+        provider = "mistral"
 
     api_key = get_api_key(provider)
 
