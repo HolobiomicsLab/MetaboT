@@ -13,7 +13,7 @@
 
 Take a break, brew a cup of tea while 🧪 MetaboT 🍵 digs into mass spec data!
 
-🧪 MetaboT 🍵 is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, 🧪 MetaboT 🍵 translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, 🧪 MetaboT 🍵 offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. 🧪 MetaboT 🍵 can be installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [https://metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr).
+🧪 MetaboT 🍵 is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, 🧪 MetaboT 🍵 translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, 🧪 MetaboT 🍵 offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. 🧪 MetaboT 🍵 can be installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [ https://metabot.holobiomicslab.eu]( https://metabot.holobiomicslab.eu).
 
 Take a break, brew a cup of tea 🍵, and have some fun with words while 🧪 MetaboT 🍵 digs into mass spec data! Enjoy your brew and happy puzzling!
 
