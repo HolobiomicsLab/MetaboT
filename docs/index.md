@@ -18,7 +18,7 @@ body_class: md-home
 
 > Take a break, brew a cup of tea 🍵, and let 🧪 MetaboT 🍵 dig into your mass spec data! While you enjoy your favorite brew, our AI system will be busy infusing your data with meaning. Sip, smile, and watch the insights steep into brilliance! ✨
 
-👉 **Try the MetaboT Web App**: [https://metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr)
+👉 **Try the MetaboT Web App**: [https://metabot.holobiomicslab.eu](https://metabot.holobiomicslab.eu)
 
 ## Key Features ✨
 
