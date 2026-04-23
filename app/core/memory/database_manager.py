@@ -1,6 +1,5 @@
 import os
 from app.core.memory.tools_database import SqliteToolsDatabaseManager
-from app.core.memory.custom_sqlite_file import SqliteCheckpointerSaver
 import importlib
 
 def tools_database():
@@ -36,4 +35,6 @@ def memory_database():
             manager_class = getattr(module, class_name)
             return manager_class()
     else:
-        return SqliteCheckpointerSaver()
+        # Use langgraph's built-in MemorySaver which implements the current checkpoint API
+        from langgraph.checkpoint.memory import MemorySaver
+        return MemorySaver()
