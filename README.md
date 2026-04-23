@@ -1,9 +1,7 @@
 <div align="center">
 <br>
 
-<img src="./assets/logo.png" width="180" alt="MetaboT logo">
-
-<h1>MetaboT</h1>
+<img src="./assets/logo.png" width="180" alt="MetaboT">
 
 <p><em>LLM-based multi-agent framework for interactive analysis of mass spectrometry metabolomics knowledge graphs</em></p>
 
@@ -17,9 +15,9 @@
   <a href="https://github.com/HolobiomicsLab/MetaboT/stargazers"><img src="https://img.shields.io/github/stars/HolobiomicsLab/MetaboT?style=social" alt="GitHub stars"></a>
   <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="Apache 2.0 license"></a>
   <a href="https://holobiomicslab.github.io/MetaboT/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue" alt="Documentation"></a>
-  <a href="https://metabot.holobiomicslab.cnrs.fr"><img src="https://img.shields.io/badge/demo-Web%20App-2ea44f" alt="Public demo"></a>
+  <a href="https://metabot.holobiomicslab.eu"><img src="https://img.shields.io/badge/demo-Web%20App-2ea44f" alt="Public demo"></a>
   <a href="https://doi.org/10.21203/rs.3.rs-6591884/v1"><img src="https://img.shields.io/badge/DOI-10.21203%2Frs.3.rs--6591884%2Fv1-ff8c00" alt="Research Square DOI"></a>
-  <a href="https://doi.org/10.5281/zenodo.15236256"><img src="https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.15236256-1f70c1" alt="Zenodo archive"></a>
+  <a href="https://doi.org/10.5281/zenodo.19701250"><img src="https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.19701250-1f70c1" alt="Zenodo archive"></a>
 </p>
 </div>
 
@@ -27,7 +25,7 @@
 
 ## Demo
 
-Try the public MetaboT demonstrator at [metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr). It is connected to the Experimental Natural Products Knowledge Graph (ENPKG), an open metabolomics knowledge graph built from a chemodiverse collection of [1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124).
+Try the public MetaboT demonstrator at [metabot.holobiomicslab.eu](https://metabot.holobiomicslab.eu). It is connected to the Experimental Natural Products Knowledge Graph (ENPKG), an open metabolomics knowledge graph built from a chemodiverse collection of [1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124).
 
 Full documentation is available at [holobiomicslab.github.io/MetaboT](https://holobiomicslab.github.io/MetaboT/).
 
@@ -59,7 +57,7 @@ The latest manuscript reports the following benchmark results on a manually cura
 | MetaboT with GPT-4o mini | 12.24% | 15.79% |
 | MetaboT with GPT-4o | 83.67% | 78.95% |
 
-These numbers are reported over 49 scored questions from a 50-question benchmark, after excluding one refinement artifact described in the manuscript. The benchmark dataset is included in [app/data/evaluation_dataset.csv](app/data/evaluation_dataset.csv) and archived on [Zenodo](https://doi.org/10.5281/zenodo.15236256).
+These numbers are reported over 49 scored questions from a 50-question benchmark, after excluding one refinement artifact described in the manuscript. The benchmark dataset is included in [app/data/evaluation_dataset.csv](app/data/evaluation_dataset.csv) and archived on [Zenodo](https://doi.org/10.5281/zenodo.19701250).
 
 ## Architecture Overview
 
@@ -199,7 +197,7 @@ If you use MetaboT in research, please cite:
 
 Bekbergenova M, Pradi L, Navet B, Tysinger E, Michel F, Feraud M, Taghzouti Y, Legrand M, Jiang T, Chen YZ, Hassoun S, Kirchhoffer O, Wolfender JL, Mehl F, Pagni M, Bittremieux W, Gandon F, Nothias LF. **MetaboT: An LLM-based Multi-Agent Framework for Interactive Analysis of Mass Spectrometry Metabolomics Knowledge Graphs.** Research Square preprint. DOI: [10.21203/rs.3.rs-6591884/v1](https://doi.org/10.21203/rs.3.rs-6591884/v1)
 
-The archived evaluated version and benchmark release are available at [10.5281/zenodo.15236256](https://doi.org/10.5281/zenodo.15236256).
+The archived evaluated version and benchmark release are available at [10.5281/zenodo.19701250](https://doi.org/10.5281/zenodo.19701250).
 
 ## License
 

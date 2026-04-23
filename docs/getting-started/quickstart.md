@@ -6,7 +6,7 @@ This page gets you from installation to a first successful MetaboT query as quic
 
 If you want to see the system before installing anything, use the public demonstrator:
 
-[https://metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr)
+[https://metabot.holobiomicslab.eu](https://metabot.holobiomicslab.eu)
 
 The demo is connected to the ENPKG knowledge graph built from an open dataset of [1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124).
 

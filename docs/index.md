@@ -9,7 +9,7 @@ body_class: md-home
     <p class="hero__subtitle">Multi-agent LLM framework for querying mass spectrometry metabolomics knowledge graphs in natural language</p>
     <div class="hero__buttons">
       <a href="getting-started/quickstart/" class="hero__button hero__button--primary">Get Started</a>
-      <a href="https://metabot.holobiomicslab.cnrs.fr" class="hero__button">Try the Demo</a>
+      <a href="https://metabot.holobiomicslab.eu" class="hero__button">Try the Demo</a>
     </div>
   </div>
 </div>
@@ -19,7 +19,7 @@ body_class: md-home
 
 MetaboT helps researchers ask natural-language questions over metabolomics knowledge graphs and receive answers backed by executable SPARQL queries. The system combines schema-aware prompting, multi-agent orchestration, entity resolution against authoritative resources, and optional interpretation of results.
 
-The public demonstrator is available at [metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr), and the default local setup targets the ENPKG endpoint built from an open dataset of [1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124).
+The public demonstrator is available at [metabot.holobiomicslab.eu](https://metabot.holobiomicslab.eu), and the default local setup targets the ENPKG endpoint built from an open dataset of [1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124).
 
 ## Why MetaboT?
 
@@ -89,7 +89,7 @@ If you use MetaboT, please cite the current manuscript:
 **MetaboT: An LLM-based Multi-Agent Framework for Interactive Analysis of Mass Spectrometry Metabolomics Knowledge Graphs**
 Research Square preprint. DOI: [10.21203/rs.3.rs-6591884/v1](https://doi.org/10.21203/rs.3.rs-6591884/v1)
 
-The benchmark release and archived evaluated version are available on [Zenodo](https://doi.org/10.5281/zenodo.15236256).
+The benchmark release and archived evaluated version are available on [Zenodo](https://doi.org/10.5281/zenodo.19701250).
 
 <script>
 document.body.classList.add("md-home");
