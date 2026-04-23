@@ -37,7 +37,7 @@ streamlit_webapp/
 
 - Python 3.x
 - PostgreSQL database
-- OpenAI API key
+- OpenAI API key for interactive use
 - Access to a SPARQL endpoint
 
 ## Environment Variables
@@ -45,12 +45,13 @@ streamlit_webapp/
 The application requires the following environment variables:
 
 - `DATABASE_URL`: PostgreSQL database connection string
-- `OPENAI_API_KEY`: OpenAI API key
-- `ADMIN_KEY`: Administrator access key
-- `ACCESS_KEY`: General access key
-- `ADMIN_OPENAI_KEY`: Administrator OpenAI API key
-- `LANGCHAIN_API_KEY`: LangChain API key (optional)
-- `CODEBOX_API_KEY`: Codebox API key (optional)
+- `LANGCHAIN_API_KEY`: LangSmith API key used for contributor tracing (optional)
+
+Optional contributor mode variables:
+
+- `CONTRIBUTOR_KEY`: Contributor access key
+- `CONTRIBUTOR_KEY_RFMF`: Alternate contributor access key
+- `CONTRIBUTOR_OPENAI_KEY`: OpenAI API key injected after contributor key validation
 
 ## Setup
 
@@ -69,7 +70,7 @@ streamlit run streamlit_app.py
 ## Usage
 
 1. Launch the application and configure your API keys in the sidebar:
-   - Set OpenAI API key
+   - Enter your OpenAI API key under `Set a OpenAI API Key`
    - Configure SPARQL endpoint (default: ENPKG endpoint)
    - Optional: Set contributor key for additional features
 

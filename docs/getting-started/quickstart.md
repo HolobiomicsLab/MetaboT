@@ -82,10 +82,11 @@ For a persistent change, set `KG_ENDPOINT_URL` in `.env`.
 The repository also contains a Streamlit interface:
 
 ```bash
-export ADMIN_OPENAI_KEY=your_api_key_here
 export PYTHONPATH="$(pwd):${PYTHONPATH}"
 streamlit run streamlit_webapp/streamlit_app.py
 ```
+
+After the app starts, enter your OpenAI API key in the Streamlit sidebar under `Set a OpenAI API Key`.
 
 This interface is useful when you want a chat-style workflow, file uploads, or interactive result exploration.
 

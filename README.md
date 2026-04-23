@@ -158,10 +158,11 @@ When result sets are large, MetaboT writes them to CSV files and returns the pat
 The repository also includes a Streamlit interface:
 
 ```bash
-export ADMIN_OPENAI_KEY=your_api_key_here
 export PYTHONPATH="$(pwd):${PYTHONPATH}"
 streamlit run streamlit_webapp/streamlit_app.py
 ```
+
+After the app starts, enter your OpenAI API key in the Streamlit sidebar under `Set a OpenAI API Key`.
 
 ### Docker
 
