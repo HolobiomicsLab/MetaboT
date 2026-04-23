@@ -13,7 +13,7 @@
 
 Take a break, brew a cup of tea while 🧪 MetaboT 🍵 digs into mass spec data!
 
-🧪 MetaboT 🍵 is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, 🧪 MetaboT 🍵 translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, 🧪 MetaboT 🍵 offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. 🧪 MetaboT 🍵 can be installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [https://metabot.holobiomicslab.cnrs.fr](https://metabot.holobiomicslab.cnrs.fr).
+🧪 MetaboT 🍵 is an AI system that accelerates mass spectrometry-based metabolomics data mining. Leveraging advanced large language models and knowledge graph technologies, 🧪 MetaboT 🍵 translates natural language queries into SPARQL requests—enabling researchers to explore and interpret complex metabolomics datasets. Built in Python and powered by state-of-the-art libraries, 🧪 MetaboT 🍵 offers an intuitive chat interface that bridges the gap between data complexity and user-friendly access. 🧪 MetaboT 🍵 can be installed locally and you can try our demo instance on an open [1,600 plant extract dataset](https://doi.org/10.1093/gigascience/giac124) available at [ https://metabot.holobiomicslab.eu]( https://metabot.holobiomicslab.eu).
 
 Take a break, brew a cup of tea 🍵, and have some fun with words while 🧪 MetaboT 🍵 digs into mass spec data! Enjoy your brew and happy puzzling!
 
@@ -129,7 +129,7 @@ It should also work on other Unix-based systems. For more details on compatibili
    LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
    LANGCHAIN_PROJECT=metabot_project 
    ```
-   **Note:** The system can also be used with other LLM models, namely: Meta-Llama-3_1-70B-Instruct and deepseek-reasoner. For Meta-Llama-3_1-70B-Instruct (which runs on OVH Cloud – see [OVH Cloud](https://www.ovh.com/)), add the API key OVHCLOUD_API_KEY to your `.env` file; for deepseek-reasoner, add DEEPSEEK_API_KEY. Currently, all agents use the OpenAI model gpt-4o (including the SPARQL generation chain). Furthermore, if the initial query yields no results, a SPARQL improvement chain using the OpenAI o3-mini model is activated.
+   **Note:** The system can also be used with other LLM models, namely: Meta-Llama-3_1-70B-Instruct and deepseek-reasoner. For Meta-Llama-3_1-70B-Instruct (which runs on OVH Cloud – see [OVH Cloud](https://www.ovh.com/)), add the API key OVHCLOUD_API_KEY to your `.env` file; for deepseek-reasoner, add DEEPSEEK_API_KEY. Detailed information on how to configure other LLM models is available [here](https://holobiomicslab.github.io/MetaboT/getting-started/installation/#adding-new-models). Currently, all agents use the OpenAI model gpt-4o (including the SPARQL generation chain). Furthermore, if the initial query yields no results, a SPARQL improvement chain using the OpenAI o3-mini model is activated.
 
 ### Installation Steps
 
