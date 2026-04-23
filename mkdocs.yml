@@ -1,6 +1,6 @@
 # Project information
 site_name: 🧪 MetaboT 🍵 Documentation
-site_description: Documentation for 🧪 MetaboT 🍵 - A Conversational AI-Agent for Accessible Mass Spectrometry Metabolomics Data Mining
+site_description: Documentation for MetaboT, an LLM-based multi-agent framework for interactive analysis of mass spectrometry metabolomics knowledge graphs
 site_author: HolobiomicsLab
 site_url: https://holobiomicslab.github.io/MetaboT
 docs_dir: docs
