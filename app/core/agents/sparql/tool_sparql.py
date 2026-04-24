@@ -232,8 +232,16 @@ class GraphSparqlQAChain(BaseTool):
     requires_params: bool = True
     graph: RdfGraph = None
     session_id: str = None
+    openai_key: Optional[str] = None
 
-    def __init__(self, llm: dict, graph: RdfGraph, session_id: str, **kwargs):
+    def __init__(
+        self,
+        llm: dict,
+        graph: RdfGraph,
+        session_id: str,
+        openai_key: Optional[str] = None,
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         try:
             self.sparql_generation_select_chain = LLMChain(
@@ -250,6 +258,7 @@ class GraphSparqlQAChain(BaseTool):
             raise
         self.graph = graph
         self.session_id = session_id
+        self.openai_key = openai_key or os.getenv("OPENAI_API_KEY")
 
     def _run(
         self,
@@ -385,7 +394,7 @@ class GraphSparqlQAChain(BaseTool):
         # Construct the path to the faiss_db directory
         db_path = os.path.abspath(os.path.join(current_dir, '..', '..', '..', 'data', 'faiss_db'))
 
-        embeddings = OpenAIEmbeddings()
+        embeddings = OpenAIEmbeddings(api_key=self.openai_key)
         db = FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
         related_nodes = db.similarity_search(query, 12)
         return related_nodes
