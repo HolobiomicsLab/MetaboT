@@ -47,8 +47,7 @@ Prepares the full context needed for query generation and hands the work to `Gra
 
 ### Interpreter Agent
 
-Turns raw outputs into user-facing summaries and can create plots or spectrum links when requested.
-
+Turns raw outputs into user-facing summaries. When a visualization is explicitly requested, generates a .json file containing the JSON code for a Plotly graph — rendered interactively in the Streamlit app, or saved as a plain .json when running locally/backend.
 ## Workflow Diagram
 
 ```mermaid
