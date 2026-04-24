@@ -69,7 +69,7 @@ graph TD
     E --> D
     F --> D
     H --> D
-    D --> I[Answer, SPARQL, and optional CSV/visualization]
+    D --> I[Answer, SPARQL, and CSV (+ Plotly JSON if visualization requested)]
 ```
 
 ## Quick Links
@@ -89,7 +89,7 @@ If you use MetaboT, please cite the current manuscript:
 **MetaboT: An LLM-based Multi-Agent Framework for Interactive Analysis of Mass Spectrometry Metabolomics Knowledge Graphs**
 Research Square preprint. DOI: [10.21203/rs.3.rs-6591884/v1](https://doi.org/10.21203/rs.3.rs-6591884/v1)
 
-The benchmark release and archived evaluated version are available on [Zenodo](https://doi.org/10.5281/zenodo.19701250).
+The benchmark release and archived evaluated version are available on [Zenodo](https://doi.org/10.5281/zenodo.19715403).
 
 <script>
 document.body.classList.add("md-home");
