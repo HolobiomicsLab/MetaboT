@@ -69,8 +69,9 @@ graph TD
     E --> D
     F --> D
     H --> D
-    D --> I[Answer, SPARQL, and CSV (+ Plotly JSON if visualization requested)]
-```
+    D --> I[Answer, SPARQL and CSV]
+
+ ```
 
 ## Quick Links
 
