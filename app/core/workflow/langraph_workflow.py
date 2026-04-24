@@ -250,5 +250,5 @@ def process_workflow(app: StateGraph, question: str, thread_id: int = 1) -> NoRe
                 logger.info(s)
                 logger.info("----")
     except Exception as e:
-        logger.error(f"An error occurred: {e}")
+        logger.error(f"An error occurred: {e}", exc_info=True)
 

@@ -2,18 +2,22 @@ import os
 import pandas as pd
 from datetime import datetime
 from langchain.tools import BaseTool
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from pathlib import Path
 from app.core.session import setup_logger, create_user_session
 
 logger = setup_logger(__name__)
+
+class FileAnalyzerInput(BaseModel):
+    """Input schema for FileAnalyzer - no input fields required."""
+    pass
 
 class FileAnalyzer(BaseTool):
     name: str = "FILE_ANALYZER"
     description: str = """
     Analyzes files in a specified directory and provides a summary of their content.
     """
-    args_schema = BaseModel  # Using BaseModel directly since no specific input fields are necessary
+    args_schema: type[BaseModel] = FileAnalyzerInput
     folder_path: Path = None
     openai_key: str = None
     session_id: str = None

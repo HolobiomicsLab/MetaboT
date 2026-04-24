@@ -1,9 +1,9 @@
-from typing import Optional
+from typing import ClassVar, Optional
 
 from SPARQLWrapper import JSON, SPARQLWrapper
 
 
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 from typing import Optional
 
@@ -34,10 +34,10 @@ class TaxonResolver(BaseTool):
     Returns:
         str: A string that contains the Wikidata IRI if found, otherwise `None`.
     """
-    args_schema = TaxonInput
+    args_schema: type[BaseModel] = TaxonInput
 
-    ENDPOINT_URL = "https://query.wikidata.org/sparql"
-    PREFIXES = """
+    ENDPOINT_URL: ClassVar[str] = "https://query.wikidata.org/sparql"
+    PREFIXES: ClassVar[str] = """
         PREFIX prov: <http://www.w3.org/ns/prov#>
         PREFIX pr: <http://www.wikidata.org/prop/reference/>
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>

@@ -6,9 +6,9 @@ import pickle
 import sqlite3
 import threading
 from contextlib import contextmanager
-from typing import Optional
+from typing import ClassVar, Optional
 
-from langchain_core.pydantic_v1 import Field
+
 from langchain_core.runnables import RunnableConfig
 from langchain_core.runnables.utils import ConfigurableFieldSpec
 from langgraph.checkpoint.base import BaseCheckpointSaver, Checkpoint
@@ -20,7 +20,7 @@ logger = setup_logger(__name__)
 
 class SqliteCheckpointerSaver(BaseCheckpointSaver):
     # Specify the path to the database file
-    database_path = "langgraph_checkpoint.db"
+    database_path: ClassVar[str] = "langgraph_checkpoint.db"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)  # Ensure proper Pydantic initialization
