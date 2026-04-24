@@ -17,6 +17,12 @@ Take a break, brew a cup of tea while 🧪 MetaboT 🍵 digs into mass spec data
 
 Take a break, brew a cup of tea 🍵, and have some fun with words while 🧪 MetaboT 🍵 digs into mass spec data! Enjoy your brew and happy puzzling!
 
+## v1.1.0 Highlights
+
+- Hardened the interpreter path by isolating LLM-generated Python behind trusted-mode controls and a subprocess runner instead of in-process execution.
+- Improved CLI safety with better file staging validation, collision handling, session-scoped logging, and consistent `--api-key` propagation through fallback SPARQL paths.
+- Made the Streamlit app easier to launch locally by stabilizing its import path handling and aligning the recommended startup command with the tested repo-root workflow.
+
 ## Documentation
 
 Comprehensive documentation is available at [https://holobiomicslab.github.io/MetaboT/](https://holobiomicslab.github.io/MetaboT/). It includes:
@@ -217,22 +223,14 @@ python -m app.core.main -c "Your custom question"
 ```
 ### Running via Streamlit
 
-To launch the application through Streamlit, set the required environment variables, install the dependencies, and run the app. In your terminal, execute:
+To launch the application through Streamlit, install the dependencies and run the app from the repository root. In your terminal, execute:
 
 ```bash
-export ADMIN_OPENAI_KEY=your_openai_api_key
-export LANGCHAIN_API_KEY=your_langchain_api_key
 pip install -r requirements.txt
-streamlit run streamlit_webapp/streamlit_app.py
+python -m streamlit run streamlit_webapp/streamlit_app.py
 ```
 
-If you encounter an error stating that the `app` directory cannot be found (e.g., "ModuleNotFoundError: No module named 'app'"), it means Python is unable to locate the module. To resolve this, add the current directory to your `PYTHONPATH` by running:
-
-```bash
-export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-```
-
-This command ensures that Python can locate the `app` directory.
+This repo-root launch path is the recommended setup for local development and matches the Streamlit smoke-tested workflow used in `v1.1.0`. You can provide your OpenAI key in the sidebar once the app starts, or preconfigure contributor/admin keys through environment variables if you use those deployment paths.
 
 ---
 ### Running in Docker
