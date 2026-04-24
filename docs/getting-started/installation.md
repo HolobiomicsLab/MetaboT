@@ -1,258 +1,182 @@
-# Installation Guide 🚀
+# Installation
 
-This guide will walk you through the process of installing 🧪 MetaboT 🍵 and its dependencies.
+This guide installs the current repository version of MetaboT for local development or research use.
 
----
+## Prerequisites
 
-## Prerequisites 📋
+You will need:
 
-Before installing 🧪 MetaboT 🍵, ensure you have the following installed:
+- Python 3.11
+- `conda` or `miniconda` recommended
+- `git`
+- An API key for at least one supported LLM provider
 
-- **pip** (Python package installer) — [Install pip](https://pip.pypa.io/en/stable/installation/)
-- **conda** — [Install Miniconda](https://docs.conda.io/en/latest/miniconda.html)
-- **Git** — [Install Git](https://git-scm.com/downloads)
-- **LLM API Key** — Get an API key for your chosen language model (OpenAI, DeepSeek, or Claude)
-- **WSL** (for Windows users) — [Install WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+Optional but useful:
 
----
+- `docker` and `docker-compose` for containerized runs
+- A LangSmith key for tracing and evaluation logs
+- WSL if you want to run MetaboT on Windows
 
-## **Clone the Repository** and switch to the [`dev` branch](https://github.com/holobiomicslab/MetaboT/tree/dev):📥
+## Clone the Repository
 
 ```bash
-git clone https://github.com/holobiomicslab/MetaboT.git
-git checkout dev
+git clone https://github.com/HolobiomicsLab/MetaboT.git
 cd MetaboT
 ```
 
-## **Create and Activate the Conda Environment** ⚙️
+The default branch is `main`.
 
-   **For macOS:**
-   ```bash
-   conda env create -f environment.yml
-   conda activate metabot
-   ```
+## Create the Environment
 
-   **For Linux:**
-   ```bash
-   sudo apt-get update
-   sudo apt-get install -y python3-dev build-essential
-   conda env create -f environment.yml
-   conda activate metabot
-   ```
-
-   **For Windows (using WSL):**
-
-   1. Install WSL if you haven't already:
-      ```bash
-      wsl --install
-      ```
-   2. Open WSL and install the required packages:
-      ```bash
-      sudo apt-get update
-      sudo apt-get install -y python3-dev build-essential
-      ```
-   3. Install Miniconda in WSL:
-      ```bash
-      wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-      bash Miniconda3-latest-Linux-x86_64.sh
-      source ~/.bashrc
-      ```
-   4. Create and activate the conda environment:
-      ```bash
-      conda env create -f environment.yml
-      conda activate metabot
-      ```
-
----
-
-## Install Dependencies 📦
+### Recommended: Conda
 
 ```bash
+conda env create -f environment.yml
+conda activate metabot
+```
+
+### Alternative: Python Virtual Environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
----
+### Linux Notes
 
-## Environment Variables 🔑
+On Debian or Ubuntu, install compiler headers first if needed:
 
-Create a `.env` file in the [root directory](https://github.com/holobiomicslab/MetaboT) with the following variables:
+```bash
+sudo apt-get update
+sudo apt-get install -y python3-dev build-essential
+```
+
+### Windows Notes
+
+MetaboT is best run through WSL on Windows:
+
+```bash
+wsl --install
+```
+
+Inside WSL, follow the Linux installation steps above.
+
+## Configure Environment Variables
+
+Create a `.env` file in the project root.
+
+### Minimal Setup for the Default ENPKG Endpoint
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
+
+If `KG_ENDPOINT_URL` is not set, MetaboT defaults to:
 
 ```text
-# Optional: API Keys for external services
-OPENAI_API_KEY=your_openai_api_key  # If using OpenAI service
-DEEPSEEK_API_KEY=your_deepseek_api_key # If using DeepSeek API service
-OVHCLOUD_API_KEY=your_ovhcloud_api_key # If using the OVHcloud services 
+https://enpkg.commons-lab.org/graphdb/repositories/ENPKG
 ```
 
----
+### Full Example
 
-## Language Model Configuration 🤖
+```env
+# LLM providers
+OPENAI_API_KEY=
+DEEPSEEK_API_KEY=
+ANTHROPIC_API_KEY=
+GEMINI_API_KEY=
+MISTRAL_API_KEY=
+OVHCLOUD_API_KEY=
+HUGGINGFACE_API_KEY=
 
-By default, all agents in MetaboT use OpenAI models, but you can configure different models for each agent. The current implementation supports:
+# Optional custom endpoint
+KG_ENDPOINT_URL=https://enpkg.commons-lab.org/graphdb/repositories/ENPKG
+SPARQL_USERNAME=
+SPARQL_PASSWORD=
 
-- OpenAI
-- DeepSeek
-- Claude (Anthropic)
-- Llama (via OVHcloud)
-- Mistral AI
-
-### Free Model Options
-
-You can try some free models for the agents, such as **Mistral AI**. To use Mistral AI:
-
-1. **Get your API key**: 
-
-      - Visit [Mistral AI Platform](https://console.mistral.ai/)
-      - Create an account or sign in
-      - Navigate to the API Keys section
-      - Generate a new API key
-      - For detailed API documentation, visit [Mistral AI API Docs](https://docs.mistral.ai/api/)
-
-2. **Add to your .env file**:
-   ```text
-   MISTRAL_API_KEY=your_mistral_api_key_here
-   ```
-
-3. **Configure in params.ini**:
-   ```ini
-   [llm_litellm_mistral]
-   temperature=0.0
-   id=mistral/mistral-small
-   ```
-
-
-### Adding New Models
-
-To add a new model using LiteLLM, you can use any provider supported by LiteLLM. Check the [LiteLLM providers documentation](https://docs.litellm.ai/docs/providers) for the complete list of supported providers.
-
-1. Add a new section in `app/config/params.ini`:
-```ini
-[llm_litellm_your_model_name]
-temperature=0.0
-id=your-provider/model-name  # As specified in https://docs.litellm.ai/docs/providers
-max_retries=3
+# Optional tracing
+LANGCHAIN_API_KEY=
+LANGCHAIN_PROJECT=MetaboT
+LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ```
 
-2. Add your provider and API key mapping in `app/core/main.py`:
-```python
-API_KEY_MAPPING = {
-    "deepseek": "DEEPSEEK_API_KEY",
-    "ovh": "OVHCLOUD_API_KEY",
-    "openai": "OPENAI_API_KEY",
-    "huggingface": "HUGGINGFACE_API_KEY",
-    "anthropic": "ANTHROPIC_API_KEY",
-    "gemini": "GEMINI_API_KEY",
-    "your-provider": "YOUR_PROVIDER_API_KEY"  # Add your mapping here
-}
+MetaboT reads provider-specific keys based on the model configuration in `app/config/params.ini`.
+
+## Verify the Installation
+
+The fastest smoke test is to run one of the bundled standard questions:
+
+```bash
+python -m app.core.main -q 1
 ```
 
-3. **Don't forget to add your API key to the .env file**:
-   ```text
-   YOUR_PROVIDER_API_KEY=your_api_key_here
-   ```
-
-4. Modify the provider detection in `create_litellm_model` function:
-```python
-if model_id.startswith("deepseek"):
-    provider = "deepseek"
-elif model_id.startswith("gpt"):
-    provider = "openai"
-    model_name = f"openai/{model_id}"
-elif model_id.startswith("your-prefix"):  # Add your model prefix detection
-    provider = "your-provider"
-```
-
-The function automatically handles:
-
-- Provider detection based on model ID prefix
-- API key retrieval from environment variables
-- Basic parameters (temperature, max_retries)
-- Optional base URL configuration
-
-### Configuring Models for Different Agents
-
-To use different models for different agents, modify `app/config/langgraph.json`. In the agents section, specify `llm_choice` with the name of your model section from params.ini:
-
-```json
-{
-  "agents": [
-    {
-      "name": "Entry_Agent",
-      "path": "app.core.agents.entry.agent",
-      "llm_choice": "llm_litellm_your_model_name"
-    },
-    {
-      "name": "Validator",
-      "path": "app.core.agents.validator.agent",
-      "llm_choice": "llm_litellm_different_model"
-    }
-  ]
-}
-```
-
-**Note**: Currently, the LiteLLM option is not available for the Supervisor agent because it requires a specific router implementation. The Supervisor agent will continue to use the default model configuration.
-
-## SPARQL Endpoint Configuration 🌐
-
-Configure your SPARQL endpoint exclusively by setting the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file.
-
----
-
-## Verify Installation ✅
-
-To verify the installation, execute the following command:
+You can also run the installation test script:
 
 ```bash
 python app/tests/installation_test.py
 ```
 
-This command initiates the agent workflow by constructing the RDF graph using the endpoint specified via the KG_ENDPOINT_URL variable in your .env file, instantiating the requisite language models, and executing one of the predefined standard queries. Successful execution confirms the proper configuration and integration of the system's core functionalities, including graph management and SPARQL query generation.
+Successful execution confirms that MetaboT can initialize the workflow, connect to the knowledge graph, and execute a query.
 
----
+## Optional: Run with Docker
 
-## Common Issues 🐞
+```bash
+docker-compose build
+docker-compose run --rm metabot python -m app.core.main -q 1
+```
 
-#### Issue: SPARQL Endpoint Connection
+## Endpoint Configuration
 
-If SPARQL queries fail:
+To use a custom SPARQL endpoint, either:
 
-1. Check if the SPARQL endpoint is accessible.
+- set `KG_ENDPOINT_URL` in `.env`, or
+- pass `--endpoint` at runtime
 
-2. Verify that the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file is correctly set.
+Example:
 
-3. Ensure proper network access/firewall settings.
+```bash
+python -m app.core.main -c "Which extracts contain flavonoids?" --endpoint https://your-endpoint.example/sparql
+```
 
----
+If the endpoint requires authentication, add:
 
-## Mass Spectrometry Data 🔬
-
-By default, 🧪 MetaboT 🍵 connects to the public ENPKG endpoint which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of [**1,600 plant extracts**](https://academic.oup.com/gigascience/article/doi/10.1093/gigascience/giac124/6980761?login=false). This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the ENPKG tool. For more details on converting your own data, please refer to the [*Experimental Natural Products Knowledge Graph library*](https://github.com/enpkg) and the [associated publication](https://doi.org/10.1021/acscentsci.3c00800).
-
-Set your SPARQL endpoint by configuring the <code>KG_ENDPOINT_URL</code> variable in your <code>.env</code> file. If you are deploying a local endpoint that requires authentication, add the following variables to your <code>.env</code> file:
-
-```text
+```env
 SPARQL_USERNAME=your_username
 SPARQL_PASSWORD=your_password
 ```
 
-Additionally, to ensure the SPARQL queries generated accurately reflect the schema of your knowledge graph, you must provide detailed information about your knowledge graph’s structure and update the prompt settings in:
- 
-- <code>app/core/agents/validator/prompt.py</code>
-- The SPARQL generation chain in <code>app/core/agents/sparql/tool_sparql.py</code>
+## Using a Different LLM Provider
 
----
+MetaboT currently ships example model configurations for:
 
-## Support 🛠️
+- OpenAI
+- DeepSeek
+- Anthropic via LiteLLM
+- Gemini via LiteLLM
+- Mistral via LiteLLM
+- OVH-hosted Llama
 
-If you encounter any issues during installation:
+To switch providers, update the relevant section in `app/config/params.ini` and ensure the matching API key is present in `.env`.
 
-1. Check our [GitHub Issues](https://github.com/holobiomicslab/MetaboT/issues) for similar problems.
-2. Create a new [issue](https://github.com/holobiomicslab/MetaboT/issues) with detailed information about your setup and the error.
+## Common Issues
 
----
+### SPARQL Endpoint Errors
 
-**Next Steps**
+- Check that `KG_ENDPOINT_URL` points to a live endpoint.
+- Confirm credentials if your endpoint requires authentication.
+- Test against the default ENPKG endpoint first to isolate endpoint-specific issues.
 
-- Follow the [Quick Start Guide](quickstart.md) to begin using 🧪 MetaboT 🍵.
-- Review the [Configuration Guide](../user-guide/configuration.md) for detailed setup options.
-- Check out [Example Usage](../examples/basic-usage.md) for practical applications.
+### Module Import Errors
+
+If Python cannot find the `app` package during ad hoc runs, make sure you are executing commands from the repository root and that your environment is activated.
+
+### Dependency Build Problems
+
+If `psycopg2` or other compiled packages fail during setup, use the Conda environment from `environment.yml`, which is the most reproducible path for this repository.
+
+## Next Steps
+
+- Continue with the [Quick Start](quickstart.md)
+- Review the [Overview](../user-guide/overview.md)
+- Customize providers and endpoints in the [Configuration Guide](../user-guide/configuration.md)

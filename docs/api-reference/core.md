@@ -34,7 +34,7 @@ Create a ChatLiteLLM instance based on the model id and configuration from [app/
 **Parameters:**
 - `config` (configparser.SectionProxy): The configuration section from params.ini that contains model settings:
 
-  - Required: "id" - model identifier (e.g., "gpt-4", "deepseek/...")
+  - Required: "id" - model identifier (e.g., "gpt-4o", "deepseek/...")
   - Optional: "temperature", "max_retries", "base_url", "api_base"
 
 **Returns:**

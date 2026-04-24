@@ -1,173 +1,132 @@
-# Quick Start Guide 🚀
+# Quick Start
 
-Welcome to the Quick Start Guide for 🧪 MetaboT 🍵. This guide will help you quickly run and test the application.
+This page gets you from installation to a first successful MetaboT query as quickly as possible.
 
-👉 **Try the MetaboT Web App Demo**: [https://metabot.holobiomicslab.eu](https://metabot.holobiomicslab.eu) — no installation needed!  
+## Try the Public Demo First
 
-The demo provides access to an open [dataset of 1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124). You can explore metabolomics data and ask questions about the dataset directly through the web interface.
+If you want to see the system before installing anything, use the public demonstrator:
 
----
+[https://metabot.holobiomicslab.eu](https://metabot.holobiomicslab.eu)
 
-## Prerequisites ✅ (For Local Installation)
+The demo is connected to the ENPKG knowledge graph built from an open dataset of [1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124).
 
-Before you begin, ensure that you have:
+## Minimal Local Setup
 
-- Completed the [Installation Guide](installation.md)
+After following the [Installation Guide](installation.md), a minimal `.env` file can be as small as:
 
-- Set the necessary environment variables in your `.env` file:
+```env
+OPENAI_API_KEY=your_api_key_here
+```
 
-    - API key for your chosen language model:
-         - `OPENAI_API_KEY` if using OpenAI
-         - `DEEPSEEK_API_KEY` if using DeepSeek
-        - `CLAUDE_API_KEY` if using Claude
+If you do not set `KG_ENDPOINT_URL`, MetaboT uses the public ENPKG endpoint by default.
 
-    -  SPARQL endpoint configuration:
-         - `KG_ENDPOINT_URL` (required)
-        - `SPARQL_USERNAME` and `SPARQL_PASSWORD` (if your endpoint requires authentication)
-    
-- Activated your Python virtual environment
+## Run a Standard Question
 
+MetaboT ships with predefined examples listed in `app/data/standard_questions.txt`.
 
-## Running a Standard Query 🔍
-
-🧪 MetaboT 🍵 includes several predefined queries that demonstrate its capabilities. Those questions could be found [here](https://github.com/HolobiomicsLab/MetaboT/blob/dev_madina/app/data/standard_questions.txt). For example, to run the first standard query (which counts features with matching SIRIUS/CSI:FingerID and ISDB annotations), execute:
+Run the first one:
 
 ```bash
 python -m app.core.main -q 1
 ```
 
-**What this does:**  
-- Loads the default configuration and dataset  
-- Executes the first query from a list of standard queries  
-- Returns insights based on RDF graph analysis
+This command:
 
+- loads the configured models
+- connects to the default or configured SPARQL endpoint
+- runs one of the bundled benchmark-style questions
+- prints the result and, when relevant, the generated SPARQL and CSV path
 
-## Running a Custom Query 🛠️
+## Run a Custom Question
 
-You can also run custom queries tailored to your research needs. For example, to query SIRIUS structural annotations for a specific plant:
 ```bash
 python -m app.core.main -c "What are the SIRIUS structural annotations for Tabernaemontana coffeoides?"
 ```
-**Note:**  
-- Replace the query text in quotes with your desired question.  
-- Ensure that the query is relevant to the metabolomics data available in your configuration.
 
-## Running in Docker 🐳
+Another example from the manuscript:
 
-If you prefer to run 🧪 MetaboT within a Docker container, follow these steps:
+```bash
+python -m app.core.main -c "Which lab extracts have bioassay results with inhibition percentages above 50% against Leishmania donovani?"
+```
 
-1. **Build the Docker Image:**
-  Ensure Docker and docker-compose are installed, then run:
-  ```bash
-  docker-compose build
-  ```
+## Typical Question Types
 
-2. **Run the Application in Docker:**
-  To execute the first standard query, run:
-  ```bash
-  docker-compose run metabot python -m app.core.main -q 1
-  ```
-  This command starts the container and runs the application accordingly. You can adjust the command as needed.
+MetaboT is most useful for questions such as:
 
----
+- taxon-centric annotation queries
+- chemical class filtering
+- cross-sample comparisons
+- bioassay and target queries
+- structure- or spectrum-linked lookups
 
-## Workflow Overview 🔄
+Examples:
 
-🧪 MetaboT 🍵 leverages a multi-agent workflow architecture to process queries efficiently:
-
-- **Entry Agent:** Processes the incoming query and routes it to the appropriate system.
-- **Validator Agent:** Immediately verifies that the incoming query is pertinent to the knowledge graph, ensuring its alignment with domain-specific schema.
-- **Supervisor Agent:** Oversees and coordinates all processing steps within the workflow.
-- **ENPKG Agent:** Handles domain-specific data processing related to metabolomics.
-- **SPARQL Agent:** Generates and executes queries against the RDF knowledge graph.
-- **Interpreter Agent:** Interprets and formats the query results for user readability.
-
-
-This modular design allows 🧪 MetaboT 🍵 to be extended and customized for various research scenarios.
-
----
-
-## Example Scenarios 📚
-
-### Basic Feature Analysis
-Run a standard query to count LCMS features detected in negative ionization mode:
 ```bash
 python -m app.core.main -c "Count the number of LCMS features in negative ionization mode"
+python -m app.core.main -c "List the bioassay results at 10ug/mL against T.cruzi for lab extracts of Tabernaemontana coffeoides"
+python -m app.core.main -c "Which extracts have features annotated as aspidosperma-type alkaloids by CANOPUS with a probability score above 0.5?"
 ```
 
-### Chemical Structure Analysis
-Obtain structural annotations for a plant sample:
+## Override the Endpoint
+
+To query another knowledge graph endpoint for a single run:
+
 ```bash
-python -m app.core.main -c "What are the SIRIUS structural annotations for Tabernaemontana coffeoides?"
+python -m app.core.main -c "Which extracts contain flavonoids?" --endpoint https://your-endpoint.example/sparql
 ```
 
-### Bioassay Results Exploration
-Examine bioassay data for compounds in a specified extract:
+For a persistent change, set `KG_ENDPOINT_URL` in `.env`.
+
+## Run the Streamlit App
+
+The repository also contains a Streamlit interface:
+
 ```bash
-python -m app.core.main -c "List the bioassay results at 10µg/mL against T.cruzi for lab extracts of Tabernaemontana coffeoides"
+export PYTHONPATH="$(pwd):${PYTHONPATH}"
+pip install -r requirements.txt
+streamlit run streamlit_webapp/streamlit_app.py
 ```
 
-## Interacting with the Knowledge Graph 🌐
+After the app starts, enter your OpenAI API key in the Streamlit sidebar under `Set a OpenAI API Key`.
 
-🧪 MetaboT 🍵 connects to a knowledge graph to enrich analysis:
-```python
-import os
-from app.core.graph_management.RdfGraphCustom import RdfGraph
+This interface is useful when you want a chat-style workflow, file uploads, or interactive result exploration.
 
-# Connect to the knowledge graph using the defined endpoint
-# If SPARQL_USERNAME and SPARQL_PASSWORD environment variables are set,
-# they will be automatically used for authentication
-graph = RdfGraph(
-    query_endpoint="https://enpkg.commons-lab.org/graphdb/repositories/ENPKG",
-    standard="rdf",
-    auth=None  # Will automatically use environment variables if available
-)
+## What Happens Internally?
 
-# Or explicitly provide authentication:
-auth = (os.getenv("SPARQL_USERNAME"), os.getenv("SPARQL_PASSWORD"))
-graph = RdfGraph(
-    query_endpoint="your_endpoint_url",
-    standard="rdf",
-    auth=auth
-)
+For a typical knowledge question, the workflow is:
+
+1. `Entry Agent` classifies the request.
+2. `Validator Agent` checks whether the question is valid for the graph.
+3. `Supervisor Agent` decides whether entity resolution is needed.
+4. `ENPKG_agent` resolves taxa, targets, or chemical entities when necessary.
+5. `Sparql_query_runner` generates and executes schema-aware SPARQL.
+6. `Interpreter_agent` summarizes or visualizes the output if needed.
+
+## Result Files
+
+The results are written to temporary CSV files. When the results are small, they are also displayed inline; for large result sets, only the file path is provided to avoid exceeding the LLM context window.
+## Troubleshooting
+
+### The query fails immediately
+
+- Confirm that your environment is activated.
+- Make sure at least one required API key is set.
+- Test with the default ENPKG endpoint before debugging a custom endpoint.
+
+### The endpoint works but the question is rejected
+
+MetaboT validates questions against the knowledge graph schema. Try a simpler question first, then increase specificity.
+
+### Import errors when running Streamlit
+
+Run Streamlit from the repository root and set:
+
+```bash
+export PYTHONPATH="$(pwd):${PYTHONPATH}"
 ```
-Make sure that your `KG_ENDPOINT_URL` environment variable is correctly set to point to your graph database.
 
-## Advanced Configuration ⚙️
+## Next Steps
 
-### LangSmith Integration
-
-For enhanced tracking and monitoring of workflow runs, we are using [LangSmith](https://docs.smith.langchain.com/). An API key is needed ([free upon registration](https://www.langchain.com/langsmith)) and set the .env variable as follow:
-
-1. Set up LangSmith:
-    ```bash
-    export LANGCHAIN_API_KEY="your_api_key_here"
-    export LANGCHAIN_PROJECT="MetaboT"
-    ```
-2. Review LangSmith logs to access runtime details for debugging and auditing.
-
-### Custom Model Settings
-
-Review and adjust the language model configurations in [`app/config/params.ini`](https://github.com/holobiomicslab/MetaboT/blob/main/app/config/params.ini):
-```ini
-[llm]
-temperature=0.0
-id=gpt-4
-max_retries=3
-```
-This ensures that the models used in your workflows are fine-tuned for your specific analysis needs.
-
-## Troubleshooting 🐞
-
-If you encounter issues, consider the following steps:
-
-- **Environment Variables:** Verify that your chosen LLM API key (`OPENAI_API_KEY`, `DEEPSEEK_API_KEY`, `CLAUDE_API_KEY`, etc.) and `KG_ENDPOINT_URL` are correctly set in your `.env` file.
-- **Knowledge Graph Access:** Confirm that the knowledge graph endpoint is reachable and correctly configured.
-- **Logs:** Review terminal output for any error messages or warnings during execution.
-
----
-**Next Steps** ➡️
-
-- Explore the User Guide for in-depth explanations of 🧪 MetaboT 🍵's components.
-- Review the API Reference to understand function details.
-- Examine the Examples for more advanced usage scenarios.
+- Read the [Overview](../user-guide/overview.md) for the architecture
+- Update providers and endpoints in the [Configuration Guide](../user-guide/configuration.md)
+- Browse additional [examples](../examples/basic-usage.md)

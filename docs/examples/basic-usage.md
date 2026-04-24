@@ -67,7 +67,7 @@ from app.core.main import llm_creation
 from app.core.workflow.langraph_workflow import create_workflow
 # Initialize components
 endpoint_url = "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
-models = llm_creation()  # [llm_creation](https://github.com/nothiasl/MetaboT/blob/main/app/core/main.py)
+models = llm_creation()  # See app/core/main.py
 # Create workflow
 workflow = create_workflow(
     models=models,
@@ -84,7 +84,7 @@ from app.core.workflow.langraph_workflow import process_workflow
 
 # Process a custom query
 query = "What are the chemical structure ISDB annotations for Lovoa trichilioides?"
-process_workflow(workflow, query)  # [process_workflow](https://github.com/nothiasl/MetaboT/blob/main/app/core/workflow/langraph_workflow.py)
+process_workflow(workflow, query)  # See app/core/workflow/langraph_workflow.py
 ```
 
 ### Batch Processing

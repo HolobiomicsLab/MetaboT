@@ -1,47 +1,47 @@
-# Configuration Guide 🛠️
+# Configuration
 
-This guide details all configuration options available in 🧪 MetaboT 🍵, helping you customize the system to your specific needs.
+This guide covers the configuration files and environment variables that control MetaboT's models, workflow, endpoints, and tracing.
 
----
-## Configuration Overview 📁
+## Configuration Files
 
-🧪 MetaboT 🍵 uses several configuration files located in the [`app/config/`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/) directory:
+The main configuration files live in `app/config/`:
 
-- **[`params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini)**: Language model configurations
-- **[`sparql.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/sparql.ini)**: SPARQL query templates and settings
-- **[`logging.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/logging.ini)**: Logging configuration
-- **.env**: Environment variables (created by user)
+- `params.ini`: language model definitions
+- `langgraph.json`: agent graph and model assignments
+- `sparql.ini`: schema and SPARQL helper queries
+- `logging.ini`: console and file logging
 
----
-## LLMs Configuration 🤖
+User-specific secrets and runtime values should go in `.env` at the repository root.
 
-Located in [`params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini), this configuration controls the behavior of different language models used in the system.
+## Model Configuration
+
+MetaboT reads language model definitions from `app/config/params.ini`.
+
+### Current Built-In Model Sections
+
+| Section | Purpose |
+| --- | --- |
+| `llm_preview` | GPT-4o preview-style configuration |
+| `llm_o` | primary OpenAI model configuration |
+| `llm_mini` | lower-cost GPT-4o mini option |
+| `llm_o3_mini` | reasoning-oriented OpenAI configuration |
+| `llm_gpt_5` | GPT-5 configuration example |
+| `llm_o1` | O1 configuration example |
+| `deepseek_deepseek-chat` | DeepSeek chat endpoint |
+| `deepseek_deepseek-reasoner` | DeepSeek reasoner endpoint |
+| `ovh_Meta-Llama-3_1-70B-Instruct` | OVH-hosted Llama endpoint |
+| `llm_litellm_openai` | LiteLLM-backed OpenAI config |
+| `llm_litellm_deepseek` | LiteLLM-backed DeepSeek config |
+| `llm_litellm_claude` | LiteLLM-backed Anthropic config |
+| `llm_litellm_gemini` | LiteLLM-backed Gemini config |
+| `llm_litellm_mistral` | LiteLLM-backed Mistral config |
+
+### Example
 
 ```ini
-[llm_preview]
-id = gpt-4-0125-preview
-temperature = 0
-max_retries = 3
-
 [llm_o]
 id = gpt-4o
 temperature = 0
-max_retries = 3
-
-
-[llm_mini]
-id = gpt-4o-mini
-temperature = 0
-max_retries = 3
-
-[llm_o3_mini]
-id = o3-mini-2025-01-31
-temperature = 1
-max_retries = 3
-
-[llm_o1]
-id = o1-2024-12-17
-temperature = 1
 max_retries = 3
 
 [deepseek_deepseek-chat]
@@ -49,230 +49,149 @@ id = deepseek-chat
 temperature = 0
 max_retries = 3
 base_url = https://api.deepseek.com
-
-[deepseek_deepseek-reasoner]
-id = deepseek-reasoner
-temperature = 0
-max_retries = 3
-base_url = https://api.deepseek.com
-
-[ovh_Meta-Llama-3_1-70B-Instruct]
-id = Meta-Llama-3_1-70B-Instruct
-temperature = 0
-max_retries = 3
-base_url = https://llama-3-1-70b-instruct.endpoints.kepler.ai.cloud.ovh.net/api/openai_compat/v1
 ```
 
-### Available Sections
+### Supported Parameters
 
-- **Main LLM (`[llm_o]`)**
-  Production-optimized GPT-4o 2024.08.06 used by most agents.
-- **Preview Model (`[llm_preview]`)**
-  Latest model versions with cutting-edge capabilities.
-- **Mini Model (`[llm_mini]`)**
-  Lightweight GPT-4o variant for basic tasks.
-- **O3 Mini (`[llm_o3_mini]`)**
-  Specialized model for experimental tasks with higher creativity.
-- **O1 Core (`[llm_o1]`)**
-  Advanced model for research and development.
+- `id`: provider-specific model identifier
+- `temperature`: sampling temperature
+- `max_retries`: retry count for model calls
+- `base_url` or `api_base`: custom endpoint for OpenAI-compatible APIs
 
-- **DeepSeek Chat (`[deepseek_deepseek-chat]`)**
-  Conversational model from DeepSeek for interactive queries.
-- **DeepSeek Reasoner (`[deepseek_deepseek-reasoner]`)**
-  Analytical model from DeepSeek for enhanced reasoning.
-- **OVH Meta-Llama (`[ovh_Meta-Llama-3_1-70B-Instruct]`)**
-  Instructive model providing robust language understanding.
+## Provider-to-Environment Variable Mapping
 
-🧪 MetaboT 🍵 supports both OpenAI-compatible API endpoints and various other LLM providers through [LiteLLM](https://github.com/BerriAI/litellm) integration. Models can be configured in two ways:
+MetaboT maps providers to environment variables in `app/core/main.py`.
 
-1. OpenAI-compatible endpoints using sections like `[llm_o]`, `[deepseek_deepseek-chat]`, etc.
-2. Other providers through LiteLLM using sections starting with `[llm_litellm_]`, for example:
-```ini
-[llm_litellm_openai]
-id = gpt-4
-temperature = 0
+| Provider | Environment variable |
+| --- | --- |
+| OpenAI | `OPENAI_API_KEY` |
+| DeepSeek | `DEEPSEEK_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| Gemini | `GEMINI_API_KEY` |
+| Mistral | `MISTRAL_API_KEY` |
+| OVH | `OVHCLOUD_API_KEY` |
+| Hugging Face | `HUGGINGFACE_API_KEY` |
 
-[llm_litellm_deepseek]
-id = deepseek/deepseek-chat
+### Example `.env`
 
-[llm_litellm_claude]
-id = claude-3-opus-20240229
-
-[llm_litellm_gemini]
-id = gemini/gemini-1.5-pro
+```env
+OPENAI_API_KEY=
+DEEPSEEK_API_KEY=
+ANTHROPIC_API_KEY=
+GEMINI_API_KEY=
+MISTRAL_API_KEY=
+OVHCLOUD_API_KEY=
+HUGGINGFACE_API_KEY=
 ```
 
-For a complete list of supported providers and their model identifiers, see the [LiteLLM Providers Documentation](https://docs.litellm.ai/docs/providers).
+You only need to define the keys for the providers you actually use.
 
-You can configure different models for each agent in your workflow. For detailed instructions on agent-specific model configuration, refer to the [Language Model Configuration Guide](../getting-started/installation.md#language-model-configuration).
+## Assigning Models to Agents
 
-### Parameters
+Agent wiring is controlled by `app/config/langgraph.json`.
 
-- `id`: Model identifier (format depends on provider)
-  - For OpenAI-compatible: e.g., gpt-4o, gpt-3.5-turbo
-  - For LiteLLM: provider/model-name (e.g., deepseek/deepseek-chat)
-- `temperature`: Randomness in responses (0-1)
-- `max_retries`: Number of retry attempts (optional)
-- `base_url`: Custom API endpoint URL (optional)
+Current default assignments:
 
----
-
-## SPARQL Configuration 🔍
-
-The [`sparql.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/app/config/sparql.ini) file contains SPARQL query templates and settings essential for interacting with the knowledge graph. These configurations are used by the [`RdfGraph`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/graph_management/RdfGraphCustom.py) class to dynamically retrieve the schema from the knowledge graph when no local schema file is provided.
-
-### Query Templates
-
-```ini
-[sparqlQueries]
-# Class information query
-CLS_RDF = SELECT DISTINCT ?cls ?com ?label
-        WHERE {
-            ?cls a rdfs:Class .
-            OPTIONAL { ?cls rdfs:comment ?com }
-            OPTIONAL { ?cls rdfs:label ?label }
-        }
-        GROUP BY ?cls ?com ?label
-```
-This query retrieves all classes along with their optional comments and labels. The results form the foundation for constructing the dynamic schema.
-
-```
-# Class relationships query
-CLS_REL_RDF = SELECT ?property (SAMPLE(COALESCE(?type, STR(DATATYPE(?value)), "Untyped")) AS ?valueType) 
-        WHERE {...}
-```
-This query is executed for each class retrieved by ```CLS_RDF```. It retrieves properties associated with instances of the specified class and determines a representative value type for each property.
-### Excluded URIs
-
-```ini
-[excludedURIs]
-uris = http://www.w3.org/1999/02/22-rdf-syntax-ns#type,
-       http://www.w3.org/2000/01/rdf-schema#comment,
-       http://www.w3.org/2000/01/rdf-schema#Class,
-       http://xmlns.com/foaf/0.1/depiction
-```
-The list of excluded URIs defines properties that are filtered out during the schema retrieval process.
----
-## Logging Configuration 📝
-
-The [`logging.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/logging.ini) file controls the logging behavior of 🧪 MetaboT 🍵.
-
-### Logger Settings
-
-```ini
-[loggers]
-keys=root
-
-[logger_root]
-level=INFO
-handlers=consoleHandler,fileHandler
+```json
+{
+  "agents": [
+    {"name": "Entry_Agent", "path": "app.core.agents.entry.agent", "llm_choice": "llm_o"},
+    {"name": "ENPKG_agent", "path": "app.core.agents.enpkg.agent", "llm_choice": "llm_o"},
+    {"name": "Sparql_query_runner", "path": "app.core.agents.sparql.agent", "llm_choice": "llm_o"},
+    {"name": "Interpreter_agent", "path": "app.core.agents.interpreter.agent", "llm_choice": "llm_o"},
+    {"name": "supervisor", "path": "app.core.agents.supervisor.agent", "llm_choice": "llm_o"},
+    {"name": "Validator", "path": "app.core.agents.validator.agent", "llm_choice": "llm_o"}
+  ]
+}
 ```
 
-### Handler Configuration
+To switch a specific agent to another model, change its `llm_choice` value to the target section name from `params.ini`.
 
-- **Console Handler**  
-  ```ini
-  [handler_consoleHandler]
-  class=StreamHandler
-  level=INFO
-  formatter=simpleFormatter
-  args=(sys.stdout,)
-  ```
-- **File Handler**  
-  ```ini
-  [handler_fileHandler]
-  class=logging.handlers.RotatingFileHandler
-  level=INFO
-  formatter=detailedFormatter
-  args=('./app/config/logs/app.log', 'w', 100000, 5)
-  ```
+## Endpoint Configuration
 
-### Formatter Settings
+MetaboT reads the SPARQL endpoint in this order:
 
-- **Simple Formatter (Console)**  
-  ```ini
-  [formatter_simpleFormatter]
-  format=%(name)s - %(levelname)s - %(message)s
-  ```
-- **Detailed Formatter (File)**  
-  ```ini
-  [formatter_detailedFormatter]
-  format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
-  datefmt=%Y-%m-%d %H:%M:%S
-  ```
+1. `--endpoint` command-line argument
+2. `KG_ENDPOINT_URL` in `.env`
+3. the default ENPKG endpoint
 
----
-## Environment Variables 🔧
+Example:
 
-Create a `.env` file in the project root with these variables:
-
-```bash
-# LLM API Configuration
-OPENAI_API_KEY=your_openai_api_key          # If using OpenAI models
-DEEPSEEK_API_KEY=your_deepseek_api_key      # If using DeepSeek models
-CLAUDE_API_KEY=your_claude_api_key          # If using Claude models
-GEMINI_API_KEY=your_gemini_api_key          # If using Gemini models
-OVHCLOUD_API_KEY=your_ovh_api_key           # If using Llama on OVHcloud
-
-# Knowledge Graph Configuration
+```env
 KG_ENDPOINT_URL=https://enpkg.commons-lab.org/graphdb/repositories/ENPKG
-SPARQL_USERNAME=your_username               # If endpoint requires authentication
-SPARQL_PASSWORD=your_password               # If endpoint requires authentication
+SPARQL_USERNAME=
+SPARQL_PASSWORD=
+```
 
-# LangSmith Configuration (Optional)
-LANGCHAIN_API_KEY=your_langsmith_api_key
+Use `SPARQL_USERNAME` and `SPARQL_PASSWORD` only when your endpoint requires authentication.
+
+## LangSmith and Tracing
+
+Tracing is optional. MetaboT enables it automatically if either of these is present:
+
+- `LANGCHAIN_API_KEY`
+- `LANGSMITH_API_KEY`
+
+Recommended configuration:
+
+```env
+LANGCHAIN_API_KEY=
 LANGCHAIN_PROJECT=MetaboT
 LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 ```
 
----
-## Best Practices 📘
+If no tracing key is present, MetaboT disables tracing automatically.
 
-### Language Model Selection
-- Use  `llm_o` for complex queries requiring high accuracy.
-- Use  `llm_o3_mini` for faster, cost-effective operations.
-- Consider `llm_o3` or `llm_o1`and its variants for complex questions.
+## SPARQL and Schema Configuration
 
+`app/config/sparql.ini` contains helper queries used to inspect or work with the graph schema. These are especially important when MetaboT needs to construct schema-aware prompts from an endpoint rather than from assumptions.
 
-### Logging Configuration
-- Keep the default INFO level for production.
-- Use the DEBUG level during development.
-- Monitor log file sizes (default 1MB per file, 5 files max).
+This file includes:
 
-### SPARQL Optimization
-- Review and update excluded URIs as needed.
-- Monitor query performance.
-- Adjust the prompt of sparql_generation_select_chain in [`app/core/agents/sparql/tool_sparql`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/core/agents/sparql/tool_sparql.py).
+- class discovery queries
+- property discovery queries
+- excluded URI settings
 
-### Environment Security
-- Never commit the `.env` file to version control.
-- Rotate API keys regularly.
-- Use different keys for development and production.
+If you adapt MetaboT to another graph, review `sparql.ini` together with the prompt files used by the validator and SPARQL agents.
 
----
-## Troubleshooting 🚨
+## Adapting MetaboT to a New Knowledge Graph
 
-### Common Issues
+For a graph that differs significantly from ENPKG, the most important adjustments are:
 
-- **Language Model Errors**  
-    - Check API key validity.
-    - Verify model availability.
-    - Review rate limits.
+1. update `KG_ENDPOINT_URL`
+2. check whether the schema can be extracted cleanly
+3. revise prompt instructions in:
+   - `app/core/agents/validator/prompt.py`
+   - `app/core/agents/sparql/prompt.py`
+   - `app/core/agents/sparql/tool_sparql.py`
+4. adapt or replace entity resolver tools if your graph uses different identifier systems
 
-- **Logging Issues**  
-    - Ensure write permissions for the log directory.
-    - Check disk space.
-    - Verify log rotation settings.
+The more your graph diverges from ENPKG in naming conventions and ontology structure, the more prompt tuning will matter.
 
-- **SPARQL Problems**  
-    - Validate endpoint accessibility.
-    - Check query syntax.
-    - Review timeout settings.
+## Logging
 
----
-## Default Dataset and Data Conversion 📊
+Logging behavior is defined in `app/config/logging.ini`.
 
-**Note:**  By default, 🧪 MetaboT 🍵 connects to the public [ENPKG endpoint](https://doi.org/10.1021/acscentsci.3c00800) which hosts an open, annotated mass spectrometry dataset derived from a chemodiverse collection of **1,600 plant extracts**. This default dataset enables you to explore all features of 🧪 MetaboT 🍵 without the need for custom data conversion immediately. To use 🧪 MetaboT 🍵 on your mass spectrometry data, the processed and annotated results must first be converted into a knowledge graph format using the [ENPKG tool]([https://github.com/enpkg](https://github.com/enpkg/enpkg_graph_builder)). 
+By default, MetaboT logs to:
 
+- the console
+- a rotating log file
 
-- Update the `KG_ENDPOINT_URL` in your **.env** file to point to your custom knowledge graph endpoint.
+Useful adjustments:
+
+- raise log level to `DEBUG` during development
+- keep `INFO` for routine usage
+- inspect file handler settings if you want larger or longer-lived logs
+
+## Best Practices
+
+- Keep one strong default model for most agents before experimenting with per-agent specialization.
+- Start on the public ENPKG endpoint before switching to a custom graph.
+- Add only the environment variables you need for the providers you are using.
+- Treat prompt updates and resolver updates as part of the same portability work when moving to a new graph.
+
+## Related Pages
+
+- [Installation](../getting-started/installation.md)
+- [Quick Start](../getting-started/quickstart.md)
+- [Overview](overview.md)
