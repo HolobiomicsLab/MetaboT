@@ -31,6 +31,17 @@ from app.core.session import create_user_session, setup_logger
 logger = setup_logger(__name__)
 
 _ALLOWED_INPUT_SUFFIXES = {".csv", ".tsv", ".mgf", ".txt", ".xlsx", ".xls", ".json"}
+_ALLOWED_INPUT_SUFFIXES_PATTERN = "|".join(
+    sorted(suffix.removeprefix(".") for suffix in _ALLOWED_INPUT_SUFFIXES)
+)
+_QUOTED_FILE_PATH_PATTERN = re.compile(
+    rf"""(?P<quote>["'])(?P<path>[^"']+\.(?:{_ALLOWED_INPUT_SUFFIXES_PATTERN}))(?P=quote)""",
+    re.IGNORECASE,
+)
+_UNQUOTED_FILE_PATH_PATTERN = re.compile(
+    rf"""(?P<path>[A-Za-z0-9_./\\-]+\.(?:{_ALLOWED_INPUT_SUFFIXES_PATTERN}))""",
+    re.IGNORECASE,
+)
 _MAX_OUTPUT_CHARS = 2000
 
 
@@ -121,7 +132,7 @@ class Interpreter(BaseTool):
 
         logger.info(f"Generated code:\n{code}")
 
-        existing_files = self.list_session_files(session_dir)
+        existing_files = self.capture_session_file_metadata(session_dir)
         execution_result = self.execute_in_subprocess(
             code=code,
             session_dir=session_dir,
@@ -137,21 +148,22 @@ class Interpreter(BaseTool):
         combined_output = self.truncate_output(combined_output)
         logger.info(f"Execution output: {combined_output}")
 
-        new_files = sorted(
+        current_files = self.capture_session_file_metadata(session_dir)
+        changed_or_new_files = sorted(
             str(path)
-            for path in (self.list_session_files(session_dir) - existing_files)
+            for path in self.find_changed_or_new_files(existing_files, current_files)
         )
-        logger.info(f"Files generated: {new_files}")
+        logger.info(f"Files generated or updated: {changed_or_new_files}")
 
-        output_data = {"output": {"paths": new_files}}
+        output_data = {"output": {"paths": changed_or_new_files}}
         try:
             db_manager.put(data=json.dumps(output_data), tool_name="tool_interpreter")
         except Exception as e:
             logger.error(f"Error saving to database: {e}")
 
         suffix = (
-            "\n\nThe full path of the files generated are:\n" + "\n".join(new_files)
-            if new_files
+            "\n\nThe full path of the files generated or updated are:\n" + "\n".join(changed_or_new_files)
+            if changed_or_new_files
             else ""
         )
         return f"{combined_output}{suffix}"
@@ -353,17 +365,38 @@ class Interpreter(BaseTool):
         return code_blocks[0] if code_blocks else None
 
     def extract_file_paths(self, text: str) -> list[str]:
-        regex = r"['\"]?([^'\"\s]+(?:\.csv|\.tsv|\.mgf|\.txt|\.xlsx|\.xls|\.json))['\"]?"
-        return [
-            match.group(1).replace("'", "").replace('"', "")
-            for match in re.finditer(regex, text)
-        ]
+        candidates: list[str] = []
+        quoted_spans: list[tuple[int, int]] = []
 
-    def list_session_files(self, session_dir: Path) -> set[Path]:
+        for match in _QUOTED_FILE_PATH_PATTERN.finditer(text):
+            candidates.append(match.group("path"))
+            quoted_spans.append(match.span())
+
+        for match in _UNQUOTED_FILE_PATH_PATTERN.finditer(text):
+            if self.is_overlapping_span(match.span(), quoted_spans):
+                continue
+            candidates.append(match.group("path"))
+
+        return self.deduplicate_paths(candidates)
+
+    def capture_session_file_metadata(self, session_dir: Path) -> dict[Path, tuple[int, int]]:
+        metadata: dict[Path, tuple[int, int]] = {}
+        for path in session_dir.rglob("*"):
+            if not path.is_file():
+                continue
+            stat = path.stat()
+            metadata[path.resolve(strict=False)] = (stat.st_mtime_ns, stat.st_size)
+        return metadata
+
+    def find_changed_or_new_files(
+        self,
+        previous_metadata: dict[Path, tuple[int, int]],
+        current_metadata: dict[Path, tuple[int, int]],
+    ) -> set[Path]:
         return {
-            path.resolve(strict=False)
-            for path in session_dir.rglob("*")
-            if path.is_file()
+            path
+            for path, metadata in current_metadata.items()
+            if previous_metadata.get(path) != metadata
         }
 
     def truncate_output(self, output: str) -> str:
@@ -376,3 +409,15 @@ class Interpreter(BaseTool):
         if isinstance(value, str) and len(value) > 80:
             return value[:80] + "..."
         return value
+
+    @staticmethod
+    def deduplicate_paths(paths: list[str]) -> list[str]:
+        deduplicated_paths: list[str] = []
+        for path in paths:
+            if path not in deduplicated_paths:
+                deduplicated_paths.append(path)
+        return deduplicated_paths
+
+    @staticmethod
+    def is_overlapping_span(span: tuple[int, int], other_spans: list[tuple[int, int]]) -> bool:
+        return any(span[0] < other[1] and other[0] < span[1] for other in other_spans)
