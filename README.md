@@ -17,7 +17,7 @@
   <a href="https://holobiomicslab.github.io/MetaboT/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue" alt="Documentation"></a>
   <a href="https://metabot.holobiomicslab.eu"><img src="https://img.shields.io/badge/demo-Web%20App-2ea44f" alt="Public demo"></a>
   <a href="https://doi.org/10.21203/rs.3.rs-6591884/v1"><img src="https://img.shields.io/badge/DOI-10.21203%2Frs.3.rs--6591884%2Fv1-ff8c00" alt="Research Square DOI"></a>
-  <a href="https://doi.org/10.5281/zenodo.19701250"><img src="https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.19701250-1f70c1" alt="Zenodo archive"></a>
+  <a href="https://doi.org/10.5281/zenodo.19715403"><img src="https://img.shields.io/badge/Zenodo-10.5281%2Fzenodo.19715403-1f70c1" alt="Zenodo archive"></a>
 </p>
 </div>
 
@@ -57,7 +57,7 @@ The latest manuscript reports the following benchmark results on a manually cura
 | MetaboT with GPT-4o mini | 12.24% | 15.79% |
 | MetaboT with GPT-4o | 83.67% | 78.95% |
 
-These numbers are reported over 49 scored questions from a 50-question benchmark, after excluding one refinement artifact described in the manuscript. The benchmark dataset is included in [app/data/evaluation_dataset.csv](app/data/evaluation_dataset.csv) and archived on [Zenodo](https://doi.org/10.5281/zenodo.19701250).
+These numbers are reported over 49 scored questions from a 50-question benchmark, after excluding one refinement artifact described in the manuscript. The benchmark dataset is included in [app/data/evaluation_dataset.csv](app/data/evaluation_dataset.csv) and archived on [Zenodo](https://doi.org/10.5281/zenodo.19715403).
 
 ## Architecture Overview
 
@@ -151,13 +151,14 @@ Override the endpoint at runtime:
 python -m app.core.main -c "Which lab extracts show inhibition above 50% against Leishmania donovani?" --endpoint https://your-endpoint.example/sparql
 ```
 
-When result sets are large, MetaboT writes them to CSV files and returns the path so you can inspect the full output outside the LLM context window.
+MetaboT saves all result sets to CSV files in a temporary folder and returns the file path. When results are small, they are also displayed inline; for large result sets, only the file path is returned to avoid exceeding the LLM context window.
 
 ### Streamlit web app
 
 The repository also includes a Streamlit interface:
 
 ```bash
+pip install -r requirements.txt
 export PYTHONPATH="$(pwd):${PYTHONPATH}"
 streamlit run streamlit_webapp/streamlit_app.py
 ```
@@ -198,7 +199,7 @@ If you use MetaboT in research, please cite:
 
 Bekbergenova M, Pradi L, Navet B, Tysinger E, Michel F, Feraud M, Taghzouti Y, Legrand M, Jiang T, Chen YZ, Hassoun S, Kirchhoffer O, Wolfender JL, Mehl F, Pagni M, Bittremieux W, Gandon F, Nothias LF. **MetaboT: An LLM-based Multi-Agent Framework for Interactive Analysis of Mass Spectrometry Metabolomics Knowledge Graphs.** Research Square preprint. DOI: [10.21203/rs.3.rs-6591884/v1](https://doi.org/10.21203/rs.3.rs-6591884/v1)
 
-The archived evaluated version and benchmark release are available at [10.5281/zenodo.19701250](https://doi.org/10.5281/zenodo.19701250).
+The archived evaluated version and benchmark release are available at [10.5281/zenodo.19715403](https://doi.org/10.5281/zenodo.19715403).
 
 ## License
 
