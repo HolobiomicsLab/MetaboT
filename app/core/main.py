@@ -1,13 +1,17 @@
 import os
+import shutil
 import argparse
-from typing import Optional
+import configparser
+from typing import Optional, List
+from pathlib import Path
+
 from dotenv import load_dotenv
 from langsmith import Client
-from pathlib import Path
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-from app.core.utils import IntRange, setup_logger
-import configparser
 from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
+
+from app.core.workflow.langraph_workflow import create_workflow, process_workflow
+from app.core.session import create_user_session, initialize_session_context
+from app.core.utils import IntRange, setup_logger
 from app.core.questions import standard_questions
 
 
@@ -198,52 +202,117 @@ def langsmith_setup() -> Optional[Client]:
         return None
 
 
-def main():
-    """Main function to run the workflow."""
-    # Define command line arguments
+def _prepare_session_files(session_id: str, file_paths: List[str]) -> Path:
+    """
+    Copy user-supplied local files into the session's input directory so that
+    the FILE_ANALYZER tool can discover them at runtime.
 
-    parser = argparse.ArgumentParser(description="Process a workflow with a predefined question number.")
-    parser.add_argument('-q', '--question', type=int, choices=IntRange(1, len(standard_questions)),
-                        help=f"Choose a standard question number from 1 to {len(standard_questions)}.")
-    parser.add_argument('-c', '--custom', type=str,
-                        help="Provide a custom question.")
-    parser.add_argument('-e', '--evaluation', action='store_true',
-                        help="Enable evaluation mode")
-    parser.add_argument('--api-key', type=str,
-                        help="OpenAI API key (optional, defaults to environment variable)")
-    parser.add_argument('--endpoint', type=str,
-                        help="Knowledge graph endpoint URL (optional)")
+    Args:
+        session_id: Active session identifier.
+        file_paths: List of local file paths provided via the CLI.
+
+    Returns:
+        Path to the session input directory.
+
+    Raises:
+        FileNotFoundError: If any of the supplied paths do not exist.
+    """
+    input_dir = create_user_session(session_id, input_dir=True)
+
+    for raw_path in file_paths:
+        src = Path(raw_path).resolve()
+        if not src.exists():
+            raise FileNotFoundError(f"File not found: {src}")
+        dest = input_dir / src.name
+        shutil.copy2(str(src), str(dest))
+        logger.info(f"Copied '{src}' -> '{dest}'")
+
+    return input_dir
+
+
+def main():
+    """
+    CLI entry-point for running the MetaboT workflow.
+
+    Usage examples:
+        python -m app.core.main -q 1
+        python -m app.core.main -c "Describe my dataset" -f data.csv
+        python -m app.core.main -c "Compare files" -f file1.csv file2.tsv
+    """
+    parser = argparse.ArgumentParser(
+        description="Process a workflow with a predefined question number."
+    )
+    parser.add_argument(
+        '-q', '--question', type=int,
+        choices=IntRange(1, len(standard_questions)),
+        help=f"Choose a standard question number from 1 to {len(standard_questions)}.",
+    )
+    parser.add_argument(
+        '-c', '--custom', type=str,
+        help="Provide a custom question.",
+    )
+    parser.add_argument(
+        '-f', '--file', type=str, nargs='+',
+        help="One or more local file paths to make available for the FILE_ANALYZER tool.",
+    )
+    parser.add_argument(
+        '-e', '--evaluation', action='store_true',
+        help="Enable evaluation mode.",
+    )
+    parser.add_argument(
+        '--api-key', type=str,
+        help="OpenAI API key (optional, defaults to environment variable).",
+    )
+    parser.add_argument(
+        '--endpoint', type=str,
+        help="Knowledge graph endpoint URL (optional).",
+    )
 
     args = parser.parse_args()
 
+    # Resolve the question
     if args.question:
         question = standard_questions[args.question - 1]
     elif args.custom:
         question = args.custom
     else:
-        print("You must provide either a standard question number or a custom question.")
+        print("You must provide either a standard question number (-q) or a custom question (-c).")
         return
 
     # Initialize LangSmith if available
-    langsmith_client = langsmith_setup()
+    langsmith_setup()
 
-    # Get endpoint URL from arguments or environment
+    # Resolve endpoint URL
     endpoint_url = (
         args.endpoint
         or os.environ.get("KG_ENDPOINT_URL")
         or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     )
+
+    # Initialize language models
     models = llm_creation()
 
+    # Create a user session (mirrors the Streamlit session lifecycle)
+    session_id = create_user_session()
+    initialize_session_context(session_id)
+
+    # Stage user-provided files into the session's input directory
+    if args.file:
+        try:
+            _prepare_session_files(session_id, args.file)
+        except FileNotFoundError as exc:
+            logger.error(str(exc))
+            print(f"Error: {exc}")
+            return
+
     try:
-        # Create and process workflow
         workflow = create_workflow(
             models=models,
+            session_id=session_id,
             endpoint_url=endpoint_url,
             evaluation=False,
-            api_key=args.api_key
+            api_key=args.api_key,
         )
-
         process_workflow(workflow, question)
 
     except Exception as e:
