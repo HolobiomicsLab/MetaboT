@@ -108,8 +108,7 @@ For contributors with access keys, the application provides:
 
 ## License
 
-[Include license information here]
+MetaboT is released under the Apache 2.0 License. See [LICENSE.txt](LICENSE.txt).
 
-## Support
 
-[Include support contact information here]
+
