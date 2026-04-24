@@ -83,6 +83,7 @@ The repository also contains a Streamlit interface:
 
 ```bash
 export PYTHONPATH="$(pwd):${PYTHONPATH}"
+pip install -r requirements.txt
 streamlit run streamlit_webapp/streamlit_app.py
 ```
 
@@ -103,8 +104,7 @@ For a typical knowledge question, the workflow is:
 
 ## Result Files
 
-Large results may be written to temporary CSV files. This is expected behavior and helps MetaboT avoid overflowing the LLM context window while still returning the complete result set.
-
+The results are written to temporary CSV files. When the results are small, they are also displayed inline; for large result sets, only the file path is provided to avoid exceeding the LLM context window.
 ## Troubleshooting
 
 ### The query fails immediately
