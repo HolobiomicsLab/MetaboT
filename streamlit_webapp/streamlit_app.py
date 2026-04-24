@@ -34,6 +34,7 @@ from openai import OpenAI
 from langchain_core.messages import HumanMessage
 from langsmith import Client
 from app.core.memory.database_manager import tools_database, memory_database
+from app.core.security import is_trusted_mode_enabled
 from langchain.callbacks.manager import tracing_v2_enabled
 from streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
 from app.core.workflow.langraph_workflow import create_workflow
@@ -117,6 +118,9 @@ if "preselected_question" not in st.session_state:
 
 if "set_standard_endpoint" not in st.session_state:
     st.session_state.set_standard_endpoint = True
+
+if "trusted_mode_enabled" not in st.session_state:
+    st.session_state.trusted_mode_enabled = is_trusted_mode_enabled()
 
 if "langgraph_app_created" not in st.session_state:
     st.session_state.langgraph_app_created = False
@@ -383,23 +387,30 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
             st.session_state.logger.error(f"An error occurred while initializing the LangGraph: {e}")
 
     else:
+        if st.session_state.trusted_mode_enabled == False:
+            st.info(
+                "Trusted mode is disabled in this deployment. "
+                "Interpreter-based file analysis and LLM-generated visualizations are not exposed to public users."
+            )
+
         # Variables to track submission status of predefined and custom question
         select_submit_clicked = False
         custom_submit_clicked = False
 
-        with st.expander("Input your own file", expanded=False):
-            user_files = st.file_uploader("Choose your files", accept_multiple_files=True)
-            if user_files:
-                filenames = [file.name for file in user_files]
-                try:
-                    for file in user_files:
-                        file_path = st.session_state.user_input_dir / file.name
-                        with file_path.open("wb") as f:
-                            f.write(file.getbuffer())
-                    st.success(f"File(s) uploaded successfully: {filenames}")
-                    st.session_state.logger.info(f"File(s) uploaded successfully: {filenames}")
-                except Exception as e:
-                    st.error(f"An error occurred while processing the file: {e}")
+        if st.session_state.trusted_mode_enabled == True:
+            with st.expander("Input your own file", expanded=False):
+                user_files = st.file_uploader("Choose your files", accept_multiple_files=True)
+                if user_files:
+                    filenames = [file.name for file in user_files]
+                    try:
+                        for file in user_files:
+                            file_path = st.session_state.user_input_dir / file.name
+                            with file_path.open("wb") as f:
+                                f.write(file.getbuffer())
+                        st.success(f"File(s) uploaded successfully: {filenames}")
+                        st.session_state.logger.info(f"File(s) uploaded successfully: {filenames}")
+                    except Exception as e:
+                        st.error(f"An error occurred while processing the file: {e}")
 
         with st.expander ("Try one our standard questions:", expanded=False):
         # Form for selecting a predefined question

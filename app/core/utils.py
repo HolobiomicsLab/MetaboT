@@ -3,6 +3,7 @@ import json
 import logging
 import logging.config
 import os
+from copy import deepcopy
 from pathlib import Path
 from typing import List, Optional, Type
 from langchain.tools import BaseTool
@@ -10,6 +11,7 @@ import tiktoken
 import inspect
 import tempfile
 from uuid import uuid4
+from app.core.security import is_trusted_mode_enabled
 from app.core.session import setup_logger
 
 logger = setup_logger(__name__)
@@ -18,7 +20,42 @@ logger = setup_logger(__name__)
 def load_config():
     config_path = Path(__file__).resolve().parent.parent / "config" / "langgraph.json"
     with open(config_path, "r") as file:
-        return json.load(file)
+        config = json.load(file)
+
+    return _with_optional_interpreter(config)
+
+
+def _with_optional_interpreter(config: dict) -> dict:
+    if not is_trusted_mode_enabled():
+        return config
+
+    trusted_config = deepcopy(config)
+    interpreter_agent = {
+        "name": "Interpreter_agent",
+        "path": "app.core.agents.interpreter.agent",
+        "llm_choice": "llm_o",
+    }
+    interpreter_edge = {"source": "Interpreter_agent", "target": "supervisor"}
+    interpreter_target = {
+        "condition_value": "Interpreter_agent",
+        "target": "Interpreter_agent",
+    }
+
+    if interpreter_agent not in trusted_config["agents"]:
+        trusted_config["agents"].insert(3, interpreter_agent)
+
+    if interpreter_edge not in trusted_config["edges"]:
+        trusted_config["edges"].append(interpreter_edge)
+
+    for edge in trusted_config["conditional_edges"]:
+        if edge["source"] == "supervisor" and interpreter_target not in edge["targets"]:
+            edge["targets"].insert(-1, interpreter_target)
+
+    members = trusted_config["supervisor"]["members"]
+    if "Interpreter_agent" not in members:
+        members.append("Interpreter_agent")
+
+    return trusted_config
 
 
 def import_tools(directory: str, module_prefix: str, **kwargs) -> List:
