@@ -32,6 +32,7 @@ REAL_IMPORT = builtins.__import__
 REAL_OPEN = builtins.open
 REAL_IO_OPEN = io.open
 REAL_OS_OPEN = os.open
+REAL_PATH_OPEN = Path.open
 
 
 def parse_args() -> argparse.Namespace:
@@ -50,6 +51,8 @@ def validate_code(code: str) -> None:
     tree = ast.parse(code, mode="exec")
     blocked_names = {"__import__", "eval", "exec", "compile", "globals", "locals", "vars", "breakpoint"}
 
+    # Defense in depth only: AST validation helps reduce accidental footguns,
+    # but the subprocess sandbox remains the primary containment layer.
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             for alias in node.names:
@@ -61,6 +64,9 @@ def validate_code(code: str) -> None:
                 raise ValueError(f"Import from '{module}' is not allowed.")
         elif isinstance(node, ast.Name) and node.id in blocked_names:
             raise ValueError(f"Use of '{node.id}' is not allowed.")
+        elif isinstance(node, ast.Attribute):
+            if node.attr.startswith("__") and node.attr.endswith("__"):
+                raise ValueError("Dunder attribute access is not allowed.")
 
 
 def apply_resource_limits(config: dict) -> None:
@@ -169,6 +175,13 @@ def patch_filesystem_access(session_dir: Path, allowed_input_paths: list[str]):
     return safe_open
 
 
+def restore_filesystem_access() -> None:
+    builtins.open = REAL_OPEN
+    io.open = REAL_IO_OPEN
+    os.open = REAL_OS_OPEN
+    Path.open = REAL_PATH_OPEN
+
+
 def is_within_directory(path: Path, directory: Path) -> bool:
     resolved_path = path.resolve(strict=False)
     resolved_directory = directory.resolve(strict=False)
@@ -247,15 +260,25 @@ def execute_user_code(config: dict) -> dict:
 
     try:
         with contextlib.redirect_stdout(stdout_buffer), contextlib.redirect_stderr(stderr_buffer):
-            exec(compile(config["code"], "<metabot-interpreter>", "exec"), sandbox_globals, sandbox_globals)
-        return {
-            "success": True,
-            "stdout": stdout_buffer.getvalue(),
-            "stderr": stderr_buffer.getvalue(),
-            "error": "",
-        }
+            try:
+                exec(compile(config["code"], "<metabot-interpreter>", "exec"), sandbox_globals, sandbox_globals)
+            except BaseException as exc:
+                return {
+                    "success": False,
+                    "stdout": stdout_buffer.getvalue(),
+                    "stderr": stderr_buffer.getvalue(),
+                    "error": str(exc),
+                    "traceback": traceback.format_exc(),
+                }
+            return {
+                "success": True,
+                "stdout": stdout_buffer.getvalue(),
+                "stderr": stderr_buffer.getvalue(),
+                "error": "",
+            }
     finally:
         signal.alarm(0)
+        restore_filesystem_access()
 
 
 def main() -> int:

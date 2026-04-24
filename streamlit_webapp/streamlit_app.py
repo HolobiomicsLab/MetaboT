@@ -35,6 +35,7 @@ from langchain_core.messages import HumanMessage
 from langsmith import Client
 from app.core.memory.database_manager import tools_database, memory_database
 from app.core.security import is_trusted_mode_enabled
+from app.core.security import resolve_session_path
 from langchain.callbacks.manager import tracing_v2_enabled
 from streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
 from app.core.workflow.langraph_workflow import create_workflow
@@ -401,10 +402,15 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
             with st.expander("Input your own file", expanded=False):
                 user_files = st.file_uploader("Choose your files", accept_multiple_files=True)
                 if user_files:
-                    filenames = [file.name for file in user_files]
+                    filenames = [Path(file.name).name for file in user_files]
                     try:
                         for file in user_files:
-                            file_path = st.session_state.user_input_dir / file.name
+                            safe_filename = Path(file.name).name
+                            file_path = resolve_session_path(
+                                safe_filename,
+                                session_dir=st.session_state.user_input_dir,
+                                must_exist=False,
+                            )
                             with file_path.open("wb") as f:
                                 f.write(file.getbuffer())
                         st.success(f"File(s) uploaded successfully: {filenames}")

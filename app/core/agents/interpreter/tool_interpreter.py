@@ -121,11 +121,17 @@ class Interpreter(BaseTool):
         user_message = f"File previews:\n{preview_block}\n\nRequest: {input}"
 
         logger.info("Requesting analysis code from LLM")
-        response = llm.invoke(
-            [SystemMessage(content=system_prompt), HumanMessage(content=user_message)]
-        )
+        try:
+            response = llm.invoke(
+                [SystemMessage(content=system_prompt), HumanMessage(content=user_message)]
+            )
+        except Exception as exc:
+            logger.error(f"Interpreter LLM invocation failed: {exc}")
+            return "Interpreter could not generate analysis code for this request."
 
-        code = self.extract_python_code(response.content)
+        response_content = self.normalize_response_content(response.content)
+
+        code = self.extract_python_code(response_content)
         if code is None:
             logger.error("LLM did not return a Python code block")
             return "Interpreter could not generate analysis code for this request."
@@ -211,7 +217,37 @@ class Interpreter(BaseTool):
             logger.warning(f"Could not decode tool payload for {tool_name}: {exc}")
             return []
 
-        return payload_json.get("output", {}).get("paths", [])
+        if not isinstance(payload_json, dict):
+            logger.warning(
+                "Unexpected payload shape for %s: top-level payload type is %s",
+                tool_name,
+                type(payload_json).__name__,
+            )
+            return []
+
+        output = payload_json.get("output")
+        if isinstance(output, dict):
+            output_paths = output.get("paths", [])
+            if isinstance(output_paths, list):
+                return output_paths
+            logger.warning(
+                "Unexpected payload shape for %s: output.paths type is %s",
+                tool_name,
+                type(output_paths).__name__,
+            )
+            return []
+
+        top_level_paths = payload_json.get("paths")
+        if isinstance(top_level_paths, list):
+            return top_level_paths
+
+        logger.warning(
+            "Unexpected payload shape for %s: output type is %s and top-level paths type is %s",
+            tool_name,
+            type(output).__name__,
+            type(top_level_paths).__name__,
+        )
+        return []
 
     def build_system_prompt(self, session_dir: Path, file_paths: list[Path]) -> str:
         allowed_paths = "\n".join(f"- {path}" for path in file_paths)
@@ -324,6 +360,22 @@ class Interpreter(BaseTool):
             )
 
             stdout, stderr = process.communicate(timeout=timeout_seconds + 2)
+
+            result: dict[str, Any] | None = None
+            if result_path.exists():
+                try:
+                    result = json.loads(result_path.read_text(encoding="utf-8"))
+                except json.JSONDecodeError as exc:
+                    logger.warning(f"Could not decode sandbox result: {exc}")
+
+            if result is None:
+                error_message = stderr.strip() or stdout.strip() or "Interpreter execution failed."
+                return {"success": False, "stdout": "", "error": error_message}
+
+            if process.returncode != 0 and not result.get("error"):
+                result["error"] = stderr.strip() or "Interpreter subprocess failed."
+
+            return result
         except subprocess.TimeoutExpired:
             if process is not None:
                 try:
@@ -331,7 +383,6 @@ class Interpreter(BaseTool):
                 except ProcessLookupError:
                     process.kill()
                 process.wait()
-            result_path.unlink(missing_ok=True)
             return {
                 "success": False,
                 "stdout": "",
@@ -339,30 +390,25 @@ class Interpreter(BaseTool):
             }
         finally:
             payload_path.unlink(missing_ok=True)
-
-        result: dict[str, Any] | None = None
-        if result_path.exists():
-            try:
-                result = json.loads(result_path.read_text(encoding="utf-8"))
-            except json.JSONDecodeError as exc:
-                logger.warning(f"Could not decode sandbox result: {exc}")
-            finally:
-                result_path.unlink(missing_ok=True)
-
-        if result is None:
-            error_message = stderr.strip() or stdout.strip() or "Interpreter execution failed."
-            return {"success": False, "stdout": "", "error": error_message}
-
-        if process.returncode != 0 and not result.get("error"):
-            result["error"] = stderr.strip() or "Interpreter subprocess failed."
-
-        return result
+            result_path.unlink(missing_ok=True)
 
     def extract_python_code(self, text: str) -> str | None:
         code_blocks = re.findall(r"```python\s*(.*?)\s*```", text, re.DOTALL)
         if not code_blocks:
             code_blocks = re.findall(r"```\s*(.*?)\s*```", text, re.DOTALL)
         return code_blocks[0] if code_blocks else None
+
+    def normalize_response_content(self, content: Any) -> str:
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            return "\n".join(
+                item if isinstance(item, str) else json.dumps(item, ensure_ascii=True, default=str)
+                for item in content
+            )
+        if isinstance(content, dict):
+            return json.dumps(content, ensure_ascii=True, default=str)
+        return str(content)
 
     def extract_file_paths(self, text: str) -> list[str]:
         candidates: list[str] = []
