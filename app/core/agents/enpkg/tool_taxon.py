@@ -5,8 +5,6 @@ from SPARQLWrapper import JSON, SPARQLWrapper
 
 from pydantic import BaseModel, Field
 
-from typing import Optional
-
 from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
 )
