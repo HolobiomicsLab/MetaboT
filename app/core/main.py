@@ -7,7 +7,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from langsmith import Client
-from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
+from langchain_community.chat_models import ChatLiteLLM
+from langchain_openai import ChatOpenAI
 
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
 from app.core.session import create_user_session, initialize_session_context

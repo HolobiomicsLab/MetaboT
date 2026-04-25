@@ -394,7 +394,8 @@ class GraphSparqlQAChain(BaseTool):
         # Construct the path to the faiss_db directory
         db_path = os.path.abspath(os.path.join(current_dir, '..', '..', '..', 'data', 'faiss_db'))
 
-        embeddings = OpenAIEmbeddings(api_key=self.openai_key)
+        embedding_kwargs = {"api_key": self.openai_key} if self.openai_key else {}
+        embeddings = OpenAIEmbeddings(**embedding_kwargs)
         db = FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
         related_nodes = db.similarity_search(query, 12)
         return related_nodes

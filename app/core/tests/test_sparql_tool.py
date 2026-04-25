@@ -3,9 +3,7 @@ from app.core.agents.sparql import tool_sparql
 
 
 def _construct_tool(**kwargs):
-    if hasattr(tool_sparql.GraphSparqlQAChain, "model_construct"):
-        return tool_sparql.GraphSparqlQAChain.model_construct(**kwargs)
-    return tool_sparql.GraphSparqlQAChain.construct(**kwargs)
+    return tool_sparql.GraphSparqlQAChain.model_construct(**kwargs)
 
 
 def test_create_agent_passes_openai_key_to_import_tools(monkeypatch):
@@ -78,6 +76,50 @@ def test_search_nodes_uses_explicit_openai_key(monkeypatch):
     result = tool.search_nodes("SELECT * WHERE { ?s ?p ?o }")
 
     assert captured["api_key"] == "cli-key"
+    assert captured["query"] == "SELECT * WHERE { ?s ?p ?o }"
+    assert captured["limit"] == 12
+    assert captured["allow_dangerous_deserialization"] is True
+    assert result == ["related-node"]
+
+
+def test_search_nodes_falls_back_to_env_openai_key(monkeypatch):
+    captured = {}
+
+    class FakeLLMChain:
+        def __init__(self, llm, prompt):
+            self.llm = llm
+            self.prompt = prompt
+
+    class FakeEmbeddings:
+        def __init__(self, api_key=None):
+            captured["api_key"] = api_key
+
+    class FakeVectorStore:
+        def similarity_search(self, query, limit):
+            captured["query"] = query
+            captured["limit"] = limit
+            return ["related-node"]
+
+    def fake_load_local(path, embeddings, allow_dangerous_deserialization=False):
+        captured["db_path"] = path
+        captured["embeddings"] = embeddings
+        captured["allow_dangerous_deserialization"] = allow_dangerous_deserialization
+        return FakeVectorStore()
+
+    monkeypatch.setenv("OPENAI_API_KEY", "env-key")
+    monkeypatch.setattr(tool_sparql, "LLMChain", FakeLLMChain)
+    monkeypatch.setattr(tool_sparql, "OpenAIEmbeddings", FakeEmbeddings)
+    monkeypatch.setattr(tool_sparql.FAISS, "load_local", fake_load_local)
+
+    tool = tool_sparql.GraphSparqlQAChain(
+        llm={"llm_o": object(), "llm_o3_mini": object()},
+        graph=object(),
+        session_id="session-123",
+        openai_key=None,
+    )
+    result = tool.search_nodes("SELECT * WHERE { ?s ?p ?o }")
+
+    assert captured["api_key"] == "env-key"
     assert captured["query"] == "SELECT * WHERE { ?s ?p ?o }"
     assert captured["limit"] == 12
     assert captured["allow_dangerous_deserialization"] is True

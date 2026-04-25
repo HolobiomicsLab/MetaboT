@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-import sys
 from pathlib import Path
+
+import pytest
 
 import app.core.main as main_module
 
@@ -49,11 +50,8 @@ def test_prepare_session_files_rejects_directory(tmp_path, monkeypatch):
 
     monkeypatch.setattr(main_module, "create_user_session", lambda session_id, input_dir=False: input_dir_path)
 
-    try:
+    with pytest.raises(main_module.SessionFilePreparationError, match="not a file"):
         main_module._prepare_session_files("session-id", [str(source_dir)])
-        assert False, "Expected SessionFilePreparationError"
-    except main_module.SessionFilePreparationError as exc:
-        assert "not a file" in str(exc)
 
 
 def test_prepare_session_files_rejects_colliding_basenames(tmp_path, monkeypatch):
@@ -73,11 +71,8 @@ def test_prepare_session_files_rejects_colliding_basenames(tmp_path, monkeypatch
     monkeypatch.setattr(main_module, "create_user_session", lambda session_id, input_dir=False: input_dir_path)
     monkeypatch.setattr(main_module, "logger", dummy_logger)
 
-    try:
+    with pytest.raises(main_module.SessionFilePreparationError, match="would overwrite"):
         main_module._prepare_session_files("session-id", [str(first_file), str(second_file)])
-        assert False, "Expected SessionFilePreparationError"
-    except main_module.SessionFilePreparationError as exc:
-        assert "would overwrite" in str(exc)
 
 
 def test_prepare_session_files_rejects_same_file_destination(tmp_path, monkeypatch):
@@ -89,15 +84,11 @@ def test_prepare_session_files_rejects_same_file_destination(tmp_path, monkeypat
 
     monkeypatch.setattr(main_module, "create_user_session", lambda session_id, input_dir=False: input_dir_path)
 
-    try:
+    with pytest.raises(main_module.SessionFilePreparationError, match="already staged"):
         main_module._prepare_session_files("session-id", [str(staged_file)])
-        assert False, "Expected SessionFilePreparationError"
-    except main_module.SessionFilePreparationError as exc:
-        assert "already staged" in str(exc)
 
 
 def test_main_passes_cli_api_key_and_reconfigures_logger(monkeypatch):
-    original_argv = sys.argv[:]
     state = {"session_initialized": False, "setup_logger_states": []}
     captured = {}
 
@@ -121,7 +112,7 @@ def test_main_passes_cli_api_key_and_reconfigures_logger(monkeypatch):
         captured["workflow"] = workflow
         captured["question"] = question
 
-    monkeypatch.setattr(sys, "argv", ["prog", "-c", "hello", "--api-key", "cli-key"])
+    monkeypatch.setattr("sys.argv", ["prog", "-c", "hello", "--api-key", "cli-key"])
     monkeypatch.setattr(main_module, "logger", DummyLogger())
     monkeypatch.setattr(main_module, "setup_logger", fake_setup_logger)
     monkeypatch.setattr(main_module, "initialize_session_context", fake_initialize_session_context)
@@ -131,10 +122,7 @@ def test_main_passes_cli_api_key_and_reconfigures_logger(monkeypatch):
     monkeypatch.setattr(main_module, "create_workflow", fake_create_workflow)
     monkeypatch.setattr(main_module, "process_workflow", fake_process_workflow)
 
-    try:
-        main_module.main()
-    finally:
-        monkeypatch.setattr(sys, "argv", original_argv)
+    main_module.main()
 
     assert captured["llm_api_key"] == "cli-key"
     assert captured["workflow_api_key"] == "cli-key"
@@ -145,9 +133,7 @@ def test_main_passes_cli_api_key_and_reconfigures_logger(monkeypatch):
 
 
 def test_main_prints_user_friendly_error_for_bad_staged_file(monkeypatch, capsys):
-    original_argv = sys.argv[:]
-
-    monkeypatch.setattr(sys, "argv", ["prog", "-c", "hello", "-f", "/missing/file.csv"])
+    monkeypatch.setattr("sys.argv", ["prog", "-c", "hello", "-f", "/missing/file.csv"])
     monkeypatch.setattr(main_module, "logger", DummyLogger())
     monkeypatch.setattr(main_module, "setup_logger", lambda name: DummyLogger())
     monkeypatch.setattr(main_module, "initialize_session_context", lambda session_id: None)
@@ -163,10 +149,7 @@ def test_main_prints_user_friendly_error_for_bad_staged_file(monkeypatch, capsys
     )
     monkeypatch.setattr(main_module, "create_workflow", lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("workflow should not run")))
 
-    try:
-        main_module.main()
-    finally:
-        monkeypatch.setattr(sys, "argv", original_argv)
+    main_module.main()
 
     captured = capsys.readouterr()
     assert "Error: File not found: /missing/file.csv" in captured.out
