@@ -40,25 +40,29 @@ def test_execute_user_code_returns_captured_output_on_exception_from_subprocess(
         encoding="utf-8",
     )
 
-    completed = subprocess.run(
-        [
-            sys.executable,
-            "-I",
-            str(Path(sandbox_runner.__file__).resolve()),
-            "--payload",
-            str(payload_path),
-            "--result",
-            str(result_path),
-        ],
-        cwd=session_dir,
-        env={
-            "HOME": str(session_dir),
-            "PYTHONIOENCODING": "utf-8",
-            "TMPDIR": str(session_dir),
-        },
-        capture_output=True,
-        text=True,
-    )
+    try:
+        completed = subprocess.run(
+            [
+                sys.executable,
+                "-I",
+                str(Path(sandbox_runner.__file__).resolve()),
+                "--payload",
+                str(payload_path),
+                "--result",
+                str(result_path),
+            ],
+            cwd=session_dir,
+            env={
+                "HOME": str(session_dir),
+                "PYTHONIOENCODING": "utf-8",
+                "TMPDIR": str(session_dir),
+            },
+            capture_output=True,
+            text=True,
+            timeout=8,
+        )
+    except subprocess.TimeoutExpired as exc:
+        pytest.fail(f"Sandbox runner subprocess hung unexpectedly: {exc}")
 
     assert completed.returncode == 1
     assert result_path.exists(), completed.stderr or completed.stdout
