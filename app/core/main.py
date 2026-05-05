@@ -313,9 +313,17 @@ def main():
     initialize_session_context(session_id)
     global logger
     logger = setup_logger(__name__)
+
+    if args.file:
+        try:
+            _prepare_session_files(session_id, args.file)
+        except SessionFilePreparationError as exc:
+            logger.error(str(exc))
+            print(f"Error: {exc}")
+            return
+
     # Initialize LangSmith if available
     langsmith_setup()
-
 
     # Get endpoint URL from arguments or environment
     endpoint_url = (
@@ -324,15 +332,6 @@ def main():
         or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     )
     models = llm_creation(api_key=args.api_key)
-
-    # Stage user-provided files into the session's input directory
-    if args.file:
-        try:
-            _prepare_session_files(session_id, args.file)
-        except SessionFilePreparationError as exc:
-            logger.error(str(exc))
-            print(f"Error: {exc}")
-            return
 
     try:
         # Create and process workflow
