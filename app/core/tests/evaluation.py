@@ -127,6 +127,8 @@ def evaluate_result(_input, thread_id: int = 1):
     response = app.invoke(message, {"configurable": {"thread_id": thread_id}})
     return {"output": response}
 
+def main():
+    load_dotenv()
 
 unique_id = uuid4().hex[0:8]
 

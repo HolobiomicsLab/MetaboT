@@ -36,6 +36,14 @@ API_KEY_MAPPING = {
     "mistral": "MISTRAL_API_KEY"
 }
 
+class SessionFilePreparationError(ValueError):
+    """Raised when CLI input files cannot be staged into the session directory."""
+
+    def __init__(self, source_path: Path, message: str):
+        super().__init__(message)
+        self.source_path = source_path
+
+
 
 class SessionFilePreparationError(ValueError):
     """Raised when CLI input files cannot be staged into the session directory."""
@@ -112,7 +120,8 @@ def llm_creation(api_key=None, params_file=None):
     Reads the parameters from the configuration file (default is params.ini) and initializes the language models.
 
     Args:
-        api_key (str, optional): The API key for the OpenAI API.
+        api_key (str, optional): OpenAI API key; if set, used only for OpenAI-backed config sections.
+            Other providers always use keys from the environment (see API_KEY_MAPPING).
         params_file (str, optional): Path to an alternate configuration file.
 
     Returns:
@@ -142,8 +151,10 @@ def llm_creation(api_key=None, params_file=None):
         elif section.startswith("ovh"):
             provider = "ovh"
 
-        if api_key is None:
-            api_key = get_api_key(provider)
+        # CLI `--api-key` is OpenAI-only; do not reuse it for other providers or across iterations.
+        section_api_key = (
+            api_key if (api_key is not None and provider == "openai") else get_api_key(provider)
+        )
 
         model_params = {
             "temperature": float(temperature),
@@ -156,12 +167,12 @@ def llm_creation(api_key=None, params_file=None):
             base_url = config[section]["base_url"]
             if provider == "deepseek":
                 model_params["openai_api_base"] = base_url
-                model_params["openai_api_key"] = api_key
+                model_params["openai_api_key"] = section_api_key
             else:
                 model_params["base_url"] = base_url
-                model_params["api_key"] = api_key
+                model_params["api_key"] = section_api_key
         else:
-            model_params["openai_api_key"] = api_key
+            model_params["openai_api_key"] = section_api_key
 
         llm = ChatOpenAI(**model_params)
         models[section] = llm
