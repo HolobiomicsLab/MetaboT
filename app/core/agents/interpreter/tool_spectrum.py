@@ -1,7 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain.callbacks.manager import CallbackManagerForToolRun
 from app.core.memory.database_manager import tools_database
@@ -29,7 +29,7 @@ class SpectrumPlotter(BaseTool):
     Returns:
        An url with spectrum plot.
     """
-    args_schema = SpectrumPlotInput
+    args_schema: type[BaseModel] = SpectrumPlotInput
     session_id: str = None
     openai_key: str = None
     def __init__(self, openai_key: str, session_id: str):

@@ -18,6 +18,7 @@ def create_agent(llms, graph, openai_key, session_id) -> AgentExecutor:
     tool_parameters = {
         "openai_key": openai_key,
         "session_id": session_id,
+        "llm_instance": llms.get(MODEL_CHOICE),
     }
 
     tools = import_tools(directory, module_prefix, **tool_parameters)

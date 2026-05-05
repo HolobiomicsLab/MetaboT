@@ -11,7 +11,7 @@ from .prompt import CHAT_PROMPT, MODEL_CHOICE
 logger = setup_logger(__name__)
 
 
-def create_agent(llms, graph, session_id, llm_instance=None) -> AgentExecutor:
+def create_agent(llms, graph, session_id, openai_key=None, llm_instance=None) -> AgentExecutor:
     logger.info("Creating agent with tools...")
     directory = os.path.dirname(__file__)
     module_prefix = get_module_prefix(__name__)
@@ -19,7 +19,8 @@ def create_agent(llms, graph, session_id, llm_instance=None) -> AgentExecutor:
     tool_parameters = {
         "graph": graph,
         "llm": llms,
-        "session_id": session_id
+        "session_id": session_id,
+        "openai_key": openai_key,
     }
     tools = import_tools(directory, module_prefix, **tool_parameters)
     

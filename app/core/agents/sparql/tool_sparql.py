@@ -10,7 +10,7 @@ from pathlib import Path
 
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts.prompt import PromptTemplate
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
@@ -207,8 +207,8 @@ class SparqlInput(BaseModel):
 
 ##Question-answering against an RDF or OWL graph by generating SPARQL statements.
 class GraphSparqlQAChain(BaseTool):
-    name = "SPARQL_QUERY_RUNNER"
-    description = """
+    name: str = "SPARQL_QUERY_RUNNER"
+    description: str = """
     The agent resolve the user's question by querying the knowledge graph database. 
     The two inputs should be a string containing the user's question and a string containing the resolved entities in the question.
 
@@ -226,14 +226,22 @@ class GraphSparqlQAChain(BaseTool):
 
         """
     verbose: bool = True
-    args_schema = SparqlInput
+    args_schema: type[BaseModel] = SparqlInput
     sparql_generation_select_chain: LLMChain = None
     sparql_improvement_chain: LLMChain = None
-    requires_params = True
+    requires_params: bool = True
     graph: RdfGraph = None
     session_id: str = None
+    openai_key: Optional[str] = None
 
-    def __init__(self, llm: dict, graph: RdfGraph, session_id: str, **kwargs):
+    def __init__(
+        self,
+        llm: dict,
+        graph: RdfGraph,
+        session_id: str,
+        openai_key: Optional[str] = None,
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         try:
             self.sparql_generation_select_chain = LLMChain(
@@ -250,6 +258,7 @@ class GraphSparqlQAChain(BaseTool):
             raise
         self.graph = graph
         self.session_id = session_id
+        self.openai_key = openai_key or os.getenv("OPENAI_API_KEY")
 
     def _run(
         self,
@@ -385,7 +394,8 @@ class GraphSparqlQAChain(BaseTool):
         # Construct the path to the faiss_db directory
         db_path = os.path.abspath(os.path.join(current_dir, '..', '..', '..', 'data', 'faiss_db'))
 
-        embeddings = OpenAIEmbeddings()
+        embedding_kwargs = {"api_key": self.openai_key} if self.openai_key else {}
+        embeddings = OpenAIEmbeddings(**embedding_kwargs)
         db = FAISS.load_local(db_path, embeddings, allow_dangerous_deserialization=True)
         related_nodes = db.similarity_search(query, 12)
         return related_nodes

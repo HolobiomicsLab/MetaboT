@@ -2,7 +2,17 @@
 # It's ugly but it has to be done in the very beginning of the script
 import streamlit as st
 import os
+import sys
+from pathlib import Path
 from uuid import uuid4
+
+STREAMLIT_APP_DIR = Path(__file__).resolve().parent
+REPO_ROOT = STREAMLIT_APP_DIR.parent
+
+# Support running via `streamlit run streamlit_webapp/streamlit_app.py` from the
+# repo root as well as from inside `streamlit_webapp/`.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from app.core.session import create_user_session, initialize_session_context, initialize_thread_id, setup_logger
 
@@ -26,16 +36,16 @@ if "logger" not in st.session_state:
     st.session_state.logger = logger
 
 # Following normal code execution    
-import os
-from pathlib import Path
 import logging
 import time
 from openai import OpenAI
 from langchain_core.messages import HumanMessage
 from langsmith import Client
 from app.core.memory.database_manager import tools_database, memory_database
+from app.core.security import is_trusted_mode_enabled
+from app.core.security import resolve_session_path
 from langchain.callbacks.manager import tracing_v2_enabled
-from streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
+from streamlit_webapp.streamlit_utils import check_characters_api_key, test_sparql_endpoint, test_openai_key, new_process_langgraph_output, create_zip_buffer, is_true
 from app.core.workflow.langraph_workflow import create_workflow
 from app.core.main import llm_creation
 
@@ -118,6 +128,9 @@ if "preselected_question" not in st.session_state:
 if "set_standard_endpoint" not in st.session_state:
     st.session_state.set_standard_endpoint = True
 
+if "trusted_mode_enabled" not in st.session_state:
+    st.session_state.trusted_mode_enabled = is_trusted_mode_enabled()
+
 if "langgraph_app_created" not in st.session_state:
     st.session_state.langgraph_app_created = False
 
@@ -170,7 +183,7 @@ with st.sidebar:
 
         
         """)
-        if st.button("✅ I Agree to the Terms", use_container_width=True):
+        if st.button("✅ I Agree to the Terms", width="stretch"):
             st.session_state.terms_accepted = True
             st.success("Thanks! You have accepted the Terms.")
             st.rerun()
@@ -178,7 +191,7 @@ with st.sidebar:
 
     # --- Button to open the Terms dialog ---
     st.markdown("## 📘 Please read the Terms and Conditions.")
-    open_terms_dialog = st.button("📘 Terms and Conditions", use_container_width=True)
+    open_terms_dialog = st.button("📘 Terms and Conditions", width="stretch")
     if open_terms_dialog:
         terms_and_conditions_dialog()
     # OpenAI API Key Input and Validation
@@ -293,7 +306,7 @@ with st.sidebar:
         if st.button("Close"):
             st.rerun()
 
-    open_question_instructions_dialog = st.button("Question Instructions", use_container_width=True, disabled=st.session_state.is_processing)
+    open_question_instructions_dialog = st.button("Question Instructions", width="stretch", disabled=st.session_state.is_processing)
     if open_question_instructions_dialog:
         question_instructions_dialog()
                     
@@ -316,7 +329,7 @@ with st.sidebar:
 
                 st.rerun()
 
-        open_help_dialog = st.button("Help", use_container_width=True, disabled=st.session_state.is_processing)
+        open_help_dialog = st.button("Help", width="stretch", disabled=st.session_state.is_processing)
         if open_help_dialog:
             help_dialog()
 
@@ -325,11 +338,11 @@ with st.sidebar:
             data=create_zip_buffer(st.session_state.session_id),
             file_name="metabot_files.zip",
             mime="application/zip",
-            use_container_width=True,
+            width="stretch",
             disabled=st.session_state.is_processing
         )
 
-        open_clear_dialog = st.button("Clear conversation data", use_container_width=True, disabled=st.session_state.is_processing)
+        open_clear_dialog = st.button("Clear conversation data", width="stretch", disabled=st.session_state.is_processing)
         if open_clear_dialog:
             clear_dialog()
 
@@ -346,7 +359,7 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("Holobiomics Lab - CNRS, Université Côte d'Azur, Interdisciplinary Institute for Artificial Intelligence (3iA) Côte d'Azur")
     holobiomics_logo_path = str(Path(__file__).parent / "misc" / "HolobiomicsLab_graphics_v1_logos_small.png")
-    st.image(holobiomics_logo_path, use_container_width=True)
+    st.image(holobiomics_logo_path, width="stretch")
 
 if st.session_state.openai_key_success == False and st.session_state.endpoint_url_success == False:
     st.warning("You haven't provided a valid OpenAI API key and validated the connection to the endpoint. You need to provide a valid OpenAI API Key and connect to an Endpoint server. If you already tried to connect to an endpoint and it was unsucessful, there might be a connection problem. Please investigate further or come back later")
@@ -383,23 +396,35 @@ if st.session_state.openai_key_success == True and st.session_state.endpoint_url
             st.session_state.logger.error(f"An error occurred while initializing the LangGraph: {e}")
 
     else:
+        if st.session_state.trusted_mode_enabled == False:
+            st.info(
+                "Trusted mode is disabled in this deployment. "
+                "Interpreter-based file analysis and LLM-generated visualizations are not exposed to public users."
+            )
+
         # Variables to track submission status of predefined and custom question
         select_submit_clicked = False
         custom_submit_clicked = False
 
-        with st.expander("Input your own file", expanded=False):
-            user_files = st.file_uploader("Choose your files", accept_multiple_files=True)
-            if user_files:
-                filenames = [file.name for file in user_files]
-                try:
-                    for file in user_files:
-                        file_path = st.session_state.user_input_dir / file.name
-                        with file_path.open("wb") as f:
-                            f.write(file.getbuffer())
-                    st.success(f"File(s) uploaded successfully: {filenames}")
-                    st.session_state.logger.info(f"File(s) uploaded successfully: {filenames}")
-                except Exception as e:
-                    st.error(f"An error occurred while processing the file: {e}")
+        if st.session_state.trusted_mode_enabled == True:
+            with st.expander("Input your own file", expanded=False):
+                user_files = st.file_uploader("Choose your files", accept_multiple_files=True)
+                if user_files:
+                    filenames = [Path(file.name).name for file in user_files]
+                    try:
+                        for file in user_files:
+                            safe_filename = Path(file.name).name
+                            file_path = resolve_session_path(
+                                safe_filename,
+                                session_dir=st.session_state.user_input_dir,
+                                must_exist=False,
+                            )
+                            with file_path.open("wb") as f:
+                                f.write(file.getbuffer())
+                        st.success(f"File(s) uploaded successfully: {filenames}")
+                        st.session_state.logger.info(f"File(s) uploaded successfully: {filenames}")
+                    except Exception as e:
+                        st.error(f"An error occurred while processing the file: {e}")
 
         with st.expander ("Try one our standard questions:", expanded=False):
         # Form for selecting a predefined question

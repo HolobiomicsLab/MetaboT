@@ -1,15 +1,18 @@
 import os
 import shutil
 import argparse
+import configparser
 from typing import Optional, List
+from pathlib import Path
+
 from dotenv import load_dotenv
 from langsmith import Client
-from pathlib import Path
-from app.core.session import create_user_session, initialize_session_context
+from langchain_community.chat_models import ChatLiteLLM
+from langchain_openai import ChatOpenAI
+
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
+from app.core.session import create_user_session, initialize_session_context
 from app.core.utils import IntRange, setup_logger
-import configparser
-from langchain_community.chat_models import ChatOpenAI, ChatLiteLLM
 from app.core.questions import standard_questions
 
 
@@ -40,6 +43,14 @@ class SessionFilePreparationError(ValueError):
         super().__init__(message)
         self.source_path = source_path
 
+
+
+class SessionFilePreparationError(ValueError):
+    """Raised when CLI input files cannot be staged into the session directory."""
+
+    def __init__(self, source_path: Path, message: str):
+        super().__init__(message)
+        self.source_path = source_path
 
 
 def get_api_key(provider: str) -> Optional[str]:
@@ -277,34 +288,54 @@ def _prepare_session_files(session_id: str, file_paths: List[str]) -> Path:
 
     return input_dir
 
-def main():
-    """Main function to run the workflow."""
-    # Define command line arguments
 
-    parser = argparse.ArgumentParser(description="Process a workflow with a predefined question number.")
-    parser.add_argument('-q', '--question', type=int, choices=IntRange(1, len(standard_questions)),
-                        help=f"Choose a standard question number from 1 to {len(standard_questions)}.")
-    parser.add_argument('-c', '--custom', type=str,
-                        help="Provide a custom question.")
+def main():
+    """
+    CLI entry-point for running the MetaboT workflow.
+
+    Usage examples:
+        python -m app.core.main -q 1
+        python -m app.core.main -c "Describe my dataset" -f data.csv
+        python -m app.core.main -c "Compare files" -f file1.csv file2.tsv
+    """
+    parser = argparse.ArgumentParser(
+        description="Process a workflow with a predefined question number."
+    )
+    parser.add_argument(
+        '-q', '--question', type=int,
+        choices=IntRange(1, len(standard_questions)),
+        help=f"Choose a standard question number from 1 to {len(standard_questions)}.",
+    )
+    parser.add_argument(
+        '-c', '--custom', type=str,
+        help="Provide a custom question.",
+    )
     parser.add_argument(
         '-f', '--file', type=str, nargs='+',
         help="One or more local file paths to make available for the FILE_ANALYZER tool.",
     )
-    parser.add_argument('-e', '--evaluation', action='store_true',
-                        help="Enable evaluation mode")
-    parser.add_argument('--api-key', type=str,
-                        help="OpenAI API key (optional, defaults to environment variable)")
-    parser.add_argument('--endpoint', type=str,
-                        help="Knowledge graph endpoint URL (optional)")
+    parser.add_argument(
+        '-e', '--evaluation', action='store_true',
+        help="Enable evaluation mode.",
+    )
+    parser.add_argument(
+        '--api-key', type=str,
+        help="OpenAI API key (optional, defaults to environment variable).",
+    )
+    parser.add_argument(
+        '--endpoint', type=str,
+        help="Knowledge graph endpoint URL (optional).",
+    )
 
     args = parser.parse_args()
 
+    # Resolve the question
     if args.question:
         question = standard_questions[args.question - 1]
     elif args.custom:
         question = args.custom
     else:
-        print("You must provide either a standard question number or a custom question.")
+        print("You must provide either a standard question number (-q) or a custom question (-c).")
         return
 
     # Create a user session (mirrors the Streamlit session lifecycle) and
@@ -314,6 +345,20 @@ def main():
     global logger
     logger = setup_logger(__name__)
 
+    # Initialize LangSmith if available
+    langsmith_setup()
+
+    # Resolve endpoint URL
+    endpoint_url = (
+        args.endpoint
+        or os.environ.get("KG_ENDPOINT_URL")
+        or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+    )
+
+    # Initialize language models
+    models = llm_creation(api_key=args.api_key)
+
+    # Stage user-provided files into the session's input directory
     if args.file:
         try:
             _prepare_session_files(session_id, args.file)
@@ -322,27 +367,14 @@ def main():
             print(f"Error: {exc}")
             return
 
-    # Initialize LangSmith if available
-    langsmith_setup()
-
-    # Get endpoint URL from arguments or environment
-    endpoint_url = (
-        args.endpoint
-        or os.environ.get("KG_ENDPOINT_URL")
-        or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
-    )
-    models = llm_creation(api_key=args.api_key)
-
     try:
-        # Create and process workflow
         workflow = create_workflow(
             models=models,
             session_id=session_id,
             endpoint_url=endpoint_url,
             evaluation=False,
-            api_key=args.api_key
+            api_key=args.api_key,
         )
-
         process_workflow(workflow, question)
 
     except Exception as e:

@@ -16,6 +16,12 @@ MetaboT is an AI-powered system designed to facilitate the exploration of metabo
 - Session management and data persistence
 - Automated file cleanup system
 
+## v1.1.0 Notes
+
+- Streamlit startup is now resilient to the working directory used to launch the app.
+- Public-facing deployments keep the interpreter workflow disabled unless trusted mode is explicitly enabled.
+- Safer file handling and API-key propagation fixes from the CLI now align better with Streamlit-backed workflows.
+
 ## Project Structure
 
 ```
@@ -62,10 +68,12 @@ pip install -r requirements.txt
 
 2. Set up the PostgreSQL database and configure the environment variables.
 
-3. Run the Streamlit application:
+3. Run the Streamlit application from the repository root:
 ```bash
-streamlit run streamlit_app.py
+python -m streamlit run streamlit_webapp/streamlit_app.py
 ```
+
+If you are currently inside `streamlit_webapp/`, run `cd ..` first and then use the command above.
 
 ## Usage
 
@@ -110,5 +118,4 @@ For contributors with access keys, the application provides:
 
 MetaboT is released under the Apache 2.0 License. See [LICENSE.txt](LICENSE.txt).
 
-
-
+[Include support contact information here]

@@ -23,6 +23,13 @@
 
 ---
 
+## v1.1.0 Highlights
+
+- Hardened the interpreter path by isolating LLM-generated Python behind trusted-mode controls and a subprocess runner instead of in-process execution.
+- Improved CLI safety with better file staging validation, collision handling, session-scoped logging, and consistent `--api-key` propagation through fallback SPARQL paths.
+- Made the Streamlit app easier to launch locally by stabilizing its import path handling and aligning the recommended startup command with the tested repo-root workflow.
+
+=======
 ## Demo
 
 Try the public MetaboT demonstrator at [metabot.holobiomicslab.eu](https://metabot.holobiomicslab.eu). It is connected to the Experimental Natural Products Knowledge Graph (ENPKG), an open metabolomics knowledge graph built from a chemodiverse collection of [1,600 plant extracts](https://doi.org/10.1093/gigascience/giac124).
@@ -99,6 +106,14 @@ conda env create -f environment.yml
 conda activate metabot
 ```
 
+To launch the application through Streamlit, install the dependencies and run the app from the repository root. In your terminal, execute:
+
+```bash
+pip install -r requirements.txt
+python -m streamlit run streamlit_webapp/streamlit_app.py
+```
+
+This repo-root launch path is the recommended setup for local development and matches the Streamlit smoke-tested workflow used in `v1.1.0`. You can provide your OpenAI key in the sidebar once the app starts, or preconfigure contributor/admin keys through environment variables if you use those deployment paths.
 If you prefer a plain virtual environment instead of Conda:
 
 ```bash

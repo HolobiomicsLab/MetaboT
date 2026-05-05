@@ -10,8 +10,6 @@ from app.core.session import setup_logger, create_user_session
 
 logger = setup_logger(__name__)
 
-config = load_config()
-
 
 def create_all_agents(llms, graph, openai_key=None, session_id=None):
     """
@@ -27,6 +25,7 @@ def create_all_agents(llms, graph, openai_key=None, session_id=None):
         dict: A dictionary mapping agent names to their created executor instances.
     """
     
+    config = load_config()
     agents = config["agents"]
     executors = {}
 

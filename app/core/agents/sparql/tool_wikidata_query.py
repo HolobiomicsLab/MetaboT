@@ -3,13 +3,13 @@ import logging.config
 import csv
 import tempfile
 from pathlib import Path
-from typing import List, Optional
+from typing import ClassVar, List, Optional
 
 from langchain_core.tools import tool
 from SPARQLWrapper import JSON, SPARQLWrapper
 
 from app.core.session import setup_logger, create_user_session
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain.tools import BaseTool
 from langchain.callbacks.manager import (
     CallbackManagerForToolRun,
@@ -33,10 +33,10 @@ class WikidataStructureSearch(BaseTool):
         Returns:
             str: A string that contains the path to the file with Wikidata IRIs if found, otherwise `None`.
         """
-    args_schema = WikidataInput
+    args_schema: type[BaseModel] = WikidataInput
 
-    ENDPOINT_URL = "https://query.wikidata.org/sparql"
-    PREFIXES = """
+    ENDPOINT_URL: ClassVar[str] = "https://query.wikidata.org/sparql"
+    PREFIXES: ClassVar[str] = """
        PREFIX wd: <http://www.wikidata.org/entity/>
        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
     """
