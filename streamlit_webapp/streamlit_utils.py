@@ -305,10 +305,10 @@ def new_process_langgraph_output(k, v, session_id):
                 contents.append({"type": "text", "content": f"Agent Supervisor is calling {agent_name}. \n\n"})
             elif 'next' in v and v['next'] == "FINISH":
                 contents.append({"type": "text", "content": "Chain finished"})
-        elif k == "Entry_agent":
+        elif k == "Entry_Agent":
             content = v['messages'][0].content
             contents.append({"type": "text", "content": f"Entry agent: {content}. \n\n"})
-        elif k == "Validator_agent":
+        elif k == "Validator":
             content = v['messages'][0].content
             contents.append({"type": "text", "content": f"Validator agent: {content}. \n\n"})
         elif k == "ENPKG_agent":
