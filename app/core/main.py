@@ -334,6 +334,16 @@ def main():
     global logger
     logger = setup_logger(__name__)
 
+    # Stage user-provided files into the session's input directory before
+    # initializing external services or language model clients.
+    if args.file:
+        try:
+            _prepare_session_files(session_id, args.file)
+        except SessionFilePreparationError as exc:
+            logger.error(str(exc))
+            print(f"Error: {exc}")
+            return
+
     # Initialize LangSmith if available
     langsmith_setup()
 
@@ -346,15 +356,6 @@ def main():
 
     # Initialize language models
     models = llm_creation(api_key=args.api_key)
-
-    # Stage user-provided files into the session's input directory
-    if args.file:
-        try:
-            _prepare_session_files(session_id, args.file)
-        except SessionFilePreparationError as exc:
-            logger.error(str(exc))
-            print(f"Error: {exc}")
-            return
 
     try:
         workflow = create_workflow(

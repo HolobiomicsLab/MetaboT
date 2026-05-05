@@ -138,8 +138,18 @@ def test_main_prints_user_friendly_error_for_bad_staged_file(monkeypatch, capsys
     monkeypatch.setattr(main_module, "setup_logger", lambda name: DummyLogger())
     monkeypatch.setattr(main_module, "initialize_session_context", lambda session_id: None)
     monkeypatch.setattr(main_module, "create_user_session", lambda session_id=None, user_session_dir=False, input_dir=False: "session-123")
-    monkeypatch.setattr(main_module, "langsmith_setup", lambda: None)
-    monkeypatch.setattr(main_module, "llm_creation", lambda api_key=None, params_file=None: {"llm_o": object()})
+    monkeypatch.setattr(
+        main_module,
+        "langsmith_setup",
+        lambda: (_ for _ in ()).throw(AssertionError("langsmith should not run")),
+    )
+    monkeypatch.setattr(
+        main_module,
+        "llm_creation",
+        lambda api_key=None, params_file=None: (_ for _ in ()).throw(
+            AssertionError("llm creation should not run")
+        ),
+    )
     monkeypatch.setattr(
         main_module,
         "_prepare_session_files",
