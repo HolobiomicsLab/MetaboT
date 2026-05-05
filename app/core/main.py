@@ -1,9 +1,11 @@
 import os
+import shutil
 import argparse
-from typing import Optional
+from typing import Optional, List
 from dotenv import load_dotenv
 from langsmith import Client
 from pathlib import Path
+from app.core.session import create_user_session, initialize_session_context
 from app.core.workflow.langraph_workflow import create_workflow, process_workflow
 from app.core.utils import IntRange, setup_logger
 import configparser
@@ -30,6 +32,14 @@ API_KEY_MAPPING = {
     "gemini": "GEMINI_API_KEY",
     "mistral": "MISTRAL_API_KEY"
 }
+
+class SessionFilePreparationError(ValueError):
+    """Raised when CLI input files cannot be staged into the session directory."""
+
+    def __init__(self, source_path: Path, message: str):
+        super().__init__(message)
+        self.source_path = source_path
+
 
 
 def get_api_key(provider: str) -> Optional[str]:
@@ -198,6 +208,72 @@ def langsmith_setup() -> Optional[Client]:
         return None
 
 
+def _prepare_session_files(session_id: str, file_paths: List[str]) -> Path:
+    """
+    Copy user-supplied local files into the session's input directory so that
+    the FILE_ANALYZER tool can discover them at runtime.
+
+    Args:
+        session_id: Active session identifier.
+        file_paths: List of local file paths provided via the CLI.
+
+    Returns:
+        Path to the session input directory.
+
+    Raises:
+        SessionFilePreparationError: If any supplied path cannot be staged safely.
+    """
+    input_dir = create_user_session(session_id, input_dir=True)
+    staged_destinations: dict[Path, Path] = {}
+
+    for raw_path in file_paths:
+        src = Path(raw_path).expanduser().resolve(strict=False)
+        if not src.exists():
+            raise SessionFilePreparationError(src, f"File not found: {src}")
+        if not src.is_file():
+            raise SessionFilePreparationError(src, f"Input path is not a file: {src}")
+
+        dest = input_dir / src.name
+        previous_src = staged_destinations.get(dest)
+        if previous_src is not None:
+            if previous_src == src:
+                raise SessionFilePreparationError(
+                    src,
+                    f"Input file was provided more than once: {src}",
+                )
+            raise SessionFilePreparationError(
+                src,
+                (
+                    f"Cannot stage '{src}' because it would overwrite '{previous_src}' in "
+                    f"the session input directory. Rename one of the files or choose a different path."
+                ),
+            )
+
+        if src == dest.resolve(strict=False):
+            raise SessionFilePreparationError(
+                src,
+                f"Input file is already staged in the session directory: {src}",
+            )
+
+        if dest.exists():
+            raise SessionFilePreparationError(
+                src,
+                f"Cannot stage '{src}' because destination '{dest}' already exists.",
+            )
+
+        try:
+            shutil.copy2(str(src), str(dest))
+        except (shutil.SameFileError, OSError) as exc:
+            raise SessionFilePreparationError(
+                src,
+                f"Failed to stage '{src}' into '{dest}': {exc}",
+            ) from exc
+
+        staged_destinations[dest] = src
+        logger.info(f"Copied '{src}' -> '{dest}'")
+
+    return input_dir
+
 def main():
     """Main function to run the workflow."""
     # Define command line arguments
@@ -207,6 +283,10 @@ def main():
                         help=f"Choose a standard question number from 1 to {len(standard_questions)}.")
     parser.add_argument('-c', '--custom', type=str,
                         help="Provide a custom question.")
+    parser.add_argument(
+        '-f', '--file', type=str, nargs='+',
+        help="One or more local file paths to make available for the FILE_ANALYZER tool.",
+    )
     parser.add_argument('-e', '--evaluation', action='store_true',
                         help="Enable evaluation mode")
     parser.add_argument('--api-key', type=str,
@@ -224,8 +304,15 @@ def main():
         print("You must provide either a standard question number or a custom question.")
         return
 
+    # Create a user session (mirrors the Streamlit session lifecycle) and
+    # reconfigure the logger so subsequent CLI logs land in the session file.
+    session_id = create_user_session()
+    initialize_session_context(session_id)
+    global logger
+    logger = setup_logger(__name__)
     # Initialize LangSmith if available
-    langsmith_client = langsmith_setup()
+    langsmith_setup()
+
 
     # Get endpoint URL from arguments or environment
     endpoint_url = (
@@ -233,12 +320,22 @@ def main():
         or os.environ.get("KG_ENDPOINT_URL")
         or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
     )
-    models = llm_creation()
+    models = llm_creation(api_key=args.api_key)
+
+    # Stage user-provided files into the session's input directory
+    if args.file:
+        try:
+            _prepare_session_files(session_id, args.file)
+        except SessionFilePreparationError as exc:
+            logger.error(str(exc))
+            print(f"Error: {exc}")
+            return
 
     try:
         # Create and process workflow
         workflow = create_workflow(
             models=models,
+            session_id=session_id,
             endpoint_url=endpoint_url,
             evaluation=False,
             api_key=args.api_key
