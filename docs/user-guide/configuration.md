@@ -142,6 +142,8 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 
 If no tracing key is present, MetaboT disables tracing automatically.
 
+For running the repository's LangSmith-based automated benchmark evaluation, see [docs/examples/langsmith-evaluation.md](../examples/langsmith-evaluation.md).
+
 ## SPARQL and Schema Configuration
 
 `app/config/sparql.ini` contains helper queries used to inspect or work with the graph schema. These are especially important when MetaboT needs to construct schema-aware prompts from an endpoint rather than from assumptions.

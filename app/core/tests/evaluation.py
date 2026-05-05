@@ -24,7 +24,7 @@ api_key = os.getenv("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
 openai_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
-    raise ValueError("Missing LANGCHAIN_API_KEY. Please copy .env.template to .env and add your key.")
+    raise ValueError("Missing LANGCHAIN_API_KEY (or LANGSMITH_API_KEY). Please add it to your repo-root .env (see docs/user-guide/configuration.md).")
 if not openai_key:
     raise ValueError("Missing OPENAI_API_KEY. Please copy .env.template to .env and add your key.")
 

@@ -168,6 +168,10 @@ python -m app.core.main -c "Which lab extracts show inhibition above 50% against
 
 MetaboT saves all result sets to CSV files in a temporary folder and returns the file path. When results are small, they are also displayed inline; for large result sets, only the file path is returned to avoid exceeding the LLM context window.
 
+### LangSmith automated evaluation (benchmark)
+
+This repository includes a LangSmith-based automated evaluation script at `app/core/tests/evaluation.py`. To run it locally you need a LangSmith API key (`LANGCHAIN_API_KEY` or `LANGSMITH_API_KEY`) and an LLM provider key (e.g. `OPENAI_API_KEY`). See [docs/examples/langsmith-evaluation.md](docs/examples/langsmith-evaluation.md).
+
 ### Streamlit web app
 
 The repository also includes a Streamlit interface:
