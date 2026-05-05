@@ -1,131 +1,143 @@
-from dotenv import load_dotenv
 import os
-from langsmith import Client
-from langchain_core.messages import BaseMessage, HumanMessage
-# from langgraph.graph import StateGraph
+import pandas as pd
+import json
 
-from app.core.workflow.langraph_workflow import create_workflow, process_workflow
-
-from app.core.main import llm_creation
-from langsmith.evaluation import EvaluationResult, run_evaluator
-from langchain.evaluation import EvaluatorType
-from langsmith.schemas import Example, Run
-from langchain.smith import run_on_dataset, RunEvalConfig
-from langchain.evaluation import load_evaluator
 from uuid import uuid4
-from app.core.utils import setup_logger
+from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+from langsmith import Client
+from langsmith.utils import LangSmithNotFoundError
+from langchain_core.messages import HumanMessage
+from langsmith.evaluation import EvaluationResult, run_evaluator
+from langchain.evaluation import EvaluatorType, load_evaluator
+from langchain.smith import run_on_dataset, RunEvalConfig
+
+from app.core.workflow.langraph_workflow import create_workflow
+from app.core.main import llm_creation
+from app.core.utils import setup_logger
 
 logger = setup_logger(__name__)
 
-# Set environment variables for LangSmith
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_PROJECT"] = (
-    os.environ.get("LANGCHAIN_PROJECT")
-    or os.environ.get("LANGSMITH_PROJECT")
-    or "MetaboT evaluation"
-)
-os.environ["LANGCHAIN_ENDPOINT"] = (
-    os.environ.get("LANGCHAIN_ENDPOINT")
-    or os.environ.get("LANGSMITH_ENDPOINT")
-    or os.environ.get("LANGSMITH_BASE_URL")
-    or "https://api.smith.langchain.com"
-)
+dataset_name = "benchmark_metabot"
 
-# Initialize Langsmith client
-api_key = os.getenv("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
-if not api_key:
-    raise ValueError("The environment variable LANGCHAIN_API_KEY is not defined")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+core_dir = os.path.dirname(current_dir)
+app_dir = os.path.dirname(core_dir)
+local_data_path = os.path.join(app_dir, "data", "big_benchmark.csv")
 
-client = Client(api_key=api_key)
 
-# Dataset configuration
-dataset_name = "smaller_benchmark_temporal"
+def main():
+    load_dotenv()
 
-# Custom criteria for SPARQL query evaluation
-custom_criteria = {
-    "structural similarity of SPARQL queries":
-        "How similar is the structure of the generated SPARQL query to the reference SPARQL query? Does the generated query correctly match subjects to their corresponding objects as in the reference query"
-}
+    api_key = os.getenv("LANGCHAIN_API_KEY") or os.environ.get("LANGSMITH_API_KEY")
+    openai_key = os.getenv("OPENAI_API_KEY")
 
-# Load evaluator with custom criteria
-eval_chain_new = load_evaluator(
-    EvaluatorType.LABELED_CRITERIA,
-    criteria=custom_criteria,
-)
+    if not api_key:
+        raise ValueError("Missing LANGCHAIN_API_KEY. Please copy .env.template to .env and add your key.")
+    if not openai_key:
+        raise ValueError("Missing OPENAI_API_KEY. Please copy .env.template to .env and add your key.")
 
-# Define the evaluation configuration
-evaluation_config = RunEvalConfig(
-    evaluators=[
-        EvaluatorType.QA,
-        RunEvalConfig.LabeledScoreString(
-            {
-                "accuracy": """
+    os.environ["LANGCHAIN_TRACING_V2"] = "true"
+    os.environ["LANGCHAIN_PROJECT"] = os.environ.get("LANGCHAIN_PROJECT", "MetaboT evaluation")
+    os.environ["LANGCHAIN_ENDPOINT"] = os.environ.get("LANGCHAIN_ENDPOINT", "https://api.smith.langchain.com")
+
+    client = Client(api_key=api_key)
+
+    try:
+        client.read_dataset(dataset_name=dataset_name)
+        logger.info(f"Dataset '{dataset_name}' found in LangSmith workspace.")
+    except LangSmithNotFoundError:
+        logger.info(f"Dataset '{dataset_name}' not found. Attempting to create it from local file...")
+
+        if not os.path.exists(local_data_path):
+            raise FileNotFoundError(
+                f"Could not find '{local_data_path}'. Ensure the local dataset file is shared alongside this script."
+            ) from None
+
+        df = pd.read_csv(local_data_path)
+        dataset = client.create_dataset(dataset_name=dataset_name, description="MetaboT Benchmark")
+
+        inputs = []
+        outputs = []
+
+        for _, row in df.iterrows():
+            try:
+                parsed_messages = json.loads(row["messages"])
+                parsed_end_state = json.loads(row["__end__"])
+
+                inputs.append({"messages": parsed_messages})
+                outputs.append({"__end__": parsed_end_state})
+
+            except json.JSONDecodeError as e:
+                logger.warning(f"Skipping a row due to JSON parsing error: {e}")
+                continue
+
+        client.create_examples(inputs=inputs, outputs=outputs, dataset_id=dataset.id)
+        logger.info(f"Successfully created dataset '{dataset_name}' in LangSmith.")
+
+    custom_criteria = {
+        "structural similarity of SPARQL queries":
+            "How similar is the structure of the generated SPARQL query to the reference SPARQL query? Does the generated query correctly match subjects to their corresponding objects as in the reference query"
+    }
+
+    eval_chain_new = load_evaluator(EvaluatorType.LABELED_CRITERIA, criteria=custom_criteria)
+
+    evaluation_config = RunEvalConfig(
+        evaluators=[
+            EvaluatorType.QA,
+            RunEvalConfig.LabeledScoreString(
+                {
+                    "accuracy": """
 Score 1: The answer is completely unrelated to the reference.
 Score 3: The answer has minor relevance but does not align with the reference.
 Score 5: The answer has moderate relevance but contains inaccuracies.
 Score 7: The answer aligns with the reference but has minor errors or omissions.
 Score 10: The answer is completely accurate and aligns perfectly with the reference."""
-            },
-            normalize_by=10,
-        ),
-    ],
-    custom_evaluators=[eval_chain_new],
-)
+                },
+                normalize_by=10,
+            ),
+        ],
+        custom_evaluators=[eval_chain_new],
+    )
 
-endpoint_url = os.environ.get("KG_ENDPOINT_URL") or "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG"
+    endpoint_url = os.environ.get("KG_ENDPOINT_URL", "https://enpkg.commons-lab.org/graphdb/repositories/ENPKG")
 
-models = llm_creation()
-# Create workflow in evaluation mode
-app = create_workflow(
-    models=models,
-    endpoint_url=endpoint_url,
-    evaluation=True,
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+    models = llm_creation()
 
-def evaluate_result(_input, thread_id: int = 1):
-    """
-    Evaluate the result based on input.
-    
-    Args:
-        _input (dict): Input containing messages to process
-        
-    Returns:
-        dict: The evaluation result
-    """
-    
-    # Prepare the message
-    message = {
-        "messages": [
-            HumanMessage(content=_input["messages"][0]["content"])
-        ]
-    }
-    
+    app = create_workflow(
+        models=models,
+        endpoint_url=endpoint_url,
+        evaluation=True,
+        api_key=openai_key
+    )
 
-    response = app.invoke(message,
-                          {"configurable": {"thread_id": thread_id}},)
-    
-    return {"output": response}
+    def evaluate_result(_input, thread_id: int = 1):
+        """Evaluate the result based on input."""
+        input_text = _input.get("question") or _input["messages"][0]["content"]
 
+        message = {
+            "messages": [HumanMessage(content=input_text)]
+        }
 
-# Generate a unique identifier for the project
-unique_id = uuid4().hex[0:8]
+        response = app.invoke(message, {"configurable": {"thread_id": thread_id}})
+        return {"__end__": response}
 
+    unique_id = uuid4().hex[0:8]
 
-# Run evaluation on the dataset
-chain_results = run_on_dataset(
-    dataset_name=dataset_name,
-    llm_or_chain_factory=evaluate_result,
-    evaluation=evaluation_config,
-    verbose=True,
-    project_name=f"Testing the app-{unique_id}",
-    client=client,
-    project_metadata={
-        "model": "gpt-4o",
-    },
-)
+    chain_results = run_on_dataset(
+        dataset_name=dataset_name,
+        llm_or_chain_factory=evaluate_result,
+        evaluation=evaluation_config,
+        verbose=True,
+        project_name=f"Testing the app-{unique_id}",
+        client=client,
+        project_metadata={
+            "model": "gpt-4o",
+        },
+    )
+
+    logger.info(f"Evaluation complete. View results in LangSmith under project: Testing the app-{unique_id}")
 
 
+if __name__ == "__main__":
+    main()

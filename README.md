@@ -139,6 +139,8 @@ Run a predefined standard question:
 python -m app.core.main -q 1
 ```
 
+The numbers for `-q` index into `standard_questions` in [app/core/questions.py](app/core/questions.py) (module `app.core.questions`).
+
 Run a custom question:
 
 ```bash
@@ -151,7 +153,17 @@ Override the endpoint at runtime:
 python -m app.core.main -c "Which lab extracts show inhibition above 50% against Leishmania donovani?" --endpoint https://your-endpoint.example/sparql
 ```
 
+Attach a local input file to your question with `-f` (the file is copied into the session so the `FILE_ANALYZER` tool can use it):
+
+```bash
+python -m app.core.main -c "Summarize the annotations in this file" -f path/to/your_file.csv
+```
+
 MetaboT saves all result sets to CSV files in a temporary folder and returns the file path. When results are small, they are also displayed inline; for large result sets, only the file path is returned to avoid exceeding the LLM context window.
+
+### LangSmith automated evaluation (benchmark)
+
+This repository includes a LangSmith-based automated evaluation script at `app/core/tests/evaluation.py`. To run it locally you need a LangSmith API key (`LANGCHAIN_API_KEY` or `LANGSMITH_API_KEY`) and an LLM provider key (e.g. `OPENAI_API_KEY`). See [docs/examples/langsmith-evaluation.md](docs/examples/langsmith-evaluation.md).
 
 ### Streamlit web app
 
