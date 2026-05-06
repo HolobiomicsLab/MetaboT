@@ -22,7 +22,7 @@ def llm_creation(api_key: Optional[str] = None) -> Dict[str, ChatOpenAI]:
     logger.info(f"Loading configuration from {config_path}")
     config.read(config_path)
 
-    sections = ["llm", "llm_preview", "llm_o", "llm_mini", "llm_o3_mini", "llm_o1"]
+    sections = ["llm_o", "llm_mini"]
     models = {}
 
     # Get the OpenAI API key from the argument or environment variables
