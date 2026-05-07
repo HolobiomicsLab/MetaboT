@@ -250,7 +250,7 @@ class GraphSparqlQAChain(BaseTool):
                 # verbose=True,  #### FOR debugging
             )
             self.sparql_improvement_chain = LLMChain(
-                llm=llm["llm_o3_mini"],
+                llm=llm["llm_mini"],
                 prompt=SPARQL_IMPROVEMENT_PROMPT,
             )
         except KeyError as e:

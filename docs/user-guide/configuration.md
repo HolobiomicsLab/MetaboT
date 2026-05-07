@@ -21,12 +21,8 @@ MetaboT reads language model definitions from `app/config/params.ini`.
 
 | Section | Purpose |
 | --- | --- |
-| `llm_preview` | GPT-4o preview-style configuration |
 | `llm_o` | primary OpenAI model configuration |
-| `llm_mini` | lower-cost GPT-4o mini option |
-| `llm_o3_mini` | reasoning-oriented OpenAI configuration |
-| `llm_gpt_5` | GPT-5 configuration example |
-| `llm_o1` | O1 configuration example |
+| `llm_mini` | secondary OpenAI model used for the SPARQL improvement chain |
 | `deepseek_deepseek-chat` | DeepSeek chat endpoint |
 | `deepseek_deepseek-reasoner` | DeepSeek reasoner endpoint |
 | `ovh_Meta-Llama-3_1-70B-Instruct` | OVH-hosted Llama endpoint |

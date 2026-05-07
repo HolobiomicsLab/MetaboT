@@ -112,7 +112,7 @@ def test_search_nodes_falls_back_to_env_openai_key(monkeypatch):
     monkeypatch.setattr(tool_sparql.FAISS, "load_local", fake_load_local)
 
     tool = tool_sparql.GraphSparqlQAChain(
-        llm={"llm_o": object(), "llm_o3_mini": object()},
+        llm={"llm_o": object(), "llm_mini": object()},
         graph=object(),
         session_id="session-123",
         openai_key=None,

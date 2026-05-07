@@ -327,7 +327,7 @@ Modify the supervisor prompt (see [supervisor prompt](https://github.com/holobio
 ### Configuration Updates
 Update [`app/config/langgraph.json`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/langgraph.json) to include your agent in the workflow and specify `llm_choice` based on the models defined in [`app/config/params.ini`](https://github.com/HolobiomicsLab/MetaboT/blob/main/app/config/params.ini). Available models include:
 
-- OpenAI models: `llm_preview`, `llm_o`, `llm_mini`
+- OpenAI models: `llm_o`, `llm_mini`
 - OVH models: `ovh_Meta-Llama-3_1-70B-Instruct`
 - Deepseek models: `deepseek_deepseek-chat`, `deepseek_deepseek-reasoner`
 - LiteLLM compatible models: `llm_litellm_openai`, `llm_litellm_deepseek`, `llm_litellm_claude`, `llm_litellm_gemini`
